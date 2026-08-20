@@ -77,7 +77,7 @@ get_header();
 				<img class="orlyata-home__news-background" src="<?php echo esc_url( $home_preview_assets['news_background'] ); ?>" alt="" aria-hidden="true">
 				<div class="orlyata-home__news-head">
 					<h2 class="type-heading-2" id="home-news-title"><?php esc_html_e( 'Новости', 'orlyata' ); ?></h2>
-					<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/novosti/' ) ); ?>"><?php esc_html_e( 'Все новости', 'orlyata' ); ?></a>
+					<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/novosti/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Все новости', 'orlyata' ); ?>"><?php esc_html_e( 'Все новости', 'orlyata' ); ?></span></a>
 				</div>
 				<div class="orlyata-home__news-grid">
 				<?php
@@ -117,7 +117,7 @@ get_header();
 		<section class="orlyata-home__section" aria-labelledby="home-media-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-media-title"><?php esc_html_e( 'Медиагалерея', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/mediagalereya/' ) ); ?>"><?php esc_html_e( 'Перейти в раздел', 'orlyata' ); ?></a>
+				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/mediagalereya/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Перейти в раздел', 'orlyata' ); ?>"><?php esc_html_e( 'Перейти в раздел', 'orlyata' ); ?></span></a>
 			</div>
 			<div class="orlyata-home__media-grid">
 				<?php
@@ -172,7 +172,7 @@ get_header();
 		<section class="orlyata-home__section orlyata-home__history" aria-labelledby="home-history-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-history-title"><?php esc_html_e( 'История', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/' ) ); ?>"><?php esc_html_e( 'Подробнее', 'orlyata' ); ?></a>
+				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Подробнее', 'orlyata' ); ?>"><?php esc_html_e( 'Подробнее', 'orlyata' ); ?></span></a>
 			</div>
 			<div class="orlyata-home__history-grid">
 				<div class="orlyata-home__history-intro">
@@ -219,7 +219,7 @@ get_header();
 		<section class="orlyata-home__section" aria-labelledby="home-achievements-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-achievements-title"><?php esc_html_e( 'Достижения', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/#achievements' ) ); ?>"><?php esc_html_e( 'Все достижения', 'orlyata' ); ?></a>
+				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/#achievements' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Все достижения', 'orlyata' ); ?>"><?php esc_html_e( 'Все достижения', 'orlyata' ); ?></span></a>
 			</div>
 			<div class="orlyata-home__table-wrap">
 				<?php

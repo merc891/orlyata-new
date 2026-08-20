@@ -50,9 +50,6 @@ test('Sidebar preserves primary navigation and current-page semantics', async ({
   await expect(navigation.getByRole('link', { name: 'Новости' })).toHaveAttribute('aria-current', 'page');
   await expect(navigation.getByRole('link', { name: 'Новости' })).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await expect(navigation.getByRole('link', { name: 'Новости' })).toHaveCSS('color', 'rgb(24, 23, 23)');
-  await expect(navigation.getByRole('link', { name: 'Новости' })).toHaveCSS('position', 'relative');
-  expect(await navigation.getByRole('link', { name: 'Новости' }).evaluate((link) => getComputedStyle(link, '::before').left)).toBe('8px');
-  expect(await navigation.getByRole('link', { name: 'Новости' }).evaluate((link) => getComputedStyle(link, '::before').backgroundColor)).toBe('rgb(244, 244, 245)');
   await expect(page.getByRole('link', { name: 'Орлята — на главную' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Записаться к нам' })).toHaveAttribute('href', '/#application');
 });
@@ -66,7 +63,7 @@ test('Sidebar navigation has visible keyboard focus and hover feedback', async (
   await expect(firstLink).toHaveCSS('outline-style', 'solid');
 
   await firstLink.hover();
-  await expect(firstLink).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+  await expect(firstLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await expect(firstLink).toHaveCSS('color', 'rgb(24, 23, 23)');
 
   const logo = page.locator('.orlyata-sidebar__logo');

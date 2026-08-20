@@ -36,10 +36,14 @@ export function appendSection(root: HTMLElement, title: string, elements: HTMLEl
 
 export function textLink(label: string, href = '#about'): HTMLAnchorElement {
   const link = document.createElement('a');
+  const labelElement = document.createElement('span');
 
   link.className = 'orlyata-text-link';
   link.href = href;
-  link.textContent = label;
+  labelElement.className = 'orlyata-text-link__label';
+  labelElement.dataset.text = label;
+  labelElement.textContent = label;
+  link.append(labelElement);
 
   return link;
 }

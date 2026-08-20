@@ -64,34 +64,21 @@
   font-weight: 400;
   letter-spacing: var(--letter-spacing-body);
   line-height: var(--line-height-body);
+  overflow: hidden;
   text-decoration: none;
   transition:
-    color var(--duration-fast) var(--easing-standard),
+    color var(--duration-link-roll) var(--easing-link-roll),
     background-color var(--duration-fast) var(--easing-standard),
     opacity var(--duration-fast) var(--easing-standard);
 }
 
 .orlyata-sidebar__link:hover {
-  background: var(--color-surface-muted);
   color: var(--color-text-primary);
 }
 
 .orlyata-sidebar__link.is-current,
 .orlyata-sidebar__link[aria-current="page"] {
-  position: relative;
-  isolation: isolate;
-  background: transparent;
   color: var(--color-text-primary);
-}
-
-.orlyata-sidebar__link.is-current::before,
-.orlyata-sidebar__link[aria-current="page"]::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0 0 0 var(--space-2);
-  border-radius: var(--sidebar-link-radius);
-  background: var(--color-surface-muted);
-  content: "";
 }
 
 .orlyata-sidebar__link:focus-visible,

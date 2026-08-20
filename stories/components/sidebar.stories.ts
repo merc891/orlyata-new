@@ -44,11 +44,15 @@ function createSidebar(args: SidebarArgs): HTMLElement {
   for (const item of navigationItems) {
     const listItem = document.createElement('li');
     const link = document.createElement('a');
+    const label = document.createElement('span');
 
     listItem.className = 'orlyata-sidebar__item';
-    link.className = 'orlyata-sidebar__link';
+    link.className = 'orlyata-sidebar__link orlyata-text-link';
     link.href = item.url;
-    link.textContent = item.label;
+    label.className = 'orlyata-text-link__label';
+    label.dataset.text = item.label;
+    label.textContent = item.label;
+    link.append(label);
 
     if (item.id === args.currentPage) {
       link.classList.add('is-current');

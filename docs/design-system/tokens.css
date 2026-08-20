@@ -35,8 +35,10 @@
   --duration-micro: 300ms;
   --duration-home-hero-title: 1600ms;
   --duration-button-play-hover: 800ms;
+  --duration-link-roll: 400ms;
   --easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --easing-out: ease-out;
+  --easing-link-roll: ease;
   --easing-out-quint: linear(0, 0.2262 5%, 0.4095 10%, 0.5563 15%, 0.6723 20%, 0.7627 25%, 0.8319 30%, 0.8839 35%, 0.9222 40%, 0.9497 45%, 0.9688 50%, 0.9815 55%, 0.9898 60%, 0.9947 65%, 0.9976 70%, 0.999 75%, 0.9997 80%, 0.9999 85%, 1 90%, 1);
   --home-hero-title-stagger: 70ms;
   --home-hero-title-start-offset: 130%;

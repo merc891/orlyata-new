@@ -79,13 +79,15 @@ $sidebar_class = is_front_page() ? 'orlyata-sidebar orlyata-sidebar--home' : 'or
 				?>
 				<li class="orlyata-sidebar__item">
 					<a
-						class="orlyata-sidebar__link<?php echo $current ? ' is-current' : ''; ?>"
+						class="orlyata-sidebar__link orlyata-text-link<?php echo $current ? ' is-current' : ''; ?>"
 						href="<?php echo esc_url( $url ); ?>"
 						<?php if ( $current ) : ?>
 							aria-current="page"
 						<?php endif; ?>
 					>
-						<?php echo esc_html( $label ); ?>
+						<span class="orlyata-text-link__label" data-text="<?php echo esc_attr( $label ); ?>">
+							<?php echo esc_html( $label ); ?>
+						</span>
 					</a>
 				</li>
 			<?php endforeach; ?>

@@ -63,6 +63,19 @@ test('Link preserves native navigation semantics', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'О капелле' })).toBeVisible();
 });
 
+test('Link rolls its label into view on hover without changing navigation semantics', async ({ page }) => {
+  await openStory(page, 'components-link--variants');
+
+  const link = page.getByRole('link', { name: 'О капелле' });
+  const label = link.locator('.orlyata-text-link__label');
+
+  await expect(label).toHaveAttribute('data-text', 'О капелле');
+  await expect(label).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 28)');
+  await link.hover();
+  await expect(label).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+  await expect(link).toHaveCSS('color', 'rgb(24, 23, 23)');
+});
+
 test('Input preserves native form semantics', async ({ page }) => {
   await openStory(page, 'components-input--states');
 

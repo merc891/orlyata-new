@@ -338,6 +338,8 @@
       "duration-micro-ms": 300,
       "duration-home-hero-title-ms": 1600,
       "duration-button-play-hover-ms": 800,
+      "duration-link-roll-ms": 400,
+      "easing-link-roll": "ease",
       "easing-standard": "cubic-bezier(0.2, 0, 0, 1)",
       "easing-out": "ease-out",
       "reduced-motion": "Disable the Home Hero reveal and the Home teacher CTA arrow transition when prefers-reduced-motion is reduce; keep both in their final/default positions immediately.",
@@ -512,7 +514,8 @@
         "active"
       ],
       "usage_rules": [
-        "Preserve link semantics and visited-state policy where useful"
+        "Preserve link semantics and visited-state policy where useful",
+        "On hover, roll the duplicated label upward through its clipped one-line track over 400 ms with the standard CSS ease curve"
       ],
       "do_not": [
         "Do not use a span with click handler for navigation"

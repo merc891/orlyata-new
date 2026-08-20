@@ -24,5 +24,7 @@ if ( '' === $href || '' === $label ) {
 }
 ?>
 <a class="orlyata-text-link <?php echo esc_attr( sanitize_html_class( (string) $link_args['class'] ) ); ?>" href="<?php echo esc_url( $href ); ?>">
-	<?php echo esc_html( $label ); ?>
+	<span class="orlyata-text-link__label" data-text="<?php echo esc_attr( $label ); ?>">
+		<?php echo esc_html( $label ); ?>
+	</span>
 </a>
