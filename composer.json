@@ -1,0 +1,35 @@
+{
+  "name": "orlyata/site",
+  "description": "Development tooling for the Orlyata WordPress site",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "php": "^8.3"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.1",
+    "phpstan/phpstan": "2.2.6",
+    "szepeviktor/phpstan-wordpress": "2.0.3",
+    "wp-coding-standards/wpcs": "3.4.1"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+      "php": "8.3.0"
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "lint:syntax": "find wp-content -name '*.php' -print0 | xargs -0 -n1 php -l",
+    "lint:php": "phpcs",
+    "analyse:php": "phpstan analyse --no-progress --memory-limit=1G",
+    "check": [
+      "@lint:syntax",
+      "@lint:php",
+      "@analyse:php"
+    ]
+  }
+}
+

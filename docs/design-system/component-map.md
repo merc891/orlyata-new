@@ -1,0 +1,61 @@
+# Карта компонентов
+
+Пути ниже — целевая архитектура темы. Для реализованных компонентов путь указывает на существующий production-файл; для остальных — на будущего владельца.
+
+| Figma | Будущий компонент | Варианты/состояния из Figma | Обязательные дополнения |
+| --- | --- | --- | --- |
+| `Button` `4651:1140` | `template-parts/components/button.php` — реализован | primary/secondary, play, arrows; default/hover/active/disabled/loading в витрине, реальный keyboard focus-visible; все состояния без анимации | отдельная tablet/mobile настройка — этап 6 |
+| `Badge` `4651:1187` | `badge.php` — реализован | default, inverse поверх изображения | категории публикаций, selected filter, focus при интерактивности |
+| `Link` `4651:1238` | `text-link.php` — реализован | default/hover/active | focus-visible, visited policy |
+| `Card news` `4651:1252` | `news-card.php` — реализован | default/hover; заголовок меняет цвет мгновенно | category icon, focus-within, long title, missing content |
+| `Advantage` `4651:1331` | `advantage.php` — реализован | stat, desktop 388×170, padding 24/24/16/24 | длинные значения, responsive composition |
+| `Input` `4651:1477` | `input.php` — реализован | default/typing/filled/error; 64 px, padding 16×2, stacked text без gap, focus одной brand-границей; date-mask `ДД.ММ.ГГГГ` without calendar and `+7 (999) 999-99-99` tel mask | disabled, autocomplete, success |
+| `Table_row` + `Table_header` | `data-table.php` — реализован | header/row; 1px нижняя граница каждой data-строки | семантические таблицы, mobile mapping, empty state, pagination |
+| `Accordeon` `4666:741` | `accordion.php` — реализован | closed/opened, Figma Plus/Minus 2 px; состояния без анимации | tablet/mobile refinement |
+| `Card` `4651:1333` | `media-card.php` — реализован | big/small по 540 px, inverse Badge у big; static image; content/Play above gradient; Figma Play at 24/24 Big and 24/16 Small | photo/video, missing image, focus, responsive ratios |
+| Form containers `4527:7798`, `4527:7830`, `4527:8773` | `sections/application-form.php` — реализован | home/about; default/submitting/success/validation-error/network-error/server-error; 500×536 px и success 500×456 px | endpoint, nonce/idempotency, anti-spam, юридическое решение по отдельному consent-control, mobile — этапы 6 и 7 |
+| `Sidebar` `4641:3718` | `layout/sidebar.php` — реализован | desktop 250 px; default/hover/focus-visible/active/current-page; semantic primary navigation and admission CTA | tablet navigation, mobile menu |
+| `Footer` `4641:3638` | `layout/footer.php` — реализован | desktop 1616×469 px; default/hover/focus-visible/active; navigation, dynamic contacts, privacy link | tablet/mobile |
+
+## Композиционные секции
+
+Секции принадлежат страницам, но собираются из общих компонентов:
+
+- Hero;
+- News preview/list;
+- Media preview;
+- History;
+- Choir groups;
+- Teachers;
+- Choir achievements;
+- Application CTA;
+- Score library/search;
+- Photo gallery;
+- Video embed;
+- Contacts.
+
+Не следует превращать любую секцию в универсальный компонент. Новый общий компонент оправдан повторяемой структурой, поведением и устойчивым API минимум в двух контекстах.
+
+## Контентные соответствия
+
+| UI | Источник CMS |
+| --- | --- |
+| NewsCard и список новостей | `news` + закрытая taxonomy категории |
+| Иконка категории | централизованная карта `category → icon`, не поле каждой записи |
+| Teacher card/detail | `teacher` |
+| Таблица достижений | `choir_achievement` |
+| Таблица нот | `score` + choir filter |
+| Фото-карточка/детальная | `photo_album` |
+| Видео-карточка/детальная | `video` |
+| Footer/Contacts | `site_settings` |
+| ApplicationForm | `application` через защищённый endpoint |
+
+## Правило расширения
+
+Если макет требует варианта, которого нет в таблице:
+
+1. проверить, нельзя ли решить задачу композицией существующих вариантов;
+2. добавить вариант и его состояния в `manifest.json`;
+3. обновить этот файл и tokens при необходимости;
+4. только затем менять PHP/CSS/TypeScript;
+5. проверить вариант во всех трёх responsive-режимах.

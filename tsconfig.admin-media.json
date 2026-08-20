@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "None",
+    "moduleResolution": "Node10",
+    "moduleDetection": "legacy",
+    "resolveJsonModule": false,
+    "ignoreDeprecations": "6.0",
+    "noEmit": false,
+    "outDir": "wp-content/mu-plugins/orlyata-core/assets",
+    "rootDir": "wp-content/mu-plugins/orlyata-core/src/Admin",
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": [
+    "wp-content/mu-plugins/orlyata-core/src/Admin/**/*.ts"
+  ]
+}

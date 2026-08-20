@@ -1,0 +1,79 @@
+.orlyata-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-block-end: 1px solid var(--color-border-subtle);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-data-table th,
+.orlyata-data-table td {
+  box-sizing: border-box;
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-0);
+  text-align: left;
+  vertical-align: top;
+}
+
+.orlyata-data-table th {
+  height: var(--badge-height);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.orlyata-data-table td {
+  height: var(--accordion-row-height);
+  color: var(--color-text-primary);
+}
+
+.orlyata-data-table tbody tr {
+  border-block-end: 1px solid var(--color-border-subtle);
+}
+@media (width <= 767px) {
+  .orlyata-data-table,
+  .orlyata-data-table tbody,
+  .orlyata-data-table tr,
+  .orlyata-data-table td {
+    display: block;
+  }
+
+  .orlyata-data-table {
+    table-layout: fixed;
+  }
+
+  .orlyata-data-table thead {
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .orlyata-data-table th {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .orlyata-data-table tr {
+    padding-block: var(--space-4);
+  }
+
+  .orlyata-data-table td {
+    width: 100%;
+    min-height: var(--accordion-row-height);
+    padding-block: var(--space-1);
+    padding-inline: var(--space-0);
+  }
+
+  .orlyata-data-table td::before {
+    display: block;
+    color: var(--color-text-secondary);
+    content: attr(data-label);
+    font-size: var(--font-size-body-small);
+    letter-spacing: var(--letter-spacing-body-small);
+    line-height: var(--line-height-body-small);
+  }
+}

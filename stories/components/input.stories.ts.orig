@@ -1,0 +1,23 @@
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+import { appendSection, createComponentPage, input } from './content.stories';
+
+const meta = {
+  title: 'Components/Input',
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const States: Story = {
+  render: () => {
+    const root = createComponentPage('Input', 'Четыре состояния поля из Figma: default, typing, filled и error.');
+    appendSection(root, 'States', [
+      input('ФИО родителя', 'default', 'parent-name-default'),
+      input('ФИО родителя', 'typing', 'parent-name-typing'),
+      input('ФИО родителя', 'filled', 'parent-name-filled'),
+      input('ФИО родителя', 'error', 'parent-name-error'),
+    ]);
+    return root;
+  },
+};

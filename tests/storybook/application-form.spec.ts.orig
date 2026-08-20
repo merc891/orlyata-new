@@ -1,0 +1,205 @@
+import AxeBuilder from '@axe-core/playwright';
+import { expect, test } from '@playwright/test';
+
+import { expectGingerLoaded, viewports } from './visual';
+
+async function openApplicationForm(
+  page: import('@playwright/test').Page,
+  story = 'components-application-form--default',
+): Promise<void> {
+  await page.setViewportSize({ width: 800, height: 720 });
+  await page.goto('/iframe.html?id=' + story + '&viewMode=story');
+  await expect(page.locator('.orlyata-application-form').first()).toBeVisible({ timeout: 15_000 });
+  await expectGingerLoaded(page);
+}
+
+for (const story of [
+  'components-application-form--default',
+  'components-application-form--submitting',
+  'components-application-form--success',
+  'components-application-form--errors',
+]) {
+  test(story + ' has no automatic accessibility violations', async ({ page }) => {
+    await openApplicationForm(page, story);
+
+    const results = await new AxeBuilder({ page })
+      .disableRules(['landmark-one-main', 'page-has-heading-one'])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+}
+
+test('ApplicationForm default matches the approved Figma geometry', async ({ page }) => {
+  await openApplicationForm(page);
+
+  const form = page.locator('.orlyata-application-form');
+  const fields = form.locator('.orlyata-application-form__fields');
+  const controls = form.locator('.orlyata-input__control');
+  const submit = form.locator('.orlyata-application-form__submit');
+  const privacy = form.locator('.orlyata-application-form__privacy');
+  const [formBox, fieldsBox, submitBox, privacyBox] = await Promise.all([
+    form.boundingBox(),
+    fields.boundingBox(),
+    submit.boundingBox(),
+    privacy.boundingBox(),
+  ]);
+
+  expect(formBox).toMatchObject({ x: 32, y: 32, width: 500, height: 536 });
+  expect(fieldsBox).toMatchObject({ x: 64, y: 64, width: 436, height: 304 });
+  expect(submitBox).toMatchObject({ x: 64, y: 392, width: 436, height: 64 });
+  expect(privacyBox).toMatchObject({ x: 64, y: 480, width: 436, height: 56 });
+  await expect(controls).toHaveCount(4);
+  for (const control of await controls.all()) {
+    expect((await control.boundingBox())?.height).toBe(64);
+  }
+  await expect(form).toHaveCSS('border-radius', '24px');
+});
+
+test('ApplicationForm keeps native field and submit semantics', async ({ page }) => {
+  await openApplicationForm(page);
+
+  const form = page.getByRole('form', { name: 'Форма записи в капеллу' });
+  const parent = page.getByRole('textbox', { name: 'ФИО родителя' });
+  const child = page.getByRole('textbox', { name: 'ФИО ребёнка' });
+  const birth = page.getByLabel('Дата рождения');
+  const phone = page.getByRole('textbox', { name: 'Телефон' });
+
+  await expect(form).toHaveAttribute('method', 'post');
+  await expect(parent).toHaveAttribute('name', 'parent_name');
+  await expect(parent).toHaveAttribute('autocomplete', 'name');
+  await expect(child).toHaveAttribute('name', 'child_name');
+  await expect(birth).toHaveAttribute('type', 'text');
+  await expect(birth).toHaveAttribute('inputmode', 'numeric');
+  await expect(birth).toHaveAttribute('data-input-mask', 'date');
+  await expect(birth).toHaveAttribute('autocomplete', 'bday');
+  await expect(birth).toHaveAttribute('maxlength', '10');
+  await expect(birth).toHaveAttribute('name', 'child_birth_date');
+  await expect(phone).toHaveAttribute('type', 'tel');
+  await expect(phone).toHaveAttribute('inputmode', 'tel');
+  await expect(phone).toHaveAttribute('data-input-mask', 'phone');
+  await expect(phone).toHaveAttribute('maxlength', '18');
+  await expect(phone).toHaveAttribute('autocomplete', 'tel');
+  for (const field of [parent, child, birth, phone]) {
+    await expect(field).toHaveAttribute('required', '');
+  }
+  await expect(page.getByRole('button', { name: 'Отправить заявку' })).toHaveAttribute('type', 'submit');
+  const privacy = page.getByRole('link', { name: 'политикой конфиденциальности' });
+  await expect(privacy).toHaveAttribute(
+    'href',
+    '/politika-konfidencialnosti/',
+  );
+  expect(await privacy.locator('..').evaluate(
+    (element) => element.firstChild?.textContent,
+  )).toBe(
+    'Нажимая на кнопку, вы соглашаетесь с\u00A0',
+  );
+});
+
+test('Submitting preserves values and blocks repeat submission', async ({ page }) => {
+  await openApplicationForm(page, 'components-application-form--submitting');
+
+  const form = page.getByRole('form', { name: 'Форма записи в капеллу' });
+  const submit = page.getByRole('button', { name: 'Отправляем заявку …' });
+  await expect(form).toHaveAttribute('aria-busy', 'true');
+  await expect(page.getByRole('textbox', { name: 'ФИО родителя' })).toHaveValue('Семёнова Мария Павловна');
+  await expect(page.getByRole('textbox', { name: 'Телефон' })).toHaveValue('+7 (926) 232-11-27');
+  await expect(submit).toBeDisabled();
+  await expect(submit).toHaveCSS('background-color', 'rgb(199, 199, 204)');
+  await expect(submit).toHaveCSS('opacity', '1');
+});
+
+test('Recoverable errors preserve values and expose linked messages', async ({ page }) => {
+  await openApplicationForm(page, 'components-application-form--errors');
+
+  const form = page.locator('.orlyata-application-form--validation-error');
+  const phone = form.getByRole('textbox', { name: 'Телефон' });
+  const fieldError = form.getByText('Введите номер телефона.');
+  const formError = form.getByText('Проверьте выделенные поля.');
+
+  await expect(phone).toHaveValue('+7 (926) 232-11-27');
+  await expect(phone).toHaveAttribute('aria-invalid', 'true');
+  await expect(phone).toHaveAttribute('aria-describedby', await fieldError.getAttribute('id') ?? '');
+  await expect(formError).toHaveAttribute('role', 'alert');
+  await expect(form).toHaveAttribute('aria-describedby', await formError.getAttribute('id') ?? '');
+  await expect(page.locator('.orlyata-application-form--network-error').getByRole('alert')).toContainText(
+    'интернет-соединение',
+  );
+  await expect(page.locator('.orlyata-application-form--server-error').getByRole('alert')).toContainText(
+    'временно недоступен',
+  );
+});
+
+test('Success matches Figma geometry and provides a continuation link', async ({ page }) => {
+  await openApplicationForm(page, 'components-application-form--success');
+
+  const root = page.getByRole('status');
+  const content = root.locator('.orlyata-application-form__success-content');
+  const icon = root.locator('.orlyata-application-form__success-icon');
+  const action = root.getByRole('link', { name: 'Хорошо' });
+  const [rootBox, contentBox, iconBox, actionBox] = await Promise.all([
+    root.boundingBox(),
+    content.boundingBox(),
+    icon.boundingBox(),
+    action.boundingBox(),
+  ]);
+
+  expect(rootBox).toMatchObject({ x: 32, y: 32, width: 500, height: 456 });
+  expect(contentBox).toMatchObject({ x: 64, y: 68, width: 436, height: 224 });
+  expect(iconBox).toMatchObject({ width: 96, height: 96 });
+  expect(actionBox).toMatchObject({ x: 64, y: 388, width: 436, height: 64 });
+  await expect(root.getByRole('heading', { name: 'Заявка принята!' })).toBeVisible();
+  await expect(action).toHaveAttribute('href', '#application-preview');
+  await expect(action).toHaveCSS('border-radius', '9999px');
+});
+
+test('ApplicationForm exposes keyboard focus on controls and privacy link', async ({ page }) => {
+  await openApplicationForm(page);
+
+  const parent = page.getByRole('textbox', { name: 'ФИО родителя' });
+  const submit = page.getByRole('button', { name: 'Отправить заявку' });
+  const privacy = page.getByRole('link', { name: 'политикой конфиденциальности' });
+
+  await parent.focus();
+  await expect(parent.locator('..')).toHaveCSS('border-color', 'rgb(33, 166, 66)');
+  await submit.focus();
+  await expect(submit).toHaveCSS('outline-color', 'rgb(33, 166, 66)');
+  await privacy.focus();
+  await expect(privacy).toHaveCSS('outline-color', 'rgb(33, 166, 66)');
+});
+
+test('ApplicationForm Playground responds to Controls args', async ({ page }) => {
+  await page.goto(
+    '/iframe.html?id=components-application-form--playground&viewMode=story&args=state:success;variant:about',
+  );
+  await expect(page.locator('.orlyata-application-form--about.orlyata-application-form--success')).toBeVisible({
+    timeout: 15_000,
+  });
+  await expect(page.getByRole('heading', { name: 'Заявка принята!' })).toBeVisible();
+});
+
+for (const viewport of viewports) {
+  test('ApplicationForm visual ' + viewport.name, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/iframe.html?id=components-application-form--default&viewMode=story');
+    await expect(page.locator('.orlyata-application-form')).toBeVisible({ timeout: 15_000 });
+    await expectGingerLoaded(page);
+    const horizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+    );
+    const overflowDiagnostics = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('*')]
+        .map((element) => ({
+          className: element.className,
+          clientWidth: element.clientWidth,
+          right: element.getBoundingClientRect().right,
+          scrollWidth: element.scrollWidth,
+          tagName: element.tagName,
+        }))
+        .filter((item) => item.scrollWidth > item.clientWidth || item.right > document.documentElement.clientWidth + 0.5),
+    );
+    expect(horizontalOverflow, JSON.stringify(overflowDiagnostics)).toBe(false);
+    await expect(page).toHaveScreenshot('components-application-form--default-' + viewport.name + '.png', {
+      fullPage: true,
+    });
+  });
+}

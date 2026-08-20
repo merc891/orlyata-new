@@ -1,0 +1,866 @@
+{
+  "version": 1,
+  "updated_at": "2026-08-18",
+  "status": "draft-desktop-extracted",
+  "sources": {
+    "repo": [
+      {
+        "type": "repo",
+        "path": "docs/project.md",
+        "notes": "Approved product, content and responsive decisions from the project brief"
+      }
+    ],
+    "figma": [
+      {
+        "type": "figma",
+        "url": "https://www.figma.com/design/lXHAgQAWuDEHvnK6cenoIU/Орлята?node-id=0-1",
+        "page": "Дизайн (0:1)",
+        "notes": "Desktop page designs; 1900 px frame width is a known source inaccuracy and must be normalized to the approved 1920 px design target; fluid scaling continues to the 2560 px cap"
+      },
+      {
+        "type": "figma",
+        "url": "https://www.figma.com/design/lXHAgQAWuDEHvnK6cenoIU/Орлята?node-id=3751-3",
+        "page": "Components (3751:3)",
+        "notes": "Buttons, badges, links, news cards, advantages, inputs, table parts, accordion and media cards"
+      }
+    ],
+    "website": [
+      {
+        "type": "website",
+        "url": "https://zelorlyata.ru",
+        "notes": "Migration and URL source only; not a visual source of truth. Full content audit pending."
+      },
+      {
+        "type": "reference",
+        "url": "https://www.pragmatica.design/",
+        "notes": "Reference for fluid responsive behaviour only; its design and exact breakpoints must not be copied"
+      }
+    ],
+    "screenshots": [
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-home.png",
+        "frame": "Главная (4641:3330)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-about.png",
+        "frame": "О капелле (4622:1592)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-news.png",
+        "frame": "Новости (4566:1608)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-notes.png",
+        "frame": "Ноты (4566:1381)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-media.png",
+        "frame": "Медиагалерея (4566:3131)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-teacher.png",
+        "frame": "Педагог (4566:4804)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-contacts.png",
+        "frame": "Контакты (4566:3038)"
+      },
+      {
+        "type": "figma-capture",
+        "path": "docs/design-system/screenshots/figma-buttons.png",
+        "frame": "Button (4651:1140)"
+      }
+    ],
+    "brand_docs": []
+  },
+  "tokens": {
+    "colors": {
+      "brand": {
+        "value": "#21a642",
+        "figma": "Brand/Green",
+        "role": "Primary accent and brand identity"
+      },
+      "text-primary": {
+        "value": "#181717",
+        "figma": "Semantic/Text/Primary",
+        "role": "Primary text"
+      },
+      "text-secondary": {
+        "value": "#71717a",
+        "figma": "Semantic/Text/Secondary",
+        "role": "Secondary text"
+      },
+      "text-secondary-on-muted": {
+        "value": "#6f6f78",
+        "figma": "Semantic/Text/Secondary (accessible contextual alias)",
+        "role": "Secondary text on surface-muted; minimally darkened to meet WCAG AA"
+      },
+      "text-inverse": {
+        "value": "#ffffff",
+        "figma": "Semantic/Text/Inverse",
+        "role": "Text on inverse surfaces"
+      },
+      "surface": {
+        "value": "#ffffff",
+        "figma": "Semantic/Bg/Default",
+        "role": "Default page surface"
+      },
+      "surface-muted": {
+        "value": "#f4f4f5",
+        "figma": "Semantic/Bg/Muted",
+        "role": "Muted controls and cards"
+      },
+      "surface-inverse": {
+        "value": "#181717",
+        "figma": "Semantic/Bg/Inverse",
+        "role": "Footer, primary controls and dark panels"
+      },
+      "surface-photo": {
+        "value": "#c6ccc2",
+        "figma": "Semantic/Bg photo",
+        "role": "Portrait/image placeholder surface"
+      },
+      "border-subtle": {
+        "value": "#c7c7cc",
+        "figma": "Neutral/150",
+        "role": "Rules and control borders; contrast must be checked by context"
+      },
+      "error": {
+        "value": "#d63a3a",
+        "figma": "Semantic/Error",
+        "role": "Validation errors only"
+      },
+      "neutral-100": {
+        "value": "#eaeaeb",
+        "figma": "Neutral/100",
+        "role": "Hover and disabled candidates; exact semantic use pending"
+      },
+      "neutral-200": {
+        "value": "#9999a2",
+        "figma": "Neutral/200",
+        "role": "Legacy/raw neutral; prefer semantic alias"
+      }
+    },
+    "typography": {
+      "family-primary": {
+        "value": "F37 Ginger Cyrillic VF",
+        "fallback": "Arial, sans-serif",
+        "status": "approved-for-implementation"
+      },
+      "display": {
+        "figma": "Heading/Hero",
+        "size_rem": 5,
+        "weight": 500,
+        "line_height": 0.65,
+        "letter_spacing_rem": -0.3125,
+        "viewport": "desktop",
+        "status": "needs-visual-validation"
+      },
+      "heading-1": {
+        "figma": "Heading/Lead 64",
+        "size_rem": 4,
+        "weight": 500,
+        "line_height": 0.8,
+        "letter_spacing_rem": -0.1875,
+        "viewport": "desktop"
+      },
+      "heading-2": {
+        "figma": "Heading/H2",
+        "size_rem": 2.75,
+        "weight": 500,
+        "line_height": 0.9,
+        "letter_spacing_rem": -0.125,
+        "viewport": "desktop"
+      },
+      "lead": {
+        "figma": "Heading/Lead 36",
+        "size_rem": 2.25,
+        "weight": 500,
+        "line_height": 1,
+        "letter_spacing_rem": -0.0625,
+        "viewport": "desktop"
+      },
+      "heading-3": {
+        "figma": "Heading/H3",
+        "size_rem": 1.5,
+        "weight": 500,
+        "line_height": 1.2,
+        "letter_spacing_rem": -0.0625,
+        "viewport": "desktop"
+      },
+      "body": {
+        "figma": "Body/Normal",
+        "size_rem": 1.25,
+        "weight": 400,
+        "line_height": 1.4,
+        "letter_spacing_rem": -0.03125,
+        "viewport": "desktop"
+      },
+      "caption": {
+        "figma": "Body/Small",
+        "size_rem": 0.875,
+        "weight": 400,
+        "line_height": 1.5,
+        "letter_spacing_rem": -0.0125,
+        "viewport": "desktop"
+      },
+      "tablet": {
+        "status": "to-design"
+      },
+      "mobile": {
+        "status": "to-design"
+      }
+    },
+    "spacing": {
+      "0": {
+        "rem": 0,
+        "figma": "Spacing/0"
+      },
+      "1": {
+        "rem": 0.25,
+        "figma": "Spacing/1"
+      },
+      "2": {
+        "rem": 0.5,
+        "figma": "Spacing/2"
+      },
+      "4": {
+        "rem": 1,
+        "figma": "Spacing/4"
+      },
+      "5": {
+        "rem": 1.5,
+        "figma": "Spacing/5"
+      },
+      "7": {
+        "rem": 2.5,
+        "figma": "Spacing/7"
+      }
+    },
+    "radius": {
+      "small": {
+        "rem": 0.5,
+        "figma": "Radius/s"
+      },
+      "medium": {
+        "rem": 1,
+        "figma": "Radius/m"
+      },
+      "large": {
+        "rem": 1.5,
+        "figma": "Radius/l"
+      },
+      "full": {
+        "value": "9999px",
+        "figma": "Radius/full",
+        "usage": "Pills and circles only"
+      }
+    },
+    "shadows": {
+      "status": "No owned shadow token was found in the inspected Figma variables"
+    },
+    "breakpoints": {
+      "mobile": {
+        "min_px": 320,
+        "max_px": 767
+      },
+      "tablet": {
+        "min_px": 768,
+        "max_px": 1279
+      },
+      "desktop": {
+        "min_px": 1280,
+        "design_target_px": 1920,
+        "max_scale_px": 2560
+      }
+    },
+    "motion": {
+      "status": "defined",
+      "duration-fast-ms": 160,
+      "duration-normal-ms": 240,
+      "duration-micro-ms": 300,
+      "duration-button-play-hover-ms": 800,
+      "easing-standard": "cubic-bezier(0.2, 0, 0, 1)",
+      "easing-out": "ease-out",
+      "reduced-motion": "Remove non-essential transitions when prefers-reduced-motion is reduce."
+    },
+    "interaction": {
+      "hover-opacity": {
+        "value": 0.9,
+        "figma": "Button primary hover",
+        "role": "Pointer hover feedback where Figma uses opacity"
+      },
+      "active-opacity": {
+        "value": 0.8,
+        "source": "Project accessibility extension",
+        "role": "Pressed feedback for controls"
+      },
+      "disabled-opacity": {
+        "value": 0.45,
+        "source": "Project accessibility extension",
+        "role": "Unavailable and busy controls"
+      },
+      "focus-ring-width": {
+        "rem": 0.125,
+        "source": "Project accessibility extension",
+        "role": "Visible keyboard focus outline"
+      },
+      "focus-ring-offset": {
+        "rem": 0.125,
+        "source": "Project accessibility extension",
+        "role": "Separates focus outline from control surface"
+      },
+      "focus-ring-color": {
+        "token": "colors.brand",
+        "role": "Keyboard focus outline"
+      }
+    }
+  },
+  "components": {
+    "Button": {
+      "path": "wp-content/themes/orlyata/template-parts/components/button.php",
+      "figma": "Button / 4651:1140",
+      "variants": [
+        "primary",
+        "secondary",
+        "play",
+        "arrow-left",
+        "arrow-right"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "disabled",
+        "loading"
+      ],
+      "usage_rules": [
+        "Use a real button for actions and a real link for navigation",
+        "Do not invent one-off colors or radii"
+      ],
+      "do_not": [
+        "Do not nest links inside buttons",
+        "Do not remove visible focus treatment"
+      ],
+      "gaps": [
+        "tablet sizing refinement in stage 6",
+        "mobile sizing refinement in stage 6"
+      ],
+      "geometry": {
+        "standard-height-rem": 4,
+        "standard-padding-block-rem": 0.75,
+        "standard-padding-inline-rem": 1.5,
+        "standard-label-token": "typography.body",
+        "standard-radius-token": "radius.full",
+        "play-default-size-rem": 4,
+        "play-hover-size-rem": 5,
+        "arrow-size-rem": 4,
+        "standard-icon-size-rem": 1.5,
+        "play-icon-size-rem": 1,
+        "arrow-icon-size-rem": 1.5,
+        "gap-rem": 0.5
+      },
+      "state_contract": {
+        "hover": "Primary uses interaction.hover-opacity while preserving exactly the default geometry and padding; secondary and icon controls use neutral-100/muted surfaces as shown in Figma. Text variants without the close icon keep 1.5rem (24px) end padding in every state. Play transitions size with duration-button-play-hover (800ms) and easing-out; arrows transition background with duration-micro and easing-out.",
+        "focus-visible": "Brand outline uses interaction focus ring width and offset and remains a real keyboard behavior, but is not duplicated as an artificial Storybook specimen.",
+        "active": "Use interaction.active-opacity and preserve Primary geometry during real pointer hover.",
+        "disabled": "Use native disabled for buttons or aria-disabled without href for links, interaction.disabled-opacity, and suppress hover/active.",
+        "loading": "Button-only state: set disabled and aria-busy, replace visible label, hide optional icon, and do not add motion before motion tokens exist."
+      },
+      "semantics": {
+        "action": "button",
+        "navigation": "a",
+        "icon-only": "Requires a non-empty accessible label; SVGs are decorative.",
+        "loading": "Not valid for links."
+      },
+      "responsive": "Keep the 4rem base control size and at least 44px target in desktop, tablet and mobile. Component-specific tablet/mobile refinements belong to stage 6; no Button breakpoint is introduced in stage 3.",
+      "status": "implemented-stage-3",
+      "implemented_at": "2026-08-14",
+      "implementation": {
+        "template": "wp-content/themes/orlyata/template-parts/components/button.php",
+        "styles": "wp-content/themes/orlyata/assets/src/styles/components/button.css",
+        "story": "stories/components/button.stories.ts",
+        "assets": [
+          "wp-content/themes/orlyata/assets/icons/button-close.svg",
+          "wp-content/themes/orlyata/assets/icons/button-play.svg",
+          "wp-content/themes/orlyata/assets/icons/button-arrow.svg"
+        ]
+      },
+      "validation": {
+        "figma_node": "4651:1140",
+        "visual_baselines": 14,
+        "viewports_px": [
+          2560,
+          1920,
+          1280,
+          1279,
+          768,
+          767,
+          320
+        ],
+        "tests": 21,
+        "checks": [
+          "axe",
+          "native semantics",
+          "keyboard focus-visible",
+          "desktop geometry",
+          "stable Primary geometry on real hover",
+          "approved icon hover transitions",
+          "Play intermediate hover geometry",
+          "visual regression"
+        ]
+      }
+    },
+    "Badge": {
+      "path": "wp-content/themes/orlyata/template-parts/components/badge.php",
+      "figma": "Badge / 4651:1187",
+      "variants": [
+        "default",
+        "category",
+        "inverse"
+      ],
+      "states": [
+        "default"
+      ],
+      "usage_rules": [
+        "Use for compact metadata or a non-editable category marker",
+        "Use inverse only over imagery or inverse surfaces; its border and text use colors.surface"
+      ],
+      "do_not": [
+        "Do not use badges as buttons unless they expose button semantics and states"
+      ],
+      "gaps": [
+        "category icon mapping",
+        "selected filter state",
+        "responsive sizing"
+      ]
+    },
+    "TextLink": {
+      "path": "wp-content/themes/orlyata/template-parts/components/text-link.php",
+      "figma": "Link / 4651:1238",
+      "variants": [
+        "default",
+        "navigation"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "active"
+      ],
+      "usage_rules": [
+        "Preserve link semantics and visited-state policy where useful"
+      ],
+      "do_not": [
+        "Do not use a span with click handler for navigation"
+      ],
+      "gaps": [
+        "focus-visible"
+      ]
+    },
+    "NewsCard": {
+      "path": "wp-content/themes/orlyata/template-parts/components/news-card.php",
+      "figma": "Card news / 4651:1252",
+      "variants": [
+        "default",
+        "featured"
+      ],
+      "states": [
+        "default",
+        "hover"
+      ],
+      "usage_rules": [
+        "Category determines the icon",
+        "The whole card may be clickable only with valid accessible link markup",
+        "The title uses Heading/H3 at weight 500",
+        "Hover and focus-within transition the title color over motion.duration-micro with motion.easing-out"
+      ],
+      "do_not": [
+        "Do not add decorative nested cards"
+      ],
+      "gaps": [
+        "focus-within",
+        "long title",
+        "missing excerpt",
+        "tablet",
+        "mobile"
+      ]
+    },
+    "Advantage": {
+      "path": "wp-content/themes/orlyata/template-parts/components/advantage.php",
+      "figma": "Advantage / 4651:1331",
+      "variants": [
+        "stat"
+      ],
+      "states": [
+        "default"
+      ],
+      "usage_rules": [
+        "Use only for the approved factual metrics on the home page",
+        "Keep the card 170px high with 24px top and inline padding and 16px bottom padding; align the value to the top and the secondary label to the bottom",
+        "Use colors.text-secondary-on-muted for the label so secondary text passes WCAG AA on the muted card surface"
+      ],
+      "do_not": [
+        "Do not turn ordinary copy into dashboard-like statistics"
+      ],
+      "gaps": [
+        "responsive layout",
+        "long value"
+      ]
+    },
+    "Input": {
+      "path": "wp-content/themes/orlyata/template-parts/components/input.php",
+      "figma": "Input / 4651:1477",
+      "variants": [
+        "text",
+        "tel",
+        "date",
+        "search"
+      ],
+      "states": [
+        "default",
+        "typing",
+        "filled",
+        "error"
+      ],
+      "usage_rules": [
+        "Every input has a persistent programmatic label",
+        "Errors are associated with the field and announced",
+        "Default uses a 20px label; typing and filled use a 14px secondary label above the 20px value",
+        "The label uses colors.text-secondary-on-muted in every state so secondary text passes WCAG AA on the muted field surface",
+        "The 64px control uses 16px inline and 2px block padding; stacked label and value line boxes are contiguous and vertically centered",
+        "Focus uses the single 1px brand border shown by the Figma typing state; do not add a second outer outline",
+        "The date variant renders as a numeric DD.MM.YYYY mask in a text input, has no native calendar affordance, and corrects a complete invalid value to the nearest valid date no later than today",
+        "The telephone variant accepts typed or pasted digits only and formats them as the Russian +7 (999) 999-99-99 mask"
+      ],
+      "do_not": [
+        "Do not use placeholder as the only label",
+        "Do not log entered values",
+        "Do not expose the native date-picker calendar or allow free-form telephone characters"
+      ],
+      "gaps": [
+        "focus-visible",
+        "disabled",
+        "autocomplete",
+        "success",
+        "mobile keyboard behaviour"
+      ]
+    },
+    "DataTable": {
+      "path": "wp-content/themes/orlyata/template-parts/components/data-table.php",
+      "figma": "Table_row 4666:691 + Table_header 4666:715",
+      "variants": [
+        "news",
+        "scores",
+        "achievements",
+        "photo",
+        "video"
+      ],
+      "states": [
+        "default",
+        "interactive-row"
+      ],
+      "usage_rules": [
+        "Use semantic table markup when relationships are tabular",
+        "Provide a deliberate mobile representation without losing labels"
+      ],
+      "do_not": [
+        "Do not hide essential columns only to fit mobile"
+      ],
+      "gaps": [
+        "focus state",
+        "mobile card/list mapping",
+        "empty state",
+        "pagination"
+      ]
+    },
+    "Accordion": {
+      "path": "wp-content/themes/orlyata/template-parts/components/accordion.php",
+      "figma": "Accordeon / 4666:741",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "closed",
+        "opened"
+      ],
+      "usage_rules": [
+        "Use native details and summary disclosure semantics",
+        "Use the Figma plus and minus assets with a 2px stroke",
+        "Hover changes title, meta and icon to colors.text-secondary over motion.duration-micro with motion.easing-out",
+        "Open and close animate over motion.duration-normal and respect reduced motion"
+      ],
+      "do_not": [
+        "Do not animate height in a way that traps content"
+      ],
+      "gaps": [
+        "tablet",
+        "mobile"
+      ]
+    },
+    "MediaCard": {
+      "path": "wp-content/themes/orlyata/template-parts/components/media-card.php",
+      "figma": "Card / 4651:1333",
+      "variants": [
+        "big",
+        "small",
+        "photo",
+        "video"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-within",
+        "video-preview-playing"
+      ],
+      "usage_rules": [
+        "Preserve image aspect ratio per variant",
+        "Show provider and media type without relying on color alone",
+        "Big and small variants are both 540px high on desktop",
+        "Small keeps 16px between image and title and aligns metadata badges to the bottom",
+        "Big uses inverse Badge over imagery",
+        "Big and small titles use their Figma heading roles at weight 500",
+        "Hover and focus-within scale only the clipped image to 110% over motion.duration-micro with motion.easing-out; card geometry stays fixed",
+        "Keep the image gradient below MediaCard content and decorative Play; card hover and focus-within trigger the standard Play growth from 64px to 80px",
+        "Show the decorative Play marker only for the video media type in either card size: 24px from the left/top in Big and 24px from the left plus 16px from the top inside Small imagery",
+        "The MediaCard Playground replaces imagery with a muted native-video preview immediately for video; a direct MP4/WebM URL plays for exactly 8 seconds from the saved offset and loops",
+        "MediaCard video previews remain active under prefers-reduced-motion because they are requested media content rather than a decorative transition; load and player errors use the static fallback",
+        "The video-card link opens the external provider URL in a separate tab; Play does not create a separate action",
+        "Derive the visible provider tag from the URL for YouTube, RuTube and VK Video"
+      ],
+      "do_not": [
+        "Do not expose Play as a nested interactive control or prevent the card link from opening the external video",
+        "Do not use low-resolution source images"
+      ],
+      "gaps": [
+        "missing image",
+        "long title",
+        "provider fallback",
+        "tablet",
+        "mobile"
+      ]
+    },
+    "ApplicationForm": {
+      "path": "wp-content/themes/orlyata/template-parts/sections/application-form.php",
+      "figma": "Form containers 4527:7798, 4527:7830, 4527:8773",
+      "variants": [
+        "home",
+        "about"
+      ],
+      "states": [
+        "default",
+        "submitting",
+        "success",
+        "validation-error",
+        "network-error",
+        "server-error"
+      ],
+      "usage_rules": [
+        "Submit once per idempotency token",
+        "Explain privacy processing before submission and link to the approved privacy policy route",
+        "Use the same 500px-wide visual contract for home and about; page composition owns placement",
+        "Default and submitting are at least 536px high; success is at least 456px high",
+        "Compose the four required fields from Input and the action from Button",
+        "Submitting preserves values and disables repeat submission without hiding the fields",
+        "Validation errors preserve entered values and are communicated only by their associated Input errors; network and server errors use the form error with role=alert",
+        "Keep the native POST form usable without JavaScript and let orlyata-core inject nonce and idempotency fields through the documented hook",
+        "Use application-success.svg from Figma for the success state"
+      ],
+      "do_not": [
+        "Do not send field values to analytics",
+        "Do not erase entered values on recoverable failure"
+      ],
+      "gaps": [
+        "protected endpoint and server processing",
+        "nonce, idempotency and anti-spam integration",
+        "explicit consent control decision",
+        "mobile"
+      ]
+    },
+    "Sidebar": {
+      "path": "wp-content/themes/orlyata/template-parts/layout/sidebar.php",
+      "figma": "Sidebar / 4641:3718",
+      "variants": [
+        "desktop"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active",
+        "current-page"
+      ],
+      "usage_rules": [
+        "Desktop rail owns the primary navigation and admission CTA",
+        "Desktop geometry is 250 px wide with the 240 x 110 px logo at 12 px from the top, navigation at 152 px and CTA at 60 px from the bottom",
+        "Navigation uses a semantic nav/list/link structure and aria-current=page for the current route",
+        "The rail is not rendered below the desktop breakpoint until separate tablet and mobile navigation is approved"
+      ],
+      "do_not": [
+        "Do not preserve the desktop rail on mobile by shrinking it",
+        "Do not turn the admission CTA or navigation links into JavaScript-only controls"
+      ],
+      "gaps": [
+        "tablet navigation",
+        "mobile menu"
+      ]
+    },
+    "Footer": {
+      "path": "wp-content/themes/orlyata/template-parts/layout/footer.php",
+      "figma": "Footer / 4641:3638",
+      "variants": [
+        "default"
+      ],
+      "states": [
+        "default",
+        "hover",
+        "focus-visible",
+        "active"
+      ],
+      "usage_rules": [
+        "Contacts are sourced from site settings",
+        "Navigation mirrors real routes",
+        "Desktop reference geometry is 1616 by 469 px with 48 px padding and a 24 px radius",
+        "The required legal destination is the privacy policy route from the approved sitemap",
+        "Secondary text on the inverse surface uses the WCAG AA alias #9999a2 instead of the failing Figma value #71717a",
+        "The desktop Footer is not displayed below 1280 px until the separate tablet and mobile layouts are approved"
+      ],
+      "do_not": [
+        "Do not duplicate editable contact values in templates"
+      ],
+      "gaps": [
+        "tablet layout",
+        "mobile layout"
+      ]
+    }
+  },
+  "layout": {
+    "grid": "Desktop evidence uses a persistent left navigation rail and a wide editorial content area. Exact columns and gutters must be measured per frame before implementation.",
+    "page_width": "The desktop design target is a 1920 px viewport. Inspected 1900 px Figma frames are normalized to 1920 during implementation. Reviewed fluid values continue scaling to 2560 px; beyond 2560 px the composition is centred.",
+    "section_rhythm": "Large editorial sections separated primarily by whitespace, rules and surface changes rather than repeated card containers.",
+    "density": "Spacious marketing sections with denser data tables for news, scores and achievements.",
+    "responsive_rules": [
+      "Use exactly three global layout modes: mobile 320–767, tablet 768–1279, desktop 1280–2560+.",
+      "Keep html font-size at 100%; do not implement global viewport scaling through the root font size.",
+      "Use rem for type, spacing, component size and radius. Use vw only as the fluid term of reviewed clamp() tokens.",
+      "Media queries use px and 1px is allowed for hairline borders.",
+      "Components may recompose at 1280 and 768; mobile is not a uniformly shrunken desktop.",
+      "Do not add global breakpoints without updating this manifest first.",
+      "Support 320 px without horizontal page scrolling and without clipping text.",
+      "Between 1920 and 2560 px, reviewed fluid values may continue growing. Above 2560 px, full-bleed backgrounds may extend but content and typography do not continue growing."
+    ]
+  },
+  "storybook": {
+    "production_entrypoint": "wp-content/themes/orlyata/assets/src/main.ts",
+    "stories_glob": "stories/**/*.stories.ts",
+    "foundations": [
+      "colors",
+      "typography",
+      "spacing",
+      "radius"
+    ],
+    "typography_classes": [
+      "type-display",
+      "type-heading-1",
+      "type-heading-2",
+      "type-lead",
+      "type-heading-3",
+      "type-body",
+      "type-caption"
+    ],
+    "viewport_presets_px": [
+      2560,
+      1920,
+      1280,
+      1279,
+      768,
+      767,
+      320
+    ],
+    "rules": [
+      "Stories import the production entrypoint and must not duplicate production tokens or component styles.",
+      "Story-only CSS may arrange and label specimens but may not redefine visual token values.",
+      "Accessibility checks fail on violations; local Playwright screenshots are the visual baseline and do not require a cloud service.",
+      "Every production component story provides a typed Playground with args and argTypes for meaningful public properties; static Variants and States remain deterministic visual baselines with Controls disabled.",
+      "Every production-component change updates its Storybook story and relevant checks, then rebuilds the published staging Storybook before completion."
+    ],
+    "font_validation": "Playwright waits for the F37 Ginger Cyrillic VF FontFace to reach loaded status before axe or screenshot assertions.",
+    "foundation_visual_baselines": {
+      "stories": 4,
+      "viewports": 7,
+      "snapshots": 28,
+      "recorded_at": "2026-08-14"
+    },
+    "component_visual_baselines": {
+      "Button": {
+        "stories": 2,
+        "viewports": 7,
+        "snapshots": 14,
+        "recorded_at": "2026-08-14"
+      }
+    }
+  },
+  "visual_language": {
+    "mood": "Warm, confident and contemporary editorial identity: youthful without childish decoration, institutional without bureaucracy.",
+    "composition_rules": [
+      "Use the green brand accent sparingly against white and near-black surfaces.",
+      "Use large photography and typographic hierarchy as primary visual devices.",
+      "Use a soft green-to-dark atmospheric gradient only in approved hero and application contexts.",
+      "Keep data-heavy sections flat, aligned and readable; use rules rather than nested cards.",
+      "Preserve generous whitespace between major sections."
+    ],
+    "imagery_rules": [
+      "Prioritise authentic photographs of the choir, performances, teachers and community.",
+      "Never distort or arbitrarily crop faces; define focal points where supported.",
+      "Use approved aspect ratios per MediaCard variant and responsive mode.",
+      "Do not upscale weak migration assets without review."
+    ],
+    "iconography_rules": [
+      "Use the existing simple monochrome icon language and the approved category mapping.",
+      "Social icons may be editor-managed SVG only after sanitisation.",
+      "Icons supplement labels and must not be the only accessible name."
+    ],
+    "motion_rules": [
+      "Motion supports state change and orientation, never decoration for its own sake.",
+      "No autoplay media or continuous ornamental motion.",
+      "Respect prefers-reduced-motion."
+    ],
+    "anti_patterns": [
+      "Unowned accent colors or new gradients",
+      "Glassmorphism and floating translucent panels",
+      "Nested decorative cards",
+      "Pill overload",
+      "Generic dashboard widgets",
+      "Arbitrary type sizes or spacing outside tokens",
+      "Desktop scaled down uniformly for mobile",
+      "Decorative animation that delays content"
+    ]
+  },
+  "accessibility": {
+    "contrast_policy": "Target WCAG 2.2 AA for text and meaningful controls. Validate the green/white and secondary-text combinations before release.",
+    "keyboard_policy": "All navigation, filters, accordions, galleries and forms must work by keyboard in a logical DOM order.",
+    "focus_policy": "Every interactive element has a visible :focus-visible style not dependent on hover. Focus styling is a required design-system gap to resolve.",
+    "reduced_motion_policy": "Disable or simplify non-essential transitions under prefers-reduced-motion: reduce."
+  },
+  "governance": {
+    "token_policy": "Use semantic CSS custom properties backed by this manifest. Raw values are allowed only while defining a token, not at call sites.",
+    "component_policy": "Reuse an owned component before creating a local variant. Every interactive component ships with all applicable states and responsive behaviour.",
+    "when_to_add_new_tokens": "Add a token when a new semantic role is approved or a value repeats across at least two owned components. Document source and intended role.",
+    "when_to_add_new_components": "Add a component for repeated structure or behaviour with a stable API. One-off page composition remains a section, not a universal component."
+  },
+  "open_questions": [
+    "Design and approve tablet and mobile typography, layout, navigation and all component variants.",
+    "Audit hard-coded Figma spacing values and complete the spacing scale before implementation.",
+    "Design focus-visible, active, disabled, loading and error states missing from the component boards.",
+    "Confirm the legal consent control and copy for the application form.",
+    "Confirm the category icon mapping for news, announcements and achievements.",
+    "Review color contrast for green with white text, secondary text and thin borders."
+  ]
+}

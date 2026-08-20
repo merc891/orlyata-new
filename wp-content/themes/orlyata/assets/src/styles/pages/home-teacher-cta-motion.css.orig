@@ -1,0 +1,9 @@
+@media (prefers-reduced-motion: no-preference) {
+  .orlyata-home .orlyata-home__history-teachers-link img {
+    transition: transform var(--duration-micro) var(--easing-out);
+  }
+
+  .orlyata-home .orlyata-home__history-teachers-link:hover img {
+    transform: translateX(var(--space-2));
+  }
+}

@@ -1,0 +1,101 @@
+.orlyata-input {
+  display: grid;
+  width: var(--input-width);
+  gap: var(--space-0);
+  max-width: 100%;
+}
+
+.orlyata-input__control {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  height: var(--input-height);
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--input-padding-block) var(--input-padding-inline);
+  border: 1px solid transparent;
+  border-radius: var(--radius-medium);
+  background: var(--color-surface-muted);
+}
+
+.orlyata-input__label {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 var(--input-label-line-height);
+  color: var(--color-text-secondary-on-muted);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-small);
+  letter-spacing: var(--letter-spacing-body-small);
+  line-height: var(--line-height-body-small);
+  pointer-events: none;
+  transition:
+    font-size var(--duration-fast) var(--easing-standard),
+    line-height var(--duration-fast) var(--easing-standard);
+}
+
+.orlyata-input:not(.is-filled, .is-typing):not(:focus-within) .orlyata-input__label {
+  flex-basis: var(--input-value-line-height);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--input-value-line-height);
+  flex: 0 0 var(--input-value-line-height);
+  border: 0;
+  padding: var(--space-0);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  outline: none;
+}
+
+.orlyata-input__field::placeholder {
+  color: transparent;
+}
+.orlyata-input:not(.is-filled, .is-typing):not(:focus-within) .orlyata-input__field {
+  position: absolute;
+  inset: var(--space-0);
+  width: 100%;
+  height: 100%;
+  padding-inline: var(--input-padding-inline);
+  color: transparent;
+  caret-color: transparent;
+}
+
+
+.orlyata-input:focus-within .orlyata-input__control,
+.orlyata-input.is-typing .orlyata-input__control {
+  border-color: var(--color-brand);
+}
+
+.orlyata-input.has-error .orlyata-input__control {
+  border-color: var(--color-error);
+}
+
+.orlyata-input__error {
+  margin: var(--space-0);
+  color: var(--color-error);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-small);
+  letter-spacing: var(--letter-spacing-body-small);
+  line-height: var(--line-height-body-small);
+}
+
+.orlyata-input.is-disabled {
+  opacity: var(--opacity-interactive-disabled);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orlyata-input__label {
+    transition-duration: 0.01ms;
+  }
+}

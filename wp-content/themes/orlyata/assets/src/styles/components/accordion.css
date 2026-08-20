@@ -1,0 +1,86 @@
+.orlyata-accordion {
+  width: 100%;
+  border: 0;
+}
+
+.orlyata-accordion__summary {
+  display: grid;
+  min-height: var(--accordion-row-height);
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--space-4);
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--duration-micro) var(--easing-out);
+}
+
+.orlyata-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.orlyata-accordion__title,
+.orlyata-accordion__meta {
+  margin: var(--space-0);
+  color: currentcolor;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-accordion__summary:hover {
+  color: var(--color-text-secondary);
+}
+
+.orlyata-accordion__toggle {
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  background-color: currentcolor;
+  mask: url("../../../icons/accordion-plus.svg") center / var(--accordion-icon-glyph-size) var(--accordion-icon-glyph-size) no-repeat;
+  transition: background-color var(--duration-micro) var(--easing-out);
+}
+
+.orlyata-accordion[open] .orlyata-accordion__toggle {
+  mask-image: url("../../../icons/accordion-minus.svg");
+}
+
+.orlyata-accordion__content {
+  box-sizing: border-box;
+  max-width: 42.125rem;
+  margin: var(--space-0) 2.5rem var(--space-0) auto;
+  padding-top: var(--space-2);
+  overflow: hidden;
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-accordion__summary:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (width <= 767px) {
+  .orlyata-accordion__summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .orlyata-accordion__meta {
+    grid-column: 1;
+  }
+
+  .orlyata-accordion__content {
+    margin-inline: var(--space-0);
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orlyata-accordion__summary,
+  .orlyata-accordion__toggle {
+    transition-duration: 0.01ms;
+  }
+}

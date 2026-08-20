@@ -1,0 +1,18 @@
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+import { accordion, appendSection, createComponentPage } from './content.stories';
+
+const meta = {
+  title: 'Components/Accordion',
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const States: Story = {
+  render: () => {
+    const root = createComponentPage('Accordion', 'Раскрывающийся блок для материалов страницы «О капелле».');
+    appendSection(root, 'States', [accordion(false), accordion(true)]);
+    return root;
+  },
+};

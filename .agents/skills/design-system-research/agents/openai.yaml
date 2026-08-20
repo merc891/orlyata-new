@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System Research"
+  short_description: "Document a missing or stale design system"
+  default_prompt: "Use $design-system-research to audit existing UI evidence and update the project design-system artifacts."

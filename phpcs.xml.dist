@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Orlyata">
+	<description>WordPress Coding Standards for the Orlyata theme and core plugin.</description>
+
+	<file>wp-content/themes/orlyata</file>
+	<file>wp-content/mu-plugins</file>
+
+	<exclude-pattern>*/assets/dist/*</exclude-pattern>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg value="ps"/>
+
+	<config name="testVersion" value="8.3-"/>
+	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcsstandards/phpcsextra,vendor/phpcsstandards/phpcsutils"/>
+
+	<rule ref="WordPress"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="orlyata"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
+

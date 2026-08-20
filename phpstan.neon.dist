@@ -1,0 +1,13 @@
+includes:
+  - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+  level: 6
+  paths:
+    - wp-content/themes/orlyata
+    - wp-content/mu-plugins
+  excludePaths:
+    analyse:
+      - wp-content/themes/orlyata/assets/dist
+  tmpDir: /tmp/orlyata-phpstan
+

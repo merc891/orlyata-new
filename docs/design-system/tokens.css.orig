@@ -1,0 +1,104 @@
+/*
+ * Confirmed desktop tokens extracted from Figma on 2026-08-09.
+ * Tablet and mobile typography are intentionally not defined yet.
+ * This file is the future source for theme-level CSS Custom Properties;
+ * do not fill gaps with unreviewed raw values.
+ */
+
+:root {
+  color-scheme: light;
+
+  --color-brand: #21a642;
+  --color-text-primary: #181717;
+  --color-text-secondary: #71717a;
+  --color-text-secondary-on-muted: #6f6f78;
+  --color-text-inverse: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4f4f5;
+  --color-surface-inverse: #181717;
+  --color-surface-photo: #c6ccc2;
+  --color-border-subtle: #c7c7cc;
+  --color-error: #d63a3a;
+  --color-neutral-100: #eaeaeb;
+  --color-neutral-200: #9999a2;
+
+  --opacity-interactive-hover: 0.9;
+  --opacity-interactive-active: 0.8;
+  --opacity-interactive-disabled: 0.45;
+  --focus-ring-width: 0.125rem;
+  --focus-ring-offset: 0.125rem;
+
+  --duration-fast: 160ms;
+  --duration-normal: 240ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  --button-height: 4rem;
+  --button-padding-block: 0.75rem;
+  --button-padding-inline: 1.5rem;
+  --button-secondary-padding-end: 1.25rem;
+  --button-gap: 0.5rem;
+  --button-icon-size: 1.5rem;
+  --button-play-icon-size: 1rem;
+  --button-play-hover-size: 5rem;
+
+  --badge-height: 4rem;
+  --badge-padding-inline: 1.5rem;
+  --input-height: 4rem;
+  --input-padding-block: 0.125rem;
+  --input-padding-inline: 1rem;
+  --input-width: 27.25rem;
+  --accordion-row-height: 3rem;
+  --accordion-icon-glyph-size: 1rem;
+  --accordion-icon-stroke: 0.125rem;
+  --advantage-width: 24.234375rem;
+  --advantage-height: 10.625rem;
+  --advantage-accent-size: 0.625rem;
+  --news-card-width: 22.8125rem;
+  --news-card-height: 16.6875rem;
+  --media-card-big-width: 49.8125rem;
+  --media-card-big-height: 33.75rem;
+  --media-card-small-width: 24.375rem;
+  --media-card-small-height: 33.75rem;
+  --media-card-small-image-height: 18.75rem;
+
+  --font-family-primary: "F37 Ginger Cyrillic VF", Arial, sans-serif;
+
+  --font-size-display: 5rem;
+  --font-size-heading-1: 4rem;
+  --font-size-heading-2: 2.75rem;
+  --font-size-lead: 2.25rem;
+  --font-size-heading-3: 1.5rem;
+  --font-size-body: 1.25rem;
+  --font-size-caption: 0.875rem;
+  --font-size-body-small: 0.875rem;
+
+  --line-height-display: 0.65;
+  --line-height-heading-1: 0.8;
+  --line-height-heading-2: 0.9;
+  --line-height-lead: 1;
+  --line-height-heading-3: 1.2;
+  --line-height-body: 1.4;
+  --line-height-caption: 1.5;
+  --line-height-body-small: 1.5;
+
+  --letter-spacing-display: -0.3125rem;
+  --letter-spacing-heading-1: -0.1875rem;
+  --letter-spacing-heading-2: -0.125rem;
+  --letter-spacing-lead: -0.0625rem;
+  --letter-spacing-heading-3: -0.0625rem;
+  --letter-spacing-body: -0.03125rem;
+  --letter-spacing-caption: -0.0125rem;
+  --letter-spacing-body-small: -0.0125rem;
+
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-7: 2.5rem;
+
+  --radius-small: 0.5rem;
+  --radius-medium: 1rem;
+  --radius-large: 1.5rem;
+  --radius-full: 9999px;
+}

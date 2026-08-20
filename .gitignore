@@ -1,0 +1,13 @@
+.DS_Store
+.env
+node_modules/
+vendor/
+wp-content/uploads/
+wp-content/themes/orlyata/assets/dist/
+*.log
+coverage/
+
+storybook-static/
+public-artifacts/
+playwright-report/
+test-results/

@@ -1,0 +1,66 @@
+.orlyata-news-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: var(--news-card-width);
+  min-height: var(--news-card-height);
+  max-width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+}
+
+.orlyata-news-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.orlyata-news-card__icon {
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  margin-bottom: var(--space-4);
+}
+
+.orlyata-news-card__title {
+  margin: var(--space-0);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-heading-3);
+  font-weight: 500;
+  font-variation-settings: "wght" 500;
+  letter-spacing: var(--letter-spacing-heading-3);
+  line-height: var(--line-height-heading-3);
+  transition: color var(--duration-micro) var(--easing-out);
+}
+
+.orlyata-news-card > .orlyata-badge {
+  width: fit-content;
+  align-self: flex-start;
+}
+
+.orlyata-news-card:hover .orlyata-news-card__title,
+.orlyata-news-card:focus-within .orlyata-news-card__title {
+  color: var(--color-text-secondary);
+}
+
+.orlyata-news-card__link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (width <= 767px) {
+  .orlyata-news-card {
+    width: 100%;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orlyata-news-card__title {
+    transition-duration: 0.01ms;
+  }
+}

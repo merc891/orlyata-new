@@ -1,0 +1,61 @@
+/* Typography roles are shared by WordPress templates and Storybook. */
+
+.type-display,
+.type-heading-1,
+.type-heading-2,
+.type-lead,
+.type-heading-3,
+.type-body,
+.type-caption {
+  font-family: var(--font-family-primary);
+  font-style: normal;
+}
+
+.type-display {
+  font-size: var(--font-size-display);
+  font-weight: 500;
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.type-heading-1 {
+  font-size: var(--font-size-heading-1);
+  font-weight: 500;
+  line-height: var(--line-height-heading-1);
+  letter-spacing: var(--letter-spacing-heading-1);
+}
+
+.type-heading-2 {
+  font-size: var(--font-size-heading-2);
+  font-weight: 500;
+  line-height: var(--line-height-heading-2);
+  letter-spacing: var(--letter-spacing-heading-2);
+}
+
+.type-lead {
+  font-size: var(--font-size-lead);
+  font-weight: 500;
+  line-height: var(--line-height-lead);
+  letter-spacing: var(--letter-spacing-lead);
+}
+
+.type-heading-3 {
+  font-size: var(--font-size-heading-3);
+  font-weight: 500;
+  line-height: var(--line-height-heading-3);
+  letter-spacing: var(--letter-spacing-heading-3);
+}
+
+.type-body {
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.type-caption {
+  font-size: var(--font-size-caption);
+  font-weight: 400;
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+}

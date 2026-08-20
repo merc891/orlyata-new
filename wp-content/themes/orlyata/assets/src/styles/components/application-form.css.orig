@@ -1,0 +1,115 @@
+.orlyata-application-form {
+  box-sizing: border-box;
+  width: var(--application-form-width);
+  max-width: 100%;
+  min-height: var(--application-form-min-height);
+  padding: var(--application-form-padding);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+form.orlyata-application-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--application-form-gap);
+}
+
+.orlyata-application-form__fields {
+  display: grid;
+  gap: var(--application-form-fields-gap);
+}
+
+.orlyata-application-form .orlyata-input,
+.orlyata-application-form .orlyata-button {
+  width: 100%;
+}
+
+.orlyata-application-form__error {
+  margin: calc(-1 * var(--space-2)) var(--space-0);
+  color: var(--color-error);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body-small);
+  letter-spacing: var(--letter-spacing-body-small);
+  line-height: var(--line-height-body-small);
+}
+
+.orlyata-application-form__submit.is-loading {
+  background: var(--color-border-subtle);
+  opacity: 1;
+}
+
+.orlyata-application-form__privacy {
+  margin: var(--space-0);
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-application-form__privacy a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+.orlyata-application-form__privacy a:hover {
+  opacity: var(--opacity-interactive-hover);
+}
+
+.orlyata-application-form__privacy a:focus-visible {
+  border-radius: var(--radius-small);
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.orlyata-application-form--success {
+  display: flex;
+  min-height: var(--application-form-success-min-height);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--application-form-success-actions-gap);
+  padding-block: var(--application-form-success-padding-block);
+}
+
+.orlyata-application-form__success-content {
+  display: flex;
+  min-height: var(--application-form-success-content-height);
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--application-form-success-content-gap);
+  text-align: center;
+}
+
+.orlyata-application-form__success-icon {
+  display: block;
+  width: var(--application-form-success-icon-size);
+  height: var(--application-form-success-icon-size);
+}
+
+.orlyata-application-form__success-title {
+  width: 100%;
+  margin: var(--space-0);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-heading-2);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-heading-2);
+  line-height: var(--line-height-heading-2);
+}
+
+.orlyata-application-form__success-copy {
+  width: var(--application-form-success-copy-width);
+  max-width: 100%;
+  margin: var(--space-0);
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-application-form__success-action {
+  width: 100%;
+  border-radius: var(--radius-large);
+}

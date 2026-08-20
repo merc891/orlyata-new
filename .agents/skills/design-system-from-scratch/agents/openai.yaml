@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System From Scratch"
+  short_description: "Create a new design system from refs"
+  default_prompt: "Use $design-system-from-scratch to define a new design system from brief and references."

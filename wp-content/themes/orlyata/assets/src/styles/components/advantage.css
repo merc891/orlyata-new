@@ -1,0 +1,46 @@
+.orlyata-advantage {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  width: var(--advantage-width);
+  height: var(--advantage-height);
+  max-width: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-muted);
+}
+
+.orlyata-advantage::before {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  width: var(--advantage-accent-size);
+  height: var(--advantage-accent-size);
+  border-radius: var(--radius-full);
+  background: var(--color-brand);
+  content: "";
+}
+
+.orlyata-advantage__value,
+.orlyata-advantage__label {
+  margin: var(--space-0);
+}
+
+.orlyata-advantage__value {
+  color: var(--color-text-primary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-heading-2);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-heading-2);
+  line-height: var(--line-height-heading-2);
+}
+
+.orlyata-advantage__label {
+  color: var(--color-text-secondary-on-muted);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}

@@ -1,0 +1,179 @@
+/*
+ * Confirmed desktop tokens extracted from Figma on 2026-08-09.
+ * Tablet and mobile typography are intentionally not defined yet.
+ * This file is the future source for theme-level CSS Custom Properties;
+ * do not fill gaps with unreviewed raw values.
+ */
+
+:root {
+  color-scheme: light;
+
+  --color-brand: #21a642;
+  --color-text-primary: #181717;
+  --color-text-secondary: #71717a;
+  --color-text-secondary-on-muted: #6f6f78;
+  --color-text-secondary-on-inverse: #9999a2;
+  --color-text-inverse: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f4f4f5;
+  --color-surface-inverse: #181717;
+  --color-surface-photo: #c6ccc2;
+  --color-border-subtle: #c7c7cc;
+  --color-border-menu: #d4d4d4;
+  --color-error: #d63a3a;
+  --color-neutral-100: #eaeaeb;
+  --color-neutral-200: #9999a2;
+
+  --opacity-interactive-hover: 0.9;
+  --opacity-interactive-active: 0.8;
+  --opacity-interactive-disabled: 0.45;
+  --focus-ring-width: 0.125rem;
+  --focus-ring-offset: 0.125rem;
+
+  --duration-fast: 160ms;
+  --duration-normal: 240ms;
+  --duration-micro: 300ms;
+  --duration-home-hero-title: 1600ms;
+  --duration-button-play-hover: 800ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-out: ease-out;
+  --easing-out-quint: linear(0, 0.2262 5%, 0.4095 10%, 0.5563 15%, 0.6723 20%, 0.7627 25%, 0.8319 30%, 0.8839 35%, 0.9222 40%, 0.9497 45%, 0.9688 50%, 0.9815 55%, 0.9898 60%, 0.9947 65%, 0.9976 70%, 0.999 75%, 0.9997 80%, 0.9999 85%, 1 90%, 1);
+  --home-hero-title-stagger: 70ms;
+  --home-hero-title-start-offset: 130%;
+
+  --button-height: 4rem;
+  --button-padding-block: 0.75rem;
+  --button-padding-inline: 1.5rem;
+  --button-gap: 0.5rem;
+  --button-icon-size: 1.5rem;
+  --button-play-icon-size: 1rem;
+  --button-play-hover-size: 5rem;
+
+  --badge-height: 4rem;
+  --badge-padding-inline: 1.5rem;
+  --input-height: 4rem;
+  --input-padding-block: 0.125rem;
+  --input-padding-inline: 1rem;
+  --input-label-line-height: 1.3125rem;
+  --input-value-line-height: 1.75rem;
+  --input-width: 27.25rem;
+  --application-form-width: 31.25rem;
+  --application-form-min-height: 33.5rem;
+  --application-form-success-min-height: 28.5rem;
+  --application-form-padding: 2rem;
+  --application-form-success-padding-block: 2.25rem;
+  --application-form-gap: 1.5rem;
+  --application-form-fields-gap: 1rem;
+  --application-form-success-icon-size: 6rem;
+  --application-form-success-copy-width: 23.125rem;
+  --application-form-success-content-gap: 1rem;
+  --application-form-success-content-height: 14rem;
+  --application-form-success-actions-gap: 6rem;
+  --accordion-row-height: 3rem;
+  --accordion-icon-glyph-size: 1rem;
+  --accordion-icon-stroke: 0.125rem;
+  --advantage-width: 24.234375rem;
+  --advantage-height: 10.625rem;
+  --advantage-accent-size: 0.625rem;
+  --news-card-width: 22.8125rem;
+  --news-card-height: 16.6875rem;
+  --media-card-big-width: 49.8125rem;
+  --media-card-big-height: 33.75rem;
+  --media-card-small-width: 24.375rem;
+  --media-card-small-height: 33.75rem;
+  --media-card-small-image-height: 18.75rem;
+  --sidebar-width: 15.625rem;
+  --sidebar-reference-height: 64.375rem;
+  --sidebar-logo-width: 15rem;
+  --sidebar-logo-height: 6.875rem;
+  --sidebar-logo-offset-block: 0.75rem;
+  --sidebar-nav-offset-block: 9.5rem;
+  --sidebar-nav-width: 14.9375rem;
+  --sidebar-nav-list-width: 14.1875rem;
+  --sidebar-link-width: 14.0625rem;
+  --sidebar-link-height: 2.25rem;
+  --sidebar-link-padding-inline: 1.5rem;
+  --sidebar-link-radius: 0.625rem;
+  --sidebar-nav-gap: 0.125rem;
+  --sidebar-cta-inset-inline-start: 1.0625rem;
+  --sidebar-cta-inset-inline-end: 1.5625rem;
+  --sidebar-cta-offset-block-end: var(--space-5);
+  --footer-reference-width: 101rem;
+  --footer-height: 29.3125rem;
+  --footer-padding: 3rem;
+  --footer-content-height: 23.3125rem;
+  --footer-brand-width: 32.765625rem;
+  --footer-nav-offset-inline: 50.723684%;
+  --footer-nav-offset-block: -0.3125rem;
+  --footer-nav-width: 11.90625rem;
+  --footer-contacts-offset-inline: 75.723684%;
+  --footer-contacts-width: 18.875rem;
+  --footer-copyright-offset-block: 19.78125rem;
+  --footer-legal-offset-block: 21.325rem;
+  --footer-contacts-links-offset-block: 11.3125rem;
+  --footer-section-title-height: 1.3125rem;
+  --footer-link-item-height: 1.5rem;
+
+  --layout-content-gutter: var(--space-5);
+  --layout-grid-columns: 4;
+  --layout-grid-gap: var(--space-4);
+  --layout-editorial-max-width: 101.375rem;
+  --layout-section-gap: 7.5rem;
+
+  --home-hero-panel-width: 49.875rem;
+  --home-hero-panel-height: 47.375rem;
+  --home-hero-content-padding-block-end: 2rem;
+  --home-first-screen-gap: var(--space-4);
+  --home-first-screen-panel-height: calc(100svh - var(--space-5) - var(--home-first-screen-gap) - var(--advantage-height) - var(--space-5));
+  --home-history-height: 34rem;
+  --home-history-heading-offset: 0.9375rem;
+  --home-history-content-height: 29rem;
+  --home-history-lead-width: 43.125rem;
+  --home-history-copy-width: 38.75rem;
+  --home-history-copy-offset-block: 1.25rem;
+  --home-history-teacher-size: 6.25rem;
+  --home-application-height: 38.75rem;
+  --home-application-title-width: 54.75rem;
+  --home-application-title-gap: 2rem;
+
+  --font-family-primary: "F37 Ginger Cyrillic VF", Arial, sans-serif;
+
+  --font-size-display: 5rem;
+  --font-size-heading-1: 4rem;
+  --font-size-heading-2: 2.75rem;
+  --font-size-lead: 2.25rem;
+  --font-size-heading-3: 1.5rem;
+  --font-size-body: 1.25rem;
+  --font-size-caption: 0.875rem;
+  --font-size-body-small: 0.875rem;
+
+  --line-height-display: 0.65;
+  --line-height-heading-1: 0.8;
+  --line-height-heading-2: 0.9;
+  --line-height-lead: 1;
+  --line-height-heading-3: 1.2;
+  --line-height-body: 1.4;
+  --line-height-caption: 1.5;
+  --line-height-body-small: 1.5;
+
+  --letter-spacing-display: -0.3125rem;
+  --letter-spacing-heading-1: -0.1875rem;
+  --letter-spacing-heading-2: -0.125rem;
+  --letter-spacing-lead: -0.0625rem;
+  --letter-spacing-heading-3: -0.0625rem;
+  --letter-spacing-body: -0.03125rem;
+  --letter-spacing-caption: -0.0125rem;
+  --letter-spacing-body-small: -0.0125rem;
+
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-7: 2.5rem;
+
+  --radius-small: 0.5rem;
+  --radius-medium: 1rem;
+  --radius-large: 1.5rem;
+  --radius-full: 9999px;
+}

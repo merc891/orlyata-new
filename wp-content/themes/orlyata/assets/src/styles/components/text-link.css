@@ -1,0 +1,18 @@
+.orlyata-text-link {
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  text-decoration: none;
+}
+
+.orlyata-text-link:hover,
+.orlyata-text-link:active {
+  color: var(--color-text-primary);
+}
+
+.orlyata-text-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}

@@ -1,0 +1,39 @@
+.orlyata-video-preview-page {
+  min-height: 100vh;
+  padding: var(--space-7);
+  background: var(--color-surface-muted);
+}
+
+.orlyata-video-preview-page__inner {
+  display: flex;
+  max-width: var(--media-card-big-width);
+  flex-direction: column;
+  gap: var(--space-5);
+  margin: auto;
+}
+
+.orlyata-video-preview-page__title,
+.orlyata-video-preview-page__description {
+  margin: var(--space-0);
+  font-family: var(--font-family-primary);
+}
+
+.orlyata-video-preview-page__title {
+  font-size: var(--font-size-heading-2);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-heading-2);
+  line-height: var(--line-height-heading-2);
+}
+
+.orlyata-video-preview-page__description {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+@media (width <= 767px) {
+  .orlyata-video-preview-page {
+    padding: var(--space-4);
+  }
+}

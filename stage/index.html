@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Орлята — frontend preview</title>
+  <link rel="stylesheet" href="../wp-content/themes/orlyata/assets/src/styles/main.css">
+</head>
+<body>
+  <div class="orlyata-home">
+    <div class="orlyata-home__sidebar">
+      <aside class="orlyata-sidebar orlyata-sidebar--home">
+        <a class="orlyata-sidebar__logo-link" href="#main" aria-label="Орлята — на главную">
+          <img class="orlyata-sidebar__logo" src="../wp-content/themes/orlyata/assets/icons/logo-orlyata.svg" alt="" width="240" height="110">
+        </a>
+        <nav class="orlyata-sidebar__nav" aria-label="Основная навигация">
+          <ul class="orlyata-sidebar__list">
+            <li class="orlyata-sidebar__item"><a class="orlyata-sidebar__link" href="#history">О капелле</a></li>
+            <li class="orlyata-sidebar__item"><a class="orlyata-sidebar__link" href="#media">Медиагалерея</a></li>
+            <li class="orlyata-sidebar__item"><a class="orlyata-sidebar__link" href="#news">Новости</a></li>
+            <li class="orlyata-sidebar__item"><a class="orlyata-sidebar__link" href="#achievements">Ноты</a></li>
+            <li class="orlyata-sidebar__item"><a class="orlyata-sidebar__link" href="#footer">Контакты</a></li>
+          </ul>
+        </nav>
+        <a class="orlyata-button orlyata-button--primary orlyata-sidebar__cta" href="#application"><span class="orlyata-button__label">Записаться к нам</span></a>
+      </aside>
+    </div>
+
+    <main class="orlyata-home__content" id="main">
+      <div class="orlyata-home__content-grid">
+        <section class="orlyata-home__hero" aria-label="Главное">
+          <div class="orlyata-home__hero-panel orlyata-home__hero-panel--capella">
+            <video class="orlyata-home__hero-preview" src="../wp-content/themes/orlyata/assets/videos/home/hero-preview.mp4" autoplay loop muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+            <a class="orlyata-button orlyata-button--play orlyata-button--icon-only orlyata-home__hero-play" href="../wp-content/themes/orlyata/assets/videos/home/hero-original.mp4" aria-label="Смотреть видео о капелле">
+              <img class="orlyata-button__icon orlyata-button__icon--play" src="../wp-content/themes/orlyata/assets/icons/button-play.svg" alt="" aria-hidden="true">
+            </a>
+            <h1 class="orlyata-home__hero-title type-display"><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text">Хоровая</span></span><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text">капелла</span></span><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text">мальчиков</span></span></h1>
+          </div>
+
+          <section class="orlyata-home__hero-panel orlyata-home__hero-panel--news" aria-labelledby="home-news-title" id="news">
+            <img class="orlyata-home__news-background" src="../wp-content/themes/orlyata/assets/images/home/news-background.png" alt="" aria-hidden="true">
+            <div class="orlyata-home__news-head">
+              <h2 class="type-heading-2" id="home-news-title">Новости</h2>
+              <a class="orlyata-text-link" href="#news">Все новости</a>
+            </div>
+            <div class="orlyata-home__news-grid">
+              <article class="orlyata-news-card">
+                <a class="orlyata-news-card__link" href="#news"><img class="orlyata-news-card__icon" src="../wp-content/themes/orlyata/assets/icons/home/news-theatre.svg" alt="" aria-hidden="true"><h3 class="orlyata-news-card__title">«Крылатое сердце» — большой весенний концерт</h3></a>
+                <span class="orlyata-badge">сегодня</span>
+              </article>
+              <article class="orlyata-news-card">
+                <a class="orlyata-news-card__link" href="#news"><img class="orlyata-news-card__icon" src="../wp-content/themes/orlyata/assets/icons/home/news-star.svg" alt="" aria-hidden="true"><h3 class="orlyata-news-card__title">Ансамбль юношей — Лауреаты I степени</h3></a>
+                <span class="orlyata-badge">21 апреля</span>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <section class="orlyata-home__facts" aria-label="В цифрах и фактах">
+          <div class="orlyata-advantage"><p class="orlyata-advantage__value">80+</p><p class="orlyata-advantage__label">мальчиков и юношей</p></div>
+          <div class="orlyata-advantage"><p class="orlyata-advantage__value">5–17 лет</p><p class="orlyata-advantage__label">возрастной состав</p></div>
+          <div class="orlyata-advantage"><p class="orlyata-advantage__value">6</p><p class="orlyata-advantage__label">опытных педагогов</p></div>
+          <div class="orlyata-advantage"><p class="orlyata-advantage__value">15–20</p><p class="orlyata-advantage__label">выступлений в год</p></div>
+        </section>
+
+        <section class="orlyata-home__section" aria-labelledby="home-media-title" id="media">
+          <div class="orlyata-home__section-head"><h2 class="type-heading-2" id="home-media-title">Медиагалерея</h2><a class="orlyata-text-link" href="#media">Перейти в раздел</a></div>
+          <div class="orlyata-home__media-grid">
+            <article class="orlyata-media-card orlyata-media-card--big">
+              <a class="orlyata-media-card__link" href="#media"><div class="orlyata-media-card__image-wrap"><img class="orlyata-media-card__image" src="../wp-content/themes/orlyata/assets/images/home/media-feature.png" alt="Выступление капеллы на гала-концерте"></div><div class="orlyata-media-card__content"><h3 class="orlyata-media-card__title">Гала-концерт в БЗК (юноши и Вита Нова)</h3><div class="orlyata-media-card__meta"><span class="orlyata-badge orlyata-badge--inverse">Видео</span></div></div></a>
+            </article>
+            <article class="orlyata-media-card orlyata-media-card--small">
+              <a class="orlyata-media-card__link" href="#media"><div class="orlyata-media-card__image-wrap"><img class="orlyata-media-card__image" src="../wp-content/themes/orlyata/assets/images/home/media-video.png" alt="Концерт капеллы в Зеленограде"></div><div class="orlyata-media-card__content"><h3 class="orlyata-media-card__title">Концерт в КЦ «Зеленоград»</h3><div class="orlyata-media-card__meta"><span class="orlyata-badge">Видео</span><span class="orlyata-badge">RuTube</span></div></div></a>
+            </article>
+            <article class="orlyata-media-card orlyata-media-card--small">
+              <a class="orlyata-media-card__link" href="#media"><div class="orlyata-media-card__image-wrap"><img class="orlyata-media-card__image" src="../wp-content/themes/orlyata/assets/images/home/media-photo.png" alt="Участники капеллы"></div><div class="orlyata-media-card__content"><h3 class="orlyata-media-card__title">Концерт лауреатов фестиваля-конкурса VIVAT MUSICA</h3><div class="orlyata-media-card__meta"><span class="orlyata-badge">Фото</span></div></div></a>
+            </article>
+          </div>
+        </section>
+
+        <section class="orlyata-home__section orlyata-home__history" aria-labelledby="home-history-title" id="history">
+          <div class="orlyata-home__section-head"><h2 class="type-heading-2" id="home-history-title">История</h2><a class="orlyata-text-link" href="#history">Подробнее</a></div>
+          <div class="orlyata-home__history-grid">
+            <div class="orlyata-home__history-intro"><p class="orlyata-home__history-lead type-lead">Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман</p><div class="orlyata-home__history-tags"><span class="orlyata-home__history-tag">о капелле</span><span class="orlyata-home__history-tag">педагоги</span></div></div>
+            <div class="orlyata-home__history-details"><p class="orlyata-home__history-copy type-body">Пройдя большой путь в поиске «своего лица и в выборе репертуара, и в стиле работы, планах обучения и приобщения ребят к лучшим образцам певческого искусства, в капелле сложилась устойчивая система музыкально-хорового воспитания мальчиков от 5 до 17 лет</p><div class="orlyata-home__history-teachers"><div class="orlyata-home__history-photos" aria-hidden="true"><span class="orlyata-home__history-photo"><img src="../wp-content/themes/orlyata/assets/images/home/teacher-one.png" alt=""></span><span class="orlyata-home__history-photo"><img src="../wp-content/themes/orlyata/assets/images/home/teacher-two.png" alt=""></span></div><a class="orlyata-home__history-teachers-link" href="#history" aria-label="Перейти к педагогам"><img src="../wp-content/themes/orlyata/assets/icons/button-arrow.svg" alt="" aria-hidden="true"></a></div></div>
+          </div>
+        </section>
+
+        <section class="orlyata-home__section orlyata-home__application" aria-labelledby="home-application-title" id="application">
+          <div class="orlyata-home__application-copy"><h2 class="type-heading-1" id="home-application-title">Хотите вырастить творческую личность — запишите мальчика в капеллу</h2></div>
+          <div class="orlyata-home__application-surface">
+            <img class="orlyata-home__application-background" src="../wp-content/themes/orlyata/assets/images/home/application-background.png" alt="" aria-hidden="true">
+            <section class="orlyata-application-form orlyata-application-form--home orlyata-application-form--default" aria-label="Форма записи в капеллу">
+              <div class="orlyata-application-form__fields">
+                <div class="orlyata-input"><div class="orlyata-input__control"><label class="orlyata-input__label" for="preview-parent-name">ФИО родителя</label><input class="orlyata-input__field" id="preview-parent-name" type="text" autocomplete="name"></div></div>
+                <div class="orlyata-input"><div class="orlyata-input__control"><label class="orlyata-input__label" for="preview-child-name">ФИО ребёнка</label><input class="orlyata-input__field" id="preview-child-name" type="text"></div></div>
+                <div class="orlyata-input"><div class="orlyata-input__control"><label class="orlyata-input__label" for="preview-birth-date">Дата рождения</label><input class="orlyata-input__field" id="preview-birth-date" type="text" inputmode="numeric" maxlength="10" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}"></div></div>
+                <div class="orlyata-input"><div class="orlyata-input__control"><label class="orlyata-input__label" for="preview-phone">Телефон</label><input class="orlyata-input__field" id="preview-phone" type="tel" autocomplete="tel"></div></div>
+              </div>
+              <button class="orlyata-button orlyata-button--primary orlyata-application-form__submit" type="button"><span class="orlyata-button__label">Отправить заявку</span></button>
+              <p class="orlyata-application-form__privacy">Нажимая на кнопку, вы соглашаетесь с&nbsp;<a href="#footer">политикой конфиденциальности</a></p>
+            </section>
+          </div>
+        </section>
+
+        <section class="orlyata-home__section" aria-labelledby="home-achievements-title" id="achievements">
+          <div class="orlyata-home__section-head"><h2 class="type-heading-2" id="home-achievements-title">Достижения</h2><a class="orlyata-text-link" href="#achievements">Все достижения</a></div>
+          <div class="orlyata-home__table-wrap"><table class="orlyata-data-table"><thead><tr><th scope="col">Год</th><th scope="col">Достижение</th><th scope="col">Хор</th><th scope="col">Конкурс</th></tr></thead><tbody><tr><td data-label="Год">2026</td><td data-label="Достижение">Лауреат I степени</td><td data-label="Хор">Старший</td><td data-label="Конкурс">XI Московский областной открытый конкурс хоров мальчиков Подмосковья</td></tr><tr><td data-label="Год">2025</td><td data-label="Достижение">Лауреат II степени</td><td data-label="Хор">Младший</td><td data-label="Конкурс">VII Международный фестиваль хорового искусства</td></tr><tr><td data-label="Год">2024</td><td data-label="Достижение">Дипломант</td><td data-label="Хор">Старший</td><td data-label="Конкурс">IV Всероссийский конкурс хоровых коллективов</td></tr><tr><td data-label="Год">2023</td><td data-label="Достижение">Лауреат I степени</td><td data-label="Хор">Юноши</td><td data-label="Конкурс">X Международный фестиваль хоровой музыки</td></tr></tbody></table></div>
+        </section>
+
+        <div class="orlyata-home__footer" id="footer">
+          <footer class="orlyata-footer"><div class="orlyata-footer__content"><div class="orlyata-footer__brand"><p class="orlyata-footer__slogan"><span>Сегодня орлята,</span><span>а завтра – орлы</span></p></div><p class="orlyata-footer__copyright"><span>© 2005–2026</span><span>Хоровая капелла мальчиков «Орлята»</span></p><nav class="orlyata-footer__navigation" aria-label="Навигация в подвале"><div class="orlyata-footer__navigation-group"><p class="orlyata-footer__section-title">Навигация</p><ul class="orlyata-footer__list"><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#history">О капелле</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#news">Новости</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#achievements">Достижения</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#history">Педагоги</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#achievements">Ноты</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#footer">Контакты</a></li></ul></div><div class="orlyata-footer__navigation-group"><p class="orlyata-footer__section-title">Медиа</p><ul class="orlyata-footer__list"><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#media">Фотогалерея</a></li><li class="orlyata-footer__list-item"><a class="orlyata-footer__link" href="#media">Видео</a></li></ul></div></nav><div class="orlyata-footer__contacts"><div class="orlyata-footer__contacts-address"><p class="orlyata-footer__section-title">Контакты</p><address class="orlyata-footer__address">г. Зеленоград,
+Центральная площадь, 1
+КЦ «Зеленоград»</address></div><div class="orlyata-footer__contact-links"><a class="orlyata-footer__link" href="tel:+79254345198">+7 (925) 434-51-98</a><a class="orlyata-footer__link" href="tel:+79162584912">+7 (916) 258-49-12</a><a class="orlyata-footer__link orlyata-footer__link--email" href="mailto:info@zelorlyata.ru">info@zelorlyata.ru</a></div></div><a class="orlyata-footer__link orlyata-footer__legal" href="#footer">Политика конфиденциальности</a></div></footer>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

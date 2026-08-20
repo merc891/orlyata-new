@@ -1,0 +1,127 @@
+.orlyata-sidebar {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  inline-size: var(--sidebar-width);
+  min-block-size: 100vh;
+  border-inline-end: 1px solid var(--color-border-menu);
+  background: var(--color-surface);
+}
+
+.orlyata-sidebar__logo-link {
+  position: absolute;
+  inset-block-start: var(--sidebar-logo-offset-block);
+  inset-inline-start: 0;
+  display: block;
+  inline-size: var(--sidebar-logo-width);
+  block-size: var(--sidebar-logo-height);
+}
+
+.orlyata-sidebar__logo {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  transition: opacity var(--duration-fast) var(--easing-standard);
+}
+
+.orlyata-sidebar:not(.orlyata-sidebar--home) .orlyata-sidebar__logo-link:hover .orlyata-sidebar__logo {
+  opacity: var(--opacity-interactive-hover);
+}
+
+.orlyata-sidebar__nav {
+  position: absolute;
+  inset-block-start: var(--sidebar-nav-offset-block);
+  inset-inline-start: 0;
+  inline-size: var(--sidebar-nav-width);
+}
+
+.orlyata-sidebar__list {
+  display: flex;
+  inline-size: var(--sidebar-nav-list-width);
+  flex-direction: column;
+  gap: var(--sidebar-nav-gap);
+  padding: var(--space-4) 0 0;
+  margin: 0;
+  list-style: none;
+}
+
+.orlyata-sidebar__item {
+  padding: 0;
+  margin: 0;
+}
+
+.orlyata-sidebar__link {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  inline-size: var(--sidebar-link-width);
+  min-block-size: var(--sidebar-link-height);
+  padding: var(--space-1) var(--sidebar-link-padding-inline);
+  border-radius: var(--sidebar-link-radius);
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  text-decoration: none;
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+.orlyata-sidebar__link:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-text-primary);
+}
+
+.orlyata-sidebar__link.is-current,
+.orlyata-sidebar__link[aria-current="page"] {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  color: var(--color-text-primary);
+}
+
+.orlyata-sidebar__link.is-current::before,
+.orlyata-sidebar__link[aria-current="page"]::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 var(--space-2);
+  border-radius: var(--sidebar-link-radius);
+  background: var(--color-surface-muted);
+  content: "";
+}
+
+.orlyata-sidebar__link:focus-visible,
+.orlyata-sidebar__logo-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.orlyata-sidebar__link:active {
+  opacity: var(--opacity-interactive-active);
+}
+
+.orlyata-sidebar__cta {
+  position: absolute;
+  inset-block-end: var(--sidebar-cta-offset-block-end);
+  inset-inline-start: var(--sidebar-cta-inset-inline-start);
+  inset-inline-end: var(--sidebar-cta-inset-inline-end);
+  inline-size: auto;
+}
+
+@media (max-width: 1279px) {
+  .orlyata-sidebar {
+    display: none;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orlyata-sidebar__link,
+  .orlyata-sidebar__logo {
+    transition: none;
+  }
+}

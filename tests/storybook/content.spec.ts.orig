@@ -1,0 +1,251 @@
+import AxeBuilder from '@axe-core/playwright';
+import { expect, test } from '@playwright/test';
+
+import { expectGingerLoaded, viewports } from './visual';
+
+const stories = [
+  'components-link--variants',
+  'components-badge--variants',
+  'components-input--states',
+  'components-accordion--states',
+  'components-advantage--variants',
+  'components-news-card--variants',
+  'components-media-card--variants',
+  'components-data-table--variants',
+] as const;
+
+async function openStory(page: import('@playwright/test').Page, story: string): Promise<void> {
+  await page.goto('/iframe.html?id=' + story + '&viewMode=story');
+  await expect(page.locator('main.component-page')).toBeVisible({ timeout: 15_000 });
+  await expectGingerLoaded(page);
+}
+
+for (const story of stories) {
+  test(story + ' has no automatic accessibility violations', async ({ page }) => {
+    await openStory(page, story);
+
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(results.violations).toEqual([]);
+  });
+
+  for (const viewport of viewports) {
+    test(story + ' visual ' + viewport.name, async ({ page }) => {
+      await page.setViewportSize(viewport);
+      await openStory(page, story);
+      await expect(page).toHaveScreenshot(story + '-' + viewport.name + '.png', { fullPage: true });
+    });
+  }
+}
+
+test('Link preserves native navigation semantics', async ({ page }) => {
+  await openStory(page, 'components-link--variants');
+
+  await expect(page.getByRole('link', { name: 'О капелле' })).toBeVisible();
+});
+
+test('Input preserves native form semantics', async ({ page }) => {
+  await openStory(page, 'components-input--states');
+
+  await expect(page.getByRole('textbox', { name: 'ФИО родителя' }).first()).toBeVisible();
+});
+
+test('Accordion preserves native disclosure semantics', async ({ page }) => {
+  await openStory(page, 'components-accordion--states');
+
+  const accordion = page.locator('.orlyata-accordion').first();
+  await expect(accordion).not.toHaveAttribute('open', '');
+  await accordion.locator('summary').click();
+  await expect(accordion).toHaveAttribute('open', '');
+});
+
+test('DataTable preserves semantic table markup', async ({ page }) => {
+  await openStory(page, 'components-data-table--variants');
+
+  await expect(page.getByRole('table')).toBeVisible();
+  await expect(page.getByRole('columnheader', { name: 'Достижение' })).toBeVisible();
+});
+
+test('Accordion uses Figma icons, hover color and animated disclosure', async ({ page }) => {
+  await openStory(page, 'components-accordion--states');
+
+  const accordion = page.locator('.orlyata-accordion').first();
+  const summary = accordion.locator('summary');
+  const title = accordion.locator('.orlyata-accordion__title');
+  const toggle = accordion.locator('.orlyata-accordion__toggle');
+
+  const plusMask = await toggle.evaluate((element) => window.getComputedStyle(element).maskImage);
+  expect(plusMask).toContain("stroke-width='2'");
+  await summary.hover();
+  await expect(title).toHaveCSS('color', 'rgb(113, 113, 122)');
+  const openDuration = await summary.evaluate((element) => {
+    if (!(element instanceof HTMLElement)) {
+      return undefined;
+    }
+
+    element.click();
+    const content = element.parentElement?.querySelector('.orlyata-accordion__content');
+    const animation = content?.getAnimations()[0];
+    return animation?.effect?.getTiming().duration;
+  });
+  expect(openDuration).toBe(240);
+  await expect(accordion).toHaveAttribute('open', '');
+  const minusMask = await toggle.evaluate((element) => window.getComputedStyle(element).maskImage);
+  expect(minusMask).toContain("stroke-width='2'");
+  expect(minusMask).not.toBe(plusMask);
+  await page.waitForTimeout(260);
+  const closeDuration = await summary.evaluate((element) => {
+    if (!(element instanceof HTMLElement)) {
+      return undefined;
+    }
+
+    element.click();
+    const content = element.parentElement?.querySelector('.orlyata-accordion__content');
+    const animation = content?.getAnimations()[0];
+    return animation?.effect?.getTiming().duration;
+  });
+  expect(closeDuration).toBe(240);
+  await expect(accordion).toHaveAttribute('open', '');
+  await page.waitForTimeout(260);
+  await expect(accordion).not.toHaveAttribute('open', '');
+});
+
+test('Advantage matches the approved 170px vertical geometry', async ({ page }) => {
+  await openStory(page, 'components-advantage--variants');
+
+  const card = page.locator('.orlyata-advantage').first();
+  const value = card.locator('.orlyata-advantage__value');
+  const label = card.locator('.orlyata-advantage__label');
+  const [cardBox, valueBox, labelBox] = await Promise.all([card.boundingBox(), value.boundingBox(), label.boundingBox()]);
+
+  expect(cardBox?.height).toBe(170);
+  expect(valueBox?.y).toBe(cardBox === null ? undefined : cardBox.y + 24);
+  expect(labelBox === null || cardBox === null ? undefined : labelBox.y + labelBox.height).toBe(cardBox === null ? undefined : cardBox.y + 146);
+  await expect(label).toHaveCSS('color', 'rgb(111, 111, 120)');
+});
+
+test('Badge inverse uses the white surface token', async ({ page }) => {
+  await openStory(page, 'components-badge--variants');
+
+  const inverse = page.locator('.orlyata-badge--inverse');
+  await expect(inverse).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(inverse).toHaveCSS('border-color', 'rgb(255, 255, 255)');
+});
+
+test('Input exposes all four Figma states', async ({ page }) => {
+  await openStory(page, 'components-input--states');
+
+  const inputs = page.locator('.orlyata-input');
+  const labels = page.locator('.orlyata-input__label');
+  const controls = page.locator('.orlyata-input__control');
+
+  await expect(inputs).toHaveCount(4);
+  await expect(inputs.nth(0)).not.toHaveClass(/is-filled|is-typing|has-error/);
+  await expect(inputs.nth(1)).toHaveClass(/is-typing/);
+  await expect(inputs.nth(2)).toHaveClass(/is-filled/);
+  await expect(inputs.nth(3)).toHaveClass(/has-error/);
+  await expect(labels.nth(0)).toHaveCSS('font-size', '20px');
+  await expect(labels.nth(1)).toHaveCSS('font-size', '14px');
+  await expect(labels.nth(2)).toHaveCSS('font-size', '14px');
+  await expect(labels.nth(3)).toHaveCSS('font-size', '20px');
+
+  for (const label of await labels.all()) {
+    await expect(label).toHaveCSS('color', 'rgb(111, 111, 120)');
+  }
+
+  await expect(controls.nth(1)).toHaveCSS('border-color', 'rgb(33, 166, 66)');
+  await expect(controls.nth(3)).toHaveCSS('border-color', 'rgb(214, 58, 58)');
+  expect((await controls.nth(0).boundingBox())?.height).toBe(64);
+});
+
+test('Storybook exposes typed Playground stories for every current component', async ({ request }) => {
+  const response = await request.get('/index.json');
+  expect(response.ok()).toBe(true);
+  const index = await response.json() as { entries: Record<string, unknown> };
+  const expected = [
+    'components-accordion--playground',
+    'components-advantage--playground',
+    'components-badge--playground',
+    'components-button--playground',
+    'components-data-table--playground',
+    'components-input--playground',
+    'components-link--playground',
+    'components-media-card--playground',
+    'components-news-card--playground',
+  ];
+
+  for (const story of expected) {
+    expect(index.entries).toHaveProperty(story);
+  }
+});
+
+test('Input Playground responds to serialized Control args', async ({ page }) => {
+  await page.goto('/iframe.html?id=components-input--playground&viewMode=story&args=label:Имя;state:typing;value:Иван');
+  await expect(page.locator('main.component-page')).toBeVisible({ timeout: 15_000 });
+  await expect(page.locator('.orlyata-input__label')).toHaveText('Имя');
+  await expect(page.locator('.orlyata-input__field')).toHaveValue('Иван');
+  await expect(page.locator('.orlyata-input')).toHaveClass(/is-typing/);
+});
+
+test('Input matches Figma stacked geometry and uses one focus border', async ({ page }) => {
+  await openStory(page, 'components-input--states');
+
+  for (const index of [1, 2]) {
+    const control = page.locator('.orlyata-input__control').nth(index);
+    const label = page.locator('.orlyata-input__label').nth(index);
+    const field = page.locator('.orlyata-input__field').nth(index);
+    const [controlBox, labelBox, fieldBox] = await Promise.all([
+      control.boundingBox(),
+      label.boundingBox(),
+      field.boundingBox(),
+    ]);
+
+    expect(controlBox?.height).toBe(64);
+    expect(labelBox?.height).toBe(21);
+    expect(fieldBox?.height).toBe(28);
+    expect(labelBox === null || fieldBox === null ? undefined : fieldBox.y - labelBox.y - labelBox.height).toBeCloseTo(0, 1);
+    expect(controlBox === null || labelBox === null ? undefined : labelBox.y - controlBox.y).toBeCloseTo(7.5, 1);
+    expect(controlBox === null || fieldBox === null ? undefined : controlBox.y + controlBox.height - fieldBox.y - fieldBox.height).toBeCloseTo(7.5, 1);
+  }
+
+  const defaultControl = page.locator('.orlyata-input__control').first();
+  await page.locator('.orlyata-input__field').first().focus();
+  await page.waitForTimeout(180);
+  await expect(defaultControl).toHaveCSS('border-color', 'rgb(33, 166, 66)');
+  await expect(defaultControl).toHaveCSS('outline-style', 'none');
+});
+
+test('MediaCard matches 540px cards, small spacing and title weight', async ({ page }) => {
+  await openStory(page, 'components-media-card--variants');
+
+  const big = page.locator('.orlyata-media-card--big');
+  const small = page.locator('.orlyata-media-card--small');
+  const smallImage = small.locator('.orlyata-media-card__image-wrap');
+  const smallTitle = small.locator('.orlyata-media-card__title');
+  const smallMeta = small.locator('.orlyata-media-card__meta');
+  const [bigBox, smallBox, imageBox, titleBox, metaBox] = await Promise.all([
+    big.boundingBox(),
+    small.boundingBox(),
+    smallImage.boundingBox(),
+    smallTitle.boundingBox(),
+    smallMeta.boundingBox(),
+  ]);
+
+  expect(bigBox?.height).toBe(540);
+  expect(smallBox?.height).toBe(540);
+  expect(imageBox === null || titleBox === null ? undefined : titleBox.y - imageBox.y - imageBox.height).toBe(16);
+  expect(metaBox === null || smallBox === null ? undefined : metaBox.y + metaBox.height).toBe(smallBox === null ? undefined : smallBox.y + smallBox.height);
+  await expect(big.locator('.orlyata-badge--inverse')).toHaveCount(2);
+  await expect(big.locator('.orlyata-media-card__title')).toHaveCSS('font-weight', '500');
+  await expect(smallTitle).toHaveCSS('font-weight', '500');
+});
+
+test('NewsCard title uses Figma weight 500', async ({ page }) => {
+  await openStory(page, 'components-news-card--variants');
+
+  const card = page.locator('.orlyata-news-card');
+  const badge = card.locator('.orlyata-badge');
+  const [cardBox, badgeBox] = await Promise.all([card.boundingBox(), badge.boundingBox()]);
+
+  await expect(card.locator('.orlyata-news-card__title')).toHaveCSS('font-weight', '500');
+  expect(badgeBox === null || cardBox === null ? undefined : badgeBox.width).toBeLessThan(Math.min(cardBox?.width ?? 0, 200));
+});

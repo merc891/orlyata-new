@@ -1,0 +1,185 @@
+.orlyata-footer {
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: var(--footer-reference-width);
+  block-size: var(--footer-height);
+  padding: var(--footer-padding);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-family-primary);
+}
+
+.orlyata-footer__content {
+  position: relative;
+  block-size: var(--footer-content-height);
+}
+
+.orlyata-footer__brand {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: min(var(--footer-brand-width), 40%);
+}
+
+.orlyata-footer__slogan {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-heading-2);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-heading-2);
+  line-height: var(--line-height-heading-2);
+}
+
+.orlyata-footer__copyright {
+  position: absolute;
+  inset-block-start: var(--footer-copyright-offset-block);
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  color: var(--color-text-secondary-on-inverse);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-footer__navigation {
+  position: absolute;
+  inset-block-start: var(--footer-nav-offset-block);
+  inset-inline-start: var(--footer-nav-offset-inline);
+  display: flex;
+  inline-size: var(--footer-nav-width);
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+.orlyata-footer__navigation-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.orlyata-footer__section-title {
+  box-sizing: border-box;
+  block-size: var(--footer-section-title-height);
+  padding: 0;
+  margin: 0;
+  color: var(--color-text-secondary-on-inverse);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-footer__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.orlyata-footer__navigation-group:last-child .orlyata-footer__list {
+  gap: var(--space-4);
+}
+
+.orlyata-footer__list-item {
+  block-size: var(--footer-link-item-height);
+  padding: 0;
+  margin: 0;
+}
+
+.orlyata-footer__link {
+  display: inline-block;
+  color: var(--color-surface-muted);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  text-decoration: none;
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+}
+
+.orlyata-footer__link:hover {
+  color: var(--color-text-inverse);
+}
+
+.orlyata-footer__link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.orlyata-footer__link:active {
+  opacity: var(--opacity-interactive-active);
+}
+
+.orlyata-footer__contacts {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: var(--footer-contacts-offset-inline);
+  inline-size: min(var(--footer-contacts-width), 24.276316%);
+  block-size: 17rem;
+}
+
+.orlyata-footer__contacts-address {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.orlyata-footer__address {
+  padding: 0;
+  margin: 0;
+  color: var(--color-surface-muted);
+  font-size: var(--font-size-body);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  white-space: pre-line;
+}
+
+.orlyata-footer__contact-links {
+  position: absolute;
+  inset-block-start: var(--footer-contacts-links-offset-block);
+  inset-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.orlyata-footer__link--email {
+  margin-block-start: var(--space-1);
+}
+
+.orlyata-footer__legal {
+  position: absolute;
+  inset-block-start: var(--footer-legal-offset-block);
+  inset-inline-start: var(--footer-contacts-offset-inline);
+  color: var(--color-text-secondary-on-inverse);
+  white-space: nowrap;
+}
+
+@media (max-width: 1279px) {
+  .orlyata-footer {
+    display: none;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .orlyata-footer__link {
+    transition: none;
+  }
+}

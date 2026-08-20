@@ -1,0 +1,153 @@
+name: ${COMPOSE_PROJECT_NAME:-orlyata}
+
+services:
+  db:
+    image: mysql:8.0.46
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-local-root-password}
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping --host=localhost --user=root --password=$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mailpit:
+    image: axllent/mailpit:v1.30.6
+    restart: unless-stopped
+    environment:
+      MP_WEBROOT: /mailpit/
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
+
+  wordpress:
+    build:
+      context: docker/wordpress
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    environment: &wordpress-environment
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_ENVIRONMENT_TYPE', 'development' );
+        define( 'WP_HOME', '${WP_URL:-http://localhost:8080}' );
+        define( 'WP_SITEURL', '${WP_URL:-http://localhost:8080}' );
+        if ( isset( $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) && str_contains( $$_SERVER['HTTP_X_FORWARDED_PROTO'], 'https' ) ) {
+          $$_SERVER['HTTPS'] = 'on';
+        }
+        define( 'WP_DEBUG_LOG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+        define( 'DISALLOW_FILE_EDIT', true );
+        define( 'AUTOMATIC_UPDATER_DISABLED', true );
+    ports:
+      - "127.0.0.1:${WP_PORT:-8080}:80"
+    volumes: &wordpress-volumes
+      - wordpress_core:/var/www/html
+      - wordpress_uploads:/var/www/html/wp-content/uploads
+      - ./wp-content/themes/orlyata:/var/www/html/wp-content/themes/orlyata:ro
+      - ./wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins:ro
+
+  wp-cli:
+    image: wordpress:cli-2.12.0-php8.3
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
+    environment:
+      <<: *wordpress-environment
+      HOME: /tmp
+    volumes: *wordpress-volumes
+    profiles: ["tools"]
+
+  node:
+    image: node:24.18.0-bookworm-slim
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /app
+    environment:
+      HOME: /tmp
+      npm_config_cache: /tmp/npm-cache
+    ports:
+      - "127.0.0.1:${VITE_PORT:-5173}:5173"
+    volumes:
+      - .:/app
+    profiles: ["tools"]
+
+  visual:
+    image: mcr.microsoft.com/playwright:v1.62.1-noble
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /app
+    environment:
+      HOME: /tmp
+    volumes:
+      - .:/app
+    profiles: ["tools"]
+
+  qa:
+    build:
+      context: docker/qa
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    working_dir: /app
+    environment:
+      COMPOSER_HOME: /tmp/composer
+    volumes:
+      - .:/app
+    profiles: ["tools"]
+
+  proxy:
+    build:
+      context: docker/proxy
+    restart: unless-stopped
+    depends_on:
+      wordpress:
+        condition: service_started
+      mailpit:
+        condition: service_started
+    environment:
+      STAGING_AUTH_USER: ${STAGING_AUTH_USER:-orlyata}
+      STAGING_AUTH_PASSWORD: ${STAGING_AUTH_PASSWORD:?Set STAGING_AUTH_PASSWORD in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot_webroot:/var/www/certbot:ro
+      - ./public-artifacts:/var/www/public-artifacts:ro
+
+  certbot:
+    image: certbot/certbot:v5.4.0
+    restart: unless-stopped
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        trap 'exit 0' TERM INT
+        while :; do
+          certbot renew --quiet
+          sleep 43200 & wait $$!
+        done
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_webroot:/var/www/certbot
+    profiles: ["staging"]
+
+volumes:
+  mysql_data:
+  wordpress_core:
+  wordpress_uploads:
+  letsencrypt:
+  certbot_webroot:
+
