@@ -392,8 +392,8 @@
       "easing-home-hero-title-fade": "cubic-bezier(0.5, 0, 0, 1)",
       "duration-home-block-reveal-ms": 600,
       "duration-home-fact-card-slide-in-ms": 600,
-      "duration-about-hero-title-reveal-ms": 400,
-      "about-hero-title-reveal-start-offset-px": 20,
+      "duration-page-hero-title-reveal-ms": 400,
+      "page-hero-title-reveal-start-offset-px": 20,
 
       "easing-home-fact-card-slide-in": "cubic-bezier(0, 0, 0.06, 1)",
       "easing-home-fact-card-fade-in": "cubic-bezier(0, 0, 0.06, 1)",
@@ -927,6 +927,18 @@
         "mobile menu"
       ]
     },
+    "PageHero": {
+      "path": "wp-content/themes/orlyata/template-parts/components/page-hero.php",
+      "figma": "Shared internal-page Hero",
+      "variants": ["default"],
+      "states": ["default", "title-reveal"],
+      "usage_rules": [
+        "The component owns radius-large by default. A full-bleed page may override only its outer corners to preserve the page shell.",
+        "With JavaScript, the title reveals once on initialization from opacity 0 and translateY(1.25rem) to its resting state over 400ms with easing-home-reveal. Without JavaScript, the title remains immediately visible.",
+        "The image is decorative unless image_alt is supplied, and fills the Hero with object-fit: cover."
+      ],
+      "gaps": ["tablet", "mobile"]
+    },
     "Footer": {
       "path": "wp-content/themes/orlyata/template-parts/layout/footer.php",
       "figma": "Footer / 4641:3638",
@@ -982,8 +994,8 @@
         "Across 1280–2560px, the About shell, editorial grid, sections and their internals follow S = viewportWidth / 1920 clamped to 0.666667–1.333333, except documented minimums.",
         "The Life of the Capella two-column block has an 803 by 600 px reference box per column at 1920 px. Its text surface and photograph share the approved 803/600 aspect ratio; padding and the 32 px heading-to-grid gap use the same S. The text surface is a three-slide progressive-enhancement carousel: each slide has a Lead heading and Body content limited to 600 px at the 1920 px reference, while the right photograph changes with the selected slide. Without JavaScript all approved slide text remains available in source order. The Life carousel reuses the existing Button arrow-left and arrow-right variants. At the 1920 px reference arrows are inset 24 px from the left and bottom of the dark surface; slide text ends 32 px above their top edge. Its Figma pagination has three 6 px circular controls, a 12 px gap and a 24 px bottom inset; it is aligned to the surface right inset. The selected dot uses color-brand; inactive dots use color-text-secondary-on-inverse. Control insets and dot geometry follow S across desktop. Slide text reveals from opacity 0 to 1 over 400 ms with easing-out. Pagination transitions its color and scale; the selected dot is white. The image stack clips within the approved photograph box and slides horizontally in the arrow direction over the same 400 ms easing-out, without changing the box geometry.",
         "The Teachers grid has six equal cards at the 1920 px reference. Each card preserves its allocated-width aspect ratio of 257/340; its 160 px portrait, 71 px portrait-to-name gap, padding, type and grid gaps follow S. The 24 px minimum outer gutter may constrain the available grid width but must not distort the card ratio.",
-        "At page initialization, the About Hero title enters from translateY(20 px) to 0 while fading from opacity 0 to 1 over 400 ms with cubic-bezier(0, 0, 0.18, 1). This motion applies only to the About page title, not the reusable PageHero component or other page Heroes; without JavaScript the title remains immediately visible. The first About block Lead is section content and fades without a translateY transform, like the rest of that block.",
-        "Every About section except the Page Hero and Footer uses the approved Home SectionReveal: once its top enters the viewport 200 px above the lower edge, its heading reveals from opacity 0 and translateY(20 px) over 600 ms with easing-home-reveal, then its content fades from opacity 0 to 1 over the same 600 ms duration after the existing 400 ms delay. The intro and choir groups form one reveal block: the Lead, copy and accordion rows are its delayed content and fade without a translateY transform. Other sections without a heading reveal their content directly. The Hero motion is intentionally excluded pending a separate approved contract, and server-rendered content stays fully available without JavaScript.",
+        "The shared PageHero owns its one-time title reveal: translateY(20 px) and opacity 0 to the resting state and opacity 1 over 400 ms with cubic-bezier(0, 0, 0.18, 1). Without JavaScript the title remains immediately visible. The first About block Lead is section content and fades without a translateY transform, like the rest of that block.",
+        "Every About section except the Footer uses the approved Home SectionReveal; PageHero uses its own component-owned title reveal: once its top enters the viewport 200 px above the lower edge, its heading reveals from opacity 0 and translateY(20 px) over 600 ms with easing-home-reveal, then its content fades from opacity 0 to 1 over the same 600 ms duration after the existing 400 ms delay. The intro and choir groups form one reveal block: the Lead, copy and accordion rows are its delayed content and fade without a translateY transform. Other sections without a heading reveal their content directly. The Hero motion is intentionally excluded pending a separate approved contract, and server-rendered content stays fully available without JavaScript.",
         "Life and Teachers are page sections, not new universal components. Their geometry is owned by documented About page tokens and must not use independently scaled fixed heights."
       ],
       "geometry": {
@@ -1001,6 +1013,23 @@
         "teacher_portrait_to_name_gap_reference_px": 71
       },
       "sections": ["intro", "choir groups", "life of the capella", "teachers", "application CTA", "achievements", "Footer"]
+    },
+    "MediaGalleryDesktopPreview": {
+      "figma": "Медиагалерея / 4566:3131",
+      "status": "desktop-preview-defined",
+      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "implementation_rules": [
+        "The page reuses the shared Sidebar, PageHero, MediaCard and Footer without page-specific component variants or overrides.",
+        "At the 1920px reference, the gap from the PageHero to the three-card media block is 4rem (64px). It follows the common desktop S envelope through --media-gallery-hero-content-gap.",
+        "The media block exactly reuses the approved Home composition: one Big MediaCard followed by two Small MediaCards in the four-column editorial grid. The page allocates grid spans only; MediaCard owns its ratios and internal geometry.",
+        "Desktop preview content is server-rendered and works without JavaScript. CMS queries and the photo/video list previews are outside this initial page slice."
+      ],
+      "geometry": {
+        "hero_content_gap_reference_px": 64,
+        "hero_content_gap_css": "--media-gallery-hero-content-gap",
+        "media_cards": "1 Big and 2 Small MediaCards using the Home grid composition"
+      },
+      "sections": ["PageHero", "media navigation block", "Footer"]
     },
     "HomeDesktopPreview": {
       "figma": "Главная / 4641:3330",
@@ -1151,7 +1180,7 @@
       "Icons supplement labels and must not be the only accessible name."
     ],
     "motion_rules": [
-      "Only the approved Home Hero title reveal, Hero preview hover feedback, Home teacher CTA arrow hover feedback and Teacher card text roll hover feedback may animate. Teacher card hover rolls the surname and given-name line vertically using duration-link-roll and easing-link-roll, and scales only the portrait inside its fixed 160×160 clipping container to 110% using duration-media-card-hover and easing-media-card-hover. Card geometry remains fixed.",
+      "PageHero title reveal, the approved Home Hero title reveal, Hero preview hover feedback, Home teacher CTA arrow hover feedback and Teacher card text roll hover feedback may animate. Teacher card hover rolls the surname and given-name line vertically using duration-link-roll and easing-link-roll, and scales only the portrait inside its fixed 160×160 clipping container to 110% using duration-media-card-hover and easing-media-card-hover. Card geometry remains fixed.",
       "The muted looping Home Hero preview is the only approved autoplay media; do not add other autoplay media or continuous ornamental motion.",
       "Do not use an operating-system motion-preference media feature or JavaScript check."
     ],

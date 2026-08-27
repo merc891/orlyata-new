@@ -455,19 +455,17 @@ export const initializeAboutSectionReveal = (): void => {
   });
 };
 
-export const initializeAboutHeroTitleReveal = (): void => {
-  document.querySelectorAll<HTMLElement>(".orlyata-about").forEach((about) => {
-    if (about.dataset.heroTitleRevealInitialized === "true") return;
+export const initializePageHeroTitleReveal = (): void => {
+  document.querySelectorAll<HTMLElement>(".orlyata-page-hero").forEach((hero) => {
+    if (hero.dataset.titleRevealInitialized === "true") return;
 
-    about.dataset.heroTitleRevealInitialized = "true";
-    const reveal = (): void => {
-      window.requestAnimationFrame(() => about.classList.add("is-hero-title-revealed"));
-    };
-
-    reveal();
+    hero.dataset.titleRevealInitialized = "true";
+    window.requestAnimationFrame(() => {
+      hero.classList.add("is-title-revealed");
+    });
   });
 };
 
-initializeAboutHeroTitleReveal();
+initializePageHeroTitleReveal();
 initializeAboutSectionReveal();
 initializeApplicationFormValidation();

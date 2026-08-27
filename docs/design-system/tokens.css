@@ -55,8 +55,8 @@
   --duration-button-hover: 200ms;
   --duration-application-form-success-reveal: 400ms;
   --duration-about-life-slide-transition: 400ms;
-  --duration-about-hero-title-reveal: 400ms;
-  --about-hero-title-reveal-start-offset: 1.25rem;
+  --duration-page-hero-title-reveal: 400ms;
+  --page-hero-title-reveal-start-offset: 1.25rem;
 
   --duration-button-loading-dots: 1350ms;
   --easing-button-loading-dots: cubic-bezier(0.333, 0, 0.667, 1);
@@ -184,6 +184,7 @@
   --page-hero-height: 22.1875rem;
   --page-hero-padding-inline-start: 1.5rem;
   --page-hero-padding-block-end: 2rem;
+  --media-gallery-hero-content-gap: 4rem;
   --about-intro-offset-block: 4rem;
   --about-intro-lead-width: 43.125rem;
   --about-intro-copy-width: 45rem;
@@ -383,6 +384,7 @@
     --page-hero-height: clamp(14.791667rem, 18.489583vw, 29.583333rem);
     --page-hero-padding-inline-start: clamp(1rem, 1.25vw, 2rem);
     --page-hero-padding-block-end: clamp(1.333333rem, 1.666667vw, 2.666667rem);
+    --media-gallery-hero-content-gap: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --about-intro-offset-block: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --about-intro-lead-width: clamp(28.75rem, 35.9375vw, 57.5rem);
     --about-intro-copy-width: clamp(30rem, 37.5vw, 60rem);

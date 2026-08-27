@@ -17,8 +17,7 @@ test('About desktop preview renders the Figma composition without horizontal ove
   await expect(page.locator(".orlyata-about__intro .orlyata-about__lead")).toHaveCSS("animation-name", "orlyata-home-media-card-reveal");
   const hero = page.locator('.orlyata-page-hero');
   const heroTitle = hero.locator(".orlyata-page-hero__title");
-  await expect(page.locator(".orlyata-about")).toHaveClass(/is-hero-title-revealed/);
-  await expect(heroTitle).toHaveCSS("animation-name", "orlyata-about-hero-title-reveal");
+  await expect(heroTitle).toHaveCSS("animation-name", "orlyata-page-hero-title-reveal");
   await expect(heroTitle).toHaveCSS("animation-duration", "0.4s");
   await expect(heroTitle).toHaveCSS("animation-timing-function", "cubic-bezier(0, 0, 0.18, 1)");
   await expect(heroTitle).toHaveCSS("transform", "none");

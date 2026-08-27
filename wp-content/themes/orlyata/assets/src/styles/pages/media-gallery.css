@@ -1,0 +1,61 @@
+.orlyata-media-gallery {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+}
+
+.orlyata-media-gallery__content {
+  min-width: 0;
+  flex: auto;
+}
+
+.orlyata-media-gallery .orlyata-page-hero {
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+}
+
+.orlyata-media-gallery__body {
+  box-sizing: border-box;
+  padding: var(--media-gallery-hero-content-gap) var(--layout-content-gutter) var(--space-5);
+}
+
+.orlyata-media-gallery__section,
+.orlyata-media-gallery__grid {
+  display: grid;
+  width: min(100%, var(--layout-editorial-max-width));
+  grid-template-columns: repeat(var(--layout-grid-columns), minmax(0, 1fr));
+  gap: var(--layout-grid-gap);
+  margin-inline: auto;
+}
+
+.orlyata-media-gallery__section-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.orlyata-media-gallery__section-head h2 {
+  margin: 0;
+}
+
+.orlyata-media-gallery__grid {
+  grid-column: 1 / -1;
+  margin-block-start: var(--space-6);
+}
+
+.orlyata-media-gallery__grid .orlyata-media-card {
+  width: 100%;
+  height: auto;
+}
+
+@media (width >= 1280px) {
+  .orlyata-media-gallery__grid .orlyata-media-card--big {
+    grid-column: span 2;
+    aspect-ratio: var(--media-card-big-aspect-ratio);
+  }
+
+  .orlyata-media-gallery__grid .orlyata-media-card--small {
+    aspect-ratio: var(--media-card-small-aspect-ratio);
+  }
+}

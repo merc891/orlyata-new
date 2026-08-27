@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/html-vite';
 import type { ViewportMap } from 'storybook/viewport';
 
-import { initializeAboutHeroTitleReveal, initializeAboutSectionReveal, initializeAccordions, initializeMediaCardVideoPreviews } from '../wp-content/themes/orlyata/assets/src/main';
+import { initializePageHeroTitleReveal, initializeAboutSectionReveal, initializeAccordions, initializeMediaCardVideoPreviews } from '../wp-content/themes/orlyata/assets/src/main';
 import './preview.css';
 
 const viewport = (name: string, width: number, height: number) => ({
@@ -28,7 +28,7 @@ const preview = {
       const canvas = story();
       window.requestAnimationFrame(initializeMediaCardVideoPreviews);
       window.requestAnimationFrame(() => initializeAccordions());
-      window.requestAnimationFrame(() => initializeAboutHeroTitleReveal());
+      window.requestAnimationFrame(() => initializePageHeroTitleReveal());
       window.requestAnimationFrame(() => initializeAboutSectionReveal());
       return canvas;
     },

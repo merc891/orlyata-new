@@ -1,1 +1,44 @@
-.orlyata-page-hero{box-sizing:border-box;position:relative;display:flex;height:var(--page-hero-height);align-items:flex-end;padding:0 0 var(--page-hero-padding-block-end) var(--page-hero-padding-inline-start);overflow:hidden;color:var(--color-text-inverse)}.orlyata-page-hero__image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.orlyata-page-hero__title{z-index:1;margin:0}
+.orlyata-page-hero {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  height: var(--page-hero-height);
+  align-items: flex-end;
+  padding: 0 0 var(--page-hero-padding-block-end) var(--page-hero-padding-inline-start);
+  overflow: hidden;
+  border-radius: var(--radius-large);
+  color: var(--color-text-inverse);
+}
+
+.orlyata-page-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.orlyata-page-hero__title {
+  z-index: 1;
+  margin: 0;
+}
+
+.has-js .orlyata-page-hero__title {
+  opacity: 0;
+}
+
+.has-js .orlyata-page-hero.is-title-revealed .orlyata-page-hero__title {
+  animation: orlyata-page-hero-title-reveal var(--duration-page-hero-title-reveal) var(--easing-home-reveal) both;
+}
+
+@keyframes orlyata-page-hero-title-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--page-hero-title-reveal-start-offset));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

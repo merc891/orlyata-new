@@ -3,6 +3,7 @@
   box-sizing: border-box;
   grid-column: 1 / -1;
   margin-block-start: var(--footer-preceding-gap);
+  margin-inline: auto;
   inline-size: 100%;
   max-inline-size: var(--footer-reference-width);
   block-size: auto;
