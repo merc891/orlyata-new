@@ -40,14 +40,20 @@ test('Footer matches the approved Figma desktop geometry', async ({ page }) => {
   expect(footerBox).toMatchObject({ x: 0, y: 0, width: 1616, height: 469 });
   expect(contentBox).toMatchObject({ x: 48, y: 48, width: 1520, height: 373 });
   expect(sloganBox).toMatchObject({ x: 48, y: 48 });
-  expect(navigationBox).toMatchObject({ x: 819, y: 43, width: 190.5, height: 378 });
-  expect(contactsBox).toMatchObject({ x: 1199, y: 48, width: 302, height: 272 });
+  expect(navigationBox).toMatchObject({ x: 819, y: 43, width: 190.5, height: 370 });
+  expect(contactsBox).toMatchObject({ x: 1224, y: 48, width: 302, height: 272 });
   expect(copyrightBox?.x).toBe(48);
-  expect(copyrightBox?.y).toBeCloseTo(364.5, 0);
-  expect(legalBox?.x).toBe(1199);
-  expect(legalBox?.y).toBeCloseTo(389.2, 0);
+  expect(legalBox?.x).toBe(1224);
   await expect(footer).toHaveCSS('background-color', 'rgb(24, 23, 23)');
   await expect(footer).toHaveCSS('border-radius', '24px');
+  await expect(page.getByText('Навигация', { exact: true })).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(page.getByRole('link', { name: 'О капелле' })).toHaveCSS('color', 'rgb(153, 153, 162)');
+  await expect(page.locator('.orlyata-footer__address')).toHaveCSS('color', 'rgb(153, 153, 162)');
+  await expect(slogan).toContainText('а завтра – орлы!');
+
+  const photoBox = await page.getByRole('link', { name: 'Фотогалерея' }).boundingBox();
+  const videoBox = await page.getByRole('link', { name: 'Видео' }).boundingBox();
+  expect(videoBox?.y).toBeCloseTo((photoBox?.y ?? 0) + 32, 0);
 });
 
 test('Footer exposes semantic routes and contact protocols', async ({ page }) => {
@@ -87,8 +93,57 @@ for (const width of [2560, 1920, 1280]) {
   });
 }
 
-for (const width of [1279, 768, 767, 320]) {
-  test('Desktop Footer is removed from production layout at ' + String(width) + ' px', async ({ page }) => {
+
+for (const { width, gap } of [
+  { width: 1280, gap: '16px' },
+  { width: 1920, gap: '24px' },
+  { width: 2560, gap: '32px' },
+]) {
+  test('Footer desktop navigation spacing and final-row baseline scale at ' + String(width) + ' px', async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
+    await expect(page.locator('.orlyata-footer__navigation-group').first()).toHaveCSS('row-gap', gap);
+
+    const [copyrightName, video, legal] = await Promise.all([
+      page.locator('.orlyata-footer__copyright span:last-child').boundingBox(),
+      page.getByRole('link', { name: 'Видео' }).boundingBox(),
+      page.getByRole('link', { name: 'Политика конфиденциальности' }).boundingBox(),
+    ]);
+
+    expect(copyrightName?.y).toBeCloseTo(video?.y ?? 0, 0);
+    expect(legal?.y).toBeCloseTo(video?.y ?? 0, 0);
+  });
+}
+for (const width of [1279, 768]) {
+  test('Footer is available as a two-column tablet layout at ' + String(width) + ' px', async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
+    await page.locator('.footer-story-preview').evaluate((element) => {
+      element.classList.remove('footer-story-preview');
+    });
+    await expect(page.locator('.orlyata-footer')).toBeVisible({ timeout: 15_000 });
+    await expect(page.locator('.orlyata-footer__content')).toHaveCSS('display', 'grid');
+    await expect(page.locator('.orlyata-footer__content')).toHaveCSS('row-gap', '64px');
+    const [sloganBox, copyrightBox, videoBox, legalBox] = await Promise.all([
+      page.locator('.orlyata-footer__slogan').boundingBox(),
+      page.locator('.orlyata-footer__copyright').boundingBox(),
+      page.getByRole('link', { name: 'Видео' }).boundingBox(),
+      page.getByRole('link', { name: 'Политика конфиденциальности' }).boundingBox(),
+    ]);
+
+    expect(copyrightBox?.x).toBeGreaterThan((sloganBox?.x ?? 0) + (sloganBox?.width ?? 0));
+    expect((copyrightBox?.y ?? 0) + (copyrightBox?.height ?? 0)).toBeCloseTo(
+      (sloganBox?.y ?? 0) + (sloganBox?.height ?? 0),
+      0,
+    );
+    expect(legalBox?.y).toBeCloseTo(videoBox?.y ?? 0, 0);
+    const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    expect(horizontalOverflow).toBe(false);
+  });
+}
+
+for (const width of [767, 320]) {
+  test('Footer remains hidden until the mobile layout is approved at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
     await page.locator('.footer-story-preview').evaluate((element) => {

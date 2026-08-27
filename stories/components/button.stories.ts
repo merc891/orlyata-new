@@ -66,12 +66,35 @@ function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonEle
         : undefined;
 
   if (iconName !== undefined) {
-    const icon = document.createElement('img');
-    icon.className = `orlyata-button__icon orlyata-button__icon--${options.variant}`;
-    icon.src = `${iconRoot}/${iconName}`;
-    icon.alt = '';
-    icon.setAttribute('aria-hidden', 'true');
-    control.append(icon);
+    const createIcon = (): HTMLImageElement => {
+      const icon = document.createElement('img');
+      icon.className = `orlyata-button__icon orlyata-button__icon--${options.variant}`;
+      icon.src = `${iconRoot}/${iconName}`;
+      icon.alt = '';
+      return icon;
+    };
+
+    if (options.variant.startsWith('arrow-')) {
+      const track = document.createElement('span');
+
+      track.className = 'orlyata-button__arrow-track';
+      track.setAttribute('aria-hidden', 'true');
+
+      for (let index = 0; index < 2; index += 1) {
+        const arrow = document.createElement('span');
+
+        arrow.className = 'orlyata-button__arrow';
+        arrow.append(createIcon());
+        track.append(arrow);
+      }
+
+      control.append(track);
+    } else {
+      const icon = createIcon();
+
+      icon.setAttribute('aria-hidden', 'true');
+      control.append(icon);
+    }
   }
 
   return control;
@@ -213,7 +236,6 @@ export const States: Story = {
     ]);
     appendSection(page, 'Play', [
       stateSpecimen('Default', { ariaLabel: 'Воспроизвести', state: 'default', variant: 'play' }),
-      stateSpecimen('Hover', { ariaLabel: 'Воспроизвести', state: 'hover', variant: 'play' }),
     ]);
     appendSection(page, 'Arrow', [
       stateSpecimen('Default · влево', { ariaLabel: 'Предыдущий материал', state: 'default', variant: 'arrow-left' }),

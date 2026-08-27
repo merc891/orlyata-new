@@ -1,17 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
+import { initializeApplicationFormValidation } from '../../wp-content/themes/orlyata/assets/src/application-form-validation';
+
 import { input } from './content.stories';
 
-type ApplicationFormState =
+export type ApplicationFormState =
   | 'default'
   | 'submitting'
   | 'success'
   | 'validation-error'
   | 'network-error'
   | 'server-error';
-type ApplicationFormVariant = 'home' | 'about';
+export type ApplicationFormVariant = 'home' | 'about';
 
-interface ApplicationFormArgs {
+export interface ApplicationFormArgs {
   birthDate: string;
   childName: string;
   fieldError: string;
@@ -37,7 +39,20 @@ function createPrimaryControl(labelText: string, className: string, loading = fa
   button.className = 'orlyata-button orlyata-button--primary ' + className;
   button.type = 'submit';
   label.className = 'orlyata-button__label';
-  label.textContent = labelText;
+  if (loading) {
+    label.textContent = labelText.replace(/\s*(?:…|\.\.\.)\s*$/u, "");
+    const dots = document.createElement('span');
+    dots.className = 'orlyata-button__loading-dots';
+    dots.setAttribute('aria-hidden', 'true');
+    for (let index = 0; index < 3; index += 1) {
+      const dot = document.createElement('span');
+      dot.className = 'orlyata-button__loading-dot';
+      dots.append(dot);
+    }
+    label.append(dots);
+  } else {
+    label.textContent = labelText;
+  }
   button.append(label);
 
   if (loading) {
@@ -79,15 +94,15 @@ function createField(
 
 function defaultFormError(state: ApplicationFormState): string {
   if (state === 'network-error') {
-    return 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз.';
+    return 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз';
   }
   if (state === 'server-error') {
-    return 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз.';
+    return 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз';
   }
   return '';
 }
 
-function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'): HTMLElement {
+export function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'): HTMLElement {
   const classes = [
     'orlyata-application-form',
     'orlyata-application-form--' + args.variant,
@@ -129,13 +144,14 @@ function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'
   const fields = document.createElement('div');
   const formError = args.formError.trim() === '' ? defaultFormError(args.state) : args.formError.trim();
   const phoneError = args.state === 'validation-error'
-    ? (args.fieldError.trim() === '' ? 'Введите номер телефона.' : args.fieldError.trim())
+    ? (args.fieldError.trim() === '' ? 'Введите номер телефона' : args.fieldError.trim())
     : '';
 
   form.className = classes.join(' ');
   form.id = 'storybook-application-' + identifier;
   form.method = 'post';
   form.action = '#';
+  form.noValidate = true;
   const ariaLabel = identifier === 'validation'
     ? 'Форма записи в капеллу — ошибка проверки'
     : identifier === 'network'
@@ -144,9 +160,6 @@ function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'
         ? 'Форма записи в капеллу — ошибка сервера'
         : 'Форма записи в капеллу';
   form.setAttribute('aria-label', ariaLabel);
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-  });
   if (args.state === 'submitting') {
     form.setAttribute('aria-busy', 'true');
   }
@@ -170,9 +183,11 @@ function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'
     form.append(error);
   }
 
+  const submitLabel = args.variant === 'about' ? 'Оставить заявку' : 'Отправить заявку';
+
   form.append(
     createPrimaryControl(
-      args.state === 'submitting' ? 'Отправляем заявку …' : 'Отправить заявку',
+      args.state === 'submitting' ? 'Отправляем заявку …' : submitLabel,
       'orlyata-application-form__submit',
       args.state === 'submitting',
     ),
@@ -186,6 +201,7 @@ function createApplicationForm(args: ApplicationFormArgs, identifier = 'preview'
   privacyLink.textContent = 'политикой конфиденциальности';
   privacy.append(privacyLink);
   form.append(privacy);
+  initializeApplicationFormValidation(form);
 
   return form;
 }
@@ -194,6 +210,53 @@ function createPreview(args: ApplicationFormArgs, identifier = 'preview'): HTMLE
   const preview = document.createElement('div');
   preview.className = 'application-form-story-preview';
   preview.append(createApplicationForm(args, identifier));
+  return preview;
+}
+
+function createInteractivePreview(): HTMLElement {
+  const preview = document.createElement("div");
+  const initialArgs: ApplicationFormArgs = {
+    birthDate: "",
+    childName: "",
+    fieldError: "",
+    formError: "",
+    parentName: "",
+    phone: "",
+    state: "default",
+    variant: "home",
+  };
+
+  preview.className = "application-form-story-preview";
+
+  const render = (formArgs: ApplicationFormArgs, state: ApplicationFormState): void => {
+    const element = createApplicationForm({ ...formArgs, state }, "interactive");
+    preview.replaceChildren(element);
+
+    if (!(element instanceof HTMLFormElement)) {
+      return;
+    }
+
+    element.addEventListener("submit", (event) => {
+      if (event.defaultPrevented) {
+        return;
+      }
+
+      event.preventDefault();
+      const submittedArgs: ApplicationFormArgs = {
+        ...formArgs,
+        birthDate: element.querySelector<HTMLInputElement>("[name=child_birth_date]")?.value ?? "",
+        childName: element.querySelector<HTMLInputElement>("[name=child_name]")?.value ?? "",
+        parentName: element.querySelector<HTMLInputElement>("[name=parent_name]")?.value ?? "",
+        phone: element.querySelector<HTMLInputElement>("[name=phone]")?.value ?? "",
+        state: "default",
+      };
+
+      render(submittedArgs, "submitting");
+      window.setTimeout(() => { render(submittedArgs, "success"); }, 3_000);
+    });
+  };
+
+  render(initialArgs, "default");
   return preview;
 }
 
@@ -207,6 +270,7 @@ const defaultArgs: ApplicationFormArgs = {
 
 const meta = {
   title: 'Components/Application Form',
+  excludeStories: ['createApplicationForm'],
   parameters: {
     viewport: { defaultViewport: 'desktop1920' },
   },
@@ -237,6 +301,12 @@ export const Playground: StoryObj<ApplicationFormArgs> = {
   render: (args) => createPreview(args),
 };
 
+export const Interactive: Story = {
+  name: "Interactive demo",
+  parameters: { controls: { disable: true } },
+  render: () => createInteractivePreview(),
+};
+
 export const Default: Story = {
   parameters: { controls: { disable: true } },
   render: () => createPreview(defaultArgs, 'default'),
@@ -259,7 +329,7 @@ export const Errors: Story = {
     preview.className = 'application-form-story-preview application-form-story-preview--states';
     preview.append(
       createApplicationForm(
-        { ...defaultArgs, fieldError: 'Введите номер телефона.', state: 'validation-error' },
+        { ...defaultArgs, fieldError: 'Введите номер телефона', state: 'validation-error' },
         'validation',
       ),
       createApplicationForm({ ...defaultArgs, state: 'network-error' }, 'network'),

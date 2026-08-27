@@ -33,10 +33,12 @@
   gap: var(--button-gap);
   background: var(--color-surface-inverse);
   color: var(--color-text-inverse);
+  transition: opacity var(--duration-button-hover) var(--easing-standard);
 }
 
 .orlyata-button--secondary {
   background: var(--color-surface-muted);
+  transition: background-color var(--duration-button-hover) var(--easing-standard);
 }
 
 .orlyata-button--play,
@@ -49,15 +51,12 @@
 
 .orlyata-button--play {
   background: var(--color-surface-muted);
-  transition:
-    width var(--duration-button-play-hover) var(--easing-out),
-    height var(--duration-button-play-hover) var(--easing-out);
 }
 
 .orlyata-button--arrow-left,
 .orlyata-button--arrow-right {
   background: var(--color-surface);
-  transition: background-color var(--duration-micro) var(--easing-out);
+  transition: background-color var(--duration-button-hover) var(--easing-standard);
 }
 .orlyata-button__label {
   min-inline-size: 0;
@@ -75,12 +74,50 @@
   block-size: var(--button-play-icon-size);
 }
 
+.orlyata-button__arrow-track {
+  position: relative;
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  overflow: hidden;
+}
+
+.orlyata-button__arrow {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--duration-link-roll) var(--easing-link-roll);
+}
+
 .orlyata-button__icon--arrow-left {
-  transform: rotate(90deg);
+  rotate: 90deg;
 }
 
 .orlyata-button__icon--arrow-right {
-  transform: rotate(-90deg);
+  rotate: -90deg;
+}
+
+.orlyata-button--arrow-left .orlyata-button__arrow:nth-child(2) {
+  transform: translateX(100%);
+}
+
+.orlyata-button--arrow-right .orlyata-button__arrow:nth-child(2) {
+  transform: translateX(-100%);
+}
+
+.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
+  transform: translateX(-100%);
+}
+
+.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
+  transform: translateX(0);
+}
+
+.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
+  transform: translateX(100%);
+}
+
+.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
+  transform: translateX(0);
 }
 
 .orlyata-button--primary:hover:not(:disabled):not([aria-disabled="true"]),
@@ -94,11 +131,6 @@
 }
 
 
-.orlyata-button--play:hover:not(:disabled),
-.orlyata-button--play[data-visual-state="hover"] {
-  width: var(--button-play-hover-size);
-  height: var(--button-play-hover-size);
-}
 
 .orlyata-button--arrow-left:hover:not(:disabled),
 .orlyata-button--arrow-right:hover:not(:disabled),
@@ -116,6 +148,56 @@
 .orlyata-button[data-visual-state="active"]:not(:disabled):not([aria-disabled="true"]) {
   opacity: var(--opacity-interactive-active);
 }
+.orlyata-button.is-loading .orlyata-button__label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.orlyata-button__loading-dots {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  block-size: var(--button-loading-dot-size);
+  gap: var(--button-loading-dot-gap);
+  margin-inline-start: var(--button-loading-label-gap);
+  flex: 0 0 auto;
+}
+
+.orlyata-button__loading-dot {
+  box-sizing: border-box;
+  inline-size: var(--button-loading-dot-size);
+  block-size: var(--button-loading-dot-size);
+  border-radius: var(--radius-full);
+  background: var(--color-text-inverse);
+  transform-origin: center;
+  animation-name: orlyata-button-loading-dot-pulse;
+  animation-duration: var(--duration-button-loading-dots);
+  animation-fill-mode: backwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: var(--easing-button-loading-dots);
+}
+
+.orlyata-button__loading-dot:nth-child(2) {
+  animation-delay: var(--delay-button-loading-dot);
+}
+
+.orlyata-button__loading-dot:nth-child(3) {
+  animation-delay: var(--delay-button-loading-dot-third);
+}
+
+@keyframes orlyata-button-loading-dot-pulse {
+  0%,
+  37.037%,
+  100% {
+    opacity: var(--opacity-button-loading-dot-rest);
+    transform: translateY(0) scale(var(--scale-button-loading-dot-rest));
+  }
+
+  17.284% {
+    opacity: 1;
+    transform: translateY(calc(var(--distance-button-loading-dot-rise) * -1)) scale(var(--scale-button-loading-dot-peak));
+  }
+}
 
 .orlyata-button:disabled,
 .orlyata-button[aria-disabled="true"],
@@ -124,13 +206,4 @@
   opacity: var(--opacity-interactive-disabled);
   cursor: not-allowed;
   pointer-events: none;
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  .orlyata-button--play,
-  .orlyata-button--arrow-left,
-  .orlyata-button--arrow-right {
-    transition: none;
-  }
 }

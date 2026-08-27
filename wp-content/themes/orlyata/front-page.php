@@ -51,13 +51,12 @@ $home_preview_achievements = array(
 get_header();
 ?>
 <div class="orlyata-home">
-	<div class="orlyata-home__sidebar">
-		<?php get_template_part( 'template-parts/layout/sidebar' ); ?>
-	</div>
+	<?php get_template_part( 'template-parts/layout/sidebar' ); ?>
 	<main class="orlyata-home__content" id="main">
 		<div class="orlyata-home__content-grid">
 		<section class="orlyata-home__hero" aria-label="<?php esc_attr_e( 'Главное', 'orlyata' ); ?>">
-			<div class="orlyata-home__hero-panel orlyata-home__hero-panel--capella">
+			<div class="orlyata-home__hero-panel orlyata-home__hero-panel--capella orlyata-home__hero-video-trigger">
+				<div class="orlyata-home__hero-panel-content">
 				<video class="orlyata-home__hero-preview" src="<?php echo esc_url( $home_preview_assets['hero_preview'] ); ?>" autoplay loop muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
 				<?php
 				get_template_part(
@@ -71,13 +70,15 @@ get_header();
 					)
 				);
 				?>
+				</div>
 				<h1 class="orlyata-home__hero-title type-display"><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text"><?php esc_html_e( 'Хоровая', 'orlyata' ); ?></span></span><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text"><?php esc_html_e( 'капелла', 'orlyata' ); ?></span></span><span class="orlyata-home__hero-title-line"><span class="orlyata-home__hero-title-text"><?php esc_html_e( 'мальчиков', 'orlyata' ); ?></span></span></h1>
 			</div>
 			<section class="orlyata-home__hero-panel orlyata-home__hero-panel--news" aria-labelledby="home-news-title">
+				<div class="orlyata-home__hero-panel-content">
 				<img class="orlyata-home__news-background" src="<?php echo esc_url( $home_preview_assets['news_background'] ); ?>" alt="" aria-hidden="true">
 				<div class="orlyata-home__news-head">
 					<h2 class="type-heading-2" id="home-news-title"><?php esc_html_e( 'Новости', 'orlyata' ); ?></h2>
-					<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/novosti/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Все новости', 'orlyata' ); ?>"><?php esc_html_e( 'Все новости', 'orlyata' ); ?></span></a>
+					<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/novosti/' ), 'label' => __( 'Все новости', 'orlyata' ), 'variant' => 'color-inverse' ) ); ?>
 				</div>
 				<div class="orlyata-home__news-grid">
 				<?php
@@ -105,6 +106,7 @@ get_header();
 						);
 						?>
 				</div>
+				</div>
 			</section>
 		</section>
 
@@ -114,10 +116,10 @@ get_header();
 			<?php endforeach; ?>
 		</section>
 
-		<section class="orlyata-home__section" aria-labelledby="home-media-title">
+		<section class="orlyata-home__section orlyata-home__media-section" aria-labelledby="home-media-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-media-title"><?php esc_html_e( 'Медиагалерея', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/mediagalereya/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Перейти в раздел', 'orlyata' ); ?>"><?php esc_html_e( 'Перейти в раздел', 'orlyata' ); ?></span></a>
+				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/mediagalereya/' ), 'label' => __( 'Перейти в раздел', 'orlyata' ), 'variant' => 'color' ) ); ?>
 			</div>
 			<div class="orlyata-home__media-grid">
 				<?php
@@ -125,13 +127,14 @@ get_header();
 					'template-parts/components/media-card',
 					null,
 					array(
-						'category'   => __( 'Видео', 'orlyata' ),
+						'date'       => __( '10 июня', 'orlyata' ),
 						'image_alt'  => __( 'Выступление капеллы на гала-концерте', 'orlyata' ),
 						'image_url'  => $home_preview_assets['media_feature'],
-						'media_type' => 'photo',
-						'size'       => 'big',
-						'title'      => __( 'Гала-концерт в БЗК (юноши и Вита Нова)', 'orlyata' ),
-						'url'        => home_url( '/mediagalereya/video/' ),
+						'media_type' => 'video',
+						'provider'        => 'RuTube',
+						'size'            => 'big',
+						'url'             => 'https://rutube.ru/play/embed/2ad60bfd20027143c2eac71acdb5faef/',
+						'title'           => __( 'Гала-концерт в БЗК (юноши и Вита Нова)', 'orlyata' ),
 					)
 				);
 				?>
@@ -140,10 +143,10 @@ get_header();
 					'template-parts/components/media-card',
 					null,
 					array(
-						'category'   => __( 'Видео', 'orlyata' ),
+						'date'       => __( '23 мая', 'orlyata' ),
 						'image_alt'  => __( 'Концерт капеллы в Зеленограде', 'orlyata' ),
 						'image_url'  => $home_preview_assets['media_video'],
-						'media_type' => 'photo',
+						'media_type' => 'video',
 						'provider'   => 'RuTube',
 						'size'       => 'small',
 						'title'      => __( 'Концерт в КЦ «Зеленоград»', 'orlyata' ),
@@ -156,7 +159,7 @@ get_header();
 					'template-parts/components/media-card',
 					null,
 					array(
-						'category'   => __( 'Фото', 'orlyata' ),
+						'date'       => __( '14 мая', 'orlyata' ),
 						'image_alt'  => __( 'Участники капеллы', 'orlyata' ),
 						'image_url'  => $home_preview_assets['media_photo'],
 						'media_type' => 'photo',
@@ -172,11 +175,11 @@ get_header();
 		<section class="orlyata-home__section orlyata-home__history" aria-labelledby="home-history-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-history-title"><?php esc_html_e( 'История', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Подробнее', 'orlyata' ); ?>"><?php esc_html_e( 'Подробнее', 'orlyata' ); ?></span></a>
+				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/o-kapelle/' ), 'label' => __( 'Подробнее', 'orlyata' ), 'variant' => 'color' ) ); ?>
 			</div>
 			<div class="orlyata-home__history-grid">
 				<div class="orlyata-home__history-intro">
-					<p class="orlyata-home__history-lead type-lead"><?php esc_html_e( 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман', 'orlyata' ); ?></p>
+					<p class="orlyata-home__history-lead type-lead"><?php esc_html_e( 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман', 'orlyata' ); ?></p>
 					<div class="orlyata-home__history-tags">
 						<span class="orlyata-home__history-tag"><?php esc_html_e( 'о капелле', 'orlyata' ); ?></span>
 						<span class="orlyata-home__history-tag"><?php esc_html_e( 'педагоги', 'orlyata' ); ?></span>
@@ -190,7 +193,10 @@ get_header();
 							<span class="orlyata-home__history-photo"><img src="<?php echo esc_url( $home_preview_assets['teacher_two'] ); ?>" alt=""></span>
 						</div>
 						<a class="orlyata-home__history-teachers-link" href="<?php echo esc_url( home_url( '/o-kapelle/#teachers' ) ); ?>" aria-label="<?php esc_attr_e( 'Перейти к педагогам', 'orlyata' ); ?>">
-							<img src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-arrow.svg' ) ); ?>" alt="" aria-hidden="true">
+							<span class="orlyata-home__history-teachers-arrow-track" aria-hidden="true">
+								<span class="orlyata-home__history-teachers-arrow"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-arrow.svg' ) ); ?>" alt=""></span>
+								<span class="orlyata-home__history-teachers-arrow"><img src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-arrow.svg' ) ); ?>" alt=""></span>
+							</span>
 						</a>
 					</div>
 				</div>
@@ -216,10 +222,10 @@ get_header();
 			</div>
 		</section>
 
-		<section class="orlyata-home__section" aria-labelledby="home-achievements-title">
+		<section class="orlyata-home__section orlyata-home__achievements" aria-labelledby="home-achievements-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-achievements-title"><?php esc_html_e( 'Достижения', 'orlyata' ); ?></h2>
-				<a class="orlyata-text-link" href="<?php echo esc_url( home_url( '/o-kapelle/#achievements' ) ); ?>"><span class="orlyata-text-link__label" data-text="<?php esc_attr_e( 'Все достижения', 'orlyata' ); ?>"><?php esc_html_e( 'Все достижения', 'orlyata' ); ?></span></a>
+				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/o-kapelle/#achievements' ), 'label' => __( 'Все достижения', 'orlyata' ), 'variant' => 'color' ) ); ?>
 			</div>
 			<div class="orlyata-home__table-wrap">
 				<?php
@@ -229,32 +235,23 @@ get_header();
 					array(
 						'headers' => array( __( 'Год', 'orlyata' ), __( 'Достижение', 'orlyata' ), __( 'Хор', 'orlyata' ), __( 'Конкурс', 'orlyata' ) ),
 						'rows'    => $home_preview_achievements,
+						'variant' => 'achievements',
 					)
 				);
 				?>
 			</div>
 		</section>
 
-		<div class="orlyata-home__footer">
-			<?php
-			get_template_part(
-				'template-parts/layout/footer',
-				null,
-				array(
-					'site_settings' => array(
-						'address' => "г. Зеленоград,\nЦентральная площадь, 1\nКЦ «Зеленоград»",
-						'emails'  => array( 'info@zelorlyata.ru' ),
-						'phones'  => array( '+7 (925) 434-51-98', '+7 (916) 258-49-12' ),
-					),
-				)
-			);
-			?>
-		</div>
+		<?php get_template_part( 'template-parts/layout/footer' ); ?>
 		</div>
 		<dialog class="orlyata-home__hero-dialog" aria-label="<?php esc_attr_e( 'Видео о капелле', 'orlyata' ); ?>">
 			<div class="orlyata-home__hero-dialog-content">
 				<video class="orlyata-home__hero-dialog-video" src="<?php echo esc_url( $home_preview_assets['hero_original'] ); ?>" controls playsinline preload="metadata"></video>
-				<button class="orlyata-home__hero-dialog-close" type="button" aria-label="<?php esc_attr_e( 'Закрыть видео', 'orlyata' ); ?>">&times;</button>
+				<button class="orlyata-home__hero-dialog-close" type="button" aria-label="<?php esc_attr_e( 'Закрыть видео', 'orlyata' ); ?>">
+					<svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+				</button>
 			</div>
 		</dialog>
 	</main>

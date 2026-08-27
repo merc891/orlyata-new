@@ -2,10 +2,9 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 
 type CurrentPage = 'none' | 'about' | 'media' | 'news' | 'scores' | 'contacts';
 
-interface SidebarArgs {
+export interface SidebarArgs {
   ctaLabel: string;
   currentPage: CurrentPage;
-  isHome: boolean;
 }
 
 const navigationItems = [
@@ -16,16 +15,17 @@ const navigationItems = [
   { id: 'contacts', label: 'Контакты', url: '/kontakty/' },
 ] as const;
 
-function createSidebar(args: SidebarArgs): HTMLElement {
+export function createSidebar(args: SidebarArgs): HTMLElement {
   const sidebar = document.createElement('aside');
   const logoLink = document.createElement('a');
   const logo = document.createElement('img');
   const navigation = document.createElement('nav');
+  const toggle = document.createElement('button');
   const list = document.createElement('ul');
   const cta = document.createElement('a');
   const ctaText = document.createElement('span');
 
-  sidebar.className = 'orlyata-sidebar' + (args.isHome ? ' orlyata-sidebar--home' : '');
+  sidebar.className = 'orlyata-sidebar';
 
   logoLink.className = 'orlyata-sidebar__logo-link';
   logoLink.href = '/';
@@ -37,7 +37,15 @@ function createSidebar(args: SidebarArgs): HTMLElement {
   logo.height = 110;
   logoLink.append(logo);
 
+  toggle.className = 'orlyata-sidebar__menu-toggle';
+  toggle.type = 'button';
+  toggle.setAttribute('aria-controls', 'sidebar-navigation');
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-label', 'Открыть меню');
+  toggle.innerHTML = '<span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span><span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span>';
+
   navigation.className = 'orlyata-sidebar__nav';
+  navigation.id = 'sidebar-navigation';
   navigation.setAttribute('aria-label', 'Основная навигация');
   list.className = 'orlyata-sidebar__list';
 
@@ -47,7 +55,7 @@ function createSidebar(args: SidebarArgs): HTMLElement {
     const label = document.createElement('span');
 
     listItem.className = 'orlyata-sidebar__item';
-    link.className = 'orlyata-sidebar__link orlyata-text-link';
+    link.className = 'orlyata-sidebar__link orlyata-text-link orlyata-text-link--color';
     link.href = item.url;
     label.className = 'orlyata-text-link__label';
     label.dataset.text = item.label;
@@ -71,7 +79,7 @@ function createSidebar(args: SidebarArgs): HTMLElement {
   ctaText.textContent = args.ctaLabel;
   cta.append(ctaText);
 
-  sidebar.append(logoLink, navigation, cta);
+  sidebar.append(logoLink, toggle, navigation, cta);
   return sidebar;
 }
 
@@ -84,6 +92,7 @@ function createSidebarPreview(args: SidebarArgs): HTMLElement {
 
 const meta = {
   title: 'Components/Sidebar',
+  excludeStories: ['createSidebar'],
   parameters: {
     viewport: { defaultViewport: 'desktop1920' },
   },
@@ -96,7 +105,6 @@ export const Playground: StoryObj<SidebarArgs> = {
   args: {
     ctaLabel: 'Записаться к нам',
     currentPage: 'news',
-    isHome: false,
   },
   argTypes: {
     ctaLabel: { control: 'text', description: 'Текст CTA записи.' },
@@ -105,25 +113,16 @@ export const Playground: StoryObj<SidebarArgs> = {
       description: 'Текущий раздел, отмеченный aria-current.',
       options: ['none', 'about', 'media', 'news', 'scores', 'contacts'],
     },
-    isHome: {
-      control: 'boolean',
-      description: 'Главная страница: hover логотипа отключён.',
-    },
   },
   render: (args) => createSidebarPreview(args),
 };
 
 export const Default: Story = {
   parameters: { controls: { disable: true } },
-  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'none', isHome: false }),
+  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'none' }),
 };
 
 export const CurrentPage: Story = {
   parameters: { controls: { disable: true } },
-  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'news', isHome: false }),
-};
-
-export const Home: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'none', isHome: true }),
+  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'news' }),
 };

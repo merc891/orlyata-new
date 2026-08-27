@@ -42,7 +42,7 @@
 - Storybook — `https://89.125.120.78/storybook-20260814/`;
 - Mailpit — `https://89.125.120.78/mailpit/`.
 
-Сайт и Storybook доступны без HTTP Basic Auth. Nginx отдаёт на всех ответах `X-Robots-Tag: noindex, nofollow, noarchive`, а в WordPress отключена видимость для поисковых систем (`blog_public=0`). `/robots.txt` разрешает обход, чтобы роботы могли получить эти правила `noindex`. Mailpit остаётся закрыт Basic Auth с учётными данными `STAGING_AUTH_USER` и `STAGING_AUTH_PASSWORD` из локального `.env`, поскольку в нём могут быть письма с персональными данными. Администратор WordPress использует отдельные `WP_ADMIN_USER` и `WP_ADMIN_PASSWORD`.
+Все публичные маршруты stage закрыты HTTP Basic Auth с учётными данными `STAGING_AUTH_USER` и `STAGING_AUTH_PASSWORD` из локального `.env`. Nginx также отдаёт `X-Robots-Tag: noindex, nofollow, noarchive`, а в WordPress отключена видимость для поисковых систем (`blog_public=0`). Администратор WordPress использует отдельные `WP_ADMIN_USER` и `WP_ADMIN_PASSWORD`.
 
 Nginx публикует только `80/443`; WordPress, Mailpit и Vite остаются на loopback или во внутренней Docker-сети. Доверенный IP-сертификат Let's Encrypt действует около шести дней, Certbot проверяет продление каждые 12 часов, а Nginx регулярно перечитывает обновлённый сертификат.
 

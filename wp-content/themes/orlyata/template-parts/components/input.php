@@ -52,6 +52,12 @@ if ( '' !== $input_error ) {
 	$class_names[] = 'has-error';
 }
 
+if ( $is_date ) {
+	$class_names[] = 'orlyata-input--date';
+} elseif ( $is_phone ) {
+	$class_names[] = 'orlyata-input--tel';
+}
+
 if ( (bool) $input_args['disabled'] ) {
 	$class_names[] = 'is-disabled';
 }
@@ -59,6 +65,11 @@ if ( (bool) $input_args['disabled'] ) {
 <div class="<?php echo esc_attr( implode( ' ', $class_names ) ); ?>">
 	<div class="orlyata-input__control">
 		<label class="orlyata-input__label" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_html( $label ); ?></label>
+		<?php if ( $is_date ) : ?>
+			<span class="orlyata-input__mask" data-input-mask-template="ДД.ММ.ГГГГ" aria-hidden="true">ДД.ММ.ГГГГ</span>
+		<?php elseif ( $is_phone ) : ?>
+			<span class="orlyata-input__mask" data-input-mask-template="+7 (123) 456-78-90" aria-hidden="true">+7 (123) 456-78-90</span>
+		<?php endif; ?>
 		<input
 			class="orlyata-input__field"
 			id="<?php echo esc_attr( $input_id ); ?>"

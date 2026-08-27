@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-interface FooterArgs {
+export interface FooterArgs {
   address: string;
   email: string;
   legalLabel: string;
@@ -59,7 +59,7 @@ function phoneHref(phone: string): string {
   return 'tel:' + phone.replaceAll(/[^0-9+]/g, '');
 }
 
-function createFooter(args: FooterArgs): HTMLElement {
+export function createFooter(args: FooterArgs): HTMLElement {
   const footer = document.createElement('footer');
   const content = document.createElement('div');
   const brand = document.createElement('div');
@@ -82,7 +82,7 @@ function createFooter(args: FooterArgs): HTMLElement {
   brand.className = 'orlyata-footer__brand';
   slogan.className = 'orlyata-footer__slogan';
   sloganFirst.textContent = 'Сегодня орлята,';
-  sloganSecond.textContent = 'а завтра – орлы';
+  sloganSecond.textContent = 'а завтра – орлы!';
   slogan.append(sloganFirst, sloganSecond);
   brand.append(slogan);
 
@@ -146,6 +146,7 @@ const sampleArgs: FooterArgs = {
 
 const meta = {
   title: 'Components/Footer',
+  excludeStories: ['createFooter'],
   parameters: {
     viewport: { defaultViewport: 'desktop1920' },
   },

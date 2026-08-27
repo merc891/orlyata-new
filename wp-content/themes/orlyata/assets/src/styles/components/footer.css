@@ -1,9 +1,12 @@
 .orlyata-footer {
   display: block;
   box-sizing: border-box;
+  grid-column: 1 / -1;
+  margin-block-start: var(--footer-preceding-gap);
   inline-size: 100%;
   max-inline-size: var(--footer-reference-width);
-  block-size: var(--footer-height);
+  block-size: auto;
+  aspect-ratio: var(--footer-aspect-ratio);
   padding: var(--footer-padding);
   border-radius: var(--radius-large);
   background: var(--color-surface-inverse);
@@ -13,7 +16,7 @@
 
 .orlyata-footer__content {
   position: relative;
-  block-size: var(--footer-content-height);
+  block-size: 100%;
 }
 
 .orlyata-footer__brand {
@@ -37,7 +40,7 @@
 
 .orlyata-footer__copyright {
   position: absolute;
-  inset-block-start: var(--footer-copyright-offset-block);
+  inset-block-start: calc(var(--footer-legal-offset-block) + var(--footer-final-row-baseline-correction));
   inset-inline-start: 0;
   display: flex;
   flex-direction: column;
@@ -47,6 +50,7 @@
   font-size: var(--font-size-body);
   font-weight: 400;
   letter-spacing: var(--letter-spacing-body);
+  transform: translateY(calc(-50% + var(--footer-final-row-baseline-correction)));
   line-height: var(--line-height-body);
 }
 
@@ -63,7 +67,7 @@
 .orlyata-footer__navigation-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--footer-navigation-heading-links-gap);
 }
 
 .orlyata-footer__section-title {
@@ -71,7 +75,7 @@
   block-size: var(--footer-section-title-height);
   padding: 0;
   margin: 0;
-  color: var(--color-text-secondary-on-inverse);
+  color: var(--color-text-inverse);
   font-size: var(--font-size-body);
   font-weight: 400;
   letter-spacing: var(--letter-spacing-body);
@@ -88,7 +92,7 @@
 }
 
 .orlyata-footer__navigation-group:last-child .orlyata-footer__list {
-  gap: var(--space-4);
+  gap: var(--space-2);
 }
 
 .orlyata-footer__list-item {
@@ -99,7 +103,7 @@
 
 .orlyata-footer__link {
   display: inline-block;
-  color: var(--color-surface-muted);
+  color: var(--color-text-secondary-on-inverse);
   font-size: var(--font-size-body);
   font-weight: 400;
   letter-spacing: var(--letter-spacing-body);
@@ -128,7 +132,7 @@
   inset-block-start: 0;
   inset-inline-start: var(--footer-contacts-offset-inline);
   inline-size: min(var(--footer-contacts-width), 24.276316%);
-  block-size: 17rem;
+  block-size: var(--footer-contacts-height);
 }
 
 .orlyata-footer__contacts-address {
@@ -140,7 +144,7 @@
 .orlyata-footer__address {
   padding: 0;
   margin: 0;
-  color: var(--color-surface-muted);
+  color: var(--color-text-secondary-on-inverse);
   font-size: var(--font-size-body);
   font-style: normal;
   font-weight: 400;
@@ -165,21 +169,83 @@
 
 .orlyata-footer__legal {
   position: absolute;
-  inset-block-start: var(--footer-legal-offset-block);
+  inset-block-start: calc(var(--footer-legal-offset-block) + var(--footer-final-row-baseline-correction) + var(--footer-final-row-baseline-correction));
   inset-inline-start: var(--footer-contacts-offset-inline);
+  inset-inline-end: 0;
   color: var(--color-text-secondary-on-inverse);
-  white-space: nowrap;
+  inline-size: auto;
 }
 
-@media (max-width: 1279px) {
+
+@media (width >= 768px) and (width <= 1279px) {
   .orlyata-footer {
-    display: none;
+    max-inline-size: none;
+    block-size: auto;
+    aspect-ratio: auto;
+    padding: var(--space-5);
+  }
+
+  .orlyata-footer__content {
+    display: grid;
+    block-size: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--footer-tablet-brand-links-gap) var(--space-5);
+  }
+
+  .orlyata-footer__brand {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    inline-size: auto;
+  }
+
+  .orlyata-footer__navigation {
+    position: static;
+    grid-row: 2;
+    grid-column: 1;
+    inline-size: auto;
+  }
+
+  .orlyata-footer__navigation-group {
+    gap: var(--space-5);
+  }
+
+  .orlyata-footer__list-item {
+    block-size: auto;
+  }
+
+  .orlyata-footer__contacts {
+    grid-row: 2;
+    position: static;
+    grid-column: 2;
+    inline-size: auto;
+    block-size: auto;
+  }
+
+  .orlyata-footer__contact-links {
+    position: static;
+    margin-block-start: var(--space-5);
+  }
+
+  .orlyata-footer__copyright {
+    position: static;
+    transform: none;
+    align-self: end;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .orlyata-footer__legal {
+    position: static;
+    align-self: end;
+    grid-column: 2;
+    grid-row: 2;
+    inline-size: auto;
   }
 }
 
-
-@media (prefers-reduced-motion: reduce) {
-  .orlyata-footer__link {
-    transition: none;
+@media (width <= 767px) {
+  .orlyata-footer {
+    display: none;
   }
 }

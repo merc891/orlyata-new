@@ -42,3 +42,36 @@
   outline: var(--focus-ring-width) solid var(--color-brand);
   outline-offset: var(--focus-ring-offset);
 }
+
+.orlyata-text-link--color,
+.orlyata-text-link--color-inverse {
+  overflow: visible;
+  transition:
+    color var(--duration-link-color-hover) var(--easing-standard),
+    opacity var(--duration-link-color-hover) var(--easing-standard);
+}
+
+.orlyata-text-link--color .orlyata-text-link__label,
+.orlyata-text-link--color-inverse .orlyata-text-link__label {
+  transform: none;
+  transition: none;
+}
+
+.orlyata-text-link--color .orlyata-text-link__label::after,
+.orlyata-text-link--color-inverse .orlyata-text-link__label::after {
+  content: none;
+}
+
+.orlyata-text-link--color:hover,
+.orlyata-text-link--color:active {
+  color: var(--color-text-primary);
+}
+
+.orlyata-text-link--color-inverse {
+  color: var(--color-text-inverse);
+}
+
+.orlyata-text-link--color-inverse:hover {
+  color: var(--color-text-inverse);
+  opacity: var(--opacity-interactive-hover);
+}

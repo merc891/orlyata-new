@@ -13,6 +13,10 @@
 @import "components/sidebar.css";
 @import "components/footer.css";
 @import "components/application-form.css";
+@import "components/page-hero.css";
+@import "components/teacher-card.css";
 @import "pages/home.css";
+@import "pages/home-responsive.css";
 @import "pages/home-teacher-cta-motion.css";
+@import "pages/about.css";
 @import "pages/media-card-video-preview.css";

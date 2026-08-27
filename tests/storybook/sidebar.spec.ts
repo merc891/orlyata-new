@@ -62,6 +62,9 @@ test('Sidebar navigation has visible keyboard focus and hover feedback', async (
   await expect(firstLink).toHaveCSS('outline-color', 'rgb(33, 166, 66)');
   await expect(firstLink).toHaveCSS('outline-style', 'solid');
 
+  await expect(firstLink).toHaveClass(/orlyata-text-link--color/);
+  await expect(firstLink).toHaveCSS('transition-duration', '0.2s, 0.16s, 0.16s');
+
   await firstLink.hover();
   await expect(firstLink).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');
   await expect(firstLink).toHaveCSS('color', 'rgb(24, 23, 23)');
@@ -70,10 +73,6 @@ test('Sidebar navigation has visible keyboard focus and hover feedback', async (
   await logo.hover();
   await expect(logo).toHaveCSS('opacity', '0.9');
 
-  await page.goto('/iframe.html?id=components-sidebar--home&viewMode=story');
-  const homeLogo = page.locator('.orlyata-sidebar__logo');
-  await homeLogo.hover();
-  await expect(homeLogo).toHaveCSS('opacity', '1');
 });
 
 test('Sidebar remains visible in a narrow Storybook Canvas', async ({ page }) => {
@@ -90,8 +89,31 @@ for (const width of [2560, 1920, 1280]) {
   });
 }
 
-for (const width of [1279, 768, 767, 320]) {
-  test('Desktop Sidebar is removed from layout at ' + String(width) + ' px', async ({ page }) => {
+for (const width of [1279, 768]) {
+test('Sidebar becomes a top header at ' + String(width) + ' px', async ({ page }) => {
+  await page.setViewportSize({ width, height: 1030 });
+  await page.goto('/iframe.html?id=components-sidebar--default&viewMode=story');
+  await page.locator('.sidebar-story-preview').evaluate((element) => {
+    element.classList.remove('sidebar-story-preview');
+  });
+  const sidebar = page.locator('.orlyata-sidebar');
+  const logo = page.locator('.orlyata-sidebar__logo');
+  const toggle = page.getByRole('button', { name: 'Открыть меню' });
+  const menuLines = page.locator('.orlyata-sidebar__menu-toggle-line');
+
+  await expect(sidebar).toBeVisible({ timeout: 15_000 });
+  await expect(sidebar).toHaveCSS('width', String(width) + 'px');
+  await expect(logo).toHaveCSS('height', '74.875px');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(menuLines).toHaveCount(2);
+  await expect(menuLines.first()).toHaveCSS('width', '48px');
+  await toggle.focus();
+  await expect(toggle).toHaveCSS('outline-style', 'solid');
+});
+}
+
+for (const width of [767, 320]) {
+test('Sidebar is removed from layout at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 1030 });
     await page.goto('/iframe.html?id=components-sidebar--default&viewMode=story');
     await page.locator('.sidebar-story-preview').evaluate((element) => {

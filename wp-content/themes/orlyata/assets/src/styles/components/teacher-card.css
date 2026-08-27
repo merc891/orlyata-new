@@ -1,0 +1,81 @@
+.orlyata-teacher-card {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 21.25rem;
+  cursor: pointer;
+  flex-direction: column;
+  padding: var(--space-5);
+  border-radius: var(--radius-large);
+  background: var(--color-surface-muted);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+.orlyata-teacher-card__photo-wrap {
+  display: block;
+  width: var(--about-teacher-photo-size);
+  height: var(--about-teacher-photo-size);
+  margin: 0 auto var(--about-teacher-photo-margin-block-end);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+}
+
+.orlyata-teacher-card__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-media-card-hover) var(--easing-media-card-hover);
+}
+
+.orlyata-teacher-card__name,
+.orlyata-teacher-card__meta {
+  display: block;
+  margin: 0;
+  font-family: var(--font-family-primary);
+  overflow: hidden;
+}
+
+.orlyata-teacher-card__name {
+  font-size: var(--font-size-heading-3);
+  font-weight: 500;
+  line-height: var(--line-height-heading-3);
+  letter-spacing: var(--letter-spacing-heading-3);
+}
+
+.orlyata-teacher-card__meta {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.orlyata-teacher-card__name-label,
+.orlyata-teacher-card__meta-label {
+  display: block;
+  position: relative;
+  transition: transform var(--duration-link-roll) var(--easing-link-roll);
+}
+
+.orlyata-teacher-card__name-label::after,
+.orlyata-teacher-card__meta-label::after {
+  position: absolute;
+  inset: 0;
+  content: attr(data-text);
+  transform: translateY(calc(100% + var(--distance-title-roll-separator)));
+}
+
+.orlyata-teacher-card:hover .orlyata-teacher-card__photo {
+  transform: scale(var(--media-card-hover-scale));
+}
+
+.orlyata-teacher-card:hover :is(.orlyata-teacher-card__name-label, .orlyata-teacher-card__meta-label) {
+  transform: translateY(calc(-100% - var(--distance-title-roll-separator)));
+}
+
+@media (width >= 1280px) {
+  .orlyata-teacher-card {
+    min-height: 0;
+    aspect-ratio: var(--about-teacher-card-aspect-ratio);
+  }
+}

@@ -51,6 +51,7 @@ test('Button matches the confirmed desktop geometry', async ({ page }) => {
 });
 
 test('Text buttons without the close icon keep 24px end padding in every state', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
   await expectGingerLoaded(page);
 
@@ -116,18 +117,62 @@ test('Primary keeps identical geometry when default and active controls are hove
   expect(await primaryActive.boundingBox()).toEqual(activeBeforeHover);
 });
 
-test('States expose static icon hovers', async ({ page }) => {
+test('Primary, Secondary and Arrow animate their hover feedback over 200ms', async ({ page }) => {
+  await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
+  await expectGingerLoaded(page);
+
+  const primary = page.locator('.orlyata-button--primary').first();
+  const secondary = page.locator('.orlyata-button--secondary').first();
+  const arrow = page.locator('.orlyata-button--arrow-right').first();
+
+  for (const button of [primary, secondary, arrow]) {
+    await expect(button).toHaveCSS('transition-duration', '0.2s');
+    await expect(button).toHaveCSS('transition-timing-function', 'cubic-bezier(0.2, 0, 0, 1)');
+  }
+
+  await primary.hover();
+  await expect(primary).toHaveCSS('opacity', '0.9');
+  await secondary.hover();
+  await expect(secondary).toHaveCSS('background-color', 'rgb(234, 234, 235)');
+  await arrow.hover();
+  await expect(arrow).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+});
+
+test('Arrow buttons roll in their respective horizontal directions', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
+  await expectGingerLoaded(page);
+
+  const leftArrows = page.locator('.orlyata-button--arrow-left .orlyata-button__arrow');
+  const rightArrows = page.locator('.orlyata-button--arrow-right .orlyata-button__arrow');
+  const leftOutgoing = leftArrows.first();
+  const leftIncoming = leftArrows.nth(1);
+  const rightOutgoing = rightArrows.first();
+  const rightIncoming = rightArrows.nth(1);
+
+  await expect(leftArrows).toHaveCount(2);
+  await expect(rightArrows).toHaveCount(2);
+  await expect(leftOutgoing).toHaveCSS('transition-duration', '0.4s');
+  await expect(leftOutgoing).toHaveCSS('transition-timing-function', 'ease');
+  await page.locator('.orlyata-button--arrow-left').hover();
+  await expect(leftOutgoing).toHaveCSS('transform', 'matrix(1, 0, 0, 1, -24, 0)');
+  await expect(leftIncoming).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+
+  await page.locator('.orlyata-button--arrow-right').hover();
+  await expect(rightOutgoing).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 24, 0)');
+  await expect(rightIncoming).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+});
+
+test('States expose the Arrow hover', async ({ page }) => {
   await page.goto('/iframe.html?id=components-button--states&viewMode=story');
   await expectGingerLoaded(page);
 
-  const play = page.locator('.orlyata-button--play[data-visual-state="hover"]');
   const arrow = page.locator('.orlyata-button--arrow-right[data-visual-state="hover"]');
-  await expect(play).toHaveCSS('width', '64px');
   await expect(arrow).toHaveCSS('background-color', 'rgb(244, 244, 245)');
-  expect(await play.evaluate((element) => element.getAnimations())).toHaveLength(0);
 });
 
 test('Default Play remains 64px on hover', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
   await expectGingerLoaded(page);
 

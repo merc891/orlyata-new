@@ -34,11 +34,11 @@ export function appendSection(root: HTMLElement, title: string, elements: HTMLEl
   root.append(element);
 }
 
-export function textLink(label: string, href = '#about'): HTMLAnchorElement {
+export function textLink(label: string, href = '#about', variant: 'roll' | 'color' | 'color-inverse' = 'roll'): HTMLAnchorElement {
   const link = document.createElement('a');
   const labelElement = document.createElement('span');
 
-  link.className = 'orlyata-text-link';
+  link.className = 'orlyata-text-link orlyata-text-link--' + variant;
   link.href = href;
   labelElement.className = 'orlyata-text-link__label';
   labelElement.dataset.text = label;
@@ -69,6 +69,7 @@ export function input(
   const control = document.createElement('div');
   const fieldLabel = document.createElement('label');
   const field = document.createElement('input');
+  const fieldMask = type === 'date' || type === 'tel' ? document.createElement('span') : null;
   const id = 'storybook-' + identifier;
 
   const rawValue = controlledValue ?? (state === 'typing' ? 'Семёнов' : state === 'filled' ? 'Семёнова Мария Павловна' : '');
@@ -77,6 +78,7 @@ export function input(
 
   root.className =
     'orlyata-input' +
+    (type === 'date' ? ' orlyata-input--date' : type === 'tel' ? ' orlyata-input--tel' : '') +
     (state === 'typing' ? ' is-typing' : '') +
     (state === 'filled' ? ' is-filled' : '') +
     (state === 'error' ? ' has-error' : '');
@@ -86,6 +88,12 @@ export function input(
   fieldLabel.textContent = label;
   field.className = 'orlyata-input__field';
   field.id = id;
+  if (fieldMask !== null) {
+    fieldMask.className = 'orlyata-input__mask';
+    fieldMask.setAttribute('aria-hidden', 'true');
+    fieldMask.dataset.inputMaskTemplate = type === 'date' ? 'ДД.ММ.ГГГГ' : '+7 (123) 456-78-90';
+    fieldMask.textContent = fieldMask.dataset.inputMaskTemplate;
+  }
   field.name = id;
   field.type = type === 'date' ? 'text' : type;
   field.value = value;
@@ -102,7 +110,11 @@ export function input(
     field.pattern = '\\+7 \\([0-9]{3}\\) [0-9]{3}-[0-9]{2}-[0-9]{2}';
     field.dataset.inputMask = 'phone';
   }
-  control.append(fieldLabel, field);
+  control.append(fieldLabel);
+  if (fieldMask !== null) {
+    control.append(fieldMask);
+  }
+  control.append(field);
   root.append(control);
 
   if (error !== '') {
@@ -131,6 +143,7 @@ export function accordion(
   const toggle = document.createElement('span');
   const content = document.createElement('div');
 
+  const panel = document.createElement('div');
   element.className = 'orlyata-accordion';
   element.open = open;
   summary.className = 'orlyata-accordion__summary';
@@ -139,11 +152,24 @@ export function accordion(
   meta.className = 'orlyata-accordion__meta';
   meta.textContent = metaText;
   toggle.className = 'orlyata-accordion__toggle';
-  toggle.setAttribute('aria-hidden', 'true');
-  content.className = 'orlyata-accordion__content';
-  content.textContent = contentText;
+  toggle.setAttribute("aria-hidden", "true");
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  icon.setAttribute("class", "orlyata-accordion__toggle-icon");
+  icon.setAttribute("viewBox", "0 0 24 24");
+  path.setAttribute("class", "orlyata-accordion__toggle-path");
+  path.setAttribute("d", open ? "M5 12h14" : "M5 12h14M12 5v14");
+  icon.append(path);
+  toggle.append(icon);
+  content.className = "orlyata-accordion__content";
+  panel.className = "orlyata-accordion__panel";
+  const contentInner = document.createElement("div");
+  contentInner.className = "orlyata-accordion__content-inner";
+  contentInner.textContent = contentText;
+  content.append(contentInner);
   summary.append(title, meta, toggle);
-  element.append(summary, content);
+  panel.append(content);
+  element.append(summary, panel);
 
   return element;
 }
@@ -180,7 +206,11 @@ export function newsCard(
   icon.src = assetRoot + '/icons/news-category-theatre.svg';
   icon.alt = '';
   title.className = 'orlyata-news-card__title';
-  title.textContent = titleText;
+  const titleLabel = document.createElement('span');
+  titleLabel.className = 'orlyata-news-card__title-label';
+  titleLabel.dataset.text = titleText;
+  titleLabel.textContent = titleText;
+  title.append(titleLabel);
   link.append(icon, title);
   article.append(link, badge(dateLabel));
 
@@ -191,8 +221,8 @@ type MediaType = 'photo' | 'video';
 
 interface MediaCardOptions {
   mediaType?: MediaType;
-  showPlayIcon?: boolean;
   startOffsetSeconds?: number;
+  videoEmbedUrl?: string;
   videoUrl?: string;
 }
 
@@ -223,15 +253,15 @@ export function mediaCard(
   size: 'big' | 'small',
   controlledTitle?: string,
   controlledDate?: string,
-  provider = 'RuTube',
+  provider = '',
   href = '#media',
   options: MediaCardOptions = {},
 ): HTMLElement {
   const mediaType = options.mediaType ?? 'photo';
+  const videoEmbedUrl = options.videoEmbedUrl?.trim() ?? '';
   const videoUrl = options.videoUrl?.trim() ?? '';
   const isVideo = mediaType === 'video';
-  const showPlayIcon = isVideo && (options.showPlayIcon ?? false);
-  const resolvedProvider = isVideo ? detectVideoProvider(videoUrl) : provider;
+  const resolvedProvider = isVideo ? (detectVideoProvider(href) || provider) : '';
   const article = document.createElement('article');
   const link = document.createElement('a');
   const imageWrap = document.createElement('div');
@@ -253,7 +283,12 @@ export function mediaCard(
   image.alt = 'Концерт капеллы';
   content.className = 'orlyata-media-card__content';
   title.className = 'orlyata-media-card__title';
-  title.textContent = controlledTitle ?? (size === 'big' ? 'Гала-концерт в БЗК (юноши и Вита Нова)' : 'Концерт в КЦ «Зеленоград»');
+  const titleLabel = document.createElement('span');
+  const titleText = controlledTitle ?? (size === 'big' ? 'Гала-концерт в БЗК (юноши и Вита Нова)' : 'Концерт в КЦ «Зеленоград»');
+  titleLabel.className = 'orlyata-media-card__title-label';
+  titleLabel.dataset.text = titleText;
+  titleLabel.textContent = titleText;
+  title.append(titleLabel);
   meta.className = 'orlyata-media-card__meta';
   meta.append(badge(controlledDate ?? (size === 'big' ? 'Сегодня' : '23 мая'), size === 'big' ? 'inverse' : 'default'));
 
@@ -281,6 +316,20 @@ export function mediaCard(
     video.tabIndex = -1;
     preview.append(video);
     imageWrap.append(image, preview);
+  } else if (isVideo && videoEmbedUrl !== '') {
+    const preview = document.createElement('div');
+    const embed = document.createElement('iframe');
+
+    preview.className = 'orlyata-media-card__preview orlyata-media-card__preview--embed';
+    preview.setAttribute('aria-hidden', 'true');
+    embed.className = 'orlyata-media-card__preview-embed';
+    embed.src = videoEmbedUrl;
+    embed.title = '';
+    embed.tabIndex = -1;
+    embed.loading = 'lazy';
+    embed.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock';
+    preview.append(embed);
+    imageWrap.append(image, preview);
   } else {
     imageWrap.append(image);
   }
@@ -288,7 +337,7 @@ export function mediaCard(
   link.append(imageWrap, content);
   article.append(link);
 
-  if (showPlayIcon) {
+  if (isVideo) {
     const play = document.createElement('span');
     const playIcon = document.createElement('img');
 
@@ -299,7 +348,7 @@ export function mediaCard(
     playIcon.alt = '';
     playIcon.setAttribute('aria-hidden', 'true');
     play.append(playIcon);
-    article.append(play);
+    link.append(play);
   }
 
   return article;
@@ -316,7 +365,13 @@ export function dataTable(controlledRows?: string[][]): HTMLTableElement {
   ];
   const headRow = head.insertRow();
 
-  table.className = 'orlyata-data-table';
+  table.className = 'orlyata-data-table orlyata-data-table--achievements';
+
+  const colGroup = document.createElement('colgroup');
+  for (const _header of headers) {
+    colGroup.append(document.createElement('col'));
+  }
+  table.append(colGroup);
   for (const header of headers) {
     const cell = document.createElement('th');
     cell.scope = 'col';
@@ -358,17 +413,23 @@ type Story = StoryObj<typeof meta>;
 interface LinkArgs {
   href: string;
   label: string;
+  variant: 'roll' | 'color' | 'color-inverse';
 }
 
 export const Playground: StoryObj<LinkArgs> = {
-  args: { href: '#about', label: 'О капелле' },
+  args: { href: '#about', label: 'О капелле', variant: 'color' },
   argTypes: {
     href: { control: 'text', description: 'Адрес ссылки.' },
     label: { control: 'text', description: 'Видимый текст ссылки.' },
+    variant: {
+      control: 'select',
+      description: 'Тип hover: прокрутка текста или плавная смена цвета.',
+      options: ['roll', 'color', 'color-inverse'],
+    },
   },
   render: (args) => {
     const root = createComponentPage('Link Playground', 'Изменяйте текст и адрес ссылки через Controls.');
-    appendSection(root, 'Preview', [textLink(args.label, args.href)]);
+    appendSection(root, 'Preview', [textLink(args.label, args.href, args.variant)]);
     return root;
   },
 };
@@ -378,7 +439,7 @@ export const Variants: Story = {
   render: () => {
     const root = createComponentPage('Link', 'Текстовая ссылка для навигации внутри контента и блоков с дополнительной информацией.');
 
-    appendSection(root, 'Variants', [textLink('О капелле'), textLink('Нотная библиотека')]);
+    appendSection(root, 'Variants', [textLink('С прокруткой', '#about', 'roll'), textLink('Со сменой цвета', '#library', 'color')]);
 
     return root;
   },

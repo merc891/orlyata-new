@@ -3,11 +3,12 @@
   box-sizing: border-box;
   display: flex;
   width: var(--advantage-width);
-  height: var(--advantage-height);
+  height: auto;
+  aspect-ratio: var(--advantage-aspect-ratio);
   max-width: 100%;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--space-5) var(--space-5) var(--space-4);
+  padding: var(--advantage-padding-block-start) var(--advantage-padding-inline) var(--advantage-padding-block-end);
   border-radius: var(--radius-large);
   background: var(--color-surface-muted);
 }

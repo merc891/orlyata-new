@@ -1,13 +1,18 @@
 {
   "version": 1,
-  "updated_at": "2026-08-19",
-  "status": "draft-desktop-extracted",
+  "updated_at": "2026-08-26",
+  "status": "approved-desktop-fluid-contract-implemented-and-staging-validated",
   "sources": {
     "repo": [
       {
         "type": "repo",
         "path": "docs/project.md",
         "notes": "Approved product, content and responsive decisions from the project brief"
+      },
+      {
+        "type": "repo-audit",
+        "path": "docs/desktop-fluid-scaling-audit.md",
+        "notes": "Measured desktop fluid-scale audit and implementation work packet approved as the source for the 2026-08-26 contract revision"
       }
     ],
     "figma": [
@@ -38,7 +43,12 @@
       {
         "type": "motion-reference",
         "url": "https://oxem.ru/",
-        "notes": "AnimatedText2 Hero source inspected on 2026-08-19: masked translateY(130% to 0), 1600ms easeOutQuint, 70ms times (index + 1) stagger"
+        "notes": "AnimatedText2 Hero source inspected on 2026-08-19: masked translateY(130% to 0), 11000ms easeOutQuint, 70ms times (index + 1) stagger"
+      },
+      {
+        "type": "reference",
+        "url": "https://apa-kandt.ru/",
+        "notes": "Measured reference for whole-composition proportional scaling only; visual style, breakpoints and root-font implementation must not be copied"
       }
     ],
     "screenshots": [
@@ -154,6 +164,11 @@
       }
     },
     "typography": {
+      "fluid_scale": {
+        "css": "--font-size-display, --font-size-heading-1, --font-size-heading-2, --font-size-lead, --font-size-heading-3, --font-size-body, --font-size-caption and --font-size-body-small",
+        "formula_source": "tokens.layout.fluid-scale in this manifest; docs/design-system/tokens.css is the implemented local desktop ledger; published staging was validated on 2026-08-26",
+        "coverage": "At desktop widths 1280–2560px, every typography role follows the same 66.6667% → 100% → 133.3333% envelope as its component geometry, except explicit accessibility and technical minimums. Figma reference remains 1920px. Desktop card geometry preserves each approved aspect ratio, and component padding, gaps, badges, imagery and form internals follow the same scale. Tablet and mobile retain their own readable mode values."
+      },
       "family-primary": {
         "value": "F37 Ginger Cyrillic VF",
         "fallback": "Arial, sans-serif",
@@ -244,12 +259,41 @@
         "rem": 1.5,
         "figma": "Spacing/5"
       },
+      "6": {
+        "rem": 2,
+        "figma": "Spacing/6",
+        "role": "Desktop gap between the Home media-gallery heading and its card grid"
+      },
       "7": {
         "rem": 2.5,
         "figma": "Spacing/7"
       }
     },
     "layout": {
+      "fluid-scale": {
+        "source": "Approved user decision on 2026-08-26, derived from docs/desktop-fluid-scaling-audit.md; Figma provides the 1920px reference geometry.",
+        "behavioural_formula": "S = clamp(1280 / 1920, viewportWidth / 1920, 2560 / 1920)",
+        "implementation": "Use reviewed clamp(min-rem, fluid-vw-expression, max-rem) tokens; do not change html font-size from 100%.",
+        "implementation_status": "Implemented locally on 2026-08-26 in docs/design-system/tokens.css and production component/Home CSS. The 66.6667% → 100% → 133.3333% envelope, owned ratios and desktop section geometry are covered by focused Playwright checks; desktop visual baselines and published staging validation completed on 2026-08-26.",
+        "reference_viewport_px": 1920,
+        "minimum_viewport_px": 1280,
+        "maximum_viewport_px": 2560,
+        "scale_anchors": {
+          "1280": 0.666667,
+          "1920": 1,
+          "2560": 1.333333
+        },
+        "rules": [
+          "Use rem-valued minimum and maximum bounds; vw may appear only in the middle clamp() term.",
+          "At 1920px, tokens retain the Figma-derived desktop values.",
+          "Between 1280px and 2560px, the shell, editorial canvas, type, spacing, radii, components and their internals use the same S coefficient; values reach 133.3333% at 2560px and do not grow further.",
+          "A page composition may allocate a component width and position but must not override an owned component aspect ratio or internal geometry.",
+          "Width and height of a proportional block derive from the same scale or from one approved aspect ratio; do not give them independent fluid curves.",
+          "Minimum 24px content gutters and 48px interaction targets may stop shrinking before the proportional value, but these exceptions must not change card or section aspect ratios.",
+          "Technical 1px hairlines, dimensionless line-height, colors, opacity and full-radius are not multiplied by S.",
+          "Viewport-height Hero geometry is an explicit composition exception; it must not authorize independent scaling of components placed inside it."
+        ]
+      },
       "content-gutter": {
         "rem": 1.5,
         "alias": "spacing.5",
@@ -270,12 +314,18 @@
       "editorial-max-width": {
         "rem": 101.375,
         "css": "--layout-editorial-max-width",
-        "role": "Maximum width of the desktop editorial grid; it centres above the 2560 px controlled-growth cap"
+        "role": "Maximum width of the editorial grid; it equals the Figma canvas at 1920px and reaches its cap at 2560px",
+        "legacy_fluid": "clamp(101.375rem, calc(63.4375vw + 25.25rem), 126.75rem)",
+        "target_rule": "Derive the 1920px editorial reference width with S through 2560px; centre only after the 2560px cap while preserving documented minimum gutters.",
+        "implementation_status": "implemented locally; desktop visual baselines and published staging validated on 2026-08-26"
       },
       "section-gap": {
         "rem": 7.5,
         "css": "--layout-section-gap",
-        "role": "Vertical spacing between major editorial blocks"
+        "role": "Fluid vertical spacing between major editorial blocks",
+        "legacy_fluid": "clamp(5rem, calc(2.5vw + 4.5rem), 8.5rem)",
+        "target_rule": "Scale the 1920px reference gap with S across desktop; do not use an independent envelope.",
+        "implementation_status": "implemented locally; desktop visual baselines and published staging validated on 2026-08-26"
       },
       "home-hero-content-padding-block-end": {
         "rem": 2,
@@ -335,19 +385,48 @@
       "status": "defined",
       "duration-fast-ms": 160,
       "duration-normal-ms": 240,
+      "duration-input-label-transition-ms": 400,
       "duration-micro-ms": 300,
-      "duration-home-hero-title-ms": 1600,
-      "duration-button-play-hover-ms": 800,
+      "duration-home-hero-title-fade-ms": 600,
+      "delay-home-hero-title-fade-ms": 200,
+      "easing-home-hero-title-fade": "cubic-bezier(0.5, 0, 0, 1)",
+      "duration-home-block-reveal-ms": 600,
+      "duration-home-fact-card-slide-in-ms": 600,
+      "duration-about-hero-title-reveal-ms": 400,
+      "about-hero-title-reveal-start-offset-px": 20,
+
+      "easing-home-fact-card-slide-in": "cubic-bezier(0, 0, 0.06, 1)",
+      "easing-home-fact-card-fade-in": "cubic-bezier(0, 0, 0.06, 1)",
+      "home-fact-card-slide-in-distance-px": -40,
+      "delay-home-fact-card-slide-in-ms": 300,
+      "duration-home-hero-panel-reveal-ms": 1000,
+      "easing-home-hero-panel-reveal": "cubic-bezier(0.74, 0, 0, 1)",
+      "home-hero-panel-zoom-start-scale": 1.1,
+      "duration-media-card-hover-ms": 400,
+      "easing-media-card-hover": "cubic-bezier(0.46, 0, 0, 1)",
       "duration-link-roll-ms": 400,
+      "distance-title-roll-separator-px": 4,
+      "duration-link-color-hover-ms": 200,
+      "duration-button-hover-ms": 200,
+      "duration-application-form-success-reveal-ms": 400,
+      "duration-button-loading-dots-ms": 1350,
+      "easing-button-loading-dots": "cubic-bezier(0.333, 0, 0.667, 1)",
+      "delay-button-loading-dot-ms": 150,
+      "delay-button-loading-dot-third-ms": 283.333,
       "easing-link-roll": "ease",
       "easing-standard": "cubic-bezier(0.2, 0, 0, 1)",
       "easing-out": "ease-out",
-      "reduced-motion": "Disable the Home Hero reveal and the Home teacher CTA arrow transition when prefers-reduced-motion is reduce; keep both in their final/default positions immediately.",
-      "home-hero-title-easing": "easeOutQuint",
-      "home-hero-title-stagger-ms": 70,
-      "home-hero-title-first-delay-ms": 70,
-      "home-hero-title-start-offset-percent": 130,
-      "home-other-decorative-motion": "disabled except for the approved Home teacher CTA hover feedback"
+      "easing-home-reveal": "cubic-bezier(0, 0, 0.18, 1)",
+      "easing-home-media-card-reveal": "cubic-bezier(0, 0, 0.18, 1)",
+      "home-media-card-reveal-start-opacity": 0,
+      "system-motion-policy": "Approved motion must not depend on an operating-system setting that reduces motion.",
+      "home-block-reveal-start-offset-px": 20,
+      "home-media-reveal-viewport-offset-px": 200,
+      "delay-home-media-cards-reveal-ms": 400,
+      "home-other-decorative-motion": "disabled except for the approved Home teacher CTA hover feedback",
+      "home-entry-reveal": "Capella hero and news panels start immediately with a center-out vertical clipping mask over 1000ms, while their inner content scales from 110% to 100%, excluding the Capella title, which only fades in linearly over 400ms. All fact cards start together after 300ms; each slides downward from 40px above while fading from opacity 0 to 1 with cubic-bezier(0, 0, 0.06, 1) over the same 1000ms.",
+      "home-media-scroll-reveal": "The media gallery starts its one-time reveal when its top edge enters the viewport 200px above the bottom edge. Its heading and link use opacity 0 to 1 plus translateY(20px) to 0 over 1000ms with cubic-bezier(0, 0, 0.18, 1); all media cards fade from opacity 0 to 1 over the same duration after 400ms with cubic-bezier(0, 0, 0.18, 1), without translate.",
+      "home-history-scroll-reveal": "The history section uses the same one-time viewport reveal: its heading and link use opacity 0 to 1 plus translateY(20px) to 0 over 1000ms with cubic-bezier(0, 0, 0.18, 1); its history grid then fades from opacity 0 to 1 over the same duration after 400ms, without translate."
     },
     "interaction": {
       "hover-opacity": {
@@ -418,20 +497,26 @@
         "standard-padding-inline-rem": 1.5,
         "standard-label-token": "typography.body",
         "standard-radius-token": "radius.full",
-        "play-default-size-rem": 4,
-        "play-hover-size-rem": 5,
+        "play-size-rem": 4,
         "arrow-size-rem": 4,
         "standard-icon-size-rem": 1.5,
         "play-icon-size-rem": 1,
+        "loading-dot-size-rem": 0.3125,
+        "loading-dot-gap-rem": 0.4166667,
+        "loading-dot-rise-rem": 0.125,
+        "loading-dot-rest-opacity": 1,
+        "loading-dot-rest-scale": 1,
+        "loading-dot-peak-scale": 1.5,
+        "loading-label-gap-rem": 1,
         "arrow-icon-size-rem": 1.5,
         "gap-rem": 0.5
       },
       "state_contract": {
-        "hover": "Primary uses interaction.hover-opacity while preserving exactly the default geometry and padding; secondary and icon controls use neutral-100/muted surfaces as shown in Figma. Text variants without the close icon keep 1.5rem (24px) end padding in every state. Play transitions size with duration-button-play-hover (800ms) and easing-out; arrows transition background with duration-micro and easing-out.",
+        "hover": "Primary uses interaction.hover-opacity while preserving exactly the default geometry and padding; secondary and Arrow controls use neutral-100/muted surfaces as shown in Figma. Primary opacity and secondary/Arrow background transitions use duration-button-hover (200ms) with easing-standard. Arrow additionally rolls its decorative glyph over 400ms with easing-link-roll: arrow-left exits left and enters from the right; arrow-right exits right and enters from the left. Text variants without the close icon keep 1.5rem (24px) end padding in every state. Play preserves its 4rem geometry and has no hover transition.",
         "focus-visible": "Brand outline uses interaction focus ring width and offset and remains a real keyboard behavior, but is not duplicated as an artificial Storybook specimen.",
         "active": "Use interaction.active-opacity and preserve Primary geometry during real pointer hover.",
         "disabled": "Use native disabled for buttons or aria-disabled without href for links, interaction.disabled-opacity, and suppress hover/active.",
-        "loading": "Button-only state: set disabled and aria-busy, replace visible label, hide optional icon, and do not add motion before motion tokens exist."
+        "loading": "Button-only state: set disabled and aria-busy, replace visible label, hide optional icon, and render exactly three persistent circular dots rendered at 5px in their resting state (7.5px at the Lottie peak) with 6.67px visual gaps, centered vertically and 16px after the label; they follow the Loading Dots Lottie motion: 100% to 150% scale, constant 100% opacity and a 2px upward lift; starts are offset by 150ms and 283.333ms in a 1350ms cycle with cubic-bezier(0.333, 0, 0.667, 1)."
       },
       "semantics": {
         "action": "button",
@@ -439,7 +524,7 @@
         "icon-only": "Requires a non-empty accessible label; SVGs are decorative.",
         "loading": "Not valid for links."
       },
-      "responsive": "Keep the 4rem base control size and at least 44px target in desktop, tablet and mobile. Component-specific tablet/mobile refinements belong to stage 6; no Button breakpoint is introduced in stage 3.",
+      "responsive": "Keep the fluid desktop control size and at least 48px interaction target in desktop, tablet and mobile. Component-specific tablet/mobile refinements belong to stage 6; no Button breakpoint is introduced in stage 3.",
       "status": "implemented-stage-3",
       "implemented_at": "2026-08-14",
       "implementation": {
@@ -505,8 +590,9 @@
       "path": "wp-content/themes/orlyata/template-parts/components/text-link.php",
       "figma": "Link / 4651:1238",
       "variants": [
-        "default",
-        "navigation"
+        "roll",
+        "color",
+        "color-inverse"
       ],
       "states": [
         "default",
@@ -515,7 +601,9 @@
       ],
       "usage_rules": [
         "Preserve link semantics and visited-state policy where useful",
-        "On hover, roll the duplicated label upward through its clipped one-line track over 400 ms with the standard CSS ease curve"
+        "The roll variant moves the duplicated label upward through its clipped one-line track over 400 ms with the standard CSS ease curve",
+        "The color variant changes from secondary text to primary (black) over 200 ms with easing-standard and has no label movement",
+        "The color-inverse variant keeps inverse (white) text and changes only opacity to 0.9 over 200 ms with easing-standard"
       ],
       "do_not": [
         "Do not use a span with click handler for navigation"
@@ -539,10 +627,24 @@
         "Category determines the icon",
         "The whole card may be clickable only with valid accessible link markup",
         "The title uses Heading/H3 at weight 500",
-        "Hover and focus-within change the title color immediately"
+        "Across desktop preserve the approved card aspect ratio; the icon, badge, padding and internal gap use the same fluid scale as its type",
+        "The NewsCard title keeps the standard Heading/H3 token in every composition, including the two-column home Hero",
+        "Hover and focus-within roll the duplicated title label upward through its clipped track over 400 ms with easing-link-roll, matching MediaCard; keep a 4px separator between the outgoing and incoming copies so multi-line glyphs never show through",
+        "At the 1920px desktop reference the NewsCard is 365×270px (22.8125rem × 16.875rem); every desktop composition preserves the owned 365/270 ratio and derives height from allocated width.",
+        "The desktop Home news grid allocates exactly --news-card-width to each of its two cards, keeps space.4 between them and centers the row inside the news Hero panel; at 1920px each Home NewsCard is therefore exactly 365×270px.",
+        "A page may set NewsCard width and placement but must not set aspect-ratio:auto, an independent height token or page-specific internal padding."
       ],
+      "geometry": {
+        "desktop_reference_width_px": 365,
+        "desktop_reference_height_px": 270,
+        "desktop_aspect_ratio": "365 / 270",
+        "width_css": "--news-card-width",
+        "height_css": "--news-card-height",
+        "aspect_ratio_css": "--news-card-aspect-ratio"
+      },
       "do_not": [
-        "Do not add decorative nested cards"
+        "Do not add decorative nested cards",
+        "Do not disable the component aspect ratio or adapt width and height independently in a page selector"
       ],
       "gaps": [
         "focus-within",
@@ -563,11 +665,13 @@
       ],
       "usage_rules": [
         "Use only for the approved factual metrics on the home page",
-        "Keep the card 170px high with 24px top and inline padding and 16px bottom padding; align the value to the top and the secondary label to the bottom",
-        "Use colors.text-secondary-on-muted for the label so secondary text passes WCAG AA on the muted card surface"
+        "At the 1920px reference keep the card 388×170px with 24px top and inline padding and 16px bottom padding; across desktop preserve its aspect ratio and scale padding with the card, while aligning the value to the top and the secondary label to the bottom",
+        "Use colors.text-secondary-on-muted for the label so secondary text passes WCAG AA on the muted card surface",
+        "The outer card, type, padding, accent and gaps use the same S coefficient across desktop; a page-specific ratio requires an explicit component variant first."
       ],
       "do_not": [
-        "Do not turn ordinary copy into dashboard-like statistics"
+        "Do not turn ordinary copy into dashboard-like statistics",
+        "Do not introduce a silent page-specific aspect ratio"
       ],
       "gaps": [
         "responsive layout",
@@ -592,12 +696,13 @@
       "usage_rules": [
         "Every input has a persistent programmatic label",
         "Errors are associated with the field and announced",
-        "Default uses a 20px label; typing and filled use a 14px secondary label above the 20px value",
+        "Default uses a 20px label; typing and filled use a 14px secondary label above the 20px value; the label transition takes 400ms with easing-standard",
+        "Input error copy has no terminal punctuation",
         "The label uses colors.text-secondary-on-muted in every state so secondary text passes WCAG AA on the muted field surface",
-        "The 64px control uses 16px inline and 2px block padding; stacked label and value line boxes are contiguous and vertically centered",
+        "The 64px control uses 16px inline and 2px block padding; stacked label and value line boxes are contiguous and vertically centered; the date/tel mask underlay uses the same value-line offset",
         "Focus uses the single 1px brand border shown by the Figma typing state; do not add a second outer outline",
-        "The date variant renders as a numeric DD.MM.YYYY mask in a text input, has no native calendar affordance, and corrects a complete invalid value to the nearest valid date no later than today",
-        "The telephone variant accepts typed or pasted digits only and formats them as the Russian +7 (999) 999-99-99 mask"
+        "The date variant renders as a numeric DD.MM.YYYY mask in a text input, has no native calendar affordance, shows the gray ДД.ММ.ГГГГ template only while focused and empty, hides it immediately after the first entered digit, and shows separators immediately after a complete day or month while correcting a complete invalid value to the nearest valid date no later than today",
+        "The telephone variant accepts typed or pasted digits only, initializes an empty focused field with the +7 ( prefix, treats that prefix alone as empty for required validation, and formats the remaining input as the Russian +7 (999) 999-99-99 mask"
       ],
       "do_not": [
         "Do not use placeholder as the only label",
@@ -627,8 +732,11 @@
       ],
       "usage_rules": [
         "Use semantic table markup when relationships are tabular",
+        "On desktop, the achievements variant aligns Year to editorial column 1 and Competition to editorial column 3. Year uses 60% of an equal intermediate track; the remaining width is split equally between Achievement and Choir, while Competition uses the remaining table width",
         "Provide a deliberate mobile representation without losing labels",
-        "Every data row, including the final row, ends with a 1px color-border-subtle stroke; page wrappers must not duplicate this border"
+        "Every data row, including the final row, ends with a 1px color-border-subtle stroke; page wrappers must not duplicate this border",
+        "Desktop row minimum height, type and cell padding scale coherently with S or use natural content height; do not keep a fixed row height while type scales.",
+        "Every desktop DataTable header cell is 4rem (64px) high. Normal table cells use vertical-align: middle; the achievements grid variant centers its single-line label in the cell. For the Home achievements preview, the section heading container is 2.75rem (44px) with a 1.5rem (24px) gap to the table header."
       ],
       "do_not": [
         "Do not hide essential columns only to fit mobile"
@@ -683,12 +791,14 @@
       ],
       "usage_rules": [
         "Use native details and summary disclosure semantics",
-        "Use the Figma plus and minus assets with a 2px stroke",
+        "Use the Figma plus and minus shapes with a 2px stroke through morphicons/dom",
         "Hover changes title, meta and icon to colors.text-secondary immediately",
-        "Open and close use native details disclosure without animation"
+        "With JavaScript, a measured panel wrapper animates between its current and full height for 400ms with cubic-bezier(0, 0, 0.06, 1), then returns to auto height; without JavaScript, native details disclosure remains available",
+        "Only one item in an accordion group may be open at a time",
+        "The plus and minus icon morph is decorative and follows the details open state"
       ],
       "do_not": [
-        "Do not animate disclosure content"
+        "Do not replace native details and summary semantics"
       ],
       "gaps": [
         "tablet",
@@ -707,23 +817,33 @@
       "states": [
         "default",
         "hover",
-        "focus-within"
+        "focus-visible"
       ],
       "usage_rules": [
-        "Preserve image aspect ratio per variant",
-        "Show provider and media type without relying on color alone",
+        "Preserve image aspect ratio per variant across every desktop width; content padding, small-card image height and metadata gap follow the same fluid scale",
+        "Render the publication date as the first metadata badge for every card; render a provider badge second only for video",
         "Big and small variants are both 540px high on desktop",
         "Small keeps 16px between image and title and aligns metadata badges to the bottom",
         "Big uses inverse Badge over imagery",
         "Big and small titles use their Figma heading roles at weight 500",
         "Show the decorative Play marker only for the video media type in either card size: 24px from the left/top in Big and 24px from the left plus 16px from the top inside Small imagery",
         "The video-card link opens the external provider URL in a separate tab; Play does not create a separate action",
-        "Derive the visible provider tag from the URL for YouTube, RuTube and VK Video"
+        "video_embed_url is an optional provider iframe preview supplied by the trusted provider adapter; it is aria-hidden and pointer-events:none so the card remains the only interactive link",
+        "On hover, scale only the image or video preview to 110% within its clipping container over 200ms with cubic-bezier(0, 0, 0.5, 1); card geometry and decorative Play remain fixed",
+        "The title roll keeps a 4px separator between outgoing and incoming copies, preventing multi-line glyphs from showing through",
+        "Derive the visible provider tag from the URL for YouTube, RuTube and VK Video; do not render photo or video as metadata badges",
+        "The outer card, image region, title measure, padding, metadata and gaps use the same S coefficient across desktop; fixed rem measures that change the composition proportion are not allowed."
       ],
       "do_not": [
         "Do not expose Play as a nested interactive control or prevent the card link from opening the external video",
-        "Do not use low-resolution source images"
+        "Do not use low-resolution source images",
+        "Do not override a MediaCard ratio from a page selector without an approved named variant"
       ],
+      "geometry": {
+        "big-title-max-width-rem": 26.875,
+        "big-title-max-width-css": "--media-card-big-title-width",
+        "desktop_rule": "The title measure follows S with the Big card; the 26.875rem reference is not a fixed desktop maximum."
+      },
       "gaps": [
         "missing image",
         "long title",
@@ -751,12 +871,17 @@
         "Submit once per idempotency token",
         "Explain privacy processing before submission and link to the approved privacy policy route",
         "Use the same 500px-wide visual contract for home and about; page composition owns placement",
-        "Default and submitting are at least 536px high; success is at least 456px high",
+        "At the 1920px reference default and submitting are at least 536px high and success is at least 456px high; width, minimum height, padding, field gaps, action gap and success content scale together across desktop",
+        "Success reveals over 400ms with easing-standard, opacity 0 to 1 and translateY(8px) to 0 without changing layout",
         "Compose the four required fields from Input and the action from Button",
         "Submitting preserves values and disables repeat submission without hiding the fields",
+        "The Interactive Storybook demo keeps submitting visible for at least 3000ms before success",
         "Validation errors preserve entered values and are communicated only by their associated Input errors; network and server errors use the form error with role=alert",
+        "Use novalidate while retaining required field semantics: native browser validation bubbles must not appear",
+        "With JavaScript, submit must validate each empty required field through its Input error and clear that field error on the next input; without JavaScript, the POST endpoint validates the same fields",
         "Keep the native POST form usable without JavaScript and let orlyata-core inject nonce and idempotency fields through the documented hook",
-        "Use application-success.svg from Figma for the success state"
+        "Use application-success.svg from Figma for the success state",
+        "The form and its page surface/background use the same S coefficient across desktop; a page must not scale the containing CTA with a different width or height envelope."
       ],
       "do_not": [
         "Do not send field values to analytics",
@@ -773,7 +898,8 @@
       "path": "wp-content/themes/orlyata/template-parts/layout/sidebar.php",
       "figma": "Sidebar / 4641:3718",
       "variants": [
-        "desktop"
+        "desktop",
+        "tablet-header-menu"
       ],
       "states": [
         "default",
@@ -784,18 +910,20 @@
       ],
       "usage_rules": [
         "Desktop rail owns the primary navigation and admission CTA",
-        "Desktop geometry is 250 px wide with the 240 x 110 px logo at 12 px from the top, navigation at 152 px and CTA at 24 px from the bottom of the sidebar viewport",
+        "At the 1920px reference, desktop geometry is 250 px wide with the 240 x 110 px logo at 12 px from the top, navigation at 152 px and CTA at 24 px from the bottom of the sidebar viewport; across desktop these measures follow S except the documented minimum gutter",
         "Navigation uses a semantic nav/list/link structure and aria-current=page for the current route",
-        "On internal pages, hovering the logo changes only its opacity to 90%; the home-page Sidebar suppresses this hover treatment",
+        "All page uses share the same Sidebar markup and styling; only the navigation links and their current-page state may differ",
         "The muted surface of a current navigation item starts 8 px from the left edge of the link; the label keeps the shared navigation padding",
-        "The rail is not rendered below the desktop breakpoint until separate tablet and mobile navigation is approved"
+        "At 768–1279 px, Sidebar becomes a compact top header: the enlarged left logo is 4.68 rem high, with no lower padding before the following content, and the labelled right two-line burger uses 3 rem lines. Without JavaScript the navigation and admission CTA remain visible; JavaScript only collapses and expands that server-rendered menu",
+        "At 767 px and below, the rail is not rendered until separate mobile navigation is approved",
+        "Across desktop, rail, logo, navigation geometry and type scale with S; the 24px gutter and 48px hit-target minimums are explicit exceptions, not a second general scale."
       ],
       "do_not": [
-        "Do not preserve the desktop rail on mobile by shrinking it",
-        "Do not turn the admission CTA or navigation links into JavaScript-only controls"
+        "Do not preserve the desktop rail on tablet or mobile by shrinking it",
+        "Do not turn the admission CTA or navigation links into JavaScript-only controls",
+        "Do not introduce page-specific Sidebar variants, wrappers or CSS selectors; use the component block class and its documented elements and states only"
       ],
       "gaps": [
-        "tablet navigation",
         "mobile menu"
       ]
     },
@@ -803,7 +931,8 @@
       "path": "wp-content/themes/orlyata/template-parts/layout/footer.php",
       "figma": "Footer / 4641:3638",
       "variants": [
-        "default"
+        "default",
+        "tablet"
       ],
       "states": [
         "default",
@@ -815,42 +944,97 @@
         "Contacts are sourced from site settings",
         "Navigation mirrors real routes",
         "Desktop reference geometry is 1616 by 469 px with 48 px padding and a 24 px radius",
+        "Footer owns a 120 px preceding gap at the 1920 px reference; it follows the common desktop S scale and is applied once regardless of the page grid",
         "The required legal destination is the privacy policy route from the approved sitemap",
-        "Secondary text on the inverse surface uses the WCAG AA alias #9999a2 instead of the failing Figma value #71717a",
-        "The desktop Footer is not displayed below 1280 px until the separate tablet and mobile layouts are approved"
+        "Section titles use color-text-inverse; navigation links and contact details use the WCAG AA alias color-text-secondary-on-inverse (#9999a2) instead of the failing Figma value #71717a",
+        "Media navigation links use an 8 px (Space 2) vertical gap",
+        "The contacts block and legal link start on the fourth desktop editorial column. All Footer geometry derives from the 1920px reference with S; the heading-to-links gap is 16/24/32px at 1280/1920/2560, and the second copyright line, Video and privacy link share one text baseline.",
+        "At 768–1279 px, Footer stays visible as a natural-height two-column flow: the slogan and copyright share the first row and align by their lower edge; navigation and contacts form the middle row; the legal link aligns with the Video link; the gap after the first row uses footer-tablet-brand-links-gap (64 px). At 767 px and below, Footer is not rendered until a separate mobile layout is approved",
+        "Do not combine percentage placement, fixed rem block sizes and independently scaled offsets inside the same desktop Footer composition."
       ],
       "do_not": [
-        "Do not duplicate editable contact values in templates"
+        "Do not duplicate editable contact values in templates",
+        "Do not create page-specific Footer variants, wrappers or CSS overrides for its width, aspect ratio, padding, alignment or content order",
+        "Do not pass page-specific contact, navigation or legal-content fixtures to Footer; all pages must render the same shared layout from the approved site settings and routes",
+        "Do not introduce page-specific wrapper classes or selectors for Footer or Sidebar; use the component block class and its documented elements, states and approved modifiers only"
       ],
+      "geometry": {
+        "reference_width_px": 1616,
+        "reference_height_px": 469,
+        "aspect_ratio": "1616 / 469",
+        "aspect_ratio_css": "--footer-aspect-ratio",
+        "contacts_reference_height_px": 272,
+        "contacts_height_css": "--footer-contacts-height",
+        "preceding_gap_reference_px": 120,
+        "preceding_gap_css": "--footer-preceding-gap"
+      },
       "gaps": [
-        "tablet layout",
         "mobile layout"
       ]
     }
   },
   "page_compositions": {
+    "AboutDesktopPreview": {
+      "figma": "О капелле / 4622:1592",
+      "status": "desktop-fluid-geometry-defined",
+      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "implementation_rules": [
+        "Across 1280–2560px, the About shell, editorial grid, sections and their internals follow S = viewportWidth / 1920 clamped to 0.666667–1.333333, except documented minimums.",
+        "The Life of the Capella two-column block has an 803 by 600 px reference box per column at 1920 px. Its text surface and photograph share the approved 803/600 aspect ratio; padding and the 32 px heading-to-grid gap use the same S. The text surface is a three-slide progressive-enhancement carousel: each slide has a Lead heading and Body content limited to 600 px at the 1920 px reference, while the right photograph changes with the selected slide. Without JavaScript all approved slide text remains available in source order. The Life carousel reuses the existing Button arrow-left and arrow-right variants. At the 1920 px reference arrows are inset 24 px from the left and bottom of the dark surface; slide text ends 32 px above their top edge. Its Figma pagination has three 6 px circular controls, a 12 px gap and a 24 px bottom inset; it is aligned to the surface right inset. The selected dot uses color-brand; inactive dots use color-text-secondary-on-inverse. Control insets and dot geometry follow S across desktop. Slide text reveals from opacity 0 to 1 over 400 ms with easing-out. Pagination transitions its color and scale; the selected dot is white. The image stack clips within the approved photograph box and slides horizontally in the arrow direction over the same 400 ms easing-out, without changing the box geometry.",
+        "The Teachers grid has six equal cards at the 1920 px reference. Each card preserves its allocated-width aspect ratio of 257/340; its 160 px portrait, 71 px portrait-to-name gap, padding, type and grid gaps follow S. The 24 px minimum outer gutter may constrain the available grid width but must not distort the card ratio.",
+        "At page initialization, the About Hero title enters from translateY(20 px) to 0 while fading from opacity 0 to 1 over 400 ms with cubic-bezier(0, 0, 0.18, 1). This motion applies only to the About page title, not the reusable PageHero component or other page Heroes; without JavaScript the title remains immediately visible. The first About block Lead is section content and fades without a translateY transform, like the rest of that block.",
+        "Every About section except the Page Hero and Footer uses the approved Home SectionReveal: once its top enters the viewport 200 px above the lower edge, its heading reveals from opacity 0 and translateY(20 px) over 600 ms with easing-home-reveal, then its content fades from opacity 0 to 1 over the same 600 ms duration after the existing 400 ms delay. The intro and choir groups form one reveal block: the Lead, copy and accordion rows are its delayed content and fade without a translateY transform. Other sections without a heading reveal their content directly. The Hero motion is intentionally excluded pending a separate approved contract, and server-rendered content stays fully available without JavaScript.",
+        "Life and Teachers are page sections, not new universal components. Their geometry is owned by documented About page tokens and must not use independently scaled fixed heights."
+      ],
+      "geometry": {
+        "life_column_reference_px": "803 x 600",
+        "life_column_aspect_ratio_css": "--about-life-column-aspect-ratio",
+        "life_slide_count": 3,
+        "life_copy_reference_px": 600,
+        "life_copy_width_css": "--about-life-copy-width",
+        "life_controls_inset_css": "--about-life-controls-inset",
+        "life_copy_controls_gap_css": "--about-life-copy-controls-gap",
+        "life_pagination_reference_px": "3 dots: 6 px with 12 px gap",
+        "teacher_card_reference_px": "257 x 340",
+        "teacher_card_aspect_ratio_css": "--about-teacher-card-aspect-ratio",
+        "teacher_portrait_reference_px": 160,
+        "teacher_portrait_to_name_gap_reference_px": 71
+      },
+      "sections": ["intro", "choir groups", "life of the capella", "teachers", "application CTA", "achievements", "Footer"]
+    },
     "HomeDesktopPreview": {
       "figma": "Главная / 4641:3330",
-      "status": "approved-for-stage-5.1",
+      "status": "implemented-and-staging-validated",
       "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
       "source_frame_width_px": 1900,
       "implementation_rules": [
+        "Across 1280–2560px, the home shell, editorial grid, sections, owned components and their internals follow S = viewportWidth / 1920 clamped to 0.666667–1.333333, except documented minimums.",
+        "Home may allocate grid spans and component widths but may not override owned aspect ratios or internal component geometry; any different ratio requires an approved named variant.",
+        "The viewport-height first-screen Hero is an explicit height exception; NewsCard and Advantage inside it still preserve their own ratios and coherent internal scale.",
         "The 1900 px Figma frame is normalized to the 1920 px desktop target without changing the internal 1617 px editorial canvas relationship.",
-        "A persistent 250 px Sidebar occupies the left rail; the editorial canvas starts at the normalized equivalent of the Figma 261 px offset.",
-        "The hero consists of two rounded panels separated by 16 px: the capella panel automatically plays the supplied muted, looping, inline vertical hero-preview.mp4 with object-fit: cover, while the news panel remains green.",
+        "At the 1920px reference, a 250 px Sidebar occupies the left rail and the editorial canvas starts at the normalized equivalent of the Figma 261 px offset; both follow S across desktop.",
+        "At the 1920px reference, the hero consists of two rounded panels separated by a 16 px gap; the gap follows S: the capella panel automatically plays the supplied muted, looping, inline vertical hero-preview.mp4 with object-fit: cover, while the news panel remains green. Hovering anywhere in the capella panel scales only its preview video to 110% over 400ms with cubic-bezier(0.46, 0, 0, 1), without changing panel geometry.",
         "The capella preview video is covered by linear-gradient(180deg, rgba(0, 0, 0, 0.00) 63.53%, rgba(0, 0, 0, 0.80) 100%). Its Play control and the three-line title «Хоровая / капелла / мальчиков» stay above the gradient.",
-        "The capella title uses the full available content width without clipping and has a 32 px bottom inset. The news panel uses the supplied bg-news.png as its own full-size image layer with object-fit: cover, matching the Figma image layer and Fill behaviour.",
-        "The Play link remains a no-JavaScript fallback to hero-original.mp4. With JavaScript it opens a native dialog and starts the original video only after the explicit click.",
-        "Home motion is limited to the Hero page-load effect and the teacher CTA hover feedback: the three masked hero-title lines move from translateY(130%) to their final position over 1600 ms with easeOutQuint and delays of 70, 140 and 210 ms, matching the inspected AnimatedText2 implementation on oxem.ru. The green teacher CTA shifts only its white arrow right by Space 2 (8 px) on pointer hover, using duration-micro and easing-out, and returns it to its default position when the pointer leaves. All other decorative animations and transitions on the Home page are disabled. The title is server-rendered and readable without JavaScript; prefers-reduced-motion shows the final state immediately and keeps the CTA arrow stationary.",
-        "The four Advantage cards use their existing 170 px contract and appear beneath the hero in one desktop row.",
+        "The capella title uses the full available content width without clipping and has a 32 px bottom inset at the 1920px reference; the inset follows S. The news panel uses the supplied bg-news.png as its own full-size image layer with object-fit: cover, matching the Figma image layer and Fill behaviour.",
+        "The Play link remains a no-JavaScript fallback to hero-original.mp4. With JavaScript, clicking the whole capella panel except its nested Play link opens a native dialog and starts the original video; the Play link continues to provide keyboard access and the no-JavaScript fallback.",
+        "Home motion is limited to the approved entry sequence, capella hero preview hover feedback and teacher CTA hover feedback: capella and news panels use a center-out vertical mask over 1000ms while their content zooms from 110% to 100% with cubic-bezier(0.74, 0, 0, 1); the server-rendered three-line capella title uses only an independent 400ms linear fade-in. The green teacher CTA rolls its white arrow horizontally from left to right on pointer hover: the outgoing glyph leaves through the right edge while an identical glyph enters from the left, over 400ms with easing-link-roll; the circle geometry remains fixed and the default arrow returns when the pointer leaves. Approved motion works identically regardless of the operating system motion preference.",
+        "The four Advantage cards use their 170 px height at the 1920px reference, preserve their approved ratio and follow S while remaining in one desktop row.",
+        "Page compositions must not globally reset descendant transition or animation properties: approved production-component states remain active wherever the component is composed.",
+        "The approved MediaCard hover feedback remains enabled on Home: only its image or video preview scales to 110% within its clipping container over 200ms with cubic-bezier(0, 0, 0.5, 1); the card geometry and content remain fixed.",
         "Media gallery, history, application CTA and achievements are page sections, not new universal components; each reuses an owned component where a contract exists.",
-        "The history section follows Figma 4641:3419: its desktop box is 1617 by 544 px including the 1px top stroke and Heading/H2; its left Lead is paired with the tags «о капелле» and «педагоги», while its right column contains Body copy and two 100 px circular teacher frames followed by a 100 px green teacher CTA.",
-        "The application CTA follows Figma 4641:3437: Heading/Lead 64 «Хотите вырастить творческую личность — запишите мальчика в капеллу» is centered above the 1617 by 620 px atmospheric container. The existing ApplicationForm is centered in that container; do not add supporting marketing copy that is absent from the Figma node.",
+        "The history section follows Figma 4641:3419: its 1920px-reference box is 1617 by 544 px including Heading/H2; all geometry, including the teacher frames and CTA, follows S except the 1px top stroke; its left Lead is paired with the tags «о капелле» and «педагоги», while its right column contains Body copy and two 100 px circular teacher frames followed by a 100 px green teacher CTA.",
+        "The application CTA follows Figma 4641:3437: Heading/Lead 64 «Хотите вырастить творческую личность — запишите мальчика в капеллу» is centered above the 1617 by 620 px atmospheric container at the 1920px reference; its geometry follows S. The existing ApplicationForm is centered in that container; do not add supporting marketing copy that is absent from the Figma node.",
         "The application CTA is the only other approved page context for the atmospheric green-to-dark treatment; it uses authentic Figma imagery, the existing ApplicationForm and the approved privacy link.",
         "The achievements preview uses the existing semantic DataTable with Year, Achievement, Choir and Competition columns.",
         "Preview text, labels and CTA names are copied exactly from their approved Figma node or project content source; implementation must not invent or paraphrase copy.",
         "Stage 5.1 uses controlled preview fixtures for CMS-owned news, media and achievements. Those fixtures must be removed when stage 5.2 connects CMS queries."
       ],
+      "geometry": {
+        "history_reference_px": "1617 x 544",
+        "history_aspect_ratio_css": "--home-history-aspect-ratio",
+        "application_surface_reference_px": "1617 x 620",
+        "application_surface_aspect_ratio_css": "--home-application-aspect-ratio"
+      },
       "sections": [
         "hero and news preview",
         "facts",
@@ -864,26 +1048,28 @@
         "Figma images from 4641:3330 are copied locally into theme assets; the two teacher circles use the supplied local exports Frame 4216.png and Frame 4240.png. The supplied hero videos preview.mp4 and original.mp4 are stored as assets/videos/home/hero-preview.mp4 and hero-original.mp4; the supplied bg-news.png is assets/images/home/news-background.png and bg-form.png is assets/images/home/application-background.png. Remote short-lived MCP URLs are never used in production markup."
       ],
       "gaps": [
-        "tablet and mobile composition belongs to stage 6",
         "CMS integration belongs to stage 5.2",
         "application endpoint belongs to stage 7"
       ]
     }
   },
   "layout": {
-    "grid": "Every page uses an editorial content canvas with a minimum 24 px (Space 5) inline gutter from the left navigation rail and from the browser edge. On desktop the canvas is a four-column equal grid with 16 px (Space 4) gaps. Tablet and mobile may recompose the number of columns, but retain the 24 px outer gutter.",
-    "page_width": "The desktop design target is a 1920 px viewport. Inspected 1900 px Figma frames are normalized to 1920 during implementation. Reviewed fluid values continue scaling to 2560 px; beyond 2560 px the composition is centred.",
-    "section_rhythm": "Major editorial blocks are separated by 120 px (layout.section-gap); internal component and subsection spacing continues to use its own approved token. Use whitespace, rules and surface changes rather than repeated card containers.",
+    "grid": "Every page uses an editorial content canvas with a minimum 24 px (Space 5) inline gutter from the left navigation rail and from the browser edge. On desktop the canvas is a four-column equal grid with a 16 px (Space 4) gap at the 1920px reference; the gap follows S. Tablet and mobile may recompose the number of columns, but retain the 24 px outer gutter.",
+    "page_width": "The desktop design target is a 1920px viewport. Inspected 1900px Figma frames are normalized to 1920. From 1280 through 2560, proportional desktop values use S = viewportWidth / 1920 clamped to 0.666667–1.333333; beyond 2560 the composition is centred and no longer grows.",
+    "section_rhythm": "Major editorial blocks use the 1920px reference rhythm scaled with S across desktop; internal component and subsection spacing follows the same S unless an explicit minimum is documented.",
     "density": "Spacious marketing sections with denser data tables for news, scores and achievements.",
     "responsive_rules": [
       "Use exactly three global layout modes: mobile 320–767, tablet 768–1279, desktop 1280–2560+.",
       "Keep html font-size at 100%; do not implement global viewport scaling through the root font size.",
       "Use rem for type, spacing, component size and radius. Use vw only as the fluid term of reviewed clamp() tokens.",
+      "On desktop use S = clamp(0.666667, viewportWidth / 1920, 1.333333) for the whole composition; shell, canvas, sections, components and internals must not use competing envelopes.",
+      "A page owns placement and available width; owned components keep their approved aspect ratio and internal geometry.",
+      "Minimum 24px gutters and 48px interaction targets, 1px hairlines, dimensionless line-height, full-radius, colors and opacity are explicit non-scaling exceptions.",
       "Media queries use px and 1px is allowed for hairline borders.",
       "Components may recompose at 1280 and 768; mobile is not a uniformly shrunken desktop.",
       "Do not add global breakpoints without updating this manifest first.",
-      "Support 320 px without horizontal page scrolling and without clipping text.",
-      "Between 1920 and 2560 px, reviewed fluid values may continue growing. Above 2560 px, full-bleed backgrounds may extend but content and typography do not continue growing."
+      "Support 320px without horizontal page scrolling and without clipping text.",
+      "Above 2560px, full-bleed backgrounds may extend but content and typography do not continue growing."
     ]
   },
   "storybook": {
@@ -918,7 +1104,10 @@
       "Story-only CSS may arrange and label specimens but may not redefine visual token values.",
       "Accessibility checks fail on violations; local Playwright screenshots are the visual baseline and do not require a cloud service.",
       "Every production component story provides a typed Playground with args and argTypes for meaningful public properties; static Variants and States remain deterministic visual baselines with Controls disabled.",
-      "Every production-component change updates its Storybook story and relevant checks, then rebuilds the published staging Storybook before completion."
+      "ApplicationForm additionally provides an Interactive Storybook demo: it validates locally, shows submitting and success states, and never sends personal data or requests the production endpoint.",
+      "Every production-component change updates its Storybook story and relevant checks, then rebuilds the published staging Storybook before completion.",
+      "The home page has page-level geometry and visual-regression coverage at 1280, 1920 and 2560px plus proportional smoke checks at 1440, 1600 and 2240px.",
+      "Desktop fluid checks assert approved aspect ratios and coherent relative scaling of the outer block and its internals; isolated component tests are insufficient when page composition adds overrides."
     ],
     "font_validation": "Playwright waits for the F37 Ginger Cyrillic VF FontFace to reach loaded status before axe or screenshot assertions.",
     "foundation_visual_baselines": {
@@ -934,7 +1123,12 @@
         "snapshots": 14,
         "recorded_at": "2026-08-14"
       }
-    }
+    },
+    "desktop_smoke_viewports_px": [
+      1440,
+      1600,
+      2240
+    ]
   },
   "visual_language": {
     "mood": "Warm, confident and contemporary editorial identity: youthful without childish decoration, institutional without bureaucracy.",
@@ -957,9 +1151,9 @@
       "Icons supplement labels and must not be the only accessible name."
     ],
     "motion_rules": [
-      "Only the approved Home Hero title reveal and Home teacher CTA arrow hover feedback may animate.",
+      "Only the approved Home Hero title reveal, Hero preview hover feedback, Home teacher CTA arrow hover feedback and Teacher card text roll hover feedback may animate. Teacher card hover rolls the surname and given-name line vertically using duration-link-roll and easing-link-roll, and scales only the portrait inside its fixed 160×160 clipping container to 110% using duration-media-card-hover and easing-media-card-hover. Card geometry remains fixed.",
       "The muted looping Home Hero preview is the only approved autoplay media; do not add other autoplay media or continuous ornamental motion.",
-      "Respect prefers-reduced-motion."
+      "Do not use an operating-system motion-preference media feature or JavaScript check."
     ],
     "anti_patterns": [
       "Unowned accent colors or new gradients",
@@ -969,18 +1163,24 @@
       "Generic dashboard widgets",
       "Arbitrary type sizes or spacing outside tokens",
       "Desktop scaled down uniformly for mobile",
-      "Decorative animation that delays content"
+      "Decorative animation that delays content",
+      "Competing fluid envelopes inside one block",
+      "aspect-ratio:auto on a component with an approved ratio",
+      "Independent fluid width and height for a proportional block",
+      "Page selectors that silently redefine owned component geometry",
+      "Mechanical px-to-rem replacement presented as responsive scaling",
+      "Viewport-specific correction without checking the complete desktop matrix"
     ]
   },
   "accessibility": {
     "contrast_policy": "Target WCAG 2.2 AA for text and meaningful controls. Validate the green/white and secondary-text combinations before release.",
     "keyboard_policy": "All navigation, filters, accordions, galleries and forms must work by keyboard in a logical DOM order.",
     "focus_policy": "Every interactive element has a visible :focus-visible style not dependent on hover. Focus styling is a required design-system gap to resolve.",
-    "reduced_motion_policy": "Disable the approved Home Hero title reveal and teacher CTA arrow hover transition under prefers-reduced-motion: reduce."
+    "system_motion_policy": "Approved motion works identically regardless of the operating system's motion preference; do not implement an alternate reduced-motion branch."
   },
   "governance": {
-    "token_policy": "Use semantic CSS custom properties backed by this manifest. Raw values are allowed only while defining a token, not at call sites.",
-    "component_policy": "Reuse an owned component before creating a local variant. Every interactive component ships with all applicable states and responsive behaviour.",
+    "token_policy": "Use semantic CSS custom properties backed by this manifest. Desktop geometry tokens derive from the shared S contract; raw values and independent fluid envelopes are allowed only while defining a documented exception, not at call sites.",
+    "component_policy": "Reuse an owned component before creating a local variant. Pages own placement and available width but not owned aspect ratios or internal geometry. Every interactive component ships with applicable states, responsive behaviour, Storybook parity and page-level checks where composition can override it.",
     "when_to_add_new_tokens": "Add a token when a new semantic role is approved or a value repeats across at least two owned components. Document source and intended role.",
     "when_to_add_new_components": "Add a component for repeated structure or behaviour with a stable API. One-off page composition remains a section, not a universal component."
   },

@@ -29,6 +29,7 @@ final class SiteSettings {
 		add_action( 'admin_init', array( self::class, 'register_option' ) );
 		add_action( 'admin_menu', array( self::class, 'register_page' ) );
 		add_filter( 'option_page_capability_orlyata_site_settings', array( self::class, 'get_option_capability' ) );
+		add_filter( 'orlyata_site_settings', array( self::class, 'filter_public_settings' ) );
 	}
 
 	/**
@@ -153,6 +154,18 @@ final class SiteSettings {
 		$value = get_option( self::OPTION_NAME, self::get_defaults() );
 
 		return self::sanitize( $value );
+	}
+
+	/**
+	 * Provides approved public site settings to shared theme components.
+	 *
+	 * @param mixed $settings Existing filter value.
+	 * @return array{address: string, phones: array<int, string>, emails: array<int, string>, socials: array<int, array{label: string, url: string, icon_id: int}>}
+	 */
+	public static function filter_public_settings( mixed $settings ): array {
+		unset( $settings );
+
+		return self::get();
 	}
 
 	/**

@@ -64,12 +64,25 @@ form.orlyata-application-form {
 }
 
 .orlyata-application-form--success {
+  animation: orlyata-application-form-success-reveal var(--duration-application-form-success-reveal) var(--easing-standard) both;
   display: flex;
   min-height: var(--application-form-success-min-height);
   flex-direction: column;
   align-items: center;
   gap: var(--application-form-success-actions-gap);
   padding-block: var(--application-form-success-padding-block);
+}
+
+@keyframes orlyata-application-form-success-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--distance-application-form-success-reveal));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .orlyata-application-form__success-content {

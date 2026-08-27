@@ -33,16 +33,25 @@
 }
 
 .orlyata-accordion__toggle {
-  display: block;
+  display: grid;
   width: var(--button-icon-size);
   height: var(--button-icon-size);
-  background-color: currentcolor;
-  mask: url("../../../icons/accordion-plus.svg") center / var(--accordion-icon-glyph-size) var(--accordion-icon-glyph-size) no-repeat;
-  transition: background-color var(--duration-micro) var(--easing-out);
+  place-items: center;
 }
 
-.orlyata-accordion[open] .orlyata-accordion__toggle {
-  mask-image: url("../../../icons/accordion-minus.svg");
+.orlyata-accordion__toggle-icon {
+  width: var(--accordion-icon-glyph-size);
+  height: var(--accordion-icon-glyph-size);
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: var(--accordion-icon-stroke);
+}
+
+.orlyata-accordion__panel {
+  display: flow-root;
+  overflow: hidden;
 }
 
 .orlyata-accordion__content {
@@ -50,7 +59,6 @@
   max-width: 42.125rem;
   margin: var(--space-0) 2.5rem var(--space-0) auto;
   padding-top: var(--space-2);
-  overflow: hidden;
   color: var(--color-text-secondary);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body);
@@ -74,13 +82,5 @@
 
   .orlyata-accordion__content {
     margin-inline: var(--space-0);
-  }
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  .orlyata-accordion__summary,
-  .orlyata-accordion__toggle {
-    transition-duration: 0.01ms;
   }
 }

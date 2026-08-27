@@ -30,8 +30,8 @@
   line-height: var(--line-height-body-small);
   pointer-events: none;
   transition:
-    font-size var(--duration-fast) var(--easing-standard),
-    line-height var(--duration-fast) var(--easing-standard);
+    font-size var(--duration-input-label-transition) var(--easing-standard),
+    line-height var(--duration-input-label-transition) var(--easing-standard);
 }
 
 .orlyata-input:not(.is-filled, .is-typing):not(:focus-within) .orlyata-input__label {
@@ -41,7 +41,29 @@
   line-height: var(--line-height-body);
 }
 
+.orlyata-input__mask {
+  position: absolute;
+  z-index: 0;
+  inset-inline: var(--input-padding-inline);
+  inset-block-start: var(--input-value-offset-block);
+  height: var(--input-value-line-height);
+  color: var(--color-text-secondary-on-muted);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.orlyata-input--date:not(.is-filled):focus-within .orlyata-input__mask,
+.orlyata-input--tel:not(.is-filled):focus-within .orlyata-input__mask {
+  visibility: visible;
+}
+
 .orlyata-input__field {
+  position: relative;
+  z-index: 1;
   box-sizing: border-box;
   width: 100%;
   height: var(--input-value-line-height);
@@ -91,11 +113,4 @@
 
 .orlyata-input.is-disabled {
   opacity: var(--opacity-interactive-disabled);
-}
-
-
-@media (prefers-reduced-motion: reduce) {
-  .orlyata-input__label {
-    transition-duration: 0.01ms;
-  }
 }

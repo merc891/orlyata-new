@@ -14,4 +14,6 @@
 @import "components/footer.css";
 @import "components/application-form.css";
 @import "pages/home.css";
+@import "pages/home-responsive.css";
+@import "pages/home-teacher-cta-motion.css";
 @import "pages/media-card-video-preview.css";

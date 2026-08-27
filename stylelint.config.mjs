@@ -14,6 +14,7 @@ export default {
     'font-family-no-duplicate-names': true,
     'no-duplicate-selectors': true,
     'property-no-unknown': true,
+    'media-feature-name-disallowed-list': ['prefers-reduced-motion'],
     'selector-type-no-unknown': true,
     'unit-no-unknown': true,
   },

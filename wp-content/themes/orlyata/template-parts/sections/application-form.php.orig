@@ -44,9 +44,9 @@ $form_error       = is_string( $form_args['form_error'] ) ? trim( $form_args['fo
 
 if ( '' === $form_error ) {
 	$form_error = match ( $state ) {
-		'validation-error' => __( 'Проверьте выделенные поля.', 'orlyata' ),
-		'network-error'    => __( 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз.', 'orlyata' ),
-		'server-error'     => __( 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз.', 'orlyata' ),
+		'validation-error' => '',
+		'network-error'    => __( 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз', 'orlyata' ),
+		'server-error'     => __( 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз', 'orlyata' ),
 		default            => '',
 	};
 }
@@ -106,7 +106,7 @@ $fields = array(
 		'type'         => 'text',
 	),
 	array(
-		'autocomplete' => '',
+		'autocomplete' => 'bday',
 		'label'        => __( 'Дата рождения', 'orlyata' ),
 		'name'         => 'child_birth_date',
 		'type'         => 'date',
@@ -131,6 +131,7 @@ $form_error_id = $form_id . '-form-error';
 	id="<?php echo esc_attr( $form_id ); ?>"
 	method="post"
 	action="<?php echo esc_url( $form_action ); ?>"
+	novalidate
 	<?php if ( '' !== $aria_label ) : ?>
 		aria-label="<?php echo esc_attr( $aria_label ); ?>"
 	<?php endif; ?>

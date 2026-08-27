@@ -4,18 +4,35 @@
 
 | Figma | Будущий компонент | Варианты/состояния из Figma | Обязательные дополнения |
 | --- | --- | --- | --- |
-| `Button` `4651:1140` | `template-parts/components/button.php` — реализован | primary/secondary, play, arrows; default/hover/active/disabled/loading в витрине, реальный keyboard focus-visible; Play hover 800ms ease-out, arrows 300ms ease-out | отдельная tablet/mobile настройка — этап 6 |
+| `Button` `4651:1140` | `template-parts/components/button.php` — реализован | primary/secondary, play, arrows; default/hover/active/disabled/loading в витрине, реальный keyboard focus-visible; Primary opacity и Secondary/Arrow surface hover за 200ms | отдельная tablet/mobile настройка — этап 6 |
 | `Badge` `4651:1187` | `badge.php` — реализован | default, inverse поверх изображения | категории публикаций, selected filter, focus при интерактивности |
-| `Link` `4651:1238` | `text-link.php` — реализован | default/hover/active | focus-visible, visited policy |
-| `Card news` `4651:1252` | `news-card.php` — реализован | default/hover, title transition 300ms ease-out | category icon, focus-within, long title, missing content |
-| `Advantage` `4651:1331` | `advantage.php` — реализован | stat, desktop 388×170, padding 24/24/16/24 | длинные значения, responsive composition |
-| `Input` `4651:1477` | `input.php` — реализован | default/typing/filled/error; 64 px, padding 16×2, stacked text без gap, focus одной brand-границей | disabled, autocomplete, success, mobile keyboards |
-| `Table_row` + `Table_header` | `data-table.php` — реализован | header/row | семантические таблицы, mobile mapping, empty state, pagination |
-| `Accordeon` `4666:741` | `accordion.php` — реализован | closed/opened, Figma Plus/Minus 2 px, animated; hover 300ms ease-out | tablet/mobile refinement |
-| `Card` `4651:1333` | `media-card.php` — реализован | big/small по 540 px, inverse Badge у big; clipped image hover scale 1.1; video preview in existing MediaCard Playground: muted 8 s loop; content/Play above gradient; Figma Play at 24/24 Big and 24/16 Small with card-hover growth | photo/video, missing image, focus, responsive ratios |
-| Form containers `4527:7798`, `4527:7830`, `4527:8773` | `sections/application-form.php` — реализован | home/about; default/submitting/success/validation-error/network-error/server-error; 500×536 px и success 500×456 px | endpoint, nonce/idempotency, anti-spam, юридическое решение по отдельному consent-control, mobile — этапы 6 и 7 |
-| `Sidebar` `4641:3718` | `layout/sidebar.php` — реализован | desktop 250 px; default/hover/focus-visible/active/current-page; semantic primary navigation and admission CTA | tablet navigation, mobile menu |
-| `Footer` `4641:3638` | `layout/footer.php` — реализован | desktop 1616×469 px; default/hover/focus-visible/active; navigation, dynamic contacts, privacy link | tablet/mobile |
+| `Link` `4651:1238` | `text-link.php` — реализован | roll, color, color-inverse; default/hover/active | focus-visible, visited policy |
+| `Card news` `4651:1252` | `news-card.php` — реализован | default/hover; при pointer hover карточка вырастает на 20 px вверх за 400 ms по `cubic-bezier(0.46, 0, 0, 1)`, иконка и заголовок поднимаются, а нижний Badge с датой остаётся на месте; заголовок прокручивается вертикально, как в MediaCard; desktop сохраняет aspect-ratio карточки и масштабирует её внутренности | category icon, focus-within, long title, missing content |
+| `Advantage` `4651:1331` | `advantage.php` — реализован | stat, reference 1920 px: 388×170 и padding 24/24/16/24; desktop сохраняет aspect-ratio карточки и масштабирует её внутренности | длинные значения, responsive composition |
+| `Input` `4651:1477` | `input.php` — реализован | default/typing/filled/error; 64 px, padding 16×2, stacked text без gap, label transition 400ms, ошибки без конечной точки, focus одной brand-границей; date template for focused empty input; empty telephone starts with +7 ( and then formats the entered number without an underlay | disabled, autocomplete, success |
+| `Table_row` + `Table_header` | `data-table.php` — реализован | header/row; 1px нижняя граница каждой data-строки | семантические таблицы, mobile mapping, empty state, pagination |
+| `Accordeon` `4666:741` | `accordion.php` — реализован | closed/opened, Figma Plus/Minus 2 px; состояния без анимации | tablet/mobile refinement |
+| `Card` `4651:1333` | `media-card.php` — реализован | big/small по 540 px, first Badge is date; second is provider only for video; inverse Badge у big; static image; content/Play above gradient; Figma Play at 24/24 Big and 24/16 Small; desktop сохраняет aspect-ratio и масштабирует внутренние отступы | photo/video, missing image, focus, responsive ratios |
+| Form containers `4527:7798`, `4527:7830`, `4527:8773` | `sections/application-form.php` — реализован | home/about; default/submitting/success/validation-error/network-error/server-error; 500×536 px и success 500×456 px; desktop масштабирует целиком форму, включая padding, поля, gaps и фон секции; `novalidate`, submit показывает ошибки только через Input; Interactive Storybook demo локально воспроизводит валидацию → submitting → success | endpoint, nonce/idempotency, anti-spam, юридическое решение по отдельному consent-control, mobile — этапы 6 и 7 |
+| `Sidebar` `4641:3718` | `layout/sidebar.php` — реализован | reference 1920 px: 250 px; tablet header with logo and two-line burger 768–1279 px; default/hover/focus-visible/active/current-page; semantic primary navigation and admission CTA | mobile menu |
+| `Footer` `4641:3638` | `layout/footer.php` — реализован | reference 1920 px: 1616×469 px; tablet 768–1279 px: natural-height two-column flow; default/hover/focus-visible/active; navigation, dynamic contacts, privacy link | mobile |
+
+## Desktop fluid-scale contract
+
+В диапазоне `1280–2560 px` страница и повторяемые компоненты используют единый коэффициент `S`: `66.6667%` на `1280 px`, `100%` на `1920 px`, `133.3333%` на `2560 px`. Страница распределяет ширину и позицию компонента; ratio, типографика, padding, gaps, радиусы, изображения и прочая внутренняя геометрия принадлежат компоненту и масштабируются тем же `S`.
+
+| Компонент | Геометрический контракт desktop |
+|---|---|
+| NewsCard | Референс `365×270 px` (`22.8125rem × 16.875rem`) на `1920 px`; сохраняет owned ratio `365/270` во всех desktop-композициях, page-level `aspect-ratio: auto` и независимая высота запрещены; desktop-сетка главной выделяет каждой карточке ровно `--news-card-width` и центрирует двухкарточный ряд |
+| Advantage | Референс `388×170` на `1920 px`; оболочка и внутренности используют один `S` |
+| MediaCard Big / Small | Референсы `797×540` и `390×540`; новый page-specific ratio сначала оформляется как явный вариант компонента |
+| ApplicationForm | Поверхность, поля, gaps, action и success-состояние масштабируются согласованно; родитель не задаёт отдельную кривую высоты |
+| DataTable | Типографика, padding и minimum row height масштабируются согласованно либо строка получает natural height |
+| Sidebar / Footer | Shell использует ту же шкалу, что editorial canvas; фиксированные offsets не создают отдельную геометрию |
+
+Для page-секций «О капелле» desktop-контракт также обязателен: «Жизнь капеллы» использует `803×600 px` на колонку и ratio `803/600`, «Педагоги» — карточки `257×340 px` с ratio `257/340`; фотография `160 px` и отступ до имени `71 px` следуют общему `S`. Эти секции остаются page-owned и не требуют выделения в общий компонент.
+
+Обязательные page-level baselines: `1280`, `1920`, `2560 px`; smoke: `1440`, `1600`, `2240 px`. Тесты проверяют ratio и связанную геометрию на реальной странице, а не только в изолированной story.
 
 ## Композиционные секции
 

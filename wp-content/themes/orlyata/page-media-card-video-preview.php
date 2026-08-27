@@ -16,11 +16,10 @@ get_header();
 			'template-parts/components/media-card',
 			null,
 			array(
-				'category'             => 'Сегодня',
+				'date'                 => 'Сегодня',
 				'image_alt'            => 'Концерт капеллы',
 				'image_url'            => get_theme_file_uri( 'assets/images/storybook/media-card-big.png' ),
 				'media_type'           => 'video',
-				'show_play_icon'       => true,
 				'size'                 => 'big',
 				'start_offset_seconds' => 0,
 				'title'                => 'Гала-концерт в БЗК (юноши и Вита Нова)',

@@ -14,16 +14,17 @@ defined( 'ABSPATH' ) || exit;
 $form_args = wp_parse_args(
 	is_array( $args ?? null ) ? $args : array(),
 	array(
-		'action'      => '',
-		'aria_label'  => __( 'Форма записи в капеллу', 'orlyata' ),
-		'errors'      => array(),
-		'form_error'  => '',
-		'id'          => 'application',
-		'privacy_url' => home_url( '/politika-konfidencialnosti/' ),
-		'state'       => 'default',
-		'success_url' => home_url( '/' ),
-		'values'      => array(),
-		'variant'     => 'home',
+		'action'       => '',
+		'aria_label'   => __( 'Форма записи в капеллу', 'orlyata' ),
+		'errors'       => array(),
+		'form_error'   => '',
+		'id'           => 'application',
+		'privacy_url'  => home_url( '/politika-konfidencialnosti/' ),
+		'state'        => 'default',
+		'submit_label' => __( 'Отправить заявку', 'orlyata' ),
+		'success_url'  => home_url( '/' ),
+		'values'       => array(),
+		'variant'      => 'home',
 	)
 );
 
@@ -40,13 +41,16 @@ $form_id          = '' !== $form_id ? $form_id : 'application';
 $values           = is_array( $form_args['values'] ) ? $form_args['values'] : array();
 $field_errors     = is_array( $form_args['errors'] ) ? $form_args['errors'] : array();
 $is_submitting    = 'submitting' === $state;
+$submit_label     = is_string( $form_args['submit_label'] ) && '' !== trim( $form_args['submit_label'] )
+	? trim( $form_args['submit_label'] )
+	: __( 'Отправить заявку', 'orlyata' );
 $form_error       = is_string( $form_args['form_error'] ) ? trim( $form_args['form_error'] ) : '';
 
 if ( '' === $form_error ) {
 	$form_error = match ( $state ) {
 		'validation-error' => '',
-		'network-error'    => __( 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз.', 'orlyata' ),
-		'server-error'     => __( 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз.', 'orlyata' ),
+		'network-error'    => __( 'Не удалось отправить заявку. Проверьте интернет-соединение и попробуйте ещё раз', 'orlyata' ),
+		'server-error'     => __( 'Сервис временно недоступен. Попробуйте отправить заявку ещё раз', 'orlyata' ),
 		default            => '',
 	};
 }
@@ -131,6 +135,7 @@ $form_error_id = $form_id . '-form-error';
 	id="<?php echo esc_attr( $form_id ); ?>"
 	method="post"
 	action="<?php echo esc_url( $form_action ); ?>"
+	novalidate
 	<?php if ( '' !== $aria_label ) : ?>
 		aria-label="<?php echo esc_attr( $aria_label ); ?>"
 	<?php endif; ?>
@@ -181,7 +186,7 @@ $form_error_id = $form_id . '-form-error';
 		null,
 		array(
 			'class'         => 'orlyata-application-form__submit',
-			'label'         => __( 'Отправить заявку', 'orlyata' ),
+			'label'         => $submit_label,
 			'loading'       => $is_submitting,
 			'loading_label' => __( 'Отправляем заявку …', 'orlyata' ),
 			'type'          => 'submit',

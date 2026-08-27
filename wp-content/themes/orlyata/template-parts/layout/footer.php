@@ -59,7 +59,7 @@ $footer_args       = wp_parse_args(
 		),
 		'slogan_lines'     => array(
 			__( 'Сегодня орлята,', 'orlyata' ),
-			__( 'а завтра – орлы', 'orlyata' ),
+			__( 'а завтра – орлы!', 'orlyata' ),
 		),
 		'legal_label'      => __( 'Политика конфиденциальности', 'orlyata' ),
 		'legal_url'        => home_url( '/politika-konfidencialnosti/' ),

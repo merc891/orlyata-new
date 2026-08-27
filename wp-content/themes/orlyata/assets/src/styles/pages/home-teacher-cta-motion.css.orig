@@ -1,4 +1,4 @@
-@media (prefers-reduced-motion: no-preference) {
+@media (системная настройка сокращения движения: no-preference) {
   .orlyata-home .orlyata-home__history-teachers-link img {
     transition: transform var(--duration-micro) var(--easing-out);
   }

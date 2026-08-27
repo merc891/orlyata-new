@@ -170,6 +170,11 @@
   gap: var(--space-5);
 }
 
+.teacher-card-story-preview {
+  width: min(100%, var(--layout-editorial-max-width));
+  margin-inline: auto;
+}
+
 .component-state {
   display: grid;
   justify-items: start;
@@ -209,14 +214,16 @@
   min-block-size: inherit;
 }
 
-.footer-story-preview {
-  min-inline-size: var(--footer-reference-width);
-  min-block-size: var(--footer-height);
-  background: var(--color-surface);
-}
+@media (width >= 1280px) {
+  .footer-story-preview {
+    min-inline-size: var(--footer-reference-width);
+    min-block-size: var(--footer-height);
+    background: var(--color-surface);
+  }
 
-.footer-story-preview .orlyata-footer {
-  display: block;
+  .footer-story-preview .orlyata-footer {
+    display: block;
+  }
 }
 
 .application-form-story-preview {

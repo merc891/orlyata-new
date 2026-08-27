@@ -1,6 +1,7 @@
 /*
  * Confirmed desktop tokens extracted from Figma on 2026-08-09.
- * Tablet and mobile typography are intentionally not defined yet.
+ * Fluid typography is approved for mobile, tablet and desktop; 1920px remains
+ * the Figma reference, with clamp() bounds at 320px and 2560px.
  * This file is the future source for theme-level CSS Custom Properties;
  * do not fill gaps with unreviewed raw values.
  */
@@ -12,12 +13,14 @@
   --color-text-primary: #181717;
   --color-text-secondary: #71717a;
   --color-text-secondary-on-muted: #6f6f78;
+  --color-text-secondary-on-inverse: #9999a2;
   --color-text-inverse: #ffffff;
   --color-surface: #ffffff;
   --color-surface-muted: #f4f4f5;
   --color-surface-inverse: #181717;
   --color-surface-photo: #c6ccc2;
   --color-border-subtle: #c7c7cc;
+  --color-border-menu: #d4d4d4;
   --color-error: #d63a3a;
   --color-neutral-100: #eaeaeb;
   --color-neutral-200: #9999a2;
@@ -30,47 +33,162 @@
 
   --duration-fast: 160ms;
   --duration-normal: 240ms;
+  --duration-micro: 300ms;
+  --duration-home-hero-title-fade: 600ms;
+  --delay-home-hero-title-fade: 200ms;
+  --easing-home-hero-title-fade: cubic-bezier(0.5, 0, 0, 1);
+  --duration-home-block-reveal: 600ms;
+  --duration-home-fact-card-slide-in: 600ms;
+  --easing-home-fact-card-slide-in: cubic-bezier(0, 0, 0.06, 1);
+  --easing-home-fact-card-fade-in: cubic-bezier(0, 0, 0.06, 1);
+  --home-fact-card-slide-in-distance: -2.5rem;
+  --delay-home-fact-card-slide-in: 300ms;
+  --duration-home-hero-panel-reveal: 1000ms;
+  --easing-home-hero-panel-reveal: cubic-bezier(0.74, 0, 0, 1);
+  --home-hero-panel-zoom-start-scale: 1.1;
+  --duration-media-card-hover: 400ms;
+  --easing-media-card-hover: cubic-bezier(0.46, 0, 0, 1);
+  --duration-link-roll: 400ms;
+  --distance-title-roll-separator: 0.25rem;
+  --duration-link-color-hover: 200ms;
+  --duration-button-hover: 200ms;
+  --duration-application-form-success-reveal: 400ms;
+  --duration-button-loading-dots: 1350ms;
+  --easing-button-loading-dots: cubic-bezier(0.333, 0, 0.667, 1);
+  --button-loading-dot-size: 0.3125rem;
+  --button-loading-dot-gap: 0.4166667rem;
+  --distance-button-loading-dot-rise: 0.125rem;
+  --opacity-button-loading-dot-rest: 1;
+  --scale-button-loading-dot-rest: 1;
+  --scale-button-loading-dot-peak: 1.5;
+  --delay-button-loading-dot: 150ms;
+  --delay-button-loading-dot-third: 283.333ms;
+  --button-loading-label-gap: var(--space-4);
   --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-out: ease-out;
+  --easing-home-reveal: cubic-bezier(0, 0, 0.18, 1);
+  --easing-home-media-card-reveal: cubic-bezier(0, 0, 0.18, 1);
+  --opacity-home-media-card-reveal-start: 0;
+  --easing-home-sidebar-reveal: cubic-bezier(0, 0, 1, 1);
+  --duration-home-sidebar-reveal: 600ms;
+  --easing-link-roll: ease;
+  --easing-out-quint: linear(0, 0.2262 5%, 0.4095 10%, 0.5563 15%, 0.6723 20%, 0.7627 25%, 0.8319 30%, 0.8839 35%, 0.9222 40%, 0.9497 45%, 0.9688 50%, 0.9815 55%, 0.9898 60%, 0.9947 65%, 0.9976 70%, 0.999 75%, 0.9997 80%, 0.9999 85%, 1 90%, 1);
+  --home-block-reveal-start-offset: 1.25rem;
+  --home-media-reveal-viewport-offset: 12.5rem;
+  --delay-home-media-cards-reveal: 400ms;
 
-  --button-height: 4rem;
-  --button-padding-block: 0.75rem;
-  --button-padding-inline: 1.5rem;
-  --button-secondary-padding-end: 1.25rem;
-  --button-gap: 0.5rem;
-  --button-icon-size: 1.5rem;
-  --button-play-icon-size: 1rem;
-  --button-play-hover-size: 5rem;
+  --button-height: clamp(3rem, calc(2.5vw + 1rem), 5rem);
+  --button-padding-block: clamp(0.5625rem, calc(0.46875vw + 0.1875rem), 0.9375rem);
+  --button-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --button-gap: clamp(0.375rem, calc(0.3125vw + 0.125rem), 0.625rem);
+  --button-icon-size: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --button-play-icon-size: clamp(0.75rem, calc(0.625vw + 0.25rem), 1.25rem);
 
-  --badge-height: 4rem;
-  --badge-padding-inline: 1.5rem;
-  --input-height: 4rem;
-  --input-padding-block: 0.125rem;
-  --input-padding-inline: 1rem;
-  --input-width: 27.25rem;
+  --badge-height: clamp(3rem, calc(2.5vw + 1rem), 5rem);
+  --badge-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --duration-input-label-transition: 400ms;
+  --input-height: clamp(3rem, calc(2.5vw + 1rem), 5rem);
+  --input-padding-block: clamp(0.09375rem, calc(0.078125vw + 0.03125rem), 0.15625rem);
+  --input-padding-inline: clamp(0.75rem, calc(0.625vw + 0.25rem), 1.25rem);
+  --input-label-line-height: clamp(0.984375rem, calc(0.8203125vw + 0.328125rem), 1.640625rem);
+  --input-value-offset-block: clamp(1.2890625rem, calc(1.07421875vw + 0.4296875rem), 2.1484375rem);
+  --input-value-line-height: clamp(1.3125rem, calc(1.09375vw + 0.4375rem), 2.1875rem);
+  --input-width: clamp(20.4375rem, calc(17.03125vw + 6.8125rem), 34.0625rem);
+  --application-form-width: clamp(23.4375rem, calc(19.53125vw + 7.8125rem), 39.0625rem);
+  --application-form-min-height: clamp(25.125rem, calc(20.9375vw + 8.375rem), 41.875rem);
+  --media-card-hover-scale: 1.1;
+  --application-form-success-min-height: 28.5rem;
+  --distance-application-form-success-reveal: 0.5rem;
+  --application-form-padding: 2rem;
+  --application-form-success-padding-block: 2.25rem;
+  --application-form-gap: 1.5rem;
+  --application-form-fields-gap: 1rem;
+  --application-form-success-icon-size: 6rem;
+  --application-form-success-copy-width: 23.125rem;
+  --application-form-success-content-gap: 1rem;
+  --application-form-success-content-height: 14rem;
+  --application-form-success-actions-gap: 6rem;
   --accordion-row-height: 3rem;
   --accordion-icon-glyph-size: 1rem;
   --accordion-icon-stroke: 0.125rem;
-  --advantage-width: 24.234375rem;
-  --advantage-height: 10.625rem;
-  --advantage-accent-size: 0.625rem;
-  --news-card-width: 22.8125rem;
-  --news-card-height: 16.6875rem;
-  --media-card-big-width: 49.8125rem;
-  --media-card-big-height: 33.75rem;
-  --media-card-small-width: 24.375rem;
-  --media-card-small-height: 33.75rem;
-  --media-card-small-image-height: 18.75rem;
+  --advantage-width: clamp(18.17578125rem, calc(15.146484375vw + 6.05859375rem), 30.29296875rem);
+  --advantage-height: clamp(8.875rem, calc(4.375vw + 5.375rem), 12.375rem);
+  --advantage-accent-size: clamp(0.46875rem, calc(0.390625vw + 0.15625rem), 0.78125rem);
+  --news-card-width: clamp(17.109375rem, calc(14.2578125vw + 5.703125rem), 28.515625rem);
+  --news-card-height: clamp(13.875rem, calc(7.03125vw + 8.25rem), 19.5rem);
+  --media-card-big-width: clamp(37.359375rem, calc(31.1328125vw + 12.453125rem), 62.265625rem);
+  --media-card-big-height: clamp(28.125rem, calc(14.0625vw + 16.875rem), 39.375rem);
+  --media-card-small-width: clamp(18.28125rem, calc(15.234375vw + 6.09375rem), 30.46875rem);
+  --media-card-small-height: clamp(28.125rem, calc(14.0625vw + 16.875rem), 39.375rem);
+  --media-card-small-image-height: clamp(15.625rem, calc(7.8125vw + 9.375rem), 21.875rem);
+  --sidebar-width: clamp(11.71875rem, calc(9.765625vw + 3.90625rem), 19.53125rem);
+  --sidebar-reference-height: clamp(48.28125rem, calc(40.234375vw + 16.09375rem), 80.46875rem);
+  --sidebar-logo-width: clamp(11.25rem, calc(9.375vw + 3.75rem), 18.75rem);
+  --sidebar-logo-height: clamp(5.15625rem, calc(4.296875vw + 1.71875rem), 8.59375rem);
+  --sidebar-logo-offset-block: clamp(0.5625rem, calc(0.46875vw + 0.1875rem), 0.9375rem);
+  --sidebar-tablet-logo-height: 4.68rem;
+  --sidebar-tablet-menu-line-width: 3rem;
+  --sidebar-nav-offset-block: clamp(7.125rem, calc(5.9375vw + 2.375rem), 11.875rem);
+  --sidebar-nav-width: clamp(11.203125rem, calc(9.3359375vw + 3.734375rem), 18.671875rem);
+  --sidebar-nav-list-width: clamp(10.640625rem, calc(8.8671875vw + 3.546875rem), 17.734375rem);
+  --sidebar-link-width: clamp(10.546875rem, calc(8.7890625vw + 3.515625rem), 17.578125rem);
+  --sidebar-link-height: clamp(1.6875rem, calc(1.40625vw + 0.5625rem), 2.8125rem);
+  --sidebar-link-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --sidebar-link-radius: clamp(0.46875rem, calc(0.390625vw + 0.15625rem), 0.78125rem);
+  --sidebar-nav-gap: clamp(0.09375rem, calc(0.078125vw + 0.03125rem), 0.15625rem);
+  --sidebar-cta-inset-inline-start: clamp(0.796875rem, calc(0.6640625vw + 0.265625rem), 1.328125rem);
+  --sidebar-cta-inset-inline-end: clamp(1.171875rem, calc(0.9765625vw + 0.390625rem), 1.953125rem);
+  --sidebar-cta-offset-block-end: var(--space-5);
+  --footer-reference-width: clamp(75.75rem, calc(63.125vw + 25.25rem), 126.25rem);
+  --footer-height: clamp(21.984375rem, calc(18.3203125vw + 7.328125rem), 36.640625rem);
+  --footer-padding: clamp(2.25rem, calc(1.875vw + 0.75rem), 3.75rem);
+  --footer-content-height: clamp(17.34375rem, calc(14.453125vw + 5.78125rem), 29.140625rem);
+  --footer-tablet-brand-links-gap: 4rem;
+  --footer-navigation-heading-links-gap: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --footer-brand-width: clamp(24.57421875rem, calc(20.478515625vw + 8.19140625rem), 40.95703125rem);
+  --footer-nav-offset-inline: 50.723684%;
+  --footer-nav-offset-block: clamp(-0.390625rem, calc(-0.1953125vw - 0.078125rem), -0.234375rem);
+  --footer-nav-width: clamp(8.9296875rem, calc(7.44140625vw + 2.9765625rem), 14.8828125rem);
+  --footer-contacts-offset-inline: calc(75% + clamp(1.6875rem, calc(1.40625vw + 0.5625rem), 2.8125rem));
+  --footer-contacts-width: clamp(14.15625rem, calc(11.796875vw + 4.71875rem), 23.59375rem);
+  --footer-copyright-offset-block: clamp(14.8359375rem, calc(12.36328125vw + 4.9453125rem), 24.7265625rem);
+  --footer-legal-offset-block: calc(var(--footer-nav-offset-block) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-7) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2));
+  --footer-contacts-links-offset-block: clamp(8.484375rem, calc(7.0703125vw + 2.828125rem), 14.140625rem);
+  --footer-section-title-height: clamp(0.984375rem, calc(0.8203125vw + 0.328125rem), 1.640625rem);
+  --footer-link-item-height: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+
+  --layout-content-gutter: var(--space-5);
+  --layout-grid-columns: 4;
+  --layout-grid-gap: var(--space-4);
+  --layout-editorial-max-width: clamp(101.375rem, calc(63.4375vw + 25.25rem), 126.75rem);
+  --layout-section-gap: clamp(5rem, calc(2.5vw + 4.5rem), 8.5rem);
+
+  --home-hero-panel-width: clamp(37.40625rem, calc(31.171875vw + 12.46875rem), 62.34375rem);
+  --home-hero-panel-height: clamp(35.53125rem, calc(29.609375vw + 11.84375rem), 59.21875rem);
+  --home-hero-content-padding-block-end: clamp(1.5rem, calc(1.25vw + 0.5rem), 2.5rem);
+  --home-first-screen-gap: var(--space-4);
+  --home-first-screen-panel-height: calc(100svh - var(--space-5) - var(--home-first-screen-gap) - var(--advantage-height) - var(--space-5));
+  --home-history-height: clamp(28rem, calc(15vw + 16rem), 40rem);
+  --home-history-heading-offset: clamp(0.703125rem, calc(0.5859375vw + 0.234375rem), 1.171875rem);
+  --home-history-content-height: clamp(24rem, calc(12.5vw + 14rem), 34rem);
+  --home-history-lead-width: clamp(32.34375rem, calc(26.953125vw + 10.78125rem), 53.90625rem);
+  --home-history-copy-width: clamp(29.0625rem, calc(24.21875vw + 9.6875rem), 48.4375rem);
+  --home-history-copy-offset-block: clamp(0.9375rem, calc(0.78125vw + 0.3125rem), 1.5625rem);
+  --home-history-teacher-size: clamp(5rem, calc(3.125vw + 2.5rem), 7.5rem);
+  --home-application-height: clamp(32.5rem, calc(15.625vw + 20rem), 45rem);
+  --home-application-title-width: clamp(43.75rem, calc(27.5vw + 21.75rem), 65.75rem);
+  --home-application-title-gap: clamp(1.5rem, calc(1.25vw + 0.5rem), 2.5rem);
 
   --font-family-primary: "F37 Ginger Cyrillic VF", Arial, sans-serif;
 
-  --font-size-display: 5rem;
-  --font-size-heading-1: 4rem;
-  --font-size-heading-2: 2.75rem;
-  --font-size-lead: 2.25rem;
-  --font-size-heading-3: 1.5rem;
-  --font-size-body: 1.25rem;
-  --font-size-caption: 0.875rem;
-  --font-size-body-small: 0.875rem;
+  --font-size-display: clamp(2.5rem, calc(2.5vw + 2rem), 6rem);
+  --font-size-heading-1: clamp(2.25rem, calc(1.875vw + 1.75rem), 4.75rem);
+  --font-size-heading-2: clamp(1.75rem, calc(1.25vw + 1.25rem), 3.25rem);
+  --font-size-lead: clamp(1.5rem, calc(0.9375vw + 1.125rem), 2.625rem);
+  --font-size-heading-3: clamp(1.25rem, calc(0.3125vw + 1.125rem), 1.625rem);
+  --font-size-body: clamp(1rem, calc(0.3125vw + 0.875rem), 1.375rem);
+  --font-size-caption: clamp(0.75rem, calc(0.3125vw + 0.5rem), 1rem);
+  --font-size-body-small: clamp(0.75rem, calc(0.3125vw + 0.5rem), 1rem);
 
   --line-height-display: 0.65;
   --line-height-heading-1: 0.8;
@@ -81,24 +199,37 @@
   --line-height-caption: 1.5;
   --line-height-body-small: 1.5;
 
-  --letter-spacing-display: -0.3125rem;
-  --letter-spacing-heading-1: -0.1875rem;
-  --letter-spacing-heading-2: -0.125rem;
-  --letter-spacing-lead: -0.0625rem;
-  --letter-spacing-heading-3: -0.0625rem;
-  --letter-spacing-body: -0.03125rem;
-  --letter-spacing-caption: -0.0125rem;
-  --letter-spacing-body-small: -0.0125rem;
+  --letter-spacing-display: clamp(-0.390625rem, calc(-0.1953125vw - 0.078125rem), -0.234375rem);
+  --letter-spacing-heading-1: clamp(-0.234375rem, calc(-0.1171875vw - 0.046875rem), -0.140625rem);
+  --letter-spacing-heading-2: clamp(-0.15625rem, calc(-0.078125vw - 0.03125rem), -0.09375rem);
+  --letter-spacing-lead: clamp(-0.078125rem, calc(-0.0390625vw - 0.015625rem), -0.046875rem);
+  --letter-spacing-heading-3: clamp(-0.078125rem, calc(-0.0390625vw - 0.015625rem), -0.046875rem);
+  --letter-spacing-body: clamp(-0.0390625rem, calc(-0.01953125vw - 0.0078125rem), -0.0234375rem);
+  --letter-spacing-caption: clamp(-0.015625rem, calc(-0.0078125vw - 0.003125rem), -0.009375rem);
+  --letter-spacing-body-small: clamp(-0.015625rem, calc(-0.0078125vw - 0.003125rem), -0.009375rem);
 
   --space-0: 0;
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-4: 1rem;
-  --space-5: 1.5rem;
-  --space-7: 2.5rem;
+  --space-1: clamp(0.1875rem, calc(0.15625vw + 0.0625rem), 0.3125rem);
+  --space-2: clamp(0.375rem, calc(0.3125vw + 0.125rem), 0.625rem);
+  --space-4: clamp(0.75rem, calc(0.3125vw + 0.625rem), 1.125rem);
+  --space-5: clamp(1.5rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --space-7: clamp(2rem, calc(1.25vw + 1rem), 3rem);
 
-  --radius-small: 0.5rem;
-  --radius-medium: 1rem;
-  --radius-large: 1.5rem;
+  --radius-small: clamp(0.375rem, calc(0.3125vw + 0.125rem), 0.625rem);
+  --radius-medium: clamp(0.75rem, calc(0.625vw + 0.25rem), 1.25rem);
+  --radius-large: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
   --radius-full: 9999px;
+}
+
+@media (width >= 1280px) {
+  :root {
+    --font-size-display: clamp(3.75rem, calc(3.125vw + 1.25rem), 6.25rem);
+    --font-size-heading-1: clamp(3rem, calc(2.5vw + 1rem), 5rem);
+    --font-size-heading-2: clamp(2.0625rem, calc(1.71875vw + 0.6875rem), 3.4375rem);
+    --font-size-lead: clamp(1.6875rem, calc(1.40625vw + 0.5625rem), 2.8125rem);
+    --font-size-heading-3: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+    --font-size-body: clamp(0.9375rem, calc(0.78125vw + 0.3125rem), 1.5625rem);
+    --font-size-caption: clamp(0.65625rem, calc(0.546875vw + 0.21875rem), 1.09375rem);
+    --font-size-body-small: clamp(0.65625rem, calc(0.546875vw + 0.21875rem), 1.09375rem);
+  }
 }

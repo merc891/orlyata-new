@@ -1,9 +1,233 @@
-@media (prefers-reduced-motion: no-preference) {
-  .orlyata-home .orlyata-home__history-teachers-link img {
-    transition: transform var(--duration-micro) var(--easing-out);
+.orlyata-home__history-teachers-arrow-track {
+  position: relative;
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  overflow: hidden;
+}
+
+.orlyata-home__history-teachers-arrow {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--duration-link-roll) var(--easing-link-roll);
+}
+
+.orlyata-home__history-teachers-arrow:nth-child(2) {
+  transform: translateX(-100%);
+}
+
+.orlyata-home__history-teachers-arrow img {
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  filter: brightness(0) invert();
+  rotate: -90deg;
+}
+
+.orlyata-home__history-teachers-link:hover .orlyata-home__history-teachers-arrow:first-child {
+  transform: translateX(100%);
+}
+
+.orlyata-home__history-teachers-link:hover .orlyata-home__history-teachers-arrow:nth-child(2) {
+  transform: translateX(0);
+}
+
+.orlyata-home__facts .orlyata-advantage {
+  animation:
+    orlyata-home-fact-card-slide-in var(--duration-home-fact-card-slide-in) var(--easing-home-fact-card-slide-in) both,
+    orlyata-home-fact-card-fade-in var(--duration-home-fact-card-slide-in) var(--easing-home-fact-card-fade-in) both;
+  animation-delay: var(--delay-home-fact-card-slide-in), var(--delay-home-fact-card-slide-in);
+}
+
+
+.has-js :is(.orlyata-home__media-section, .orlyata-home__history).is-reveal-pending .orlyata-home__section-head {
+  opacity: 0;
+}
+
+.has-js .orlyata-home__media-section.is-reveal-pending .orlyata-media-card {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+
+
+.has-js .orlyata-home__history.is-reveal-pending .orlyata-home__history-grid {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+.has-js :is(.orlyata-home__media-section, .orlyata-home__history).is-revealed .orlyata-home__section-head {
+  animation: orlyata-home-media-reveal var(--duration-home-block-reveal) var(--easing-home-reveal) both;
+}
+
+.has-js .orlyata-home__media-section.is-revealed .orlyata-media-card,
+.has-js .orlyata-home__history.is-revealed .orlyata-home__history-grid {
+  animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
+  animation-delay: var(--delay-home-media-cards-reveal);
+}
+
+
+.has-js .orlyata-home__application.is-reveal-pending .orlyata-home__application-copy,
+.has-js .orlyata-home__achievements.is-reveal-pending .orlyata-home__section-head {
+  opacity: 0;
+}
+
+.has-js .orlyata-home__application.is-reveal-pending .orlyata-home__application-surface,
+.has-js .orlyata-home__achievements.is-reveal-pending .orlyata-home__table-wrap {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+
+.has-js .orlyata-home__application.is-revealed .orlyata-home__application-copy,
+.has-js .orlyata-home__achievements.is-revealed .orlyata-home__section-head {
+  animation: orlyata-home-media-reveal var(--duration-home-block-reveal) var(--easing-home-reveal) both;
+}
+
+.has-js .orlyata-home__application.is-revealed .orlyata-home__application-surface,
+.has-js .orlyata-home__achievements.is-revealed .orlyata-home__table-wrap {
+  animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
+  animation-delay: var(--delay-home-media-cards-reveal);
+}
+
+@keyframes orlyata-home-media-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--home-block-reveal-start-offset));
   }
 
-  .orlyata-home .orlyata-home__history-teachers-link:hover img {
-    transform: translateY(var(--space-2));
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes orlyata-home-media-card-reveal {
+  from {
+    opacity: var(--opacity-home-media-card-reveal-start);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.orlyata-home__hero-video-trigger {
+  cursor: pointer;
+}
+
+.orlyata-home__hero-preview {
+  transition: transform var(--duration-media-card-hover) var(--easing-media-card-hover);
+}
+
+.orlyata-home__hero-video-trigger:hover .orlyata-home__hero-preview {
+  transform: scale(var(--media-card-hover-scale));
+}
+
+.orlyata-home__hero-panel--capella,
+.orlyata-home__hero-panel--news {
+  animation: orlyata-home-hero-panel-mask-reveal var(--duration-home-hero-panel-reveal) var(--easing-home-hero-panel-reveal) both;
+}
+
+.orlyata-home__hero-panel-content {
+  box-sizing: border-box;
+  inset: 0;
+  position: absolute;
+  transform-origin: center;
+  animation: orlyata-home-hero-panel-content-zoom var(--duration-home-hero-panel-reveal) var(--easing-home-hero-panel-reveal) both;
+}
+
+.orlyata-home__hero-panel--capella .orlyata-home__hero-panel-content {
+  padding: var(--space-5) var(--space-5) var(--home-hero-content-padding-block-end);
+  align-items: flex-end;
+  display: flex;
+}
+
+.orlyata-home__hero-panel--news .orlyata-home__hero-panel-content {
+  padding: var(--space-5);
+}
+
+@keyframes orlyata-home-hero-panel-mask-reveal {
+  from {
+    clip-path: inset(50% 0 50% 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes orlyata-home-hero-panel-content-zoom {
+  from {
+    transform: scale(var(--home-hero-panel-zoom-start-scale));
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.orlyata-home__hero-panel--capella::before {
+  content: none;
+}
+
+.orlyata-home__hero-panel--capella .orlyata-home__hero-panel-content::before {
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(#0000 63.53%, #000c 100%);
+  position: absolute;
+  inset: 0;
+}
+
+.orlyata-home__hero-panel--capella > .orlyata-home__hero-title {
+  z-index: 2;
+  width: auto;
+  margin: 0;
+  position: absolute;
+  inset-block-end: var(--home-hero-content-padding-block-end);
+  inset-inline: var(--space-5);
+}
+
+.orlyata-home__hero-title {
+  animation: none;
+}
+
+.orlyata-home__hero-title-line {
+  overflow: visible;
+}
+
+.orlyata-home__hero-title-text {
+  animation: orlyata-home-hero-title-fade-in var(--duration-home-hero-title-fade) var(--easing-home-hero-title-fade) var(--delay-home-hero-title-fade) both;
+}
+
+.orlyata-home__hero-play {
+  animation: orlyata-home-hero-title-fade-in var(--duration-home-hero-title-fade) var(--easing-home-hero-title-fade) var(--delay-home-hero-title-fade) both;
+}
+
+@keyframes orlyata-home-hero-title-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes orlyata-home-fact-card-slide-in {
+  from {
+    transform: translateY(var(--home-fact-card-slide-in-distance));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes orlyata-home-fact-card-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

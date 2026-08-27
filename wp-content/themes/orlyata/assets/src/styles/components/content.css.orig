@@ -476,11 +476,3 @@
     line-height: var(--line-height-body-small);
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .orlyata-input__label,
-  .orlyata-accordion__summary,
-  .orlyata-accordion__toggle {
-    transition-duration: 0.01ms;
-  }
-}

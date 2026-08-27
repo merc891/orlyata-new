@@ -12,6 +12,7 @@
     "build:admin": "tsc -p tsconfig.admin-media.json",
     "build": "npm run build:admin && vite build",
     "build:storybook": "storybook build --output-dir public-artifacts/storybook",
+    "build:stage": "npm run build && npm run build:storybook",
     "typecheck": "tsc --noEmit",
     "lint:ts": "eslint wp-content/themes/orlyata/assets/src wp-content/mu-plugins/orlyata-core/src/Admin vite.config.ts playwright.config.ts .storybook stories tests",
     "lint:css": "stylelint \"wp-content/themes/orlyata/assets/src/**/*.css\" \".storybook/**/*.css\" \"docs/design-system/tokens.css\"",
@@ -35,5 +36,8 @@
     "typescript": "6.0.3",
     "typescript-eslint": "8.65.0",
     "vite": "8.1.5"
+  },
+  "dependencies": {
+    "morphicons": "^1.7.0"
   }
 }

@@ -21,7 +21,7 @@ $accordion_title = is_string( $accordion_args['title'] ) ? trim( $accordion_args
 $meta            = is_string( $accordion_args['meta'] ) ? trim( $accordion_args['meta'] ) : '';
 $content         = is_string( $accordion_args['content'] ) ? trim( $accordion_args['content'] ) : '';
 
-if ( '' === $accordion_title || '' === $content ) {
+if ( '' === $accordion_title ) {
 	return;
 }
 ?>
@@ -31,7 +31,18 @@ if ( '' === $accordion_title || '' === $content ) {
 		<?php if ( '' !== $meta ) : ?>
 			<span class="orlyata-accordion__meta"><?php echo esc_html( $meta ); ?></span>
 		<?php endif; ?>
-		<span class="orlyata-accordion__toggle" aria-hidden="true"></span>
+		<span class="orlyata-accordion__toggle" aria-hidden="true">
+			<svg class="orlyata-accordion__toggle-icon" viewBox="0 0 24 24" focusable="false">
+				<path
+					class="orlyata-accordion__toggle-path"
+					d="<?php echo esc_attr( (bool) $accordion_args['open'] ? 'M5 12h14' : 'M5 12h14M12 5v14' ); ?>"
+				/>
+			</svg>
+		</span>
 	</summary>
-	<div class="orlyata-accordion__content"><?php echo esc_html( $content ); ?></div>
+	<div class="orlyata-accordion__panel">
+		<div class="orlyata-accordion__content">
+			<div class="orlyata-accordion__content-inner"><?php echo esc_html( $content ); ?></div>
+		</div>
+	</div>
 </details>

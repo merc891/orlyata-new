@@ -48,6 +48,11 @@ $loading_label    = is_string( $button_args['loading_label'] ) && '' !== trim( $
 	? trim( $button_args['loading_label'] )
 	: __( 'Отправка…', 'orlyata' );
 $visible_label    = $loading ? $loading_label : $label;
+$loading_label_text = $loading ? preg_replace( "/\s*(?:…|\.{3})\s*$/u", "", $visible_label ) : $visible_label;
+
+if ( ! is_string( $loading_label_text ) || "" === $loading_label_text ) {
+	$loading_label_text = $visible_label;
+}
 $button_type      = is_string( $button_args['type'] ) && in_array( $button_args['type'], array( 'button', 'submit', 'reset' ), true )
 	? $button_args['type']
 	: 'button';
@@ -106,14 +111,27 @@ $icon_name = match ( $variant ) {
 };
 $icon_uri = '' !== $icon_name ? get_theme_file_uri( 'assets/icons/' . $icon_name ) : '';
 
-$render_content = static function () use ( $icon_uri, $is_icon_only, $variant, $visible_label ): void {
+$render_content = static function () use ( $icon_uri, $is_icon_only, $loading, $loading_label_text, $variant, $visible_label ): void {
 	if ( ! $is_icon_only ) {
 		?>
-		<span class="orlyata-button__label"><?php echo esc_html( $visible_label ); ?></span>
+		<?php if ( $loading ) : ?>
+			<span class="orlyata-button__label"><?php echo esc_html( $loading_label_text ); ?><span class="orlyata-button__loading-dots" aria-hidden="true"><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span></span></span>
+		<?php else : ?>
+			<span class="orlyata-button__label"><?php echo esc_html( $visible_label ); ?></span>
+		<?php endif; ?>
 		<?php
 	}
 
 	if ( '' !== $icon_uri ) {
+		if ( in_array( $variant, array( 'arrow-left', 'arrow-right' ), true ) ) {
+			?>
+			<span class="orlyata-button__arrow-track" aria-hidden="true">
+				<span class="orlyata-button__arrow"><img class="orlyata-button__icon orlyata-button__icon--<?php echo esc_attr( $variant ); ?>" src="<?php echo esc_url( $icon_uri ); ?>" alt="" /></span>
+				<span class="orlyata-button__arrow"><img class="orlyata-button__icon orlyata-button__icon--<?php echo esc_attr( $variant ); ?>" src="<?php echo esc_url( $icon_uri ); ?>" alt="" /></span>
+			</span>
+			<?php
+			return;
+		}
 		?>
 		<img
 			class="orlyata-button__icon orlyata-button__icon--<?php echo esc_attr( $variant ); ?>"

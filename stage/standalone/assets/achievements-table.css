@@ -1,0 +1,10 @@
+@media (width >= 1280px) {
+  .orlyata-data-table--achievements thead tr,
+  .orlyata-data-table--achievements tbody tr {
+    --orlyata-data-table-year-column: calc((100% + var(--layout-grid-gap)) / 10);
+    --orlyata-data-table-remaining-column: calc((100% + var(--layout-grid-gap)) / 5);
+    --orlyata-data-table-competition-column: calc(50% - (var(--layout-grid-gap) / 2));
+    display: grid;
+    grid-template-columns: minmax(0, var(--orlyata-data-table-year-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-competition-column));
+  }
+}

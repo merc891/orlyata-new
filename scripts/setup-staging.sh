@@ -32,7 +32,7 @@ require_secret 'STAGING_AUTH_PASSWORD' "$STAGING_AUTH_PASSWORD"
 ./scripts/setup-wordpress.sh
 
 docker compose --profile tools run --rm node npm ci
-docker compose --profile tools run --rm node npm run build:storybook
+docker compose --profile tools run --rm node npm run build:stage
 
 docker compose up --detach --build proxy
 
@@ -54,4 +54,4 @@ docker compose --profile staging up --detach certbot
 printf '%s\n' 'Staging: https://89.125.120.78/'
 printf '%s\n' 'WordPress admin: https://89.125.120.78/wp-admin/'
 printf '%s\n' 'Mailpit: https://89.125.120.78/mailpit/'
-printf '%s\n' 'Mailpit Basic Auth credentials are stored in STAGING_AUTH_USER and STAGING_AUTH_PASSWORD in .env.'
+printf '%s\n' 'Basic Auth credentials are stored in STAGING_AUTH_USER and STAGING_AUTH_PASSWORD in .env.'

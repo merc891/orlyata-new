@@ -1,13 +1,33 @@
 .orlyata-data-table {
   width: 100%;
   border-collapse: collapse;
-  border-block-end: 1px solid var(--color-border-subtle);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body);
   letter-spacing: var(--letter-spacing-body);
   line-height: var(--line-height-body);
 }
 
+@media (width >= 1280px) {
+  .orlyata-data-table--achievements thead tr,
+  .orlyata-data-table--achievements tbody tr {
+    --orlyata-data-table-year-column: calc((100% + var(--layout-grid-gap)) / 10);
+    --orlyata-data-table-remaining-column: calc((100% + var(--layout-grid-gap)) / 5);
+    --orlyata-data-table-competition-column: calc(50% - (var(--layout-grid-gap) / 2));
+    display: grid;
+    grid-template-columns: minmax(0, var(--orlyata-data-table-year-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-competition-column));
+  }
+
+  .orlyata-data-table thead th {
+    height: 4rem;
+    padding-block: 0;
+    vertical-align: middle;
+  }
+
+  .orlyata-data-table--achievements thead th {
+    align-content: center;
+    display: grid;
+  }
+}
 .orlyata-data-table th,
 .orlyata-data-table td {
   box-sizing: border-box;
