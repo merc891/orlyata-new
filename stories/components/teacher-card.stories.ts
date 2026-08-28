@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { createComponentPage } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 export interface TeacherCardArgs {
   firstName: string;
@@ -64,9 +65,11 @@ function appendTeacherPreview(root: HTMLElement, cards: HTMLElement[]): void {
 }
 
 const meta = {
+  tags: ['autodocs'],
   id: 'components-teacher-card',
   title: 'Components/Teacher card',
   excludeStories: ['createTeacherCard', 'teacherImageSources'],
+  parameters: { docs: { description: { component: motionSpecifications.teacherCard } } },
 } satisfies Meta;
 
 export default meta;

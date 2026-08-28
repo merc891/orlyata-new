@@ -14,6 +14,22 @@ $media_gallery_preview_assets = array(
 	'media_video'   => get_theme_file_uri( 'assets/images/home/media-video.png' ),
 );
 
+$photo_gallery_preview_rows           = array(
+	array( __( 'Гала-концерт в БЗК (юноши и Вита Нова)', 'orlyata' ), __( '13 июля', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Концерт в КЦ «Зеленоград»', 'orlyata' ), __( '10 июля', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Творческий вечер с участием студентов', 'orlyata' ), __( '25 июля', 'orlyata' ), __( 'Отдых', 'orlyata' ) ),
+	array( __( 'Репетиция для нового спектакля', 'orlyata' ), __( '5 августа', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Открытие нового учебного года', 'orlyata' ), __( '1 сентября', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Концерт для родителей и друзей', 'orlyata' ), __( '10 сентября', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Мастер-класс по актерскому мастерству', 'orlyata' ), __( '15 сентября', 'orlyata' ), __( 'Обучение', 'orlyata' ) ),
+	array( __( 'Творческий фестиваль «Культурные горизонты»', 'orlyata' ), __( '20 сентября', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+	array( __( 'Выставка работ студентов', 'orlyata' ), __( '30 сентября', 'orlyata' ), __( 'Отдых', 'orlyata' ) ),
+	array( __( 'Гастроли в соседнем городе', 'orlyata' ), __( '10 октября', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
+);
+$photo_gallery_preview_links          = array_fill( 0, count( $photo_gallery_preview_rows ), home_url( '/mediagalereya/foto/' ) );
+$video_gallery_preview_links          = array_fill( 0, count( $photo_gallery_preview_rows ), home_url( '/mediagalereya/video/' ) );
+$video_gallery_preview_provider_icons = array( 'youtube', 'rutube', 'vk', 'youtube', 'rutube', 'vk', 'youtube', 'rutube', 'vk', 'youtube' );
+
 get_header();
 ?>
 <div class="orlyata-media-gallery">
@@ -31,21 +47,7 @@ get_header();
 		);
 		?>
 		<div class="orlyata-media-gallery__body">
-			<section class="orlyata-media-gallery__section" aria-labelledby="media-gallery-section-title">
-				<div class="orlyata-media-gallery__section-head">
-					<h2 class="type-heading-2" id="media-gallery-section-title"><?php esc_html_e( 'Медиагалерея', 'orlyata' ); ?></h2>
-					<?php
-					get_template_part(
-						'template-parts/components/text-link',
-						null,
-						array(
-							'href'    => home_url( '/mediagalereya/' ),
-							'label'   => __( 'Перейти в раздел', 'orlyata' ),
-							'variant' => 'color',
-						)
-					);
-					?>
-				</div>
+			<section class="orlyata-media-gallery__section">
 				<div class="orlyata-media-gallery__grid">
 					<?php
 					get_template_part(
@@ -87,6 +89,69 @@ get_header();
 							'size'       => 'small',
 							'title'      => __( 'Концерт лауреатов фестиваля-конкурса VIVAT MUSICA', 'orlyata' ),
 							'url'        => home_url( '/mediagalereya/foto/' ),
+						)
+					);
+					?>
+				</div>
+			</section>
+
+			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-photo-title">
+				<div class="orlyata-media-gallery__media-list-section-head">
+					<h2 class="type-heading-2" id="media-gallery-photo-title"><?php esc_html_e( 'Фото', 'orlyata' ); ?></h2>
+					<?php
+					get_template_part(
+						'template-parts/components/text-link',
+						null,
+						array(
+							'href'    => home_url( '/mediagalereya/foto/' ),
+							'label'   => __( 'Перейти в раздел', 'orlyata' ),
+							'variant' => 'color',
+						)
+					);
+					?>
+				</div>
+				<div class="orlyata-media-gallery__media-list-table">
+					<?php
+					get_template_part(
+						'template-parts/components/data-table',
+						null,
+						array(
+							'headers'   => array( __( 'Название', 'orlyata' ), __( 'Дата', 'orlyata' ), __( 'Тип', 'orlyata' ), __( 'Открыть фотогалерею', 'orlyata' ) ),
+							'rows'      => $photo_gallery_preview_rows,
+							'row_links' => $photo_gallery_preview_links,
+							'variant'   => 'photo',
+						)
+					);
+					?>
+				</div>
+			</section>
+
+			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-video-title">
+				<div class="orlyata-media-gallery__media-list-section-head">
+					<h2 class="type-heading-2" id="media-gallery-video-title"><?php esc_html_e( 'Видео', 'orlyata' ); ?></h2>
+					<?php
+					get_template_part(
+						'template-parts/components/text-link',
+						null,
+						array(
+							'href'    => home_url( '/mediagalereya/video/' ),
+							'label'   => __( 'Перейти в раздел', 'orlyata' ),
+							'variant' => 'color',
+						)
+					);
+					?>
+				</div>
+				<div class="orlyata-media-gallery__media-list-table">
+					<?php
+					get_template_part(
+						'template-parts/components/data-table',
+						null,
+						array(
+							'headers'            => array( __( 'Название', 'orlyata' ), __( 'Дата', 'orlyata' ), __( 'Тип', 'orlyata' ), __( 'Открыть видеогалерею', 'orlyata' ) ),
+							'rows'               => $photo_gallery_preview_rows,
+							'row_links'          => $video_gallery_preview_links,
+							'row_provider_icons' => $video_gallery_preview_provider_icons,
+							'variant'            => 'video',
 						)
 					);
 					?>

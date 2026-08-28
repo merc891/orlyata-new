@@ -736,7 +736,7 @@
         "Provide a deliberate mobile representation without losing labels",
         "Every data row, including the final row, ends with a 1px color-border-subtle stroke; page wrappers must not duplicate this border",
         "Desktop row minimum height, type and cell padding scale coherently with S or use natural content height; do not keep a fixed row height while type scales.",
-        "Every desktop DataTable header cell is 4rem (64px) high. Normal table cells use vertical-align: middle; the achievements grid variant centers its single-line label in the cell. For the Home achievements preview, the section heading container is 2.75rem (44px) with a 1.5rem (24px) gap to the table header."
+        "Every desktop DataTable header cell is 4rem (64px) high. Normal table cells use vertical-align: middle; the achievements grid variant centers its single-line label in the cell. The news, photo and video variants have four semantic columns: Name spans editorial columns 1–2, Date starts at column 3, Type at column 4, and the accessible arrow link is right-aligned at the edge of column 4. A news or photo row uses cursor: pointer; hover or focus-within changes all row text and the arrow to color-text-secondary over duration-link-color-hover/easing-standard; its arrow reuses the Home History left-to-right roll with duplicated glyphs over duration-link-roll/easing-link-roll. A video row uses cursor: pointer and the same text color transition, but replaces the arrow with its source-provider PNG icon (YouTube, RuTube or VK); the icon is centered vertically in the row, has a 2rem (32px) reference size via --data-table-video-provider-icon-size, and does not roll on hover. For the Home achievements preview, the section heading container is 2.75rem (44px) with a 1.5rem (24px) gap to the table header."
       ],
       "do_not": [
         "Do not hide essential columns only to fit mobile"
@@ -930,12 +930,13 @@
     "PageHero": {
       "path": "wp-content/themes/orlyata/template-parts/components/page-hero.php",
       "figma": "Shared internal-page Hero",
-      "variants": ["default"],
-      "states": ["default", "title-reveal"],
+      "variants": ["default", "news-detail"],
+      "states": ["default", "title-reveal", "back-link", "share-links"],
       "usage_rules": [
         "The component owns radius-large by default. A full-bleed page may override only its outer corners to preserve the page shell.",
         "With JavaScript, the title reveals once on initialization from opacity 0 and translateY(1.25rem) to its resting state over 400ms with easing-home-reveal. Without JavaScript, the title remains immediately visible.",
-        "The image is decorative unless image_alt is supplied, and fills the Hero with object-fit: cover."
+        "The image is decorative unless image_alt is supplied, and fills the Hero with object-fit: cover.",
+        "The news-detail variant has a 580px reference height at 1920px, uses the same S envelope through --news-detail-hero-height, and owns its back link, meta line and share controls. The back link is the existing Button arrow-left at the top inline start. Its meta line is Body inverse; the H1 begins 32px below it. Three 48px share controls align with the title’s lower edge at the reference width and use supplied SVG assets."
       ],
       "gaps": ["tablet", "mobile"]
     },
@@ -1021,15 +1022,51 @@
       "implementation_rules": [
         "The page reuses the shared Sidebar, PageHero, MediaCard and Footer without page-specific component variants or overrides.",
         "At the 1920px reference, the gap from the PageHero to the three-card media block is 4rem (64px). It follows the common desktop S envelope through --media-gallery-hero-content-gap.",
-        "The media block exactly reuses the approved Home composition: one Big MediaCard followed by two Small MediaCards in the four-column editorial grid. The page allocates grid spans only; MediaCard owns its ratios and internal geometry.",
-        "Desktop preview content is server-rendered and works without JavaScript. CMS queries and the photo/video list previews are outside this initial page slice."
+        "The media block reuses the approved Home three-card composition: one Big MediaCard followed by two Small MediaCards in the four-column editorial grid. On the MediaGallery page it begins directly after the Hero gap: the duplicate section heading and self-link are omitted. When it enters the viewport, all cards use the approved Home SectionReveal: opacity 0 to 1 with the existing delay, duration and easing; without JavaScript they are immediately visible. The page allocates grid spans only; MediaCard owns its ratios and internal geometry.",
+        "Each media-list section starts 6rem (96px) after its preceding media block at the 1920px reference through --media-gallery-media-list-section-gap. Photo and Video reuse the Home History section heading pattern: a top 1px border, heading and color TextLink; each DataTable variant renders exactly ten server-rendered fixtures. The Video fixtures cycle the locally supplied YouTube, RuTube and VK PNG provider icons in the right-aligned link cell; CMS mapping is a later integration responsibility. CMS queries and the photo/video lists remain outside this initial page slice."
       ],
       "geometry": {
         "hero_content_gap_reference_px": 64,
         "hero_content_gap_css": "--media-gallery-hero-content-gap",
-        "media_cards": "1 Big and 2 Small MediaCards using the Home grid composition"
+        "media_cards": "1 Big and 2 Small MediaCards using the Home grid composition",
+        "media_list_section_gap_reference_px": 96,
+        "media_list_section_gap_css": "--media-gallery-media-list-section-gap",
+        "media_list_rows": 10
       },
       "sections": ["PageHero", "media navigation block", "Footer"]
+    },
+    "NewsDesktopPreview": {
+      "figma": "Новости / 4566:1608",
+      "status": "desktop-preview-defined",
+      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "implementation_rules": [
+        "The page reuses the shared Sidebar, PageHero, Button and Footer without page-specific component variants or overrides.",
+        "At the 1920px reference, the gap from PageHero to the category filters is 4rem (64px). It follows the common desktop S envelope through --news-filter-offset-block.",
+        "The news DataTable starts 2rem (32px) below the filter group at the 1920px reference through --news-filter-table-gap, using the same desktop S envelope. It reuses the DataTable news variant: Name spans editorial columns 1–2, Date starts at column 3, Type and its right-aligned accessible arrow link occupy column 4. The desktop preview renders 50 rows by cycling the only approved Figma fixtures. Per the approved content correction, each preview fixture displays the same Type label as its category: «Новости», «Объявления» or «Достижения». The filter selection applies an OR match to the visible rows. The server renders all fixtures and marks nonmatching rows hidden, so a URL with selected categories works without JavaScript; JavaScript changes the same hidden state without a reload. CMS-backed data is a later integration slice.",
+        "The server-rendered filter links are Все, Новости, Объявления and Достижения. Все uses Button primary when no categories are selected and all specific filters are secondary. Multiple specific categories may be selected: each uses the existing Button withClose state, whose link removes only that category, while Все clears the entire set. Without JavaScript links use normal navigation. With JavaScript the History API updates the URL and UI without a reload. The selected surface changes through a single background-color transition over 400ms using easing-out: the color interpolates directly on the Button itself, without an opacity fade or an additional background layer. A neighboring button whose width is unchanged receives a whole-control transform-only translateX over the same timing, so its label and surface move together. A button whose width changes resolves its geometry without transforming its label or close icon. The filter controls use an isolated composited transform layer to avoid visual flicker during the transition. The close icon is inserted at its final opacity with no independent enter animation. The standard Button hover transitions remain intact. Page geometry and content availability do not depend on the motion."
+      ],
+      "geometry": {
+        "filter_offset_reference_px": 64,
+        "filter_offset_css": "--news-filter-offset-block"
+      },
+      "sections": ["PageHero", "news category filters", "Footer"]
+    },
+    "NewsDetailDesktopPreview": {
+      "figma": "Новости - деталка / 4566:3587",
+      "status": "desktop-preview-defined",
+      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "implementation_rules": [
+        "The page reuses Sidebar, PageHero news-detail and Footer. The Hero is 580px high at the 1920px reference and uses bg-hero2.png as its supplied local background asset.",
+        "PageHero owns the return Button arrow-left at its top inline start, the inverse Body meta line «13 августа • Новость», the H1 after a 32px gap, and the three supplied 48px SVG share controls. Share controls are aligned to the title’s lower edge and retain accessible names.",
+        "The main news content, galleries and related-news list are intentionally outside this initial preview slice. The server-rendered single-news template reads title, publication date and category from the news item; its structure does not depend on JavaScript."
+      ],
+      "geometry": {
+        "hero_height_reference_px": 580,
+        "hero_height_css": "--news-detail-hero-height",
+        "hero_inset_reference_px": 24,
+        "share_size_reference_px": 48
+      },
+      "sections": ["PageHero news-detail", "Footer"]
     },
     "HomeDesktopPreview": {
       "figma": "Главная / 4641:3330",

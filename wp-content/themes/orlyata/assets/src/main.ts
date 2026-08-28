@@ -419,6 +419,10 @@ export const initializeHomeMediaReveal = (): void => {
   initializeHomeScrollReveal('.orlyata-home__media-section');
 };
 
+export const initializeMediaGalleryReveal = (): void => {
+  initializeHomeScrollReveal(".orlyata-media-gallery__section");
+};
+
 export const initializeHomeHistoryReveal = (): void => {
   initializeHomeScrollReveal('.orlyata-home__history');
 };
@@ -432,6 +436,7 @@ export const initializeHomeAchievementsReveal = (): void => {
 };
 
 initializeHomeMediaReveal();
+initializeMediaGalleryReveal();
 initializeHomeHistoryReveal();
 initializeHomeApplicationReveal();
 initializeHomeAchievementsReveal();
@@ -466,6 +471,119 @@ export const initializePageHeroTitleReveal = (): void => {
   });
 };
 
+const initializeNewsShareCopy = (): void => {
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-news-link]').forEach((control) => {
+    control.addEventListener('click', async () => {
+      const url = control.dataset.copyNewsLink;
+      if (url === undefined || url === '' || !navigator.clipboard) return;
+
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        // The visible share controls remain available when clipboard permissions are denied.
+      }
+    });
+  });
+};
+
 initializePageHeroTitleReveal();
+initializeNewsShareCopy();
 initializeAboutSectionReveal();
 initializeApplicationFormValidation();
+
+const initializeNewsFilters = (): void => {
+  document.querySelectorAll<HTMLElement>('[data-news-filters]').forEach((filters) => {
+    const items = [...filters.querySelectorAll<HTMLElement>('[data-news-filter]')];
+    const closeIconUrl = filters.dataset.newsCloseIcon ?? '';
+    const parameter = 'orlyata_news_category';
+
+    const validCategories = (value: string): Set<string> => new Set(
+      value.split(',').filter((category) => items.some((item) => item.dataset.newsFilter === category && category !== '')),
+    );
+    const categoriesFromLocation = (): Set<string> => validCategories(new URL(window.location.href).searchParams.get(parameter) ?? '');
+    const categoryUrl = (categories: Set<string>): string => {
+      const url = new URL(window.location.href);
+      if (categories.size === 0) url.searchParams.delete(parameter);
+      else url.searchParams.set(parameter, [...categories].join(','));
+      return url.toString();
+    };
+    const update = (categories: Set<string>): void => {
+      document.querySelectorAll<HTMLTableRowElement>('[data-news-category]').forEach((row) => {
+        const rowCategory = row.dataset.newsCategory ?? '';
+        row.hidden = categories.size !== 0 && !categories.has(rowCategory);
+      });
+
+      items.forEach((item) => {
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        if (link === null) return;
+        link.getAnimations().forEach((animation) => animation.cancel());
+      });
+
+      const before = new Map(items.map((item) => {
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        return [link, link === null ? undefined : {
+          bounds: link.getBoundingClientRect(),
+        }] as const;
+      }));
+
+      items.forEach((item) => {
+        const itemCategory = item.dataset.newsFilter ?? '';
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        if (link === null) return;
+        const selected = itemCategory === '' ? categories.size === 0 : categories.has(itemCategory);
+        const isCloseState = selected && itemCategory !== '';
+        const nextCategories = new Set(categories);
+        if (itemCategory === '') nextCategories.clear();
+        else if (nextCategories.has(itemCategory)) nextCategories.delete(itemCategory);
+        else nextCategories.add(itemCategory);
+        link.classList.toggle('orlyata-button--primary', selected);
+        link.classList.toggle('orlyata-button--secondary', !selected);
+        link.classList.toggle('orlyata-button--with-icon', isCloseState);
+        link.href = categoryUrl(nextCategories);
+        link.querySelector('.orlyata-button__icon')?.remove();
+        if (isCloseState && closeIconUrl !== '') {
+          const icon = document.createElement('img');
+          icon.className = 'orlyata-button__icon orlyata-button__icon--close';
+          icon.src = closeIconUrl;
+          icon.alt = '';
+          icon.setAttribute('aria-hidden', 'true');
+          link.append(icon);
+        }
+      });
+
+      before.forEach((previousBounds, link) => {
+        if (link === null || previousBounds === undefined) return;
+        const currentBounds = link.getBoundingClientRect();
+        const translateX = previousBounds.bounds.left - currentBounds.left;
+        const scaleX = previousBounds.bounds.width / currentBounds.width;
+        if (translateX === 0 || scaleX !== 1) return;
+        link.animate(
+          [
+            { transform: `translateX(${String(translateX)}px)` },
+            { transform: 'translateX(0)' },
+          ],
+          { duration: 400, easing: 'ease-out' },
+        );
+      });
+    };
+
+    update(categoriesFromLocation());
+    filters.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as Element).closest<HTMLAnchorElement>('.orlyata-button');
+      const item = link?.closest<HTMLElement>('[data-news-filter]');
+      if (link === null || item === null) return;
+      event.preventDefault();
+      const selected = item.dataset.newsFilter ?? '';
+      const nextCategories = categoriesFromLocation();
+      if (selected === '') nextCategories.clear();
+      else if (nextCategories.has(selected)) nextCategories.delete(selected);
+      else nextCategories.add(selected);
+      history.pushState({ newsCategories: [...nextCategories] }, '', categoryUrl(nextCategories));
+      update(nextCategories);
+    });
+    window.addEventListener('popstate', () => update(categoriesFromLocation()));
+  });
+};
+
+initializeNewsFilters();

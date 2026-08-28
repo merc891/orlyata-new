@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { appendSection, badge, createComponentPage } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Badge',
+  parameters: { docs: { description: { component: motionSpecifications.badge } } },
 } satisfies Meta;
 
 export default meta;

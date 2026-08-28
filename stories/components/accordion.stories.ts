@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { accordion, appendSection, createComponentPage } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Accordion',
+  parameters: { docs: { description: { component: motionSpecifications.accordion } } },
 } satisfies Meta;
 
 export default meta;

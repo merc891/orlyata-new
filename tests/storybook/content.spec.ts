@@ -148,6 +148,65 @@ test('DataTable achievements aligns Year and Competition to editorial columns 1 
   }
 });
 
+test('DataTable photo aligns Name, Date, Type and arrow to the editorial grid', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await openStory(page, 'components-data-table--photo');
+
+  const table = page.getByRole('table');
+  const headers = table.getByRole('columnheader');
+  const [tableBox, headerBoxes, arrowBox, firstRowBox, headerRowBox] = await Promise.all([
+    table.boundingBox(),
+    Promise.all((await headers.all()).map((header) => header.boundingBox())),
+    table.getByRole('link', { name: /Открыть фотогалерею/ }).first().boundingBox(),
+    table.locator('tbody tr').first().boundingBox(),
+    table.locator('thead tr').boundingBox(),
+  ]);
+
+  expect(tableBox).not.toBeNull();
+  expect(headerBoxes).toHaveLength(4);
+  expect(arrowBox).not.toBeNull();
+  expect(firstRowBox?.height).toBeCloseTo(49, 1);
+  expect(headerRowBox?.height).toBeCloseTo(64, 1);
+
+  const tableWidth = tableBox?.width ?? 0;
+  const tableStart = tableBox?.x ?? 0;
+  const columnWidth = (tableWidth - 16 * 3) / 4;
+  expect(headerBoxes[0]?.x).toBeCloseTo(tableStart, 1);
+  expect(headerBoxes[0]?.width).toBeCloseTo(columnWidth * 2 + 16, 1);
+  expect(headerBoxes[1]?.x).toBeCloseTo(tableStart + columnWidth * 2 + 16 * 2, 1);
+  expect(headerBoxes[2]?.x).toBeCloseTo(tableStart + columnWidth * 3 + 16 * 3, 1);
+  expect((arrowBox?.x ?? 0) + (arrowBox?.width ?? 0)).toBeCloseTo(tableStart + tableWidth, 1);
+});
+
+test('DataTable photo row hover changes all content to secondary and rolls the arrow', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await openStory(page, 'components-data-table--photo');
+
+  const row = page.locator('.orlyata-data-table--photo tbody tr').first();
+  await row.hover();
+  await page.waitForTimeout(450);
+
+  await expect(row.locator('td').first()).toHaveCSS('color', 'rgb(113, 113, 122)');
+  await expect(row.locator('.orlyata-data-table__row-arrow').first()).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 24, 0)');
+  await expect(row.locator('.orlyata-data-table__row-arrow').nth(1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
+});
+
+test('DataTable video uses 32px provider icons centred in rows instead of arrows', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await openStory(page, 'components-data-table--video');
+
+  const row = page.locator('.orlyata-data-table--video tbody tr').first();
+  const icon = row.locator('.orlyata-data-table__provider-icon');
+  const [rowBox, iconBox] = await Promise.all([row.boundingBox(), icon.boundingBox()]);
+
+  expect(await row.locator('.orlyata-data-table__row-arrow').count()).toBe(0);
+  await expect(icon).toHaveAttribute("src", /youtube/);
+  await expect(row.getByRole('link', { name: /Открыть видео.*YouTube/ })).toBeVisible();
+  expect(iconBox?.width).toBeCloseTo(32, 1);
+  expect(iconBox?.height).toBeCloseTo(32, 1);
+  expect( Math.abs( ( iconBox?.y ?? 0 ) + ( iconBox?.height ?? 0 ) / 2 - ( ( rowBox?.y ?? 0 ) + ( rowBox?.height ?? 0 ) / 2 ) ) ).toBeLessThanOrEqual( 0.5 );
+});
+
 test('DataTable retains headers and cell labels without horizontal scrolling on mobile', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 });
   await openStory(page, 'components-data-table--variants');

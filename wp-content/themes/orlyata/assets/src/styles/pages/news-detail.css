@@ -1,0 +1,18 @@
+.orlyata-news-detail {
+  display: flex;
+  background: var(--color-surface);
+}
+
+.orlyata-news-detail__content {
+  min-width: 0;
+  flex: auto;
+}
+
+.orlyata-news-detail .orlyata-page-hero {
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+}
+
+.orlyata-news-detail__body {
+  box-sizing: border-box;
+  padding-inline: var(--layout-content-gutter);
+}

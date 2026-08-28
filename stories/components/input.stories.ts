@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { appendSection, createComponentPage, input } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 type InputState = 'default' | 'typing' | 'filled' | 'error';
 type InputType = 'text' | 'tel' | 'date' | 'search';
@@ -14,7 +15,9 @@ interface InputArgs {
 }
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Input',
+  parameters: { docs: { description: { component: motionSpecifications.input } } },
 } satisfies Meta;
 
 export default meta;

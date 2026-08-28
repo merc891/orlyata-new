@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { appendSection, createComponentPage, newsCard } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 const meta = {
+  tags: ['autodocs'],
   id: 'components-news-card',
   title: 'Components/NewsCard',
+  parameters: { docs: { description: { component: motionSpecifications.newsCard } } },
 } satisfies Meta;
 
 export default meta;

@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
+import { motionSpecifications } from './motion-specifications';
+
 type CurrentPage = 'none' | 'about' | 'media' | 'news' | 'scores' | 'contacts';
 
 export interface SidebarArgs {
@@ -91,9 +93,11 @@ function createSidebarPreview(args: SidebarArgs): HTMLElement {
 }
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Sidebar',
   excludeStories: ['createSidebar'],
   parameters: {
+    docs: { description: { component: motionSpecifications.sidebar } },
     viewport: { defaultViewport: 'desktop1920' },
   },
 } satisfies Meta;

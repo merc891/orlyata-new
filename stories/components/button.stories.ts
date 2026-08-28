@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
+import { motionSpecifications } from './motion-specifications';
+
 type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right';
 type VisualState = 'default' | 'hover' | 'active' | 'disabled' | 'loading';
 
@@ -145,7 +147,9 @@ function stateSpecimen(name: string, options: ButtonOptions): HTMLElement {
 }
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Button',
+  parameters: { docs: { description: { component: motionSpecifications.button } } },
 } satisfies Meta;
 
 export default meta;

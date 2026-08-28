@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import { initializeApplicationFormValidation } from '../../wp-content/themes/orlyata/assets/src/application-form-validation';
 
 import { input } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 export type ApplicationFormState =
   | 'default'
@@ -269,9 +270,11 @@ const defaultArgs: ApplicationFormArgs = {
 };
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Application Form',
   excludeStories: ['createApplicationForm'],
   parameters: {
+    docs: { description: { component: motionSpecifications.applicationForm } },
     viewport: { defaultViewport: 'desktop1920' },
   },
 } satisfies Meta;

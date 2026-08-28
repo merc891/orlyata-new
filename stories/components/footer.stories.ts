@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
+import { motionSpecifications } from './motion-specifications';
+
 export interface FooterArgs {
   address: string;
   email: string;
@@ -145,9 +147,11 @@ const sampleArgs: FooterArgs = {
 };
 
 const meta = {
+  tags: ['autodocs'],
   title: 'Components/Footer',
   excludeStories: ['createFooter'],
   parameters: {
+    docs: { description: { component: motionSpecifications.footer } },
     viewport: { defaultViewport: 'desktop1920' },
   },
 } satisfies Meta;

@@ -97,3 +97,117 @@
     line-height: var(--line-height-body-small);
   }
 }
+
+@media (width >= 1280px) {
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) thead tr,
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody tr {
+    display: grid;
+    grid-template-columns: repeat(var(--layout-grid-columns), minmax(0, 1fr));
+    grid-template-rows: var(--accordion-row-height);
+    column-gap: var(--layout-grid-gap);
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) :is(th, td) {
+    display: grid;
+    align-content: center;
+    min-width: 0;
+    grid-row: 1;
+    height: var(--accordion-row-height);
+    padding-block: 0;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) :is(th, td):nth-child(1) {
+    grid-column: 1 / span 2;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) :is(th, td):nth-child(2) {
+    grid-column: 3;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) :is(th, td):nth-child(3) {
+    grid-column: 4;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) :is(th, td):nth-child(4) {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+    padding-inline-end: 0;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) thead tr {
+    grid-template-rows: 4rem;
+  }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) thead th {
+    height: 4rem;
+  }
+}
+
+.orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody tr {
+  cursor: pointer;
+}
+
+.orlyata-data-table tbody tr[hidden] {
+  display: none;
+}
+
+.orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody td {
+  transition: color var(--duration-link-color-hover) var(--easing-standard);
+}
+
+.orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody tr:is(:hover, :focus-within) td {
+  color: var(--color-text-secondary);
+}
+
+.orlyata-data-table__row-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.orlyata-data-table__provider-icon {
+  display: block;
+  width: var(--data-table-video-provider-icon-size);
+  height: var(--data-table-video-provider-icon-size);
+  object-fit: contain;
+}
+
+.orlyata-data-table__row-arrow-track {
+  position: relative;
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  overflow: hidden;
+}
+
+.orlyata-data-table__row-arrow {
+  position: absolute;
+  inset: 0;
+  transition: transform var(--duration-link-roll) var(--easing-link-roll);
+}
+
+.orlyata-data-table__row-arrow:nth-child(2) {
+  transform: translateX(-100%);
+}
+
+.orlyata-data-table__row-arrow svg {
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  rotate: -90deg;
+}
+
+.orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody tr:is(:hover, :focus-within) .orlyata-data-table__row-arrow:first-child {
+  transform: translateX(100%);
+}
+
+.orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video) tbody tr:is(:hover, :focus-within) .orlyata-data-table__row-arrow:nth-child(2) {
+  transform: translateX(0);
+}
+
+.orlyata-data-table__row-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}

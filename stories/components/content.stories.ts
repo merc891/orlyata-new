@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
+import { motionSpecifications } from './motion-specifications';
+
 const assetRoot = '/wp-content/themes/orlyata/assets';
 
 export function createComponentPage(title: string, description: string): HTMLElement {
@@ -354,37 +356,105 @@ export function mediaCard(
   return article;
 }
 
-export function dataTable(controlledRows?: string[][]): HTMLTableElement {
+export function dataTable(
+  controlledRows?: string[][],
+  variant: 'achievements' | 'news' | 'photo' | 'video' = 'achievements',
+): HTMLTableElement {
   const table = document.createElement('table');
   const head = table.createTHead();
   const body = table.createTBody();
-  const headers = ['Год', 'Достижение', 'Хор', 'Конкурс'];
-  const rows = controlledRows ?? [
-    ['2026', 'Лауреат I степени', 'Старший', 'XI Московский областной открытый конкурс хоров мальчиков Подмосковья'],
-    ['2027', 'Лауреат II степени', 'Младший', 'VII Международный фестиваль хорового искусства'],
-  ];
+  const isLinkList = variant === 'news' || variant === 'photo' || variant === 'video';
+  const headers = variant === 'news'
+    ? ['Название', 'Дата', 'Тип', 'Открыть новость']
+    : variant === 'photo'
+      ? ['Название', 'Дата', 'Тип', 'Открыть фотогалерею']
+      : variant === 'video'
+        ? ['Название', 'Дата', 'Тип', 'Открыть видеогалерею']
+        : ['Год', 'Достижение', 'Хор', 'Конкурс'];
+  const rows = controlledRows ?? (variant === 'news'
+    ? [
+      ['Расписание капеллы на 2025-2026 год', '13 июля', 'Новости'],
+      ['ВНИМАНИЕ! Продолжается набор в хоровую капеллу на новый учебный год!', '10 июля', 'Объявления'],
+    ]
+    : (variant === 'photo' || variant === 'video')
+      ? [
+        ['Гала-концерт в БЗК (юноши и Вита Нова)', '13 июля', 'Выступления'],
+        ['Концерт в КЦ «Зеленоград»', '10 июля', 'Выступления'],
+      ]
+    : [
+      ['2026', 'Лауреат I степени', 'Старший', 'XI Московский областной открытый конкурс хоров мальчиков Подмосковья'],
+      ['2027', 'Лауреат II степени', 'Младший', 'VII Международный фестиваль хорового искусства'],
+    ]);
   const headRow = head.insertRow();
 
-  table.className = 'orlyata-data-table orlyata-data-table--achievements';
+  table.className = 'orlyata-data-table orlyata-data-table--' + variant;
 
   const colGroup = document.createElement('colgroup');
-  for (const _header of headers) {
+  for (let headerIndex = 0; headerIndex < headers.length; headerIndex += 1) {
     colGroup.append(document.createElement('col'));
   }
   table.append(colGroup);
-  for (const header of headers) {
+  headers.forEach((header, index) => {
     const cell = document.createElement('th');
     cell.scope = 'col';
-    cell.textContent = header;
+    if (isLinkList && index === headers.length - 1) {
+      cell.ariaLabel = header;
+    } else {
+      cell.textContent = header;
+    }
     headRow.append(cell);
-  }
+  });
 
-  for (const row of rows) {
+  for (const [rowIndex, row] of rows.entries()) {
     const tableRow = body.insertRow();
-    row.forEach((value, index) => {
+    headers.forEach((header, index) => {
       const cell = tableRow.insertCell();
-      cell.dataset.label = headers[index];
-      cell.textContent = value;
+      cell.dataset.label = header;
+      if (isLinkList && index === headers.length - 1) {
+        const link = document.createElement('a');
+        link.className = 'orlyata-data-table__row-link';
+        link.href = variant === 'news' ? '/novosti/' : variant === 'video' ? '/mediagalereya/video/' : '/mediagalereya/foto/';
+        const providers: Array<{ id: string; label: string }> = [
+          { id: 'youtube', label: 'YouTube' },
+          { id: 'rutube', label: 'RuTube' },
+          { id: 'vk', label: 'VK' },
+        ];
+        const provider = providers[rowIndex % providers.length] ?? { id: 'youtube', label: 'YouTube' };
+        const rowTitle = row[0] ?? '';
+        link.ariaLabel = variant === 'news' ? 'Открыть новость «' + rowTitle + '»' : variant === 'video' ? 'Открыть видео «' + rowTitle + '» на ' + provider.label : 'Открыть фотогалерею «' + rowTitle + '»';
+        if (variant === 'video') {
+          const icon = document.createElement('img');
+          icon.className = 'orlyata-data-table__provider-icon';
+          icon.src = assetRoot + '/icons/video-providers/' + provider.id + '.png';
+          icon.alt = '';
+          icon.setAttribute('aria-hidden', 'true');
+          link.append(icon);
+        } else {
+          const track = document.createElement('span');
+          track.className = 'orlyata-data-table__row-arrow-track';
+          track.setAttribute('aria-hidden', 'true');
+          for (let arrowIndex = 0; arrowIndex < 2; arrowIndex += 1) {
+            const arrow = document.createElement('span');
+            const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            arrow.className = 'orlyata-data-table__row-arrow';
+            icon.setAttribute('viewBox', '0 0 24 24');
+            icon.setAttribute('fill', 'none');
+            path.setAttribute('d', 'M12 5V19M5 12L12 19L19 12');
+            path.setAttribute('stroke', 'currentColor');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('stroke-linejoin', 'round');
+            icon.append(path);
+            arrow.append(icon);
+            track.append(arrow);
+          }
+          link.append(track);
+        }
+        cell.append(link);
+      } else {
+        cell.textContent = row[index] ?? '';
+      }
     });
   }
 
@@ -392,6 +462,7 @@ export function dataTable(controlledRows?: string[][]): HTMLTableElement {
 }
 
 const meta = {
+  tags: ['autodocs'],
   excludeStories: [
     'accordion',
     'advantage',
@@ -404,6 +475,7 @@ const meta = {
     'newsCard',
     'textLink',
   ],
+  parameters: { docs: { description: { component: motionSpecifications.textLink } } },
   title: 'Components/Link',
 } satisfies Meta;
 

@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { appendSection, createComponentPage, dataTable } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
 
 const meta = {
+  tags: ['autodocs'],
   id: 'components-data-table',
   title: 'Components/DataTable',
+  parameters: { docs: { description: { component: motionSpecifications.dataTable } } },
 } satisfies Meta;
 
 export default meta;
@@ -33,6 +36,33 @@ export const Playground: StoryObj<DataTableArgs> = {
   render: (args) => {
     const root = createComponentPage('DataTable Playground', 'Изменяйте данные строки через Controls.');
     appendSection(root, 'Preview', [dataTable([[args.year, args.achievement, args.choir, args.competition]])]);
+    return root;
+  },
+};
+
+export const News: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / News', 'Вариант для списка новостей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
+    appendSection(root, 'News', [dataTable(undefined, 'news')]);
+    return root;
+  },
+};
+
+export const Photo: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Photo', 'Вариант для списка фотогалерей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
+    appendSection(root, 'Photo', [dataTable(undefined, 'photo')]);
+    return root;
+  },
+};
+
+export const Video: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Video', 'Вариант для списка видео с четырёхколоночной desktop-сеткой и иконками провайдеров.');
+    appendSection(root, 'Video', [dataTable(undefined, 'video')]);
     return root;
   },
 };
