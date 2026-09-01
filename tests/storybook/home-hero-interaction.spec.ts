@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 import { expectGingerLoaded } from './visual';
 
-test('Home hero scales only its preview video by 10% on panel hover', async ({ page }) => {
+test('Home hero keeps its preview cropped by 2% and scales only the video to 110% on panel hover', async ({ page }) => {
   await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
   await expectGingerLoaded(page);
   await page.locator('#storybook-root').evaluate((root) => {
@@ -13,6 +13,7 @@ test('Home hero scales only its preview video by 10% on panel hover', async ({ p
   const preview = hero.locator('.orlyata-home__hero-preview');
   const beforeHover = await hero.boundingBox();
 
+  await expect(preview).toHaveCSS('transform', 'matrix(1.02, 0, 0, 1.02, 0, 0)');
   await expect(preview).toHaveCSS('transition-duration', '0.4s');
   await expect(preview).toHaveCSS('transition-timing-function', 'cubic-bezier(0.46, 0, 0, 1)');
   await hero.hover();

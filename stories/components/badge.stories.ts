@@ -44,7 +44,7 @@ export const Variants: Story = {
     const inverseSurface = document.createElement('div');
     inverseSurface.className = 'component-inverse-surface';
     inverseSurface.append(badge('Сегодня', 'inverse'));
-    appendSection(root, 'Default', [badge('сегодня'), badge('RuTube'), badge('23 мая')]);
+    appendSection(root, 'Default', [badge('Сегодня'), badge('RuTube'), badge('23 мая')]);
     appendSection(root, 'Inverse', [inverseSurface]);
     return root;
   },

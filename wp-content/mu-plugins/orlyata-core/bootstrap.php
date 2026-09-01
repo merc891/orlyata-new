@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'ORLYATA_CORE_VERSION' ) ) {
-	define( 'ORLYATA_CORE_VERSION', '0.2.1' );
+	define( 'ORLYATA_CORE_VERSION', '0.2.3' );
 }
 
 require_once __DIR__ . '/src/Roles/class-rolemanager.php';

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { motionSpecifications } from './motion-specifications';
 
-type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right';
+type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right' | 'arrow-left-muted' | 'arrow-right-muted';
 type VisualState = 'default' | 'hover' | 'active' | 'disabled' | 'loading';
 
 interface ButtonOptions {
@@ -17,7 +17,7 @@ interface ButtonOptions {
 const iconRoot = '/wp-content/themes/orlyata/assets/icons';
 
 function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonElement {
-  const isIconOnly = ['play', 'arrow-left', 'arrow-right'].includes(options.variant);
+  const isIconOnly = ['play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted'].includes(options.variant);
   const isLoading = options.state === 'loading' && options.href === undefined;
   const isDisabled = options.state === 'disabled' || isLoading;
   const control = options.href === undefined ? document.createElement('button') : document.createElement('a');
@@ -178,7 +178,7 @@ export const Playground: StoryObj<ButtonPlaygroundArgs> = {
     asLink: { control: 'boolean', description: 'Рендерить текстовый вариант как ссылку.' },
     label: { control: 'text', description: 'Видимый текст кнопки.' },
     state: { control: 'select', options: ['default', 'hover', 'active', 'disabled', 'loading'] },
-    variant: { control: 'select', options: ['primary', 'secondary', 'play', 'arrow-left', 'arrow-right'] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted'] },
     withClose: { control: 'boolean', description: 'Добавить Figma close-иконку в Primary.' },
   },
   render: (args) => {
@@ -216,6 +216,8 @@ export const Variants: Story = {
       createButton({ ariaLabel: 'Воспроизвести', variant: 'play' }),
       createButton({ ariaLabel: 'Предыдущий материал', variant: 'arrow-left' }),
       createButton({ ariaLabel: 'Следующий материал', variant: 'arrow-right' }),
+      createButton({ ariaLabel: 'Предыдущая фотография', variant: 'arrow-left-muted' }),
+      createButton({ ariaLabel: 'Следующая фотография', variant: 'arrow-right-muted' }),
     ]);
 
     return page;
@@ -246,6 +248,8 @@ export const States: Story = {
       stateSpecimen('Default · вправо', { ariaLabel: 'Следующий материал', state: 'default', variant: 'arrow-right' }),
       stateSpecimen('Hover · влево', { ariaLabel: 'Предыдущий материал', state: 'hover', variant: 'arrow-left' }),
       stateSpecimen('Hover · вправо', { ariaLabel: 'Следующий материал', state: 'hover', variant: 'arrow-right' }),
+      stateSpecimen('Gallery default · влево', { ariaLabel: 'Предыдущая фотография', state: 'default', variant: 'arrow-left-muted' }),
+      stateSpecimen('Gallery hover · вправо', { ariaLabel: 'Следующая фотография', state: 'hover', variant: 'arrow-right-muted' }),
     ]);
 
     return page;

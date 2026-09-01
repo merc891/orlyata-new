@@ -24,29 +24,35 @@ if ( ! is_array( $table_args['headers'] ) || ! is_array( $table_args['rows'] ) |
 	return;
 }
 
-$table_variant              = is_string( $table_args['variant'] ) ? $table_args['variant'] : '';
-$table_hidden_rows          = is_array( $table_args['hidden_rows'] ) ? $table_args['hidden_rows'] : array();
-$table_row_categories       = is_array( $table_args['row_categories'] ) ? $table_args['row_categories'] : array();
-$table_row_links            = is_array( $table_args['row_links'] ) ? $table_args['row_links'] : array();
-$table_row_provider_icons   = is_array( $table_args['row_provider_icons'] ) ? $table_args['row_provider_icons'] : array();
-$table_video_provider_icons = array(
+$table_variant                 = is_string( $table_args['variant'] ) ? $table_args['variant'] : '';
+$table_hidden_rows             = is_array( $table_args['hidden_rows'] ) ? $table_args['hidden_rows'] : array();
+$table_row_categories          = is_array( $table_args['row_categories'] ) ? $table_args['row_categories'] : array();
+$table_row_links               = is_array( $table_args['row_links'] ) ? $table_args['row_links'] : array();
+$table_row_provider_icons      = is_array( $table_args['row_provider_icons'] ) ? $table_args['row_provider_icons'] : array();
+$table_video_provider_icons    = array(
 	'youtube' => array(
-		'file'  => 'youtube.png',
-		'label' => __( 'YouTube', 'orlyata' ),
+		'file_gray'  => 'youtube-gray.svg',
+		'file_color' => 'youtube.svg',
+		'label'      => __( 'YouTube', 'orlyata' ),
 	),
 	'rutube'  => array(
-		'file'  => 'rutube.png',
-		'label' => __( 'RuTube', 'orlyata' ),
+		'file_gray'  => 'rutube-gray.svg',
+		'file_color' => 'rutube.svg',
+		'label'      => __( 'RuTube', 'orlyata' ),
 	),
 	'vk'      => array(
-		'file'  => 'vk.png',
-		'label' => __( 'VK', 'orlyata' ),
+		'file_gray'  => 'vk-gray.svg',
+		'file_color' => 'vk.svg',
+		'label'      => __( 'VK', 'orlyata' ),
 	),
 );
-$table_is_link_list         = in_array( $table_variant, array( 'news', 'photo', 'video' ), true );
-$table_classes              = array( 'orlyata-data-table' );
+$table_is_teacher_achievements = 'teacher-achievements' === $table_variant;
+$table_is_link_list            = in_array( $table_variant, array( 'news', 'photo', 'video', 'notes' ), true );
+$table_classes                 = array( 'orlyata-data-table' );
 if ( 'achievements' === $table_variant ) {
 	$table_classes[] = 'orlyata-data-table--achievements';
+} elseif ( $table_is_teacher_achievements ) {
+	$table_classes[] = 'orlyata-data-table--teacher-achievements';
 } elseif ( $table_is_link_list ) {
 	$table_classes[] = 'orlyata-data-table--' . $table_variant;
 }
@@ -81,16 +87,19 @@ if ( 'achievements' === $table_variant ) {
 			$row_is_hidden = isset( $table_hidden_rows[ $row_index ] ) && true === $table_hidden_rows[ $row_index ];
 			$row_title     = isset( $row[0] ) && is_string( $row[0] ) ? $row[0] : '';
 			$row_provider  = isset( $table_row_provider_icons[ $row_index ] ) && is_string( $table_row_provider_icons[ $row_index ] ) ? $table_row_provider_icons[ $row_index ] : '';
+			$row_link      = isset( $table_row_links[ $row_index ] ) && is_string( $table_row_links[ $row_index ] ) ? $table_row_links[ $row_index ] : '';
 			?>
-			<tr<?php echo 'news' === $table_variant && '' !== $row_category ? ' data-news-category="' . esc_attr( $row_category ) . '"' : ''; ?><?php echo $row_is_hidden ? ' hidden' : ''; ?>>
+			<tr<?php echo '' !== $row_category ? ' data-row-category="' . esc_attr( $row_category ) . '"' : ''; ?><?php echo 'notes' === $table_variant && '' !== $row_category ? ' data-notes-choir="' . esc_attr( $row_category ) . '"' : ''; ?><?php echo $table_is_link_list && '' !== $row_link ? ' data-row-link="' . esc_url( $row_link ) . '"' : ''; ?><?php echo $row_is_hidden ? ' hidden' : ''; ?>>
 				<?php foreach ( $table_args['headers'] as $index => $header ) : ?>
 					<td data-label="<?php echo esc_attr( is_string( $header ) ? $header : '' ); ?>">
 						<?php if ( $table_is_link_list && ( count( $table_args['headers'] ) - 1 ) === $index ) : ?>
-							<?php $row_link = isset( $table_row_links[ $row_index ] ) && is_string( $table_row_links[ $row_index ] ) ? $table_row_links[ $row_index ] : ''; ?>
 							<?php if ( '' !== $row_link ) : ?>
 								<?php
 								$row_provider_icon = 'video' === $table_variant && isset( $table_video_provider_icons[ $row_provider ] ) ? $table_video_provider_icons[ $row_provider ] : null;
-								if ( 'news' === $table_variant ) {
+								if ( 'notes' === $table_variant ) {
+									/* translators: %s: score title. */
+									$row_link_aria_label = sprintf( __( 'Скачать файл «%s»', 'orlyata' ), $row_title );
+								} elseif ( 'news' === $table_variant ) {
 									/* translators: %s: data-table row title. */
 									$row_link_aria_label = sprintf( __( 'Открыть новость «%s»', 'orlyata' ), $row_title );
 								} elseif ( is_array( $row_provider_icon ) ) {
@@ -103,7 +112,10 @@ if ( 'achievements' === $table_variant ) {
 								?>
 								<a class="orlyata-data-table__row-link" href="<?php echo esc_url( $row_link ); ?>" aria-label="<?php echo esc_attr( $row_link_aria_label ); ?>">
 									<?php if ( is_array( $row_provider_icon ) ) : ?>
-										<img class="orlyata-data-table__provider-icon" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/video-providers/' . $row_provider_icon['file'] ) ); ?>" alt="" aria-hidden="true">
+										<span class="orlyata-data-table__provider-icon" aria-hidden="true">
+										<img class="orlyata-data-table__provider-icon-image orlyata-data-table__provider-icon-image--gray" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/video-providers/' . $row_provider_icon['file_gray'] ) ); ?>" alt="">
+										<img class="orlyata-data-table__provider-icon-image orlyata-data-table__provider-icon-image--color" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/video-providers/' . $row_provider_icon['file_color'] ) ); ?>" alt="">
+									</span>
 									<?php else : ?>
 										<span class="orlyata-data-table__row-arrow-track" aria-hidden="true">
 											<span class="orlyata-data-table__row-arrow">

@@ -34,7 +34,7 @@ test('Sidebar matches the approved Figma desktop geometry', async ({ page }) => 
   ]);
 
   expect(sidebarBox).toMatchObject({ x: 0, y: 0, width: 250, height: 1030 });
-  expect(logoBox).toMatchObject({ x: 0, y: 12, width: 240, height: 110 });
+  expect(logoBox).toMatchObject({ x: 0, y: 8, width: 240, height: 110 });
   expect(navigationBox).toMatchObject({ x: 0, y: 152, width: 239 });
   expect(linkBox).toMatchObject({ x: 0, y: 168, width: 225, height: 36 });
   expect(ctaBox).toMatchObject({ x: 17, y: 942, width: 207, height: 64 });
@@ -52,6 +52,14 @@ test('Sidebar preserves primary navigation and current-page semantics', async ({
   await expect(navigation.getByRole('link', { name: 'Новости' })).toHaveCSS('color', 'rgb(24, 23, 23)');
   await expect(page.getByRole('link', { name: 'Орлята — на главную' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Записаться к нам' })).toHaveAttribute('href', '/#application');
+});
+
+test('Sidebar marks Media gallery as current for its archive routes', async ({ page }) => {
+  await openSidebar(page, 'components-sidebar--media-gallery');
+
+  const mediaLink = page.getByRole('link', { name: 'Медиагалерея' });
+  await expect(mediaLink).toHaveAttribute('aria-current', 'page');
+  await expect(mediaLink).toHaveClass(/is-current/);
 });
 
 test('Sidebar navigation has visible keyboard focus and hover feedback', async ({ page }) => {

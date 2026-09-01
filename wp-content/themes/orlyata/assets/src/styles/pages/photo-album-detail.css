@@ -1,0 +1,148 @@
+.orlyata-photo-album-detail {
+  display: flex;
+  background: var(--color-surface);
+}
+
+.orlyata-photo-album-detail__content {
+  min-width: 0;
+  min-block-size: 0;
+  flex: auto;
+}
+
+.orlyata-photo-album-detail .orlyata-page-hero {
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+}
+
+.orlyata-photo-album-detail__body {
+  box-sizing: border-box;
+  padding: var(--media-gallery-hero-content-gap) var(--layout-content-gutter) var(--space-5);
+}
+
+.orlyata-photo-album-detail__article,
+.orlyata-photo-album-detail__gallery {
+  width: min(100%, var(--photo-album-gallery-width));
+  margin-inline: auto;
+}
+
+.orlyata-photo-album-detail__gallery {
+  display: grid;
+  gap: var(--layout-grid-gap);
+}
+
+.has-js .orlyata-photo-album-detail__gallery.is-reveal-pending {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+
+.has-js .orlyata-photo-album-detail__gallery.is-revealed {
+  animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
+  animation-delay: var(--delay-home-media-cards-reveal);
+}
+
+.orlyata-photo-album-detail__related {
+  box-sizing: border-box;
+  width: min(100%, var(--layout-editorial-max-width));
+  margin: var(--media-gallery-media-list-section-gap) auto 0;
+  border-block-start: 1px solid var(--color-border-subtle);
+  padding-block-start: var(--home-history-heading-offset);
+}
+
+.orlyata-photo-album-detail__related-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5);
+}
+
+.orlyata-photo-album-detail__related-head h2 {
+  margin: 0;
+}
+
+.orlyata-photo-album-detail__related-table {
+  margin-block-start: var(--space-7);
+}
+
+.orlyata-photo-album-detail__row {
+  display: grid;
+  grid-template-columns: repeat(var(--layout-grid-columns), minmax(0, 1fr));
+  gap: var(--layout-grid-gap);
+}
+
+.orlyata-photo-album-detail__photo {
+  display: block;
+  min-width: 0;
+  min-block-size: 0;
+  overflow: hidden;
+  border-radius: var(--radius-large);
+  background: var(--color-surface-muted);
+}
+
+.orlyata-photo-album-detail__photo:focus-visible:not([data-photo-album-focus-restored="true"]) {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.orlyata-photo-album-detail__photo[data-photo-album-focus-restored="true"]:focus-visible {
+  outline: none;
+}
+
+.orlyata-photo-album-detail__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--duration-media-card-hover) var(--easing-media-card-hover);
+  object-fit: cover;
+}
+
+.orlyata-photo-album-detail__photo:is(:hover, :focus-visible) img {
+  transform: scale(var(--media-card-hover-scale));
+}
+
+.pswp__counter {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
+}
+
+.orlyata-photo-album-lightbox__arrow {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+}
+
+.orlyata-photo-album-lightbox__arrow--previous {
+  inset-inline-start: var(--news-detail-gallery-control-offset);
+}
+
+.orlyata-photo-album-lightbox__arrow--next {
+  inset-inline-end: var(--news-detail-gallery-control-offset);
+}
+
+@media (width >= 1280px) {
+  .orlyata-photo-album-detail__row {
+    height: var(--photo-album-gallery-large-height);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .orlyata-photo-album-detail__row--incomplete {
+    height: calc((var(--photo-album-gallery-large-height) - var(--layout-grid-gap)) / 2);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .orlyata-photo-album-detail__row--incomplete .orlyata-photo-album-detail__photo {
+    height: 100%;
+  }
+
+
+  .orlyata-photo-album-detail__photo--large {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: var(--photo-album-gallery-large-aspect-ratio);
+  }
+
+  .orlyata-photo-album-detail__row--mirrored .orlyata-photo-album-detail__photo--large {
+    grid-column: 3 / span 2;
+    grid-row: 1 / span 2;
+  }
+}

@@ -18,7 +18,7 @@ function sectionHead(title: string, identifier: string, label: string, href: str
   const head = element('div', 'orlyata-home__section-head');
   const heading = element('h2', 'type-heading-2', title);
   heading.id = identifier;
-  head.append(heading, textLink(label, href, inverse ? 'color-inverse' : 'color'));
+  head.append(heading, textLink(label, href, inverse ? 'color-inverse' : 'color', true));
   return head;
 }
 
@@ -121,7 +121,7 @@ function createHistory(): HTMLElement {
   const intro = element('div', 'orlyata-home__history-intro');
   const details = element('div', 'orlyata-home__history-details');
   const tags = element('div', 'orlyata-home__history-tags');
-  tags.append(element('span', 'orlyata-home__history-tag', 'о капелле'), element('span', 'orlyata-home__history-tag', 'педагоги'));
+  tags.append(element('span', 'orlyata-home__history-tag', 'О капелле'), element('span', 'orlyata-home__history-tag', 'Педагоги'));
   intro.append(
     element('p', 'orlyata-home__history-lead type-lead', 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман'),
     tags,

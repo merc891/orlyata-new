@@ -247,3 +247,34 @@ Focused component/Home Playwright после снятия markers: `10 passed`. 
 В `AboutDesktopPreview` зафиксированы reference-геометрии 1920 px: две колонки «Жизни капеллы» `803×600 px` с ratio `803/600`; карточка педагога `257×340 px` с ratio `257/340`, портрет `160 px` и отступ до имени `71 px`. В `tokens.css` добавлены owned About-токены: портрет и его отступ используют общий desktop `S`; в `about.css` fixed desktop heights заменены выводом высоты из утверждённых ratios. Это не меняет отдельные tablet/mobile rules.
 
 Проверки: manifest JSON валиден; CSS lint и focused ESLint проходят; `tests/storybook/about.spec.ts` проходит на anchors `1280/1920/2560` и smoke `1440/1600/2240`, подтверждая ratios и масштабирование portrait, portrait gap, heading gap и grid gap; production build проходит.
+
+
+## Срез 5.2.2. Детальная новость: редакционная колонка и галерея
+
+Статус: desktop-preview проверен на staging 28 августа 2026 года.
+
+Для Figma `4566:3587` добавлены page-owned tokens детальной новости: центрированная editorial-колонка `800 px` на reference `1920 px`, отступ от Hero `64 px`, gallery ratio `3 / 2` (`800×533.333 px`), внешний inset стрелок `24 px` и отступ категории `64 px`. Все размеры используют один desktop S через documented `clamp()`; Gallery не получает независимую width/height curve.
+
+Chromium staging smoke на `1280`, `1440`, `1600`, `1920`, `2240`, `2560 px` подтвердил ширины колонки соответственно около `533.33`, `600`, `666.66`, `800`, `933.33`, `1066.66 px`, отсутствие horizontal overflow и ratio gallery около `1.5000`. Проверены server-rendered анонс Heading 3, Body после галереи, Badge категории, три dot-кнопки и переключение следующего слайда.
+
+
+## Срез 5.2.3. Архивы фото и видео: desktop preview
+
+Статус: desktop-preview проверен на staging 28 августа 2026 года.
+
+Для `/mediagalereya/foto/` и `/mediagalereya/video/` включены versioned CPT archive rewrite-маршруты. Обе страницы используют общий Sidebar, default PageHero и Footer. Заголовки Hero — «Фото» и «Видео». Сразу после Hero находится titleless DataTable: отступ использует уже утверждённый `--media-gallery-hero-content-gap`, то есть 64 px на reference 1920 px и единый desktop S без нового page token. В каждом archive preview 30 server-rendered строк, полученные циклическим повторением десяти утверждённых fixtures; фото использует DataTable `photo`, а видео — `video` с gray/color SVG provider-иконками.
+
+Chromium staging smoke на 1280, 1440, 1600, 1920, 2240 и 2560 px подтвердил для обеих страниц status 200, 30 строк, Footer и отсутствие horizontal overflow. Отступ Hero→таблица масштабируется монотонно: около 42.66, 47.98, 53.33, 63.98, 74.66 и 85.33 px соответственно; погрешность до 0.02 px вызвана subpixel layout.
+
+
+## Срез 5.2.4. Детальная страница педагога: Чернецов Андрей Викторович
+
+Статус: desktop-preview опубликован и проверен на staging 31 августа 2026 года.
+
+Для desktop-preview зафиксирован вариант `PageHero teacher-detail`: он повторяет детальную новость по Hero `580px` на reference `1920px`, верхнему inset `24px` и внешним углам full-bleed shell. Внутри Hero стрелка `arrow-left` возвращает к «О капелле», inverse Badge «Заслуженный работник культуры РФ» расположен сверху справа. Нижний левый контейнер с должностью имеет ширину `440px`; Display H1 начинается через `24px`, но не наследует ограничение ширины описания. Размеры следуют одному desktop S через `--teacher-detail-hero-content-width` и `--teacher-detail-hero-description-title-gap`; Footer остаётся общим компонентом без page overrides.
+
+Канонический URL педагога — `/o-kapelle/{slug}/`; у `teacher` нет archive, поэтому `/pedagogi/` возвращает `404`. После versioned flush rewrite rules Chromium staging smoke подтвердил `/o-kapelle/andrey-chernetsov/` и `/o-kapelle/` со статусом `200`, высоту Hero `580 px` на `1920 px`, 15 строк достижений и отсутствие horizontal overflow.
+
+Следующий блок — цитата Чернецова из утверждённого контентного источника. Он начинается через `96 px` на reference `1920 px` от таблицы (`--teacher-detail-achievements-quote-gap`). Блок ограничен сверху и снизу hairline `color-border-subtle`, а расстояние от каждой линии до Lead-текста — `24 px` (`--space-5`). Lead занимает колонки 3–4 editorial grid; круглый `vict.png` из intro-блока «О капелле» использует существующий `--home-history-teacher-size`, выровнен по левому краю колонки 1 и по нижнему краю текста. Цитата разделена на два семантических абзаца после фразы «Музыка прекрасно воспитывает душу.»; расстояние между ними — `24 px` (`--space-5`).
+
+После цитаты добавлена локальная галерея из 26 фотографий с исходной страницы педагога. Через `--teacher-detail-quote-gallery-gap` она повторяет PhotoAlbum tile layout: первая плитка каждого ряда занимает две колонки и имеет ratio `800×620 px` на reference `1920 px`, четыре последующие заполняют оставшиеся две колонки; направления больших плиток чередуются по рядам. Серверные ссылки ведут на локальные JPG originals, а локальные cropped PNG previews загружаются в плитках; существующий `data-photo-album-gallery` подключает PhotoSwipe без отдельного JavaScript. Chromium staging smoke на `1280/1440/1600/1920/2240/2560 px` подтвердил 26 плиток, gap `64/72/80/96/112/128 px`, large geometry `527.34×408.69/596.25×462.09/665.17×515.50/800×620/933.33×723.33/1066.66×826.66 px`, нулевой horizontal overflow и PhotoSwipe counter `1 / 26`.

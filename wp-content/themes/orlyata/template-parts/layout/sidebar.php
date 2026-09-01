@@ -30,7 +30,7 @@ $default_items = array(
 	array(
 		'label'   => __( 'Медиагалерея', 'orlyata' ),
 		'url'     => home_url( '/mediagalereya/' ),
-		'current' => is_page( 'mediagalereya' ),
+		'current' => is_page( 'mediagalereya' ) || is_post_type_archive( 'photo_album' ) || is_singular( 'photo_album' ) || is_post_type_archive( 'video' ),
 	),
 	array(
 		'label'   => __( 'Новости', 'orlyata' ),
@@ -49,11 +49,11 @@ $default_items = array(
 	),
 );
 
-$items         = is_array( $sidebar_args['items'] ) && array() !== $sidebar_args['items']
+$items     = is_array( $sidebar_args['items'] ) && array() !== $sidebar_args['items']
 	? $sidebar_args['items']
 	: $default_items;
-$cta_label     = is_string( $sidebar_args['cta_label'] ) ? trim( $sidebar_args['cta_label'] ) : '';
-$cta_url       = is_string( $sidebar_args['cta_url'] ) ? trim( $sidebar_args['cta_url'] ) : '';
+$cta_label = is_string( $sidebar_args['cta_label'] ) ? trim( $sidebar_args['cta_label'] ) : '';
+$cta_url   = is_string( $sidebar_args['cta_url'] ) ? trim( $sidebar_args['cta_url'] ) : '';
 ?>
 <aside class="orlyata-sidebar">
 	<a class="orlyata-sidebar__logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Орлята — на главную', 'orlyata' ); ?>">

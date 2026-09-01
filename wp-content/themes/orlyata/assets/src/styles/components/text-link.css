@@ -75,3 +75,38 @@
   color: var(--color-text-inverse);
   opacity: var(--opacity-interactive-hover);
 }
+
+.orlyata-text-link--with-chevron {
+  align-items: center;
+  column-gap: var(--space-1);
+  display: inline-flex;
+}
+
+.orlyata-text-link__icon-track {
+  block-size: var(--button-icon-size);
+  flex: 0 0 auto;
+  inline-size: var(--button-icon-size);
+  overflow: hidden;
+  position: relative;
+  transform: translateY(1px);
+}
+
+.orlyata-text-link__icon {
+  block-size: var(--button-icon-size);
+  inline-size: var(--button-icon-size);
+  inset: 0;
+  position: absolute;
+  transition: transform var(--duration-link-roll) var(--easing-link-roll);
+}
+
+.orlyata-text-link__icon:nth-child(2) {
+  transform: translateX(-100%);
+}
+
+.orlyata-text-link--with-chevron:is(:hover, :focus-visible) .orlyata-text-link__icon:first-child {
+  transform: translateX(100%);
+}
+
+.orlyata-text-link--with-chevron:is(:hover, :focus-visible) .orlyata-text-link__icon:nth-child(2) {
+  transform: translateX(0);
+}

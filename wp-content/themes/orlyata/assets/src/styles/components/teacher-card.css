@@ -79,3 +79,12 @@
     aspect-ratio: var(--about-teacher-card-aspect-ratio);
   }
 }
+
+.orlyata-teacher-card__link {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}

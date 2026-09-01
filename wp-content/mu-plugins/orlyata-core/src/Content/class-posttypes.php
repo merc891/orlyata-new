@@ -120,7 +120,7 @@ final class PostTypes {
 				'show_in_rest'     => true,
 				'has_archive'      => false,
 				'rewrite'          => array(
-					'slug'       => 'pedagogi',
+					'slug'       => 'o-kapelle',
 					'with_front' => false,
 				),
 				'supports'         => array( 'title', 'thumbnail', 'page-attributes' ),
@@ -164,7 +164,7 @@ final class PostTypes {
 				'labels'           => self::get_labels( __( 'Фотоальбомы', 'orlyata' ), __( 'Фотоальбом', 'orlyata' ) ),
 				'public'           => true,
 				'show_in_rest'     => true,
-				'has_archive'      => false,
+				'has_archive'      => 'mediagalereya/foto',
 				'rewrite'          => array(
 					'slug'       => 'mediagalereya/foto',
 					'with_front' => false,
@@ -182,7 +182,7 @@ final class PostTypes {
 				'labels'           => self::get_labels( __( 'Видео', 'orlyata' ), __( 'Видео', 'orlyata' ) ),
 				'public'           => true,
 				'show_in_rest'     => true,
-				'has_archive'      => false,
+				'has_archive'      => 'mediagalereya/video',
 				'rewrite'          => array(
 					'slug'       => 'mediagalereya/video',
 					'with_front' => false,

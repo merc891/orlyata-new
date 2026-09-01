@@ -26,21 +26,51 @@
   margin: 0;
 }
 
-.orlyata-page-hero--news-detail {
+.orlyata-page-hero__corner-meta {
+  position: absolute;
+  z-index: 1;
+  inset-inline-end: var(--page-hero-padding-inline-start);
+  inset-block-end: var(--page-hero-padding-block-end);
+  margin: 0;
+  color: var(--color-text-inverse);
+}
+
+.orlyata-page-hero--news-detail,
+.orlyata-page-hero--teacher-detail {
   height: var(--news-detail-hero-height);
   padding: 0;
 }
 
-.orlyata-page-hero--news-detail .orlyata-page-hero__content {
+.orlyata-page-hero--news-detail .orlyata-page-hero__content,
+.orlyata-page-hero--teacher-detail .orlyata-page-hero__content {
   position: absolute;
   inset-inline-start: var(--news-detail-hero-inset);
   inset-block-end: var(--news-detail-hero-bottom-inset);
-  max-inline-size: calc(100% - (var(--news-detail-hero-inset) * 2));
+}
+
+.orlyata-page-hero--news-detail .orlyata-page-hero__content {
+  inline-size: min(var(--news-detail-hero-content-width), calc(100% - (var(--news-detail-hero-inset) * 2)));
+}
+
+.orlyata-page-hero--teacher-detail .orlyata-page-hero__content {
+  inline-size: min(var(--teacher-detail-hero-content-width), calc(100% - (var(--news-detail-hero-inset) * 2)));
 }
 
 .orlyata-page-hero__meta {
   margin: 0 0 var(--news-detail-hero-meta-title-gap);
   color: var(--color-text-inverse);
+}
+
+.orlyata-page-hero__description {
+  margin: 0 0 var(--teacher-detail-hero-description-title-gap);
+  color: var(--color-text-inverse);
+}
+
+.orlyata-page-hero__badge {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--news-detail-hero-inset);
+  inset-inline-end: var(--news-detail-hero-inset);
 }
 
 .orlyata-page-hero__back {
@@ -70,6 +100,7 @@
   border-radius: var(--radius-full);
   background: transparent;
   cursor: pointer;
+  transition: opacity var(--duration-button-hover) var(--easing-standard);
   place-items: center;
 }
 
@@ -77,6 +108,31 @@
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.orlyata-page-hero__share-control--copy {
+  background: var(--color-surface-muted);
+  color: var(--color-text-primary);
+}
+
+.orlyata-page-hero__copy-icon {
+  display: block;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.orlyata-page-hero__share-control:hover,
+.orlyata-page-hero__share-control[data-visual-state="hover"] {
+  opacity: var(--opacity-interactive-hover);
+}
+
+.orlyata-page-hero__share-control:active {
+  opacity: var(--opacity-interactive-active);
 }
 
 .orlyata-page-hero__share-control:focus-visible {
@@ -102,4 +158,21 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.orlyata-page-hero__foreground-image {
+  position: absolute;
+  z-index: 0;
+  inset-block-end: 0;
+  inset-inline-start: 50%;
+  display: block;
+  block-size: 100%;
+  inline-size: auto;
+  max-inline-size: 100%;
+  transform: translateX(-50%);
+}
+
+.orlyata-page-hero--teacher-detail .orlyata-page-hero__title {
+  inline-size: max-content;
+  max-inline-size: none;
 }

@@ -86,12 +86,14 @@ function orlyata_enqueue_assets(): void {
 		}
 
 		if ( ! empty( $entry['file'] ) && is_string( $entry['file'] ) ) {
-			wp_enqueue_script(
+			wp_enqueue_script_module(
 				'orlyata',
 				get_theme_file_uri( 'assets/dist/' . $entry['file'] ),
 				array(),
 				ORLYATA_THEME_VERSION,
-				true
+				array(
+					'in_footer' => true,
+				)
 			);
 		}
 

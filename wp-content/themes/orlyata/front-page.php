@@ -78,7 +78,18 @@ get_header();
 				<img class="orlyata-home__news-background" src="<?php echo esc_url( $home_preview_assets['news_background'] ); ?>" alt="" aria-hidden="true">
 				<div class="orlyata-home__news-head">
 					<h2 class="type-heading-2" id="home-news-title"><?php esc_html_e( 'Новости', 'orlyata' ); ?></h2>
-					<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/novosti/' ), 'label' => __( 'Все новости', 'orlyata' ), 'variant' => 'color-inverse' ) ); ?>
+					<?php
+					get_template_part(
+						'template-parts/components/text-link',
+						null,
+						array(
+							'has_chevron' => true,
+							'href'        => home_url( '/novosti/' ),
+							'label'       => __( 'Все новости', 'orlyata' ),
+							'variant'     => 'color-inverse',
+						)
+					);
+					?>
 				</div>
 				<div class="orlyata-home__news-grid">
 				<?php
@@ -119,7 +130,18 @@ get_header();
 		<section class="orlyata-home__section orlyata-home__media-section" aria-labelledby="home-media-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-media-title"><?php esc_html_e( 'Медиагалерея', 'orlyata' ); ?></h2>
-				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/mediagalereya/' ), 'label' => __( 'Перейти в раздел', 'orlyata' ), 'variant' => 'color' ) ); ?>
+				<?php
+				get_template_part(
+					'template-parts/components/text-link',
+					null,
+					array(
+						'has_chevron' => true,
+						'href'        => home_url( '/mediagalereya/' ),
+						'label'       => __( 'Перейти в раздел', 'orlyata' ),
+						'variant'     => 'color',
+					)
+				);
+				?>
 			</div>
 			<div class="orlyata-home__media-grid">
 				<?php
@@ -131,10 +153,10 @@ get_header();
 						'image_alt'  => __( 'Выступление капеллы на гала-концерте', 'orlyata' ),
 						'image_url'  => $home_preview_assets['media_feature'],
 						'media_type' => 'video',
-						'provider'        => 'RuTube',
-						'size'            => 'big',
-						'url'             => 'https://rutube.ru/play/embed/2ad60bfd20027143c2eac71acdb5faef/',
-						'title'           => __( 'Гала-концерт в БЗК (юноши и Вита Нова)', 'orlyata' ),
+						'provider'   => 'RuTube',
+						'size'       => 'big',
+						'url'        => 'https://rutube.ru/play/embed/2ad60bfd20027143c2eac71acdb5faef/',
+						'title'      => __( 'Гала-концерт в БЗК (юноши и Вита Нова)', 'orlyata' ),
 					)
 				);
 				?>
@@ -175,14 +197,25 @@ get_header();
 		<section class="orlyata-home__section orlyata-home__history" aria-labelledby="home-history-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-history-title"><?php esc_html_e( 'История', 'orlyata' ); ?></h2>
-				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/o-kapelle/' ), 'label' => __( 'Подробнее', 'orlyata' ), 'variant' => 'color' ) ); ?>
+				<?php
+				get_template_part(
+					'template-parts/components/text-link',
+					null,
+					array(
+						'has_chevron' => true,
+						'href'        => home_url( '/o-kapelle/' ),
+						'label'       => __( 'Подробнее', 'orlyata' ),
+						'variant'     => 'color',
+					)
+				);
+				?>
 			</div>
 			<div class="orlyata-home__history-grid">
 				<div class="orlyata-home__history-intro">
 					<p class="orlyata-home__history-lead type-lead"><?php esc_html_e( 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман', 'orlyata' ); ?></p>
 					<div class="orlyata-home__history-tags">
-						<span class="orlyata-home__history-tag"><?php esc_html_e( 'о капелле', 'orlyata' ); ?></span>
-						<span class="orlyata-home__history-tag"><?php esc_html_e( 'педагоги', 'orlyata' ); ?></span>
+						<span class="orlyata-home__history-tag"><?php esc_html_e( 'О капелле', 'orlyata' ); ?></span>
+						<span class="orlyata-home__history-tag"><?php esc_html_e( 'Педагоги', 'orlyata' ); ?></span>
 					</div>
 				</div>
 				<div class="orlyata-home__history-details">
@@ -225,7 +258,18 @@ get_header();
 		<section class="orlyata-home__section orlyata-home__achievements" aria-labelledby="home-achievements-title">
 			<div class="orlyata-home__section-head">
 				<h2 class="type-heading-2" id="home-achievements-title"><?php esc_html_e( 'Достижения', 'orlyata' ); ?></h2>
-				<?php get_template_part( 'template-parts/components/text-link', null, array( 'href' => home_url( '/o-kapelle/#achievements' ), 'label' => __( 'Все достижения', 'orlyata' ), 'variant' => 'color' ) ); ?>
+				<?php
+				get_template_part(
+					'template-parts/components/text-link',
+					null,
+					array(
+						'has_chevron' => true,
+						'href'        => home_url( '/o-kapelle/#achievements' ),
+						'label'       => __( 'Все достижения', 'orlyata' ),
+						'variant'     => 'color',
+					)
+				);
+				?>
 			</div>
 			<div class="orlyata-home__table-wrap">
 				<?php

@@ -56,6 +56,15 @@
   animation-delay: var(--delay-home-media-cards-reveal);
 }
 
+.has-js [data-archive-content-reveal].is-reveal-pending {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+
+.has-js [data-archive-content-reveal].is-revealed {
+  animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
+  animation-delay: var(--delay-home-media-cards-reveal);
+}
+
 .orlyata-media-gallery__media-list-section {
   box-sizing: border-box;
   width: min(100%, var(--layout-editorial-max-width));
@@ -77,4 +86,21 @@
 
 .orlyata-media-gallery__media-list-table {
   margin-block-start: var(--space-7);
+}
+
+.has-js .orlyata-media-gallery__media-list-section.is-reveal-pending .orlyata-media-gallery__media-list-section-head {
+  opacity: 0;
+}
+
+.has-js .orlyata-media-gallery__media-list-section.is-reveal-pending .orlyata-media-gallery__media-list-table {
+  opacity: var(--opacity-home-media-card-reveal-start);
+}
+
+.has-js .orlyata-media-gallery__media-list-section.is-revealed .orlyata-media-gallery__media-list-section-head {
+  animation: orlyata-home-media-reveal var(--duration-home-block-reveal) var(--easing-home-reveal) both;
+}
+
+.has-js .orlyata-media-gallery__media-list-section.is-revealed .orlyata-media-gallery__media-list-table {
+  animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
+  animation-delay: var(--delay-home-media-cards-reveal);
 }

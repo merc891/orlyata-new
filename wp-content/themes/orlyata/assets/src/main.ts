@@ -1,7 +1,27 @@
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/style.css";
+
+const photoAlbumArrowIcon = new URL("../icons/button-arrow.svg", import.meta.url).href;
 import './styles/main.css';
 import { initializeApplicationFormValidation } from './application-form-validation';
 
 document.documentElement.classList.add('has-js');
+
+const initializeNotFoundMessage = (): void => {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll<HTMLElement>('[data-not-found-message]').forEach((message) => {
+        message.classList.add('is-entering');
+      });
+    });
+  });
+};
+
+if (document.readyState === 'complete') {
+  initializeNotFoundMessage();
+} else {
+  window.addEventListener('load', initializeNotFoundMessage, { once: true });
+}
 
 const initializeAboutLifeCarousel = (): void => {
   document.querySelectorAll<HTMLElement>("[data-life-carousel]").forEach((carousel) => {
@@ -28,6 +48,105 @@ const initializeAboutLifeCarousel = (): void => {
 };
 
 initializeAboutLifeCarousel();
+
+const initializeNewsGalleries = (): void => {
+  document.querySelectorAll<HTMLElement>("[data-news-gallery]").forEach((gallery) => {
+    const slides = [...gallery.querySelectorAll<HTMLElement>(".orlyata-news-detail__gallery-slide")];
+    const selectors = [...gallery.querySelectorAll<HTMLButtonElement>("[data-news-gallery-select]")];
+    const activeIndex = (): number => Math.max(0, Number.parseInt(gallery.dataset.newsGalleryActive ?? "0", 10) || 0);
+    const select = (requestedIndex: number): void => {
+      const index = (requestedIndex + slides.length) % slides.length;
+      if (index === activeIndex()) return;
+      gallery.dataset.newsGalleryActive = String(index);
+      selectors.forEach((control, controlIndex) => {
+        const active = controlIndex === index;
+        control.classList.toggle("is-active", active);
+        control.setAttribute("aria-pressed", String(active));
+      });
+    };
+
+    gallery.querySelector<HTMLButtonElement>(".orlyata-button--arrow-left-muted")?.addEventListener("click", () => select(activeIndex() - 1));
+    gallery.querySelector<HTMLButtonElement>(".orlyata-button--arrow-right-muted")?.addEventListener("click", () => select(activeIndex() + 1));
+    selectors.forEach((control, index) => control.addEventListener("click", () => select(index)));
+  });
+};
+
+initializeNewsGalleries();
+
+const photoAlbumArrowMarkup = (variant: "arrow-left-muted" | "arrow-right-muted"): string => `
+  <span class="orlyata-button__arrow-track" aria-hidden="true">
+    <span class="orlyata-button__arrow"><img class="orlyata-button__icon orlyata-button__icon--${variant}" src="${photoAlbumArrowIcon}" alt="" /></span>
+    <span class="orlyata-button__arrow"><img class="orlyata-button__icon orlyata-button__icon--${variant}" src="${photoAlbumArrowIcon}" alt="" /></span>
+  </span>
+`;
+
+const initializePhotoAlbumLightboxes = (): void => {
+  const duration = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--duration-about-life-slide-transition"));
+  const easing = getComputedStyle(document.documentElement).getPropertyValue("--easing-out").trim();
+
+  document.querySelectorAll<HTMLElement>("[data-photo-album-gallery]").forEach((gallery) => {
+    let trigger: HTMLAnchorElement | undefined;
+    const galleryItems = [...gallery.querySelectorAll<HTMLAnchorElement>("[data-photo-album-gallery-item]")];
+
+    galleryItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        trigger = item;
+      });
+    });
+
+    const lightbox = new PhotoSwipeLightbox({
+      gallery,
+      children: "[data-photo-album-gallery-item]",
+      pswpModule: () => import("photoswipe"),
+      showAnimationDuration: duration,
+      hideAnimationDuration: duration,
+      easing,
+      returnFocus: false,
+      arrowPrev: false,
+      arrowNext: false,
+    });
+
+    lightbox.on("uiRegister", () => {
+      const pswp = lightbox.pswp;
+      if (pswp === undefined) return;
+
+      pswp.ui.registerElement({
+        name: "photoAlbumPrevious",
+        className: "orlyata-button orlyata-button--arrow-left-muted orlyata-button--icon-only orlyata-photo-album-lightbox__arrow orlyata-photo-album-lightbox__arrow--previous",
+        isButton: true,
+        title: "Предыдущее фото",
+        ariaLabel: "Предыдущее фото",
+        html: photoAlbumArrowMarkup("arrow-left-muted"),
+        appendTo: "wrapper",
+        onClick: "prev",
+      });
+
+      pswp.ui.registerElement({
+        name: "photoAlbumNext",
+        className: "orlyata-button orlyata-button--arrow-right-muted orlyata-button--icon-only orlyata-photo-album-lightbox__arrow orlyata-photo-album-lightbox__arrow--next",
+        isButton: true,
+        title: "Следующее фото",
+        ariaLabel: "Следующее фото",
+        html: photoAlbumArrowMarkup("arrow-right-muted"),
+        appendTo: "wrapper",
+        onClick: "next",
+      });
+
+      pswp.on("destroy", () => {
+        if (trigger === undefined) return;
+        trigger.dataset.photoAlbumFocusRestored = "true";
+        trigger.addEventListener("blur", () => {
+          delete trigger.dataset.photoAlbumFocusRestored;
+        }, { once: true });
+        trigger.focus();
+      });
+    });
+
+    lightbox.init();
+  });
+};
+
+initializePhotoAlbumLightboxes();
 
 import { createMorph, type Morph } from "morphicons/dom";
 import type { IconNode } from "morphicons";
@@ -387,32 +506,32 @@ document.addEventListener('blur', (event) => {
 }, true);
 
 const initializeHomeScrollReveal = (selector: string): void => {
-  const section = document.querySelector<HTMLElement>(selector);
-
-  if (section === null || section.dataset.revealInitialized === 'true' || !('IntersectionObserver' in window)) {
-    return;
-  }
-
-  const offsetRem = Number.parseFloat(window.getComputedStyle(section).getPropertyValue('--home-media-reveal-viewport-offset')) || 0;
-  const rootFontSize = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-  const viewportOffset = Number.isFinite(offsetRem) && Number.isFinite(rootFontSize) ? offsetRem * rootFontSize : 0;
-
-  section.dataset.revealInitialized = 'true';
-  section.classList.add('is-reveal-pending');
-
-  const observer = new IntersectionObserver((entries) => {
-    const entry = entries[0];
-
-    if (entry === undefined || !entry.isIntersecting) {
+  document.querySelectorAll<HTMLElement>(selector).forEach((section) => {
+    if (section.dataset.revealInitialized === 'true' || !('IntersectionObserver' in window)) {
       return;
     }
 
-    section.classList.remove('is-reveal-pending');
-    section.classList.add('is-revealed');
-    observer.unobserve(section);
-  }, { rootMargin: `0px 0px -${String(viewportOffset)}px 0px` });
+    const offsetRem = Number.parseFloat(window.getComputedStyle(section).getPropertyValue('--home-media-reveal-viewport-offset')) || 0;
+    const rootFontSize = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+    const viewportOffset = Number.isFinite(offsetRem) && Number.isFinite(rootFontSize) ? offsetRem * rootFontSize : 0;
 
-  observer.observe(section);
+    section.dataset.revealInitialized = 'true';
+    section.classList.add('is-reveal-pending');
+
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+
+      if (entry === undefined || !entry.isIntersecting) {
+        return;
+      }
+
+      section.classList.remove('is-reveal-pending');
+      section.classList.add('is-revealed');
+      observer.unobserve(section);
+    }, { rootMargin: `0px 0px -${String(viewportOffset)}px 0px` });
+
+    observer.observe(section);
+  });
 };
 
 export const initializeHomeMediaReveal = (): void => {
@@ -420,7 +539,7 @@ export const initializeHomeMediaReveal = (): void => {
 };
 
 export const initializeMediaGalleryReveal = (): void => {
-  initializeHomeScrollReveal(".orlyata-media-gallery__section");
+  initializeHomeScrollReveal('.orlyata-media-gallery__section, .orlyata-media-gallery [data-media-gallery-reveal], [data-archive-content-reveal], [data-photo-album-reveal], .orlyata-teacher-detail [data-teacher-reveal]');
 };
 
 export const initializeHomeHistoryReveal = (): void => {
@@ -471,23 +590,51 @@ export const initializePageHeroTitleReveal = (): void => {
   });
 };
 
-const initializeNewsShareCopy = (): void => {
-  document.querySelectorAll<HTMLButtonElement>('[data-copy-news-link]').forEach((control) => {
-    control.addEventListener('click', async () => {
+const copyIcon: IconNode = [["path", { d: "M10 8h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2ZM4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2" }]];
+const checkIcon: IconNode = [["path", { d: "m20 6-11 11-5-5" }]];
+
+export const initializeNewsShareCopy = (root: ParentNode = document): void => {
+  root.querySelectorAll<HTMLButtonElement>('[data-copy-news-link]').forEach((control) => {
+    const path = control.querySelector<SVGPathElement>('.orlyata-page-hero__copy-icon-path');
+    const morph = path === null ? undefined : createMorph(path, copyIcon, { reducedMotion: "never" });
+
+    const copyNewsLink = async (): Promise<void> => {
       const url = control.dataset.copyNewsLink;
-      if (url === undefined || url === '' || !navigator.clipboard) return;
+      if (url === undefined || url === '') return;
 
       try {
         await navigator.clipboard.writeText(url);
+        control.dataset.copyState = 'copied';
+        control.setAttribute('aria-pressed', 'true');
+        control.setAttribute('aria-label', 'Ссылка скопирована');
+        control.setAttribute('title', 'Ссылка скопирована');
+        morph?.morphTo(checkIcon);
       } catch {
-        // The visible share controls remain available when clipboard permissions are denied.
+        // The control retains its initial state when clipboard permissions are denied.
       }
+    };
+
+    control.addEventListener('click', () => {
+      void copyNewsLink();
+    });
+  });
+};
+
+const initializeDataTableRowLinks = (): void => {
+  document.querySelectorAll<HTMLTableRowElement>('[data-row-link]').forEach((row) => {
+    if (row.dataset.rowLinkInitialized === 'true') return;
+    row.dataset.rowLinkInitialized = 'true';
+    row.addEventListener('click', (event) => {
+      if ((event.target as Element).closest('a, button, input, select, textarea')) return;
+      const url = row.dataset.rowLink;
+      if (url !== undefined && url !== '') window.location.assign(url);
     });
   });
 };
 
 initializePageHeroTitleReveal();
 initializeNewsShareCopy();
+initializeDataTableRowLinks();
 initializeAboutSectionReveal();
 initializeApplicationFormValidation();
 
@@ -508,9 +655,18 @@ const initializeNewsFilters = (): void => {
       return url.toString();
     };
     const update = (categories: Set<string>): void => {
-      document.querySelectorAll<HTMLTableRowElement>('[data-news-category]').forEach((row) => {
-        const rowCategory = row.dataset.newsCategory ?? '';
-        row.hidden = categories.size !== 0 && !categories.has(rowCategory);
+      document.querySelectorAll<HTMLTableRowElement>('[data-row-category]').forEach((row) => {
+        const rowCategory = row.dataset.rowCategory ?? '';
+        const wasHidden = row.hidden;
+        const isHidden = categories.size !== 0 && !categories.has(rowCategory);
+        row.hidden = isHidden;
+        if (isHidden) {
+          row.classList.remove('is-entering');
+        } else if (wasHidden) {
+          row.classList.remove('is-entering');
+          void row.offsetWidth;
+          row.classList.add('is-entering');
+        }
       });
 
       items.forEach((item) => {
@@ -572,7 +728,7 @@ const initializeNewsFilters = (): void => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = (event.target as Element).closest<HTMLAnchorElement>('.orlyata-button');
       const item = link?.closest<HTMLElement>('[data-news-filter]');
-      if (link === null || item === null) return;
+      if (link === null || item === null || item === undefined) return;
       event.preventDefault();
       const selected = item.dataset.newsFilter ?? '';
       const nextCategories = categoriesFromLocation();
@@ -587,3 +743,253 @@ const initializeNewsFilters = (): void => {
 };
 
 initializeNewsFilters();
+
+const initializeMediaFilters = (): void => {
+  document.querySelectorAll<HTMLElement>('[data-media-filters]').forEach((filters) => {
+    const items = [...filters.querySelectorAll<HTMLElement>('[data-media-filter]')];
+    const closeIconUrl = filters.dataset.mediaCloseIcon ?? '';
+    const parameter = 'category';
+    const validCategories = (value: string): Set<string> => new Set(
+      value.split(',').filter((category) => items.some((item) => item.dataset.mediaFilter === category && category !== '')),
+    );
+    const categoriesFromLocation = (): Set<string> => validCategories(new URL(window.location.href).searchParams.get(parameter) ?? '');
+    const categoryUrl = (categories: Set<string>): string => {
+      const url = new URL(window.location.href);
+      if (categories.size === 0) url.searchParams.delete(parameter);
+      else url.searchParams.set(parameter, [...categories].join(','));
+      return url.toString();
+    };
+    const update = (categories: Set<string>): void => {
+      document.querySelectorAll<HTMLTableRowElement>('[data-row-category]').forEach((row) => {
+        const wasHidden = row.hidden;
+        const isHidden = categories.size !== 0 && !categories.has(row.dataset.rowCategory ?? '');
+        row.hidden = isHidden;
+        if (isHidden) {
+          row.classList.remove('is-entering');
+        } else if (wasHidden) {
+          row.classList.remove('is-entering');
+          void row.offsetWidth;
+          row.classList.add('is-entering');
+        }
+      });
+      items.forEach((item) => {
+        const value = item.dataset.mediaFilter ?? '';
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        if (link === null) return;
+        const selected = value === '' ? categories.size === 0 : categories.has(value);
+        const nextCategories = new Set(categories);
+        if (value === '') nextCategories.clear();
+        else if (nextCategories.has(value)) nextCategories.delete(value);
+        else nextCategories.add(value);
+        link.classList.toggle('orlyata-button--primary', selected);
+        link.classList.toggle('orlyata-button--secondary', !selected);
+        link.classList.toggle('orlyata-button--with-icon', selected && value !== '');
+        link.href = categoryUrl(nextCategories);
+        link.querySelector('.orlyata-button__icon')?.remove();
+        if (selected && value !== '' && closeIconUrl !== '') {
+          const icon = document.createElement('img');
+          icon.className = 'orlyata-button__icon orlyata-button__icon--close';
+          icon.src = closeIconUrl;
+          icon.alt = '';
+          icon.setAttribute('aria-hidden', 'true');
+          link.append(icon);
+        }
+      });
+    };
+    update(categoriesFromLocation());
+    filters.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const item = (event.target as Element).closest<HTMLElement>('[data-media-filter]');
+      if (item === null) return;
+      event.preventDefault();
+      const value = item.dataset.mediaFilter ?? '';
+      const nextCategories = categoriesFromLocation();
+      if (value === '') nextCategories.clear();
+      else if (nextCategories.has(value)) nextCategories.delete(value);
+      else nextCategories.add(value);
+      history.pushState({ mediaCategories: [...nextCategories] }, '', categoryUrl(nextCategories));
+      update(nextCategories);
+    });
+    window.addEventListener('popstate', () => {
+      update(categoriesFromLocation());
+    });
+  });
+};
+
+initializeMediaFilters();
+
+const initializeNotesFilters = (): void => {
+  document.querySelectorAll<HTMLElement>('[data-notes-filters]').forEach((filters) => {
+    const items = [...filters.querySelectorAll<HTMLElement>('[data-notes-filter]')];
+    const closeIconUrl = filters.dataset.notesCloseIcon ?? '';
+    const parameter = 'orlyata_notes_choir';
+    const validChoirs = (value: string): Set<string> => new Set(value.split(',').filter((choir) => items.some((item) => item.dataset.notesFilter === choir && choir !== '')));
+    const choirsFromLocation = (): Set<string> => validChoirs(new URL(window.location.href).searchParams.get(parameter) ?? '');
+    const choirUrl = (choirs: Set<string>): string => {
+      const url = new URL(window.location.href);
+      if (choirs.size === 0) url.searchParams.delete(parameter);
+      else url.searchParams.set(parameter, [...choirs].join(','));
+      return url.toString();
+    };
+    const update = (choirs: Set<string>): void => {
+      document.querySelectorAll<HTMLTableRowElement>('[data-notes-choir]').forEach((row) => {
+        const wasHidden = row.hidden;
+        const isHidden = row.dataset.notesSearchMatch === 'false' || (choirs.size !== 0 && !choirs.has(row.dataset.notesChoir ?? ''));
+        row.hidden = isHidden;
+        if (isHidden) {
+          row.classList.remove('is-entering');
+        } else if (wasHidden) {
+          row.classList.remove('is-entering');
+          void row.offsetWidth;
+          row.classList.add('is-entering');
+        }
+      });
+      document.dispatchEvent(new Event('notes-results-updated'));
+      const before = new Map(items.map((item) => {
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        link?.getAnimations().forEach((animation) => animation.cancel());
+        return [link, link === null ? undefined : link.getBoundingClientRect()] as const;
+      }));
+      items.forEach((item) => {
+        const choir = item.dataset.notesFilter ?? '';
+        const link = item.querySelector<HTMLAnchorElement>('.orlyata-button');
+        if (link === null) return;
+        const selected = choir === '' ? choirs.size === 0 : choirs.has(choir);
+        const withClose = selected && choir !== '';
+        const next = new Set(choirs);
+        if (choir === '') next.clear(); else if (next.has(choir)) next.delete(choir); else next.add(choir);
+        link.classList.toggle('orlyata-button--primary', selected);
+        link.classList.toggle('orlyata-button--secondary', !selected);
+        link.classList.toggle('orlyata-button--with-icon', withClose);
+        link.href = choirUrl(next);
+        link.querySelector('.orlyata-button__icon')?.remove();
+        if (withClose && closeIconUrl !== '') {
+          const icon = document.createElement('img');
+          icon.className = 'orlyata-button__icon orlyata-button__icon--close';
+          icon.src = closeIconUrl;
+          icon.alt = '';
+          icon.setAttribute('aria-hidden', 'true');
+          link.append(icon);
+        }
+      });
+      before.forEach((previous, link) => {
+        if (link === null || previous === undefined) return;
+        const translateX = previous.left - link.getBoundingClientRect().left;
+        if (translateX === 0) return;
+        link.animate([{ transform: `translateX(${String(translateX)}px)` }, { transform: 'translateX(0)' }], { duration: 400, easing: 'ease-out' });
+      });
+    };
+    update(choirsFromLocation());
+    filters.addEventListener('click', (event) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = (event.target as Element).closest<HTMLAnchorElement>('.orlyata-button');
+      const item = link?.closest<HTMLElement>('[data-notes-filter]');
+      if (link === null || item === null || item === undefined) return;
+      event.preventDefault();
+      const selected = item.dataset.notesFilter ?? '';
+      const next = choirsFromLocation();
+      if (selected === '') next.clear(); else if (next.has(selected)) next.delete(selected); else next.add(selected);
+      history.pushState({ notesChoirs: [...next] }, '', choirUrl(next));
+      update(next);
+    });
+    window.addEventListener('popstate', () => update(choirsFromLocation()));
+  });
+};
+
+initializeNotesFilters();
+
+const initializeNotesSearch = (): void => {
+  document.querySelectorAll<HTMLInputElement>('[data-notes-search]').forEach((search) => {
+    let searchDelay: number | undefined;
+    const loading = document.querySelector<HTMLElement>('[data-notes-loading]');
+    const empty = document.querySelector<HTMLElement>('[data-notes-empty]');
+    const table = document.querySelector<HTMLElement>('.orlyata-notes__table');
+    const updateResults = (): void => {
+      const query = search.value.trim().toLocaleLowerCase('ru-RU');
+      document.querySelectorAll<HTMLTableRowElement>('[data-notes-choir]').forEach((row) => {
+        const cells = row.querySelectorAll<HTMLTableCellElement>('td');
+        const searchableText = [cells.item(0)?.textContent ?? '', cells.item(1)?.textContent ?? ''].join(' ').toLocaleLowerCase('ru-RU');
+        const matchesSearch = query === '' || searchableText.includes(query);
+        row.dataset.notesSearchMatch = String(matchesSearch);
+        const choirMatches = new URL(window.location.href).searchParams.get('orlyata_notes_choir')?.split(',').filter(Boolean) ?? [];
+        row.hidden = !matchesSearch || (choirMatches.length !== 0 && !choirMatches.includes(row.dataset.notesChoir ?? ''));
+      });
+      document.dispatchEvent(new Event('notes-results-updated'));
+    };
+    const update = (): void => {
+      if (searchDelay !== undefined) window.clearTimeout(searchDelay);
+      if (search.value.trim() === '') {
+        loading?.setAttribute('hidden', '');
+        updateResults();
+        return;
+      }
+      table?.setAttribute('hidden', '');
+      empty?.setAttribute('hidden', '');
+      loading?.removeAttribute('hidden');
+      searchDelay = window.setTimeout(() => {
+        loading?.setAttribute('hidden', '');
+        updateResults();
+      }, 1000);
+    };
+    search.addEventListener('input', update);
+    updateResults();
+  });
+};
+
+initializeNotesSearch();
+
+document.querySelectorAll<HTMLInputElement>('[data-notes-search]').forEach((search) => {
+  const clear = search.parentElement?.querySelector<HTMLButtonElement>('[data-notes-search-clear]');
+  const syncClear = (): void => { if (clear !== null && clear !== undefined) clear.hidden = search.value === ''; };
+  syncClear();
+  search.addEventListener('input', syncClear);
+  clear?.addEventListener('click', () => {
+    search.value = '';
+    search.dispatchEvent(new Event('input', { bubbles: true }));
+    search.focus();
+  });
+});
+
+const syncNotesEmptyState = (): void => {
+  const search = document.querySelector<HTMLInputElement>('[data-notes-search]');
+  const empty = document.querySelector<HTMLElement>('[data-notes-empty]');
+  const table = document.querySelector<HTMLElement>('.orlyata-notes__table');
+  const loading = document.querySelector<HTMLElement>('[data-notes-loading]');
+  if (search === null || empty === null || table === null || loading === null || !loading.hidden) return;
+  const hasVisibleRows = [...document.querySelectorAll<HTMLTableRowElement>('[data-notes-choir]')].some((row) => !row.hidden);
+  const showEmpty = search.value.trim() !== '' && !hasVisibleRows;
+  const wasHidden = empty.hidden;
+  empty.hidden = !showEmpty;
+  if (showEmpty && wasHidden) {
+    empty.classList.remove('is-entering');
+    void empty.offsetWidth;
+    empty.classList.add('is-entering');
+  }
+  table.hidden = showEmpty;
+};
+
+const syncNotesVisibleFileCount = (): void => {
+  const count = [...document.querySelectorAll<HTMLTableRowElement>('[data-notes-choir]')].filter((row) => !row.hidden).length;
+  const word = (value: number): string => {
+    const lastTwoDigits = value % 100;
+    const lastDigit = value % 10;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'файлов';
+    if (lastDigit === 1) return 'файл';
+    if (lastDigit >= 2 && lastDigit <= 4) return 'файла';
+    return 'файлов';
+  };
+  const countElement = document.querySelector<HTMLElement>('.orlyata-notes .orlyata-page-hero__corner-meta');
+  const nextLabel = `${String(count)} ${word(count)}`;
+  if (countElement !== null && countElement.textContent !== nextLabel) {
+    countElement.classList.remove('is-count-changing');
+    void countElement.offsetWidth;
+    countElement.textContent = nextLabel;
+    countElement.classList.add('is-count-changing');
+  }
+};
+
+document.querySelectorAll<HTMLInputElement>('[data-notes-search]').forEach((search) => search.addEventListener('input', syncNotesEmptyState));
+document.addEventListener('notes-results-updated', syncNotesEmptyState);
+document.addEventListener('notes-results-updated', syncNotesVisibleFileCount);
+syncNotesEmptyState();
+syncNotesVisibleFileCount();

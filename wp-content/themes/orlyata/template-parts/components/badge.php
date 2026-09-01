@@ -17,6 +17,10 @@ $badge_args = wp_parse_args(
 );
 
 $label            = is_string( $badge_args['label'] ) ? trim( $badge_args['label'] ) : '';
+
+if ( 1 === preg_match( '/^([^\p{L}\p{N}]*)(\p{L})/u', $label, $matches ) ) {
+	$label = $matches[1] . mb_strtoupper( $matches[2], 'UTF-8' ) . mb_substr( $label, mb_strlen( $matches[1] . $matches[2], 'UTF-8' ), null, 'UTF-8' );
+}
 $allowed_variants = array( 'default', 'inverse' );
 $variant          = is_string( $badge_args['variant'] ) && in_array( $badge_args['variant'], $allowed_variants, true ) ? $badge_args['variant'] : 'default';
 $class_names      = array( 'orlyata-badge', 'orlyata-badge--' . $variant );

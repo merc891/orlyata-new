@@ -43,7 +43,9 @@
 
 .orlyata-button--play,
 .orlyata-button--arrow-left,
-.orlyata-button--arrow-right {
+.orlyata-button--arrow-right,
+.orlyata-button--arrow-left-muted,
+.orlyata-button--arrow-right-muted {
   width: var(--button-height);
   height: var(--button-height);
   padding: 0;
@@ -56,6 +58,12 @@
 .orlyata-button--arrow-left,
 .orlyata-button--arrow-right {
   background: var(--color-surface);
+  transition: background-color var(--duration-button-hover) var(--easing-standard);
+}
+
+.orlyata-button--arrow-left-muted,
+.orlyata-button--arrow-right-muted {
+  background: var(--color-neutral-50);
   transition: background-color var(--duration-button-hover) var(--easing-standard);
 }
 .orlyata-button__label {
@@ -88,35 +96,43 @@
   transition: transform var(--duration-link-roll) var(--easing-link-roll);
 }
 
-.orlyata-button__icon--arrow-left {
+.orlyata-button__icon--arrow-left,
+.orlyata-button__icon--arrow-left-muted {
   rotate: 90deg;
 }
 
-.orlyata-button__icon--arrow-right {
+.orlyata-button__icon--arrow-right,
+.orlyata-button__icon--arrow-right-muted {
   rotate: -90deg;
 }
 
-.orlyata-button--arrow-left .orlyata-button__arrow:nth-child(2) {
+.orlyata-button--arrow-left .orlyata-button__arrow:nth-child(2),
+.orlyata-button--arrow-left-muted .orlyata-button__arrow:nth-child(2) {
   transform: translateX(100%);
 }
 
-.orlyata-button--arrow-right .orlyata-button__arrow:nth-child(2) {
+.orlyata-button--arrow-right .orlyata-button__arrow:nth-child(2),
+.orlyata-button--arrow-right-muted .orlyata-button__arrow:nth-child(2) {
   transform: translateX(-100%);
 }
 
-.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
+.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child,
+.orlyata-button--arrow-left-muted:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
   transform: translateX(-100%);
 }
 
-.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
+.orlyata-button--arrow-left:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2),
+.orlyata-button--arrow-left-muted:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
   transform: translateX(0);
 }
 
-.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
+.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child,
+.orlyata-button--arrow-right-muted:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:first-child {
   transform: translateX(100%);
 }
 
-.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
+.orlyata-button--arrow-right:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2),
+.orlyata-button--arrow-right-muted:is(:hover, [data-visual-state="hover"]) .orlyata-button__arrow:nth-child(2) {
   transform: translateX(0);
 }
 
@@ -137,6 +153,13 @@
 .orlyata-button--arrow-left[data-visual-state="hover"],
 .orlyata-button--arrow-right[data-visual-state="hover"] {
   background: var(--color-surface-muted);
+}
+
+.orlyata-button--arrow-left-muted:hover:not(:disabled),
+.orlyata-button--arrow-right-muted:hover:not(:disabled),
+.orlyata-button--arrow-left-muted[data-visual-state="hover"],
+.orlyata-button--arrow-right-muted[data-visual-state="hover"] {
+  background: var(--color-neutral-150);
 }
 
 .orlyata-button:focus-visible {

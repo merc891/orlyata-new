@@ -138,6 +138,17 @@ test('Primary, Secondary and Arrow animate their hover feedback over 200ms', asy
   await expect(arrow).toHaveCSS('background-color', 'rgb(244, 244, 245)');
 });
 
+test('Muted gallery arrows use Neutral 50 and change to Neutral 150 on hover', async ({ page }) => {
+  await page.goto('/iframe.html?id=components-button--variants&viewMode=story');
+  await expectGingerLoaded(page);
+
+  const mutedArrow = page.getByRole('button', { name: 'Предыдущая фотография' });
+  await expect(mutedArrow).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+  await expect(mutedArrow).toHaveCSS('transition-duration', '0.2s');
+  await mutedArrow.hover();
+  await expect(mutedArrow).toHaveCSS('background-color', 'rgb(199, 199, 204)');
+});
+
 test('Arrow buttons roll in their respective horizontal directions', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto('/iframe.html?id=components-button--variants&viewMode=story');

@@ -77,6 +77,8 @@ test('Link rolls its label into view on hover without changing navigation semant
   await link.hover();
   await expect(label).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
   await expect(link).toHaveCSS('color', 'rgb(24, 23, 23)');
+  await expect(icon.first()).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 24, 0)');
+  await expect(icon.nth(1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
 });
 
 test('Link changes color without label movement on hover', async ({ page }) => {
@@ -89,12 +91,36 @@ test('Link changes color without label movement on hover', async ({ page }) => {
   await expect(label).toHaveCSS('transform', 'none');
   await link.hover();
   await expect(link).toHaveCSS('color', 'rgb(24, 23, 23)');
+  await expect(icon.first()).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 24, 0)');
+  await expect(icon.nth(1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
 });
 
 test('Input preserves native form semantics', async ({ page }) => {
   await openStory(page, 'components-input--states');
 
   await expect(page.getByRole('textbox', { name: 'ФИО родителя' }).first()).toBeVisible();
+});
+test('Link with chevron keeps the icon decorative and aligns it at the approved size and gap', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await openStory(page, 'components-link--variants');
+
+  const link = page.getByRole('link', { name: 'С chevron' });
+  const track = link.locator('.orlyata-text-link__icon-track');
+  const icon = track.locator('.orlyata-text-link__icon');
+
+  await expect(track).toHaveAttribute('aria-hidden', 'true');
+  await expect(track).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 1)');
+  await expect(icon).toHaveCount(2);
+  await expect(icon.first()).toHaveAttribute('viewBox', '0 0 24 24');
+  await expect(icon.first()).toHaveCSS('width', '24px');
+  await expect(icon.first()).toHaveCSS('height', '24px');
+  const gap = await link.evaluate((element) => getComputedStyle(element).columnGap);
+  expect(Number.parseFloat(gap)).toBeCloseTo(4, 3);
+  await expect(link).toHaveCSS('color', 'rgb(113, 113, 122)');
+  await link.hover();
+  await expect(link).toHaveCSS('color', 'rgb(24, 23, 23)');
+  await expect(icon.first()).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 24, 0)');
+  await expect(icon.nth(1)).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
 });
 
 test('Accordion preserves native disclosure semantics', async ({ page }) => {
@@ -197,10 +223,21 @@ test('DataTable video uses 32px provider icons centred in rows instead of arrows
 
   const row = page.locator('.orlyata-data-table--video tbody tr').first();
   const icon = row.locator('.orlyata-data-table__provider-icon');
+  const grayIcon = row.locator('.orlyata-data-table__provider-icon-image--gray');
+  const colorIcon = row.locator('.orlyata-data-table__provider-icon-image--color');
   const [rowBox, iconBox] = await Promise.all([row.boundingBox(), icon.boundingBox()]);
 
   expect(await row.locator('.orlyata-data-table__row-arrow').count()).toBe(0);
-  await expect(icon).toHaveAttribute("src", /youtube/);
+  await expect(grayIcon).toHaveAttribute('src', /youtube-gray.svg/);
+  await expect(colorIcon).toHaveAttribute('src', /youtube.svg/);
+  expect(await grayIcon.evaluate((element) => element instanceof HTMLImageElement ? element.naturalWidth : 0)).toBe(32);
+  expect(await colorIcon.evaluate((element) => element instanceof HTMLImageElement ? element.naturalWidth : 0)).toBe(32);
+  await expect(grayIcon).toHaveCSS('opacity', '1');
+  await expect(colorIcon).toHaveCSS('opacity', '0');
+  await row.hover();
+  await page.waitForTimeout(250);
+  await expect(grayIcon).toHaveCSS('opacity', '0');
+  await expect(colorIcon).toHaveCSS('opacity', '1');
   await expect(row.getByRole('link', { name: /Открыть видео.*YouTube/ })).toBeVisible();
   expect(iconBox?.width).toBeCloseTo(32, 1);
   expect(iconBox?.height).toBeCloseTo(32, 1);
@@ -269,6 +306,12 @@ test('Badge inverse uses the white surface token', async ({ page }) => {
   const inverse = page.locator('.orlyata-badge--inverse');
   await expect(inverse).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(inverse).toHaveCSS('border-color', 'rgb(255, 255, 255)');
+});
+
+test('Badge examples capitalize a text label without changing a date month', async ({ page }) => {
+  await openStory(page, 'components-badge--variants');
+
+  await expect(page.locator('.orlyata-badge')).toHaveText(['Сегодня', 'RuTube', '23 мая', 'Сегодня']);
 });
 
 test('Input exposes all four Figma states', async ({ page }) => {

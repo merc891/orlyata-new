@@ -1,0 +1,68 @@
+
+.orlyata-media-archive {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+}
+
+.orlyata-media-archive__content {
+  min-width: 0;
+  flex: auto;
+}
+
+.orlyata-media-archive .orlyata-page-hero {
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+}
+
+.orlyata-media-archive__body {
+  box-sizing: border-box;
+  padding: var(--media-gallery-hero-content-gap) var(--layout-content-gutter) var(--space-5);
+}
+
+.orlyata-media-archive__filters {
+  width: min(100%, var(--layout-editorial-max-width));
+  margin-inline: auto;
+}
+
+.orlyata-media-archive__filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--archive-filter-gap);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.orlyata-media-archive__filter-item {
+  padding: 0;
+  margin: 0;
+}
+
+.orlyata-media-archive__filters .orlyata-button {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition:
+    background-color var(--duration-link-roll) var(--easing-out),
+    opacity var(--duration-button-hover) var(--easing-standard);
+  will-change: transform;
+}
+
+.orlyata-media-archive__table {
+  margin-block-start: var(--news-filter-table-gap);
+  width: min(100%, var(--layout-editorial-max-width));
+  margin-inline: auto;
+}
+
+@keyframes orlyata-media-archive-row-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.orlyata-media-archive .orlyata-data-table tbody tr.is-entering {
+  animation: orlyata-media-archive-row-enter 800ms var(--easing-standard);
+}

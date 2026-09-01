@@ -5,6 +5,7 @@
 @import "components/text-link.css";
 @import "components/badge.css";
 @import "components/input.css";
+@import "components/search-input.css";
 @import "components/accordion.css";
 @import "components/advantage.css";
 @import "components/news-card.css";
@@ -20,6 +21,12 @@
 @import "pages/home-teacher-cta-motion.css";
 @import "pages/about.css";
 @import "pages/news.css";
+@import "pages/notes.css";
 @import "pages/news-detail.css";
+@import "pages/teacher-detail.css";
 @import "pages/media-gallery.css";
+@import "pages/photo-album-detail.css";
+@import "pages/contacts.css";
+@import "pages/media-archive.css";
 @import "pages/media-card-video-preview.css";
+@import "pages/not-found.css";

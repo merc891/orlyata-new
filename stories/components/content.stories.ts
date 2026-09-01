@@ -36,16 +36,39 @@ export function appendSection(root: HTMLElement, title: string, elements: HTMLEl
   root.append(element);
 }
 
-export function textLink(label: string, href = '#about', variant: 'roll' | 'color' | 'color-inverse' = 'roll'): HTMLAnchorElement {
+export function textLink(label: string, href = '#about', variant: 'roll' | 'color' | 'color-inverse' = 'roll', hasChevron = false): HTMLAnchorElement {
   const link = document.createElement('a');
   const labelElement = document.createElement('span');
 
-  link.className = 'orlyata-text-link orlyata-text-link--' + variant;
+  link.className = 'orlyata-text-link orlyata-text-link--' + variant + (hasChevron ? ' orlyata-text-link--with-chevron' : '');
   link.href = href;
   labelElement.className = 'orlyata-text-link__label';
   labelElement.dataset.text = label;
   labelElement.textContent = label;
   link.append(labelElement);
+
+  if (hasChevron) {
+    const track = document.createElement('span');
+
+    track.className = 'orlyata-text-link__icon-track';
+    track.setAttribute('aria-hidden', 'true');
+    for (let iconIndex = 0; iconIndex < 2; iconIndex += 1) {
+      const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+      icon.classList.add('orlyata-text-link__icon');
+      icon.setAttribute('viewBox', '0 0 24 24');
+      icon.setAttribute('fill', 'none');
+      path.setAttribute('d', 'm9 18 6-6-6-6');
+      path.setAttribute('stroke', 'currentColor');
+      path.setAttribute('stroke-width', '2');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      icon.append(path);
+      track.append(icon);
+    }
+    link.append(track);
+  }
 
   return link;
 }
@@ -358,11 +381,12 @@ export function mediaCard(
 
 export function dataTable(
   controlledRows?: string[][],
-  variant: 'achievements' | 'news' | 'photo' | 'video' = 'achievements',
+  variant: 'achievements' | 'teacher-achievements' | 'news' | 'photo' | 'video' = 'achievements',
 ): HTMLTableElement {
   const table = document.createElement('table');
   const head = table.createTHead();
   const body = table.createTBody();
+  const isTeacherAchievements = variant === 'teacher-achievements';
   const isLinkList = variant === 'news' || variant === 'photo' || variant === 'video';
   const headers = variant === 'news'
     ? ['Название', 'Дата', 'Тип', 'Открыть новость']
@@ -370,7 +394,9 @@ export function dataTable(
       ? ['Название', 'Дата', 'Тип', 'Открыть фотогалерею']
       : variant === 'video'
         ? ['Название', 'Дата', 'Тип', 'Открыть видеогалерею']
-        : ['Год', 'Достижение', 'Хор', 'Конкурс'];
+        : isTeacherAchievements
+          ? ['Год', 'Достижение']
+          : ['Год', 'Достижение', 'Хор', 'Конкурс'];
   const rows = controlledRows ?? (variant === 'news'
     ? [
       ['Расписание капеллы на 2025-2026 год', '13 июля', 'Новости'],
@@ -423,11 +449,18 @@ export function dataTable(
         const rowTitle = row[0] ?? '';
         link.ariaLabel = variant === 'news' ? 'Открыть новость «' + rowTitle + '»' : variant === 'video' ? 'Открыть видео «' + rowTitle + '» на ' + provider.label : 'Открыть фотогалерею «' + rowTitle + '»';
         if (variant === 'video') {
-          const icon = document.createElement('img');
+          const icon = document.createElement('span');
+          const grayIcon = document.createElement('img');
+          const colorIcon = document.createElement('img');
           icon.className = 'orlyata-data-table__provider-icon';
-          icon.src = assetRoot + '/icons/video-providers/' + provider.id + '.png';
-          icon.alt = '';
           icon.setAttribute('aria-hidden', 'true');
+          grayIcon.className = 'orlyata-data-table__provider-icon-image orlyata-data-table__provider-icon-image--gray';
+          grayIcon.src = assetRoot + '/icons/video-providers/' + provider.id + '-gray.svg';
+          grayIcon.alt = '';
+          colorIcon.className = 'orlyata-data-table__provider-icon-image orlyata-data-table__provider-icon-image--color';
+          colorIcon.src = assetRoot + '/icons/video-providers/' + provider.id + '.svg';
+          colorIcon.alt = '';
+          icon.append(grayIcon, colorIcon);
           link.append(icon);
         } else {
           const track = document.createElement('span');
@@ -511,7 +544,7 @@ export const Variants: Story = {
   render: () => {
     const root = createComponentPage('Link', 'Текстовая ссылка для навигации внутри контента и блоков с дополнительной информацией.');
 
-    appendSection(root, 'Variants', [textLink('С прокруткой', '#about', 'roll'), textLink('Со сменой цвета', '#library', 'color')]);
+    appendSection(root, 'Variants', [textLink('С прокруткой', '#about', 'roll'), textLink('Со сменой цвета', '#library', 'color'), textLink('С chevron', '#chevron', 'color', true)]);
 
     return root;
   },

@@ -130,3 +130,8 @@ export const CurrentPage: Story = {
   parameters: { controls: { disable: true } },
   render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'news' }),
 };
+
+export const MediaGallery: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'media' }),
+};

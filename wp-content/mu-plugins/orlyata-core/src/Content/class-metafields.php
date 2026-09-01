@@ -57,7 +57,7 @@ final class MetaFields {
 
 		$screen = get_current_screen();
 
-		if ( ! $screen || ! in_array( $screen->post_type, array( 'teacher', 'score', 'photo_album' ), true ) ) {
+		if ( ! $screen || ! in_array( $screen->post_type, array( 'news', 'teacher', 'score', 'photo_album' ), true ) ) {
 			return;
 		}
 
@@ -188,15 +188,23 @@ final class MetaFields {
 	private static function get_meta_schema(): array {
 		return array(
 			'news'              => array(
-				'orlyata_news_summary'         => array(
+				'orlyata_news_summary'            => array(
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_textarea_field',
 				),
-				'orlyata_news_seo_title'       => array(
+				'orlyata_news_gallery_ids'        => array(
+					'type'              => 'array',
+					'sanitize_callback' => array( Media::class, 'sanitize_image_attachment_ids' ),
+				),
+				'orlyata_news_body_after_gallery' => array(
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_textarea_field',
+				),
+				'orlyata_news_seo_title'          => array(
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_text_field',
 				),
-				'orlyata_news_seo_description' => array(
+				'orlyata_news_seo_description'    => array(
 					'type'              => 'string',
 					'sanitize_callback' => 'sanitize_textarea_field',
 				),
@@ -298,7 +306,9 @@ final class MetaFields {
 	 */
 	private static function render_news_fields( WP_Post $post ): void {
 		self::render_term_select( $post->ID, 'orlyata_news_category', __( 'Категория', 'orlyata' ), 'news' );
-		self::render_textarea( 'summary', __( 'Краткий анонс', 'orlyata' ), (string) get_post_meta( $post->ID, 'orlyata_news_summary', true ), 3 );
+		self::render_textarea( 'summary', __( 'Анонс (необязательно)', 'orlyata' ), (string) get_post_meta( $post->ID, 'orlyata_news_summary', true ), 4, __( 'На детальной странице выводится первым абзацем стилем Heading 3.', 'orlyata' ) );
+		self::render_attachment_select( 'news_gallery_ids', __( 'Фотографии галереи', 'orlyata' ), Media::sanitize_image_attachment_ids( get_post_meta( $post->ID, 'orlyata_news_gallery_ids', true ) ), 'image', true, __( 'До 10 изображений. При двух и более изображениях на детальной странице работает слайдер.', 'orlyata' ) );
+		self::render_textarea( 'body_after_gallery', __( 'Текст после галереи', 'orlyata' ), (string) get_post_meta( $post->ID, 'orlyata_news_body_after_gallery', true ), 6 );
 		self::render_text_input( 'seo_title', __( 'SEO title', 'orlyata' ), (string) get_post_meta( $post->ID, 'orlyata_news_seo_title', true ) );
 		self::render_textarea( 'seo_description', __( 'SEO description', 'orlyata' ), (string) get_post_meta( $post->ID, 'orlyata_news_seo_description', true ), 3 );
 	}
@@ -391,6 +401,8 @@ final class MetaFields {
 	 */
 	private static function save_news_fields( int $post_id, array $input ): void {
 		self::save_text_meta( $post_id, 'orlyata_news_summary', $input['summary'] ?? '', 'sanitize_textarea_field' );
+		self::save_array_meta( $post_id, 'orlyata_news_gallery_ids', array_slice( Media::sanitize_image_attachment_ids( $input['news_gallery_ids'] ?? array() ), 0, 10 ) );
+		self::save_text_meta( $post_id, 'orlyata_news_body_after_gallery', $input['body_after_gallery'] ?? '', 'sanitize_textarea_field' );
 		self::save_text_meta( $post_id, 'orlyata_news_seo_title', $input['seo_title'] ?? '', 'sanitize_text_field' );
 		self::save_text_meta( $post_id, 'orlyata_news_seo_description', $input['seo_description'] ?? '', 'sanitize_textarea_field' );
 		self::save_term( $post_id, 'orlyata_news_category', $input['orlyata_news_category'] ?? 'news', 'news' );

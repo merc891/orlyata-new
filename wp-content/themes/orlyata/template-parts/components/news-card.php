@@ -33,5 +33,5 @@ if ( '' === $news_card_title || '' === $url || '' === $category ) {
 		<?php endif; ?>
 		<h3 class="orlyata-news-card__title"><span class="orlyata-news-card__title-label" data-text="<?php echo esc_attr( $news_card_title ); ?>"><?php echo esc_html( $news_card_title ); ?></span></h3>
 	</a>
-	<span class="orlyata-badge"><?php echo esc_html( $category ); ?></span>
+	<?php get_template_part( 'template-parts/components/badge', null, array( 'label' => $category ) ); ?>
 </article>

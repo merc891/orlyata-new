@@ -57,7 +57,8 @@ $news_preview_hidden_rows = array_map(
 	},
 	$news_preview_categories
 );
-$news_preview_links       = array_fill( 0, count( $news_preview_rows ), $archive_url );
+$news_preview_detail_url  = home_url( '/novosti/pochetnyy-rabotnik-kultury-goroda-moskvy/' );
+$news_preview_links       = array_fill( 0, count( $news_preview_rows ), $news_preview_detail_url );
 
 get_header();
 ?>
@@ -76,7 +77,7 @@ get_header();
 		);
 		?>
 		<div class="orlyata-news__body">
-			<nav class="orlyata-news__filters" aria-label="<?php esc_attr_e( 'Категории новостей', 'orlyata' ); ?>" data-news-filters data-news-close-icon="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-close.svg' ) ); ?>">
+				<nav class="orlyata-news__filters" aria-label="<?php esc_attr_e( 'Категории новостей', 'orlyata' ); ?>" data-archive-content-reveal data-news-filters data-table-filters data-table-filter-parameter="orlyata_news_category" data-table-filter-multiple="true" data-news-close-icon="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-close.svg' ) ); ?>">
 				<ul class="orlyata-news__filter-list">
 					<?php foreach ( $news_categories as $slug => $label ) : ?>
 						<?php
@@ -84,7 +85,7 @@ get_header();
 						$next_categories = '' === $slug ? array() : ( $is_current ? array_values( array_diff( $current_categories, array( $slug ) ) ) : array_merge( $current_categories, array( $slug ) ) );
 						$url             = array() === $next_categories ? $archive_url : add_query_arg( 'orlyata_news_category', implode( ',', $next_categories ), $archive_url );
 						?>
-						<li class="orlyata-news__filter-item" data-news-filter="<?php echo esc_attr( $slug ); ?>">
+						<li class="orlyata-news__filter-item" data-news-filter="<?php echo esc_attr( $slug ); ?>" data-table-filter="<?php echo esc_attr( $slug ); ?>">
 							<?php
 							get_template_part(
 								'template-parts/components/button',
@@ -101,7 +102,7 @@ get_header();
 					<?php endforeach; ?>
 				</ul>
 			</nav>
-			<div class="orlyata-news__table">
+			<div class="orlyata-news__table" data-archive-content-reveal>
 				<?php
 				get_template_part(
 					'template-parts/components/data-table',

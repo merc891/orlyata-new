@@ -1,0 +1,120 @@
+.orlyata-contacts {
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+}
+
+.orlyata-contacts__content {
+  min-width: 0;
+  flex: auto;
+}
+
+.orlyata-contacts .orlyata-page-hero {
+  border-radius: 0 0 var(--radius-large) var(--radius-large);
+}
+
+.orlyata-contacts__body {
+  box-sizing: border-box;
+  padding: var(--contacts-hero-content-gap) var(--layout-content-gutter) var(--space-5);
+}
+
+.orlyata-contacts__details {
+  width: min(100%, var(--layout-editorial-max-width));
+  margin-inline: auto;
+}
+
+.orlyata-contacts__row {
+  display: grid;
+  box-sizing: border-box;
+  grid-template-columns: repeat(var(--layout-grid-columns), minmax(0, 1fr));
+  column-gap: var(--layout-grid-gap);
+}
+
+.orlyata-contacts__row--connection,
+.orlyata-contacts__row--social {
+  border-block-start: 1px solid var(--color-border-subtle);
+  padding-block-start: var(--contacts-row-padding-block);
+}
+
+.orlyata-contacts__row--address,
+.orlyata-contacts__row--connection {
+  padding-block-end: var(--contacts-row-trailing-gap);
+}
+
+.orlyata-contacts__heading,
+.orlyata-contacts__address,
+.orlyata-contacts__person,
+.orlyata-contacts__value {
+  margin: 0;
+}
+
+.orlyata-contacts__heading {
+  grid-column: 1;
+}
+
+.orlyata-contacts__address,
+.orlyata-contacts__connection-grid,
+.orlyata-contacts__social-list {
+  grid-column: 3 / span 2;
+}
+
+.orlyata-contacts__address {
+  color: var(--color-text-primary);
+  font-style: normal;
+}
+
+.orlyata-contacts__connection-grid {
+  display: grid;
+  align-items: start;
+  align-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--layout-grid-gap);
+  row-gap: var(--space-4);
+}
+
+.orlyata-contacts__value {
+  line-height: var(--line-height-lead);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.orlyata-contacts__value:hover {
+  color: var(--color-text-secondary);
+}
+
+.orlyata-contacts__value:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-brand);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.orlyata-contacts__value:active {
+  opacity: var(--opacity-interactive-active);
+}
+
+.orlyata-contacts__person {
+  line-height: var(--line-height-lead);
+  color: var(--color-text-secondary);
+}
+
+.orlyata-contacts__social-list {
+  display: flex;
+  gap: var(--space-1);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.orlyata-contacts__social-link {
+  display: grid;
+  inline-size: var(--contacts-social-icon-size);
+  block-size: var(--contacts-social-icon-size);
+  place-items: center;
+}
+
+.orlyata-contacts__social-link img {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+

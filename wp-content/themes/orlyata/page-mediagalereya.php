@@ -26,7 +26,7 @@ $photo_gallery_preview_rows           = array(
 	array( __( 'Выставка работ студентов', 'orlyata' ), __( '30 сентября', 'orlyata' ), __( 'Отдых', 'orlyata' ) ),
 	array( __( 'Гастроли в соседнем городе', 'orlyata' ), __( '10 октября', 'orlyata' ), __( 'Выступления', 'orlyata' ) ),
 );
-$photo_gallery_preview_links          = array_fill( 0, count( $photo_gallery_preview_rows ), home_url( '/mediagalereya/foto/' ) );
+$photo_gallery_preview_links          = array_fill( 0, count( $photo_gallery_preview_rows ), home_url( '/mediagalereya/foto/xi-konkurs-khorov-malchikov-podmoskovya/' ) );
 $video_gallery_preview_links          = array_fill( 0, count( $photo_gallery_preview_rows ), home_url( '/mediagalereya/video/' ) );
 $video_gallery_preview_provider_icons = array( 'youtube', 'rutube', 'vk', 'youtube', 'rutube', 'vk', 'youtube', 'rutube', 'vk', 'youtube' );
 
@@ -95,7 +95,7 @@ get_header();
 				</div>
 			</section>
 
-			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-photo-title">
+			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-photo-title" data-media-gallery-reveal>
 				<div class="orlyata-media-gallery__media-list-section-head">
 					<h2 class="type-heading-2" id="media-gallery-photo-title"><?php esc_html_e( 'Фото', 'orlyata' ); ?></h2>
 					<?php
@@ -104,6 +104,7 @@ get_header();
 						null,
 						array(
 							'href'    => home_url( '/mediagalereya/foto/' ),
+							'has_chevron' => true,
 							'label'   => __( 'Перейти в раздел', 'orlyata' ),
 							'variant' => 'color',
 						)
@@ -126,7 +127,7 @@ get_header();
 				</div>
 			</section>
 
-			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-video-title">
+			<section class="orlyata-media-gallery__media-list-section" aria-labelledby="media-gallery-video-title" data-media-gallery-reveal>
 				<div class="orlyata-media-gallery__media-list-section-head">
 					<h2 class="type-heading-2" id="media-gallery-video-title"><?php esc_html_e( 'Видео', 'orlyata' ); ?></h2>
 					<?php
@@ -135,6 +136,7 @@ get_header();
 						null,
 						array(
 							'href'    => home_url( '/mediagalereya/video/' ),
+							'has_chevron' => true,
 							'label'   => __( 'Перейти в раздел', 'orlyata' ),
 							'variant' => 'color',
 						)

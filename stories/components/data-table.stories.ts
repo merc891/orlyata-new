@@ -70,8 +70,20 @@ export const Video: Story = {
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
-    const root = createComponentPage('Data table', 'Таблица для структурированных списков достижений и нот с нижней разделительной линией под каждой строкой.');
+    const root = createComponentPage('Data table', 'Таблица для структурированных списков достижений и нот с нижней разделительной линией между строками.');
     appendSection(root, 'Default', [dataTable()]);
+    return root;
+  },
+};
+
+export const TeacherAchievements: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'desktop1920' } },
+  render: () => {
+    const root = createComponentPage('Data table / Teacher achievements', 'Двухколоночный вариант для страницы педагога: «Достижение» начинается с третьей колонки desktop-сетки.');
+    appendSection(root, 'Teacher achievements', [dataTable([
+      ['2024', 'Специальный диплом «за композиторское мастерство» Московского международного фестиваля-конкурса «Рождественская песнь»'],
+      ['2024', 'Специальный диплом «за духовное воспитание молодежи» Московского международного фестиваля-конкурса «Рождественская песнь»'],
+    ], 'teacher-achievements')]);
     return root;
   },
 };
