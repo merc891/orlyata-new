@@ -91,7 +91,8 @@ get_header();
 					);
 					?>
 				</div>
-				<div class="orlyata-home__news-grid">
+				<div class="orlyata-home__news-viewport" data-home-news-carousel data-home-news-active="0">
+					<div class="orlyata-home__news-grid">
 				<?php
 						get_template_part(
 							'template-parts/components/news-card',
@@ -116,10 +117,15 @@ get_header();
 							)
 						);
 						?>
+					</div>
 				</div>
+				<div class="orlyata-home__news-pagination" aria-label="Переключение новостей" role="group">
+					<button class="orlyata-home__news-pagination-button is-active" type="button" aria-label="Новость 1" aria-pressed="true" data-home-news-select="0"></button>
+					<button class="orlyata-home__news-pagination-button" type="button" aria-label="Новость 2" aria-pressed="false" data-home-news-select="1"></button>
 				</div>
-			</section>
+			</div>
 		</section>
+	</section>
 
 		<section class="orlyata-home__facts" aria-label="<?php esc_attr_e( 'В цифрах и фактах', 'orlyata' ); ?>">
 			<?php foreach ( $home_preview_facts as $home_preview_fact ) : ?>

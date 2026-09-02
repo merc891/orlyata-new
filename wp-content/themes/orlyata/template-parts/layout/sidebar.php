@@ -57,14 +57,26 @@ $cta_url   = is_string( $sidebar_args['cta_url'] ) ? trim( $sidebar_args['cta_ur
 ?>
 <aside class="orlyata-sidebar">
 	<a class="orlyata-sidebar__logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php esc_attr_e( 'Орлята — на главную', 'orlyata' ); ?>">
-		<img class="orlyata-sidebar__logo" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/logo-orlyata.svg' ) ); ?>" alt="" width="240" height="110">
+		<picture class="orlyata-sidebar__logo-picture">
+			<source media="(min-width: 768px) and (max-width: 1279px)" srcset="<?php echo esc_url( get_theme_file_uri( 'assets/icons/logo-tablet.svg' ) ); ?>">
+			<img class="orlyata-sidebar__logo" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/logo-orlyata.svg' ) ); ?>" alt="" width="240" height="110">
+		</picture>
 	</a>
-	<button class="orlyata-sidebar__menu-toggle" type="button" aria-controls="orlyata-sidebar-navigation" aria-expanded="true">
-		<span class="screen-reader-text"><?php esc_html_e( 'Открыть меню', 'orlyata' ); ?></span>
-		<span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span>
-		<span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span>
-	</button>
+	<?php
+	get_template_part(
+		'template-parts/components/button',
+		null,
+		array(
+			'aria_controls' => 'orlyata-sidebar-navigation',
+			'aria_expanded' => true,
+			'class'         => 'orlyata-sidebar__menu-toggle',
+			'variant'       => 'menu-tablet',
+		)
+	);
+	?>
 
+	<div class="orlyata-sidebar__menu-panel">
+		<div class="orlyata-sidebar__menu-panel-content">
 	<nav class="orlyata-sidebar__nav" id="orlyata-sidebar-navigation" aria-label="<?php esc_attr_e( 'Основная навигация', 'orlyata' ); ?>">
 		<ul class="orlyata-sidebar__list">
 			<?php foreach ( $items as $item ) : ?>
@@ -112,4 +124,6 @@ $cta_url   = is_string( $sidebar_args['cta_url'] ) ? trim( $sidebar_args['cta_ur
 		);
 		?>
 	<?php endif; ?>
+		</div>
+	</div>
 </aside>

@@ -51,6 +51,13 @@
   padding: 0;
 }
 
+
+.orlyata-button--menu-tablet {
+  background: var(--color-neutral-50);
+  width: var(--button-height);
+  height: var(--button-height);
+  padding: 0;
+}
 .orlyata-button--play {
   background: var(--color-surface-muted);
 }

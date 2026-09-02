@@ -478,7 +478,8 @@
         "arrow-left",
         "arrow-right",
         "arrow-left-muted",
-        "arrow-right-muted"
+        "arrow-right-muted",
+        "menu-tablet"
       ],
       "states": [
         "default",
@@ -491,7 +492,8 @@
       "usage_rules": [
         "Use a real button for actions and a real link for navigation",
         "Do not invent one-off colors or radii",
-        "Gallery arrow variants arrow-left-muted and arrow-right-muted preserve the standard Arrow glyph roll, hit target, keyboard focus and 200ms hover timing; their surface is Neutral 50 by default and Neutral 150 on hover."
+        "Gallery arrow variants arrow-left-muted and arrow-right-muted preserve the standard Arrow glyph roll, hit target, keyboard focus and 200ms hover timing; their surface is Neutral 50 by default and Neutral 150 on hover.",
+        "menu-tablet is the Sidebar action variant for 768–1279 px only: it preserves the 48 px hit target, uses the same Neutral 50 surface as muted gallery Arrow controls, renders a 24 px stroke-2 Morphicons Menu glyph while closed and morphs to X while open; aria-expanded and the accessible label always reflect the current menu state."
       ],
       "do_not": [
         "Do not nest links inside buttons",
@@ -522,7 +524,7 @@
         "gap-rem": 0.5
       },
       "state_contract": {
-        "hover": "Primary uses interaction.hover-opacity while preserving exactly the default geometry and padding; secondary and Arrow controls use neutral-100/muted surfaces as shown in Figma. Primary opacity and secondary/Arrow background transitions use duration-button-hover (200ms) with easing-standard. Arrow additionally rolls its decorative glyph over 400ms with easing-link-roll: arrow-left exits left and enters from the right; arrow-right exits right and enters from the left. Text variants without the close icon keep 1.5rem (24px) end padding in every state. Play preserves its 4rem geometry and has no hover transition.",
+        "hover": "Primary uses interaction.hover-opacity while preserving exactly the default geometry and padding; secondary and Arrow controls use neutral-100/muted surfaces as shown in Figma. Primary opacity and secondary/Arrow background transitions use duration-button-hover (200ms) with easing-standard. Arrow additionally rolls its decorative glyph over 400ms with easing-link-roll: arrow-left exits left and enters from the right; arrow-right exits right and enters from the left. menu-tablet has no independent hover surface. Text variants without the close icon keep 1.5rem (24px) end padding in every state. Play preserves its 4rem geometry and has no hover transition.",
         "focus-visible": "Brand outline uses interaction focus ring width and offset and remains a real keyboard behavior, but is not duplicated as an artificial Storybook specimen.",
         "active": "Use interaction.active-opacity and preserve Primary geometry during real pointer hover.",
         "disabled": "Use native disabled for buttons or aria-disabled without href for links, interaction.disabled-opacity, and suppress hover/active.",
@@ -546,6 +548,8 @@
           "wp-content/themes/orlyata/assets/icons/button-play.svg",
           "wp-content/themes/orlyata/assets/icons/button-arrow.svg"
         ]
+        "menu-tablet-icon-size-rem": 1.5,
+        "menu-tablet-icon-stroke-px": 2,
       },
       "validation": {
         "figma_node": "4651:1140",
@@ -861,7 +865,7 @@
         "focus-visible"
       ],
       "usage_rules": [
-        "Preserve image aspect ratio per variant across every desktop width; content padding, small-card image height and metadata gap follow the same fluid scale",
+        "Preserve the approved image/card aspect ratio per variant across desktop, tablet and mobile: Big is 797/540 and Small is 390/540. Content padding, image region, title measure, metadata gap and badges follow the same mode coefficient as the outer card",
         "Render the publication date as the first metadata badge for every card; render a provider badge second only for video",
         "Big and small variants are both 540px high on desktop",
         "Small keeps 16px between image and title and aligns metadata badges to the bottom",
@@ -955,7 +959,7 @@
         "Navigation uses a semantic nav/list/link structure and aria-current=page for the current route",
         "All page uses share the same Sidebar markup and styling; only the navigation links and their current-page state may differ",
         "The muted surface of a current navigation item starts 8 px from the left edge of the link; the label keeps the shared navigation padding",
-        "At 768–1279 px, Sidebar becomes a compact top header: the enlarged left logo is 4.68 rem high, with no lower padding before the following content, and the labelled right two-line burger uses 3 rem lines. Without JavaScript the navigation and admission CTA remain visible; JavaScript only collapses and expands that server-rendered menu",
+        "At 768–1279 px, Sidebar becomes a compact top header: it renders the dedicated `logo-tablet.svg`; at the 1279 px tablet reference its left logo is 11.25 rem wide by 6.25625 rem high (180 × 100.1 px) and follows the shared Home S_t projection down to 768 px. The right menu-tablet Button uses its Neutral 50 surface. With JavaScript its shared menu panel expands down over 400 ms with easing-out; only after that, navigation links and CTA fade from opacity 0 to 1 over 400 ms. Navigation begins 48 px below the logo, aligns to its inline start without left padding, and uses Heading 2 typography. Without JavaScript the navigation and admission CTA remain visible.",
         "At 767 px and below, the rail is not rendered until separate mobile navigation is approved",
         "Across desktop, rail, logo, navigation geometry and type scale with S; the 24px gutter and 48px hit-target minimums are explicit exceptions, not a second general scale."
       ],
@@ -1022,8 +1026,8 @@
         "The required legal destination is the privacy policy route from the approved sitemap",
         "Section titles use color-text-inverse; navigation links and contact details use the WCAG AA alias color-text-secondary-on-inverse (#9999a2) instead of the failing Figma value #71717a",
         "Media navigation links use an 8 px (Space 2) vertical gap",
-        "The contacts block and legal link start on the fourth desktop editorial column. All Footer geometry derives from the 1920px reference with S; the heading-to-links gap is 16/24/32px at 1280/1920/2560, and the second copyright line, Video and privacy link share one text baseline.",
-        "At 768–1279 px, Footer stays visible as a natural-height two-column flow: the slogan and copyright share the first row and align by their lower edge; navigation and contacts form the middle row; the legal link aligns with the Video link; the gap after the first row uses footer-tablet-brand-links-gap (64 px). At 767 px and below, Footer is not rendered until a separate mobile layout is approved",
+        "The contacts block and legal link start on the fourth desktop editorial column. All Footer geometry derives from the 1920px reference with S; the heading-to-links gap is 16/24/32px at 1280/1920/2560. When both phones and email are present, their rows use the same link-height plus Space 2 rhythm as navigation and align with «Педагоги», «Ноты» and «Контакты» respectively; the second copyright line, Video and privacy link share one text baseline.",
+        "At 768–1279 px, Footer stays visible as a natural-height two-column flow: the slogan and copyright share the first row and align by their lower edge; navigation and contacts form the middle row; the legal link aligns with the Video link; the gap after the first row uses footer-tablet-brand-links-gap (64 px). With both phones and email present, their rows align with «Педагоги», «Ноты» and «Контакты» and use the same link-item height plus Space 2 rhythm as tablet navigation. The address is rendered from site_settings in two lines: «г. Зеленоград, Центральная площадь, 1,» and «КЦ «Зеленоград»». At 767 px and below, Footer is not rendered until a separate mobile layout is approved",
         "Do not combine percentage placement, fixed rem block sizes and independently scaled offsets inside the same desktop Footer composition."
       ],
       "do_not": [
@@ -1265,6 +1269,16 @@
         "Preview text, labels and CTA names are copied exactly from their approved Figma node or project content source; implementation must not invent or paraphrase copy.",
         "Stage 5.1 uses controlled preview fixtures for CMS-owned news, media and achievements. Those fixtures must be removed when stage 5.2 connects CMS queries."
       ],
+      "responsive_rules": [
+        "At 1279px Home Hero video and News are two equal columns with a 16px gap and a fixed 650px reference height; down to 768px both dimensions use S_t. News shows one 270px reference NewsCard and a 16px-gapped pagination row inset 24px from the bottom. Tablet News navigation uses the NewsDetail gallery slide contract: horizontal transform over --duration-about-life-slide-transition with --easing-out; the active card changes by dots or horizontal pointer swipe. Facts reference height is 170px. Media Big reference height is 760px; each Small card keeps the owned desktop 390 / 540 aspect ratio and 5 / 9 image region; its tablet content surface is 200px at the 1279px reference and follows S_t down to 768px History reference height is 460px with tags and teachers aligned to its bottom. The application surface grows to retain an equal top and bottom inset around the form. Home achievements uses the desktop four-column table alignment: Competition starts at editorial column 3; Achievement and Choir are offset right by 20% of the Year column. The visible History heading follows Media by the same section rhythm as Media follows Facts; its own top hairline-to-heading inset is compensated in the preceding section margin.",
+        "At 1279px, the entire Home tablet shell — Sidebar/header, editorial canvas, all sections, Footer and composed-component internals — equals its approved reference values; from 1279px down to 768px every scalable dimension uses one S_t = viewportWidth / 1279 coefficient, with no independent type, gap, padding, radius, icon, section-height or form-internal curves. CSS applies that coefficient through one complete Home-scoped projection of the desktop 1920px length-token ledger, never through a hand-picked subset of properties. The first-block canvas fills the available content width with the existing 24px minimum outer gutter. Media preserves its owned desktop ratios and the Small 5/9 image region; the tablet placement does not apply on mobile.",
+        "At 320–767px Home becomes a one-column reading flow. News cards leave the hero panel absolute layer and enter normal document flow; media cards, facts, history, application form, and achievements use the available column width without clipping text or creating page overflow.",
+        "On mobile, Sidebar remains a shared top header with the existing two-line menu button; server-rendered navigation and admission CTA stay available without JavaScript, while JavaScript may collapse the same controls. Footer remains a shared natural-height single-column flow. Neither is a Home-specific variant.",
+        "On mobile the Home Hero H1 uses the existing Heading 2 type scale so the unbreakable word мальчиков remains fully visible inside the 24px-gutter column.",
+        "Small MediaCard preserves its desktop image region at 300/540 (5/9 of card height) in desktop, tablet and mobile; a page may not replace it with an independent height curve.",
+        "Within mobile, S_m = clamp(320/767, viewportWidth/767, 1): 767px is the reference and all proportional shell, typography, spacing, component and owned internal geometry follows S_m down to 320px.",
+        "The approved 24px outer gutter, 48px minimum interaction target, semantic source order, hairlines, dimensionless line-height, colors, opacity and full-radius remain explicit exceptions. The composition reconfigures only at 1280px and 768px."
+      ],
       "geometry": {
         "history_reference_px": "1617 x 544",
         "history_aspect_ratio_css": "--home-history-aspect-ratio",
@@ -1305,7 +1319,8 @@
       "Components may recompose at 1280 and 768; mobile is not a uniformly shrunken desktop.",
       "Do not add global breakpoints without updating this manifest first.",
       "Support 320px without horizontal page scrolling and without clipping text.",
-      "Above 2560px, full-bleed backgrounds may extend but content and typography do not continue growing."
+      "Above 2560px, full-bleed backgrounds may extend but content and typography do not continue growing.",
+      "Hover is a desktop-only interaction state: at 1280px and wider, approved pointer-hover feedback remains available; at tablet and mobile widths (320–1279px), hover must not alter color, opacity, transform, scale, surface or text position. Those modes retain default, active/pressed and keyboard :focus-visible states, and roll-based links must render their primary label in the default visible position."
     ]
   },
   "storybook": {

@@ -110,13 +110,22 @@ export function createFooter(args: FooterArgs): HTMLElement {
 
   contactLinks.className = 'orlyata-footer__contact-links';
   if (args.phonePrimary.trim() !== '') {
-    contactLinks.append(createLink(args.phonePrimary, phoneHref(args.phonePrimary)));
+    const item = document.createElement('div');
+    item.className = 'orlyata-footer__contact-link-item';
+    item.append(createLink(args.phonePrimary, phoneHref(args.phonePrimary)));
+    contactLinks.append(item);
   }
   if (args.phoneSecondary.trim() !== '') {
-    contactLinks.append(createLink(args.phoneSecondary, phoneHref(args.phoneSecondary)));
+    const item = document.createElement('div');
+    item.className = 'orlyata-footer__contact-link-item';
+    item.append(createLink(args.phoneSecondary, phoneHref(args.phoneSecondary)));
+    contactLinks.append(item);
   }
   if (args.email.trim() !== '') {
-    contactLinks.append(createLink(args.email, 'mailto:' + args.email, 'orlyata-footer__link--email'));
+    const item = document.createElement('div');
+    item.className = 'orlyata-footer__contact-link-item';
+    item.append(createLink(args.email, 'mailto:' + args.email, 'orlyata-footer__link--email'));
+    contactLinks.append(item);
   }
   contacts.append(contactsAddress, contactLinks);
 
@@ -139,7 +148,7 @@ function createFooterPreview(args: FooterArgs): HTMLElement {
 }
 
 const sampleArgs: FooterArgs = {
-  address: 'г. Зеленоград, Центральная площадь, 1\nКЦ «Зеленоград»',
+  address: 'г. Зеленоград, Центральная площадь, 1,\nКЦ «Зеленоград»',
   email: 'info@zelorlyata.ru',
   legalLabel: 'Политика конфиденциальности',
   phonePrimary: '+7 (925) 434-51-98',

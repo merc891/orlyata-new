@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test';
 
 import { expectGingerLoaded } from './visual';
 
+test.setTimeout(120_000);
+
 const desktopViewports = [
   { height: 960, scale: 1280 / 1920, width: 1280 },
   { height: 900, scale: 1440 / 1920, width: 1440 },
@@ -63,7 +65,9 @@ async function readMetrics(page: import('@playwright/test').Page): Promise<HomeM
       displayFontSize: number('.orlyata-home__hero-title', 'fontSize'),
       footerRatio: ratio('.orlyata-footer'),
       historyRatio: ratio('.orlyata-home__history'),
+      mediaBigHeight: box('.orlyata-media-card--big').height,
       mediaBigRatio: ratio('.orlyata-media-card--big'),
+      mediaSmallHeight: box('.orlyata-media-card--small').height,
       mediaSmallRatio: ratio('.orlyata-media-card--small'),
       newsPadding: number('.orlyata-home__news-grid .orlyata-news-card', 'paddingLeft'),
       newsHeight: box('.orlyata-home__news-grid .orlyata-news-card').height,
@@ -172,19 +176,14 @@ const homeVisualViewports = [
 
 async function stabilizeHomeVisual(page: import('@playwright/test').Page): Promise<void> {
   await page.waitForFunction(() => [...document.images].every((image) => image.complete));
-  await page.locator('video').evaluateAll(async (nodes) => {
+  await page.locator('video').evaluateAll((nodes) => {
     const videos = nodes as HTMLVideoElement[];
-    await Promise.all(videos.map(async (video) => {
+    videos.forEach((video) => {
       video.pause();
-      if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) {
-        await new Promise<void>((resolve) => {
-          video.addEventListener('loadeddata', () => {
-            resolve();
-          }, { once: true });
-        });
+      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+        video.currentTime = 0;
       }
-      video.currentTime = 0;
-    }));
+    });
   });
 }
 
@@ -200,3 +199,145 @@ for (const viewport of homeVisualViewports) {
     });
   });
 }
+
+for (const viewport of [
+  { height: 1024, name: '1279', width: 1279 },
+  { height: 1024, name: '768', width: 768 },
+] as const) {
+  test('Home tablet visual ' + viewport.name, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await openHome(page);
+    await stabilizeHomeVisual(page);
+
+    await expect(page).toHaveScreenshot('pages-home--tablet-preview-' + viewport.name + '.png', {
+      fullPage: true,
+      timeout: 45_000,
+    });
+  });
+}
+
+test('Home preserves owned card geometry and readable metadata across tablet and mobile', async ({ page }) => {
+  for (const width of [1279, 1024, 768, 767, 480, 320]) {
+    await page.setViewportSize({ width, height: 1024 });
+    await openHome(page);
+    const layout = await page.locator('.orlyata-home').evaluate((home) => {
+      const box = (selector: string): DOMRect => {
+        const element = home.querySelector<HTMLElement>(selector);
+        if (element === null) {
+          throw new Error('Missing Home responsive selector: ' + selector);
+        }
+        return element.getBoundingClientRect();
+      };
+      const element = (selector: string): HTMLElement => {
+        const value = home.querySelector<HTMLElement>(selector);
+        if (value === null) {
+          throw new Error('Missing Home responsive selector: ' + selector);
+        }
+        return value;
+      };
+      const style = (selector: string, property: 'aspectRatio' | 'fontSize'): string => {
+        return getComputedStyle(element(selector))[property];
+      };
+      const ratio = (selector: string): number => {
+        const value = box(selector);
+        return value.width / value.height;
+      };
+
+      return {
+      footer: getComputedStyle(element('.orlyata-footer')).display,
+      grid: getComputedStyle(element('.orlyata-home__content-grid')).gridTemplateColumns,
+      newsAspectRatio: style('.orlyata-home__news-grid .orlyata-news-card', 'aspectRatio'),
+      newsBadgeFontSize: Number.parseFloat(style('.orlyata-home__news-grid .orlyata-badge', 'fontSize')),
+      newsRatio: ratio('.orlyata-home__news-grid .orlyata-news-card'),
+      newsPosition: getComputedStyle(element('.orlyata-home__news-grid')).position,
+      mediaBigHeight: box('.orlyata-media-card--big').height,
+      mediaBigRatio: ratio('.orlyata-media-card--big'),
+      mediaSmallHeight: box('.orlyata-media-card--small').height,
+      mediaSmallRatio: ratio('.orlyata-media-card--small'),
+      overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      sidebar: getComputedStyle(element('.orlyata-sidebar')).display,
+      };
+    });
+
+    expect(layout.overflow).toBeLessThanOrEqual(1);
+    expect(layout.footer).not.toBe("none");
+    expect(layout.sidebar).not.toBe("none");
+    expect(layout.newsAspectRatio).toBe('365 / 270');
+    expect(layout.newsRatio).toBeCloseTo(365 / 270, 3);
+    expect(layout.mediaBigRatio).toBeCloseTo(797 / 540, 3);
+    expect(layout.mediaSmallRatio).toBeCloseTo(390 / 540, 3);
+    if (width <= 767) {
+      expect(layout.newsBadgeFontSize).toBeGreaterThanOrEqual(14);
+      expect(layout.grid).not.toContain(' ');
+      expect(layout.newsPosition).toBe('relative');
+    } else {
+      expect(layout.grid).toContain(' ');
+    }
+  }
+});
+
+test('Home tablet first blocks use the approved full-width composition and desktop component styles', async ({ page }) => {
+  for (const width of [1279, 768]) {
+    await page.setViewportSize({ width, height: 1024 });
+    await openHome(page);
+    const layout = await page.locator('.orlyata-home').evaluate((home) => {
+      const element = (selector: string): HTMLElement => {
+        const value = home.querySelector<HTMLElement>(selector);
+        if (value === null) {
+          throw new Error('Missing Home tablet composition selector: ' + selector);
+        }
+        return value;
+      };
+      const box = (selector: string): DOMRect => element(selector).getBoundingClientRect();
+      const style = (selector: string): CSSStyleDeclaration => getComputedStyle(element(selector));
+
+      return {
+        contentWidth: box('.orlyata-home__content-grid').width,
+        factsColumns: style('.orlyata-home__facts').gridTemplateColumns,
+        heroColumns: style('.orlyata-home__hero').gridTemplateColumns,
+        heroVideoHeight: box('.orlyata-home__hero-panel--capella').height,
+        heroNewsHeight: box('.orlyata-home__hero-panel--news').height,
+        heroTitleFontSize: Number.parseFloat(style('.orlyata-home__hero-title').fontSize),
+        heroVideoWidth: box('.orlyata-home__hero-panel--capella').width,
+        mediaBigHeight: box('.orlyata-media-card--big').height,
+        mediaBigWidth: box('.orlyata-media-card--big').width,
+        mediaColumns: style('.orlyata-home__media-grid').gridTemplateColumns,
+        mediaSmallHeight: box('.orlyata-media-card--small').height,
+        newsBadgeFontSize: Number.parseFloat(style('.orlyata-news-card .orlyata-badge').fontSize),
+        newsBadgeHeight: box('.orlyata-news-card .orlyata-badge').height,
+        newsColumns: style('.orlyata-home__news-grid').gridTemplateColumns,
+        newsHeadingFontSize: Number.parseFloat(style('.orlyata-home__news-head .type-heading-2').fontSize),
+        newsLinkFontSize: Number.parseFloat(style('.orlyata-home__news-head .orlyata-text-link').fontSize),
+        newsTitleFontSize: Number.parseFloat(style('.orlyata-news-card__title').fontSize),
+        overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    });
+
+    expect(layout.overflow).toBeLessThanOrEqual(1);
+    expect(layout.heroColumns).not.toContain(' ');
+    expect(layout.heroVideoWidth).toBeCloseTo(layout.contentWidth, 1);
+    expect(layout.heroVideoHeight).toBeGreaterThan(0);
+    expect(layout.heroNewsHeight).toBeGreaterThan(0);
+    expect(layout.newsColumns).toContain(' ');
+    if (width === 1279) {
+      expect(layout.heroTitleFontSize).toBeCloseTo(80, 1);
+      expect(layout.newsHeadingFontSize).toBeCloseTo(44, 1);
+      expect(layout.newsLinkFontSize).toBeCloseTo(20, 1);
+      expect(layout.newsTitleFontSize).toBeCloseTo(24, 1);
+      expect(layout.newsBadgeFontSize).toBeCloseTo(20, 1);
+      expect(layout.newsBadgeHeight).toBeGreaterThanOrEqual(64);
+    } else {
+      expect(layout.heroTitleFontSize).toBeCloseTo(80 * 768 / 1279, 1);
+      expect(layout.newsHeadingFontSize).toBeCloseTo(44 * 768 / 1279, 1);
+      expect(layout.newsLinkFontSize).toBeCloseTo(20 * 768 / 1279, 1);
+      expect(layout.newsTitleFontSize).toBeCloseTo(24 * 768 / 1279, 1);
+      expect(layout.newsBadgeFontSize).toBeCloseTo(20 * 768 / 1279, 1);
+      expect(layout.newsBadgeHeight).toBeGreaterThanOrEqual(48);
+    }
+    expect(layout.factsColumns.trim().split(' ').length).toBe(4);
+    expect(layout.mediaColumns.trim().split(' ').length).toBe(2);
+    expect(layout.mediaBigWidth).toBeCloseTo(layout.contentWidth, 1);
+    expect(layout.mediaBigHeight / layout.mediaBigWidth).toBeCloseTo(540 / 797, 2);
+    expect(layout.mediaSmallHeight).toBeGreaterThan(0);
+  }
+});

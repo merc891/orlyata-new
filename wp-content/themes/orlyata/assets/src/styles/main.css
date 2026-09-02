@@ -30,3 +30,60 @@
 @import "pages/media-archive.css";
 @import "pages/media-card-video-preview.css";
 @import "pages/not-found.css";
+
+/* Desktop-only hover contract: tablet and mobile retain default, active and keyboard focus. */
+@media (width <= 1279px) {
+  .orlyata-button--primary:hover:not(:disabled):not([aria-disabled="true"]) { opacity: 1; }
+  .orlyata-button--secondary:hover:not(:disabled):not([aria-disabled="true"]) { background: var(--color-surface-muted); }
+  .orlyata-button--arrow-left:hover:not(:disabled),
+  .orlyata-button--arrow-right:hover:not(:disabled) { background: var(--color-surface); }
+  .orlyata-button--arrow-left-muted:hover:not(:disabled),
+  .orlyata-button--arrow-right-muted:hover:not(:disabled) { background: var(--color-neutral-50); }
+  .orlyata-button--arrow-left:hover .orlyata-button__arrow:first-child,
+  .orlyata-button--arrow-left-muted:hover .orlyata-button__arrow:first-child,
+  .orlyata-button--arrow-right:hover .orlyata-button__arrow:first-child,
+  .orlyata-button--arrow-right-muted:hover .orlyata-button__arrow:first-child { transform: none; }
+  .orlyata-button--arrow-left:hover .orlyata-button__arrow:nth-child(2),
+  .orlyata-button--arrow-left-muted:hover .orlyata-button__arrow:nth-child(2) { transform: translateX(100%); }
+  .orlyata-button--arrow-right:hover .orlyata-button__arrow:nth-child(2),
+  .orlyata-button--arrow-right-muted:hover .orlyata-button__arrow:nth-child(2) { transform: translateX(-100%); }
+
+  .orlyata-text-link:hover { color: var(--color-text-secondary); }
+  .orlyata-text-link__label,
+  .orlyata-text-link:hover .orlyata-text-link__label { transform: none; }
+  .orlyata-text-link--color-inverse:hover { opacity: 1; }
+  .orlyata-text-link--with-chevron:hover:not(:focus-visible) .orlyata-text-link__icon:first-child { transform: none; }
+  .orlyata-text-link--with-chevron:hover:not(:focus-visible) .orlyata-text-link__icon:nth-child(2) { transform: translateX(-100%); }
+
+  .orlyata-media-card__link:hover .orlyata-media-card__title-label,
+  .orlyata-news-card:hover:not(:focus-within) .orlyata-news-card__title-label,
+  .orlyata-teacher-card:hover :is(.orlyata-teacher-card__name-label, .orlyata-teacher-card__meta-label) { transform: none; }
+  .orlyata-media-card__link:hover :is(.orlyata-media-card__image, .orlyata-media-card__preview-video),
+  .orlyata-teacher-card:hover .orlyata-teacher-card__photo,
+  .orlyata-photo-album-detail__photo:hover:not(:focus-visible) img { transform: none; }
+
+  .orlyata-home__hero-panel--capella:hover .orlyata-home__hero-preview,
+  .orlyata-home__hero-video-trigger:hover .orlyata-home__hero-preview { transform: scale(var(--home-hero-preview-base-scale)); }
+  .orlyata-home__history-teachers-link:hover { opacity: 1; }
+  .orlyata-home__history-teachers-link:hover .orlyata-home__history-teachers-arrow:first-child { transform: none; }
+  .orlyata-home__history-teachers-link:hover .orlyata-home__history-teachers-arrow:nth-child(2) { transform: translateX(-100%); }
+
+  .orlyata-accordion__summary:hover { color: inherit; }
+  .orlyata-application-form__privacy a:hover,
+  .orlyata-page-hero__share-control:hover,
+  .orlyata-sidebar__logo-link:hover .orlyata-sidebar__logo,
+  .orlyata-about__teacher:hover { opacity: 1; }
+}
+
+@media (width <= 1279px) {
+  .orlyata-sidebar__link:hover { color: var(--color-text-secondary); }
+  .orlyata-footer__link:hover { color: var(--color-text-secondary-on-inverse); }
+  .orlyata-search-input__clear:hover { color: inherit; }
+  .orlyata-contacts__value:hover { color: var(--color-text-primary); }
+
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video, .orlyata-data-table--notes) tbody tr:hover:not(:focus-within) td { color: var(--color-text-primary); }
+  .orlyata-data-table--video tbody tr:hover:not(:focus-within) .orlyata-data-table__provider-icon-image--gray { opacity: 1; }
+  .orlyata-data-table--video tbody tr:hover:not(:focus-within) .orlyata-data-table__provider-icon-image--color { opacity: 0; }
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video, .orlyata-data-table--notes) tbody tr:hover:not(:focus-within) .orlyata-data-table__row-arrow:first-child { transform: none; }
+  .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video, .orlyata-data-table--notes) tbody tr:hover:not(:focus-within) .orlyata-data-table__row-arrow:nth-child(2) { transform: translateX(-100%); }
+}

@@ -4,10 +4,12 @@
  *
  * Expected arguments:
  * - label: Visible label for primary and secondary variants.
- * - variant: primary, secondary, play, arrow-left, arrow-right, arrow-left-muted or arrow-right-muted.
+ * - variant: primary, secondary, play, arrow-left, arrow-right, arrow-left-muted, arrow-right-muted or menu-tablet.
  * - href: Optional URL; when present the component renders a link.
  * - icon: Optional close icon for the primary variant.
  * - aria_label: Accessible name for icon-only variants.
+ * - aria_controls: Optional IDREF for the controlled content.
+ * - aria_expanded: Optional expanded state for action buttons.
  * - disabled: Whether the control is unavailable.
  * - loading: Busy state for button elements only.
  * - loading_label: Visible busy-state label.
@@ -27,6 +29,8 @@ $button_args = wp_parse_args(
 		'href'          => '',
 		'icon'          => '',
 		'aria_label'    => '',
+        'aria_controls' => '',
+        'aria_expanded' => null,
 		'disabled'      => false,
 		'loading'       => false,
 		'loading_label' => __( 'Отправка…', 'orlyata' ),
@@ -35,13 +39,13 @@ $button_args = wp_parse_args(
 	)
 );
 
-$allowed_variants   = array( 'primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted' );
+$allowed_variants   = array( 'primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet' );
 $variant            = is_string( $button_args['variant'] ) && in_array( $button_args['variant'], $allowed_variants, true )
 	? $button_args['variant']
 	: 'primary';
 $label              = is_string( $button_args['label'] ) ? trim( $button_args['label'] ) : '';
 $href               = is_string( $button_args['href'] ) ? trim( $button_args['href'] ) : '';
-$is_icon_only       = in_array( $variant, array( 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted' ), true );
+$is_icon_only       = in_array( $variant, array( 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet' ), true );
 $loading            = (bool) $button_args['loading'] && '' === $href;
 $disabled           = (bool) $button_args['disabled'] || $loading;
 $loading_label      = is_string( $button_args['loading_label'] ) && '' !== trim( $button_args['loading_label'] )
@@ -57,6 +61,9 @@ $button_type = is_string( $button_args['type'] ) && in_array( $button_args['type
 	? $button_args['type']
 	: 'button';
 $aria_label  = is_string( $button_args['aria_label'] ) ? trim( $button_args['aria_label'] ) : '';
+$aria_controls = is_string( $button_args['aria_controls'] ) ? trim( $button_args['aria_controls'] ) : '';
+$aria_expanded = is_bool( $button_args['aria_expanded'] ) ? $button_args['aria_expanded'] : null;
+
 
 if ( ! $is_icon_only && '' === $visible_label ) {
 	return;
@@ -69,6 +76,7 @@ if ( $is_icon_only && '' === $aria_label ) {
 		'arrow-right',
 		'arrow-right-muted' => __( 'Вперёд', 'orlyata' ),
 		'arrow-left-muted' => __( 'Назад', 'orlyata' ),
+			'menu-tablet' => __( 'Открыть меню', 'orlyata' ),
 	};
 }
 
@@ -126,6 +134,16 @@ $render_content = static function () use ( $icon_uri, $is_icon_only, $loading, $
 		<?php
 	}
 
+
+	if ( 'menu-tablet' === $variant ) {
+		?>
+		<svg class="orlyata-button__icon orlyata-button__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+			<path class="orlyata-button__menu-icon-path" d="M4 6h16M4 12h16M4 18h16"></path>
+		</svg>
+		<?php
+		return;
+	}
+
 	if ( '' !== $icon_uri ) {
 		if ( in_array( $variant, array( 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted' ), true ) ) {
 			?>
@@ -178,6 +196,12 @@ if ( '' !== $href ) {
 	<?php endif; ?>
 	<?php if ( $is_icon_only ) : ?>
 		aria-label="<?php echo esc_attr( $aria_label ); ?>"
+	<?php endif; ?>
+	<?php if ( '' !== $aria_controls ) : ?>
+		aria-controls="<?php echo esc_attr( $aria_controls ); ?>"
+	<?php endif; ?>
+	<?php if ( null !== $aria_expanded ) : ?>
+		aria-expanded="<?php echo $aria_expanded ? 'true' : 'false'; ?>"
 	<?php endif; ?>
 >
 	<?php $render_content(); ?>

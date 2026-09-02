@@ -56,6 +56,29 @@ test('Footer matches the approved Figma desktop geometry', async ({ page }) => {
   expect(videoBox?.y).toBeCloseTo((photoBox?.y ?? 0) + 32, 0);
 });
 
+for (const width of [1280, 1920, 2560]) {
+  test('Footer contact links align with the final primary navigation rows at ' + String(width) + ' px', async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
+    await expect(page.locator('.orlyata-footer')).toBeVisible({ timeout: 15_000 });
+    await expectGingerLoaded(page);
+
+    const footer = page.locator('.orlyata-footer');
+    const [teachers, notes, contacts, phonePrimary, phoneSecondary, email] = await Promise.all([
+      footer.getByRole('link', { name: 'Педагоги' }).boundingBox(),
+      footer.getByRole('link', { name: 'Ноты' }).boundingBox(),
+      footer.getByRole('link', { name: 'Контакты' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (925) 434-51-98' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (916) 258-49-12' }).boundingBox(),
+      footer.getByRole('link', { name: 'info@zelorlyata.ru' }).boundingBox(),
+    ]);
+
+    expect(phonePrimary?.y).toBeCloseTo(teachers?.y ?? 0, 0);
+    expect(phoneSecondary?.y).toBeCloseTo(notes?.y ?? 0, 0);
+    expect(email?.y).toBeCloseTo(contacts?.y ?? 0, 0);
+  });
+}
+
 test('Footer exposes semantic routes and contact protocols', async ({ page }) => {
   await openFooter(page);
 
@@ -138,18 +161,36 @@ for (const width of [1279, 768]) {
     );
     expect(legalBox?.y).toBeCloseTo(videoBox?.y ?? 0, 0);
     const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    const footer = page.locator('.orlyata-footer');
+    const address = footer.locator('.orlyata-footer__address');
+    const [teachers, notes, contacts, phonePrimary, phoneSecondary, email, addressBox, addressLineHeight] = await Promise.all([
+      footer.getByRole('link', { name: 'Педагоги' }).boundingBox(),
+      footer.getByRole('link', { name: 'Ноты' }).boundingBox(),
+      footer.getByRole('link', { name: 'Контакты' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (925) 434-51-98' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (916) 258-49-12' }).boundingBox(),
+      footer.getByRole('link', { name: 'info@zelorlyata.ru' }).boundingBox(),
+      address.boundingBox(),
+      address.evaluate((element) => Number.parseFloat(getComputedStyle(element).lineHeight)),
+    ]);
+
+    expect(phonePrimary?.y).toBeCloseTo(teachers?.y ?? 0, 0);
+    expect(phoneSecondary?.y).toBeCloseTo(notes?.y ?? 0, 0);
+    expect(email?.y).toBeCloseTo(contacts?.y ?? 0, 0);
+    await expect(address).toHaveText('г. Зеленоград, Центральная площадь, 1,\nКЦ «Зеленоград»');
+    expect(addressBox?.height).toBeCloseTo(addressLineHeight * 2, 0);
     expect(horizontalOverflow).toBe(false);
   });
 }
 
 for (const width of [767, 320]) {
-  test('Footer remains hidden until the mobile layout is approved at ' + String(width) + ' px', async ({ page }) => {
+  test('Footer becomes a readable mobile flow at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
     await page.locator('.footer-story-preview').evaluate((element) => {
       element.classList.remove('footer-story-preview');
     });
-    await expect(page.locator('.orlyata-footer')).toBeHidden({ timeout: 15_000 });
+    await expect(page.locator('.orlyata-footer')).toBeVisible({ timeout: 15_000 });
     const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     expect(horizontalOverflow).toBe(false);
   });

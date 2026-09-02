@@ -423,6 +423,7 @@ test('MediaCard matches 540px cards, small spacing and title weight', async ({ p
 
   expect(bigBox?.height).toBe(540);
   expect(smallBox?.height).toBe(540);
+  expect(imageBox?.height).toBe(300);
   expect(imageBox === null || titleBox === null ? undefined : titleBox.y - imageBox.y - imageBox.height).toBe(16);
   expect(metaBox === null || smallBox === null ? undefined : metaBox.y + metaBox.height).toBe(smallBox === null ? undefined : smallBox.y + smallBox.height);
   await expect(big.locator('.orlyata-badge--inverse')).toHaveCount(2);

@@ -107,27 +107,27 @@ test('Sidebar becomes a top header at ' + String(width) + ' px', async ({ page }
   const sidebar = page.locator('.orlyata-sidebar');
   const logo = page.locator('.orlyata-sidebar__logo');
   const toggle = page.getByRole('button', { name: 'Открыть меню' });
-  const menuLines = page.locator('.orlyata-sidebar__menu-toggle-line');
+  const menuIcon = page.locator('.orlyata-button--menu-tablet .orlyata-button__menu-icon');
 
   await expect(sidebar).toBeVisible({ timeout: 15_000 });
   await expect(sidebar).toHaveCSS('width', String(width) + 'px');
-  await expect(logo).toHaveCSS('height', '74.875px');
+  await expect(logo).toHaveCSS('height', '100.094px');
   await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  await expect(menuLines).toHaveCount(2);
-  await expect(menuLines.first()).toHaveCSS('width', '48px');
+  await expect(menuIcon).toHaveAttribute('width', '24');
+  await expect(menuIcon).toHaveAttribute('stroke-width', '2');
   await toggle.focus();
   await expect(toggle).toHaveCSS('outline-style', 'solid');
 });
 }
 
 for (const width of [767, 320]) {
-test('Sidebar is removed from layout at ' + String(width) + ' px', async ({ page }) => {
+test('Sidebar becomes an accessible mobile header at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 1030 });
     await page.goto('/iframe.html?id=components-sidebar--default&viewMode=story');
     await page.locator('.sidebar-story-preview').evaluate((element) => {
       element.classList.remove('sidebar-story-preview');
     });
-    await expect(page.locator('.orlyata-sidebar')).toBeHidden({ timeout: 15_000 });
+    await expect(page.locator('.orlyata-sidebar')).toBeVisible({ timeout: 15_000 });
     const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     expect(horizontalOverflow).toBe(false);
   });

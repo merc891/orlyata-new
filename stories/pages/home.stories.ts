@@ -80,7 +80,16 @@ function createHero(): HTMLElement {
     secondIcon.src = assetRoot + '/icons/home/news-star.svg';
   }
   newsGrid.append(firstNews, secondNews);
-  newsContent.append(background, newsHead, newsGrid);
+  const pagination = element('div', 'orlyata-home__news-pagination');
+  pagination.setAttribute('aria-label', 'Переключение новостей');
+  for (const [index, active] of [true, false].entries()) {
+    const button = element('button', 'orlyata-home__news-pagination-button' + (active ? ' is-active' : ''));
+    button.type = 'button';
+    button.setAttribute('aria-label', 'Новость ' + String(index + 1));
+    if (active) { button.setAttribute('aria-current', 'true'); }
+    pagination.append(button);
+  }
+  newsContent.append(background, newsHead, newsGrid, pagination);
   news.append(newsContent);
   hero.append(capella, news);
   return hero;

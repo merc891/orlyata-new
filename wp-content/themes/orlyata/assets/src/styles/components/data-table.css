@@ -27,6 +27,10 @@
     align-content: center;
     display: grid;
   }
+
+  .orlyata-data-table--achievements tbody td {
+    align-content: start;
+  }
 }
 .orlyata-data-table th,
 .orlyata-data-table td {
@@ -45,6 +49,12 @@
 .orlyata-data-table td {
   height: var(--accordion-row-height);
   color: var(--color-text-primary);
+}
+
+/* Achievement rows grow with multi-line competition names; the separator follows the row content. */
+.orlyata-data-table--achievements tbody td {
+  height: auto;
+  min-height: var(--accordion-row-height);
 }
 
 .orlyata-data-table tbody tr {

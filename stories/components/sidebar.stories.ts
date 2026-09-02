@@ -23,6 +23,8 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
   const logo = document.createElement('img');
   const navigation = document.createElement('nav');
   const toggle = document.createElement('button');
+  const menuPanel = document.createElement('div');
+  const menuPanelContent = document.createElement('div');
   const list = document.createElement('ul');
   const cta = document.createElement('a');
   const ctaText = document.createElement('span');
@@ -39,12 +41,12 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
   logo.height = 110;
   logoLink.append(logo);
 
-  toggle.className = 'orlyata-sidebar__menu-toggle';
+  toggle.className = 'orlyata-button orlyata-button--menu-tablet orlyata-button--icon-only orlyata-sidebar__menu-toggle';
   toggle.type = 'button';
   toggle.setAttribute('aria-controls', 'sidebar-navigation');
   toggle.setAttribute('aria-expanded', 'true');
+  toggle.innerHTML = '<svg class="orlyata-button__icon orlyata-button__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="orlyata-button__menu-icon-path" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
   toggle.setAttribute('aria-label', 'Открыть меню');
-  toggle.innerHTML = '<span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span><span class="orlyata-sidebar__menu-toggle-line" aria-hidden="true"></span>';
 
   navigation.className = 'orlyata-sidebar__nav';
   navigation.id = 'sidebar-navigation';
@@ -76,12 +78,15 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
   navigation.append(list);
 
   cta.className = 'orlyata-button orlyata-button--primary orlyata-sidebar__cta';
+  menuPanel.className = 'orlyata-sidebar__menu-panel';
+  menuPanelContent.className = 'orlyata-sidebar__menu-panel-content';
   cta.href = '/#application';
   ctaText.className = 'orlyata-button__label';
   ctaText.textContent = args.ctaLabel;
   cta.append(ctaText);
 
-  sidebar.append(logoLink, toggle, navigation, cta);
+  menuPanelContent.append(navigation, cta);
+  menuPanel.append(menuPanelContent);
   return sidebar;
 }
 

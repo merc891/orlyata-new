@@ -166,6 +166,25 @@ S = clamp(1280 / 1920, viewportWidth / 1920, 2560 / 1920)
 - корректировка одного viewport без проверки всей desktop-матрицы;
 - попытка исправить проблему механической заменой `px` на `rem`.
 
+## Дополнение: tablet/mobile audit главной
+
+Статус: правило утверждено 1 сентября 2026 года; CSS главной должен быть приведён к нему отдельной implementation-задачей.
+
+Tablet `768–1279 px` и mobile `320–767 px` — самостоятельные responsive-режимы, а не уменьшенный desktop. Однако после разрешённой структурной перестройки на границе режима каждый режим обязан масштабироваться как цельная композиция: внешняя геометрия блока, типографика, tracking, padding, gap, icon, badge, image region и radius используют один mode-coefficient. Нельзя масштабировать только часть токенов, а остальные оставлять от другого режима.
+
+Для Home это означает:
+
+- внутри tablet действует `S_t = clamp(768 / 1279, viewportWidth / 1279, 1)`; внутри mobile — `S_m = clamp(320 / 767, viewportWidth / 767, 1)`;
+- на границе `768 px` допустимо перестроить сетку и вывести NewsCard из абсолютного слоя в normal flow, но после этого ratio каждого пропорционального компонента остаётся постоянным внутри режима;
+- NewsCard не получает `aspect-ratio: auto`, независимые `height`/`min-height` или page-owned padding. Его заголовок, icon, Badge и внутренние интервалы следуют одному коэффициенту с карточкой;
+- MediaCard Big и Small сохраняют свои desktop-owned ratios во всех режимах: соответственно `797/540` и `390/540`. Home может менять span и потоковое размещение, но не ratio, image region, title measure, padding, badges, Play marker или gap. Другой ratio возможен только как заранее утверждённый named component variant с полной tablet/mobile спецификацией;
+- Advantage сохраняет approved ratio и масштабирует padding, accent и типографику вместе с оболочкой;
+- History и application CTA либо являются пропорциональными блоками с утверждённым ratio, либо переходят в natural-height flow. Нельзя одновременно сужать ширину сеткой и задавать им независимую height-кривую или фиксированный minimum, который деформирует блок;
+- 24px outer gutter, 48px minimum interaction target, hairline `1px`, безразмерный line-height, цвета, opacity и full-radius — единственные общие исключения. Minimum target не разрешает уменьшать соседний текст или badge до нечитаемого размера;
+- raw `rem` в page CSS не является токеном и не заменяет mode-scale. Его нельзя использовать для геометрии, которая должна масштабироваться; `px` разрешён только в media query и hairline.
+
+Проверка Home обязательна на `1279`, `1024`, `768`, `767`, `480` и `320 px`: visual baseline и page-level geometry должны проверять ratios NewsCard, Advantage, MediaCard Big/Small, History и application CTA, а также согласованность H3, Body/Badge, icon, padding, gap и отсутствие overflow. Проверка только grid-switch и отсутствия horizontal scroll недостаточна.
+
 ## План изменений
 
 ### Этап 1. Согласовать контракт
@@ -228,4 +247,3 @@ Stop-line: не начинать визуальную реализацию, по
 - изменение root font size;
 - CMS-интеграция и замена preview-fixtures;
 - изменение контента, движения или интерактивных сценариев, не связанное с геометрией desktop scale.
-

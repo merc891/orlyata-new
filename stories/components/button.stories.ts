@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { motionSpecifications } from './motion-specifications';
 
-type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right' | 'arrow-left-muted' | 'arrow-right-muted';
+type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right' | 'arrow-left-muted' | 'arrow-right-muted' | 'menu-tablet';
 type VisualState = 'default' | 'hover' | 'active' | 'disabled' | 'loading';
 
 interface ButtonOptions {
@@ -17,7 +17,7 @@ interface ButtonOptions {
 const iconRoot = '/wp-content/themes/orlyata/assets/icons';
 
 function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonElement {
-  const isIconOnly = ['play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted'].includes(options.variant);
+  const isIconOnly = ['play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet'].includes(options.variant);
   const isLoading = options.state === 'loading' && options.href === undefined;
   const isDisabled = options.state === 'disabled' || isLoading;
   const control = options.href === undefined ? document.createElement('button') : document.createElement('a');
@@ -57,6 +57,24 @@ function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonEle
     label.className = 'orlyata-button__label';
     label.textContent = isLoading ? 'Отправка…' : (options.label ?? 'Кнопка');
     control.append(label);
+  }
+
+  if (options.variant === 'menu-tablet') {
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+    icon.setAttribute('aria-hidden', 'true');
+    icon.setAttribute('class', 'orlyata-button__icon orlyata-button__menu-icon');
+    icon.setAttribute('fill', 'none');
+    icon.setAttribute('height', '24');
+    icon.setAttribute('stroke', 'currentColor');
+    icon.setAttribute('stroke-width', '2');
+    icon.setAttribute('viewBox', '0 0 24 24');
+    icon.setAttribute('width', '24');
+    path.setAttribute('class', 'orlyata-button__menu-icon-path');
+    path.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+    icon.append(path);
+    control.append(icon);
   }
 
   const iconName = options.variant === 'play'
@@ -178,7 +196,7 @@ export const Playground: StoryObj<ButtonPlaygroundArgs> = {
     asLink: { control: 'boolean', description: 'Рендерить текстовый вариант как ссылку.' },
     label: { control: 'text', description: 'Видимый текст кнопки.' },
     state: { control: 'select', options: ['default', 'hover', 'active', 'disabled', 'loading'] },
-    variant: { control: 'select', options: ['primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted'] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet'] },
     withClose: { control: 'boolean', description: 'Добавить Figma close-иконку в Primary.' },
   },
   render: (args) => {
@@ -218,6 +236,7 @@ export const Variants: Story = {
       createButton({ ariaLabel: 'Следующий материал', variant: 'arrow-right' }),
       createButton({ ariaLabel: 'Предыдущая фотография', variant: 'arrow-left-muted' }),
       createButton({ ariaLabel: 'Следующая фотография', variant: 'arrow-right-muted' }),
+      createButton({ ariaLabel: 'Открыть меню', variant: 'menu-tablet' }),
     ]);
 
     return page;

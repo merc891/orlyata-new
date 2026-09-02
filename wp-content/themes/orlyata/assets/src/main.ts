@@ -269,20 +269,31 @@ const initializeHomeHeroVideoDialog = (): void => {
 
 initializeHomeHeroVideoDialog();
 
+const sidebarMenuRevealDelayMs = 400;
+const sidebarMenuIcon: IconNode = [['path', { d: 'M4 6h16M4 12h16M4 18h16' }]];
+const sidebarCloseIcon: IconNode = [['path', { d: 'M18 6 6 18M6 6l12 12' }]];
+
 document.querySelectorAll<HTMLButtonElement>('.orlyata-sidebar__menu-toggle').forEach((toggle) => {
   const sidebar = toggle.closest<HTMLElement>('.orlyata-sidebar');
-  if (sidebar === null) {
-    return;
-  }
+  if (sidebar === null) return;
 
-  sidebar.classList.remove('is-menu-open');
+  sidebar.classList.remove('is-menu-open', 'is-menu-open-content');
   toggle.setAttribute('aria-expanded', 'false');
+  const path = toggle.querySelector<SVGPathElement>('.orlyata-button__menu-icon-path');
+  const morph = path === null ? undefined : createMorph(path, sidebarMenuIcon, { reducedMotion: 'never' });
+
   toggle.addEventListener('click', () => {
     const isOpen = sidebar.classList.toggle('is-menu-open');
     toggle.setAttribute('aria-expanded', String(isOpen));
-    const label = toggle.querySelector<HTMLElement>('.screen-reader-text');
-    if (label !== null) {
-      label.textContent = isOpen ? 'Закрыть меню' : 'Открыть меню';
+    toggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    morph?.morphTo(isOpen ? sidebarCloseIcon : sidebarMenuIcon);
+
+    if (isOpen) {
+      window.setTimeout(() => {
+        if (sidebar.classList.contains('is-menu-open')) sidebar.classList.add('is-menu-open-content');
+      }, sidebarMenuRevealDelayMs);
+    } else {
+      sidebar.classList.remove('is-menu-open-content');
     }
   });
 });
@@ -993,3 +1004,44 @@ document.addEventListener('notes-results-updated', syncNotesEmptyState);
 document.addEventListener('notes-results-updated', syncNotesVisibleFileCount);
 syncNotesEmptyState();
 syncNotesVisibleFileCount();
+
+const initializeHomeNewsCarousel = (): void => {
+  document.querySelectorAll<HTMLElement>("[data-home-news-carousel]").forEach((carousel) => {
+    const panel = carousel.closest<HTMLElement>(".orlyata-home__hero-panel--news");
+    const slides = [...carousel.querySelectorAll<HTMLElement>(".orlyata-news-card")];
+    const home = carousel.closest<HTMLElement>(".orlyata-home");
+    const controls = home === null ? [] : [...home.querySelectorAll<HTMLButtonElement>("[data-home-news-select]")];
+    if (panel === null || slides.length < 2 || controls.length < 2) return;
+    const activeIndex = (): number => Math.max(0, Number.parseInt(carousel.dataset.homeNewsActive ?? "0", 10) || 0);
+    const select = (requestedIndex: number): void => {
+      const index = (requestedIndex + slides.length) % slides.length;
+      if (index === activeIndex()) return;
+      carousel.dataset.homeNewsActive = String(index);
+      controls.forEach((control, controlIndex) => {
+        const active = controlIndex === index;
+        control.classList.toggle("is-active", active);
+        control.setAttribute("aria-pressed", String(active));
+      });
+    };
+    controls.forEach((control, index) => {
+      control.addEventListener("click", () => { select(index); });
+    });
+    let startX: number | null = null;
+    let swiped = false;
+    panel.addEventListener("pointerdown", (event) => {
+      startX = event.clientX;
+      swiped = false;
+      panel.setPointerCapture(event.pointerId);
+    });
+    panel.addEventListener("pointermove", (event) => {
+      if (startX !== null && Math.abs(event.clientX - startX) >= 40) swiped = true;
+    });
+    panel.addEventListener("pointerup", (event) => {
+      if (startX !== null && Math.abs(event.clientX - startX) >= 40) select(event.clientX < startX ? activeIndex() + 1 : activeIndex() - 1);
+      startX = null;
+    });
+    panel.addEventListener("click", (event) => { if (swiped) { event.preventDefault(); swiped = false; } });
+  });
+};
+
+initializeHomeNewsCarousel();

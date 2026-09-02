@@ -155,14 +155,18 @@ $render_link_list = static function ( array $items, string $class_name ): void {
 					<?php foreach ( $phones as $phone ) : ?>
 						<?php $phone_href = preg_replace( '/[^0-9+]/', '', trim( $phone ) ); ?>
 						<?php if ( is_string( $phone_href ) && '' !== $phone_href ) : ?>
-							<a class="orlyata-footer__link" href="tel:<?php echo esc_attr( $phone_href ); ?>"><?php echo esc_html( trim( $phone ) ); ?></a>
+							<div class="orlyata-footer__contact-link-item">
+								<a class="orlyata-footer__link" href="tel:<?php echo esc_attr( $phone_href ); ?>"><?php echo esc_html( trim( $phone ) ); ?></a>
+							</div>
 						<?php endif; ?>
 					<?php endforeach; ?>
 
 					<?php foreach ( $emails as $email ) : ?>
 						<?php $sanitized_email = sanitize_email( $email ); ?>
 						<?php if ( '' !== $sanitized_email ) : ?>
-							<a class="orlyata-footer__link orlyata-footer__link--email" href="mailto:<?php echo esc_attr( $sanitized_email ); ?>"><?php echo esc_html( $sanitized_email ); ?></a>
+							<div class="orlyata-footer__contact-link-item">
+								<a class="orlyata-footer__link orlyata-footer__link--email" href="mailto:<?php echo esc_attr( $sanitized_email ); ?>"><?php echo esc_html( $sanitized_email ); ?></a>
+							</div>
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</div>
