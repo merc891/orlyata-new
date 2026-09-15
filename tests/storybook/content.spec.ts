@@ -130,6 +130,41 @@ test('Accordion preserves native disclosure semantics', async ({ page }) => {
   await expect(accordion).not.toHaveAttribute('open', '');
   await accordion.locator('summary').click();
   await expect(accordion).toHaveAttribute('open', '');
+  await expect(accordion.locator('.orlyata-accordion__summary')).toHaveCSS('color', 'rgb(24, 23, 23)');
+  await accordion.locator('summary').click();
+  await expect(accordion).not.toHaveAttribute('open', '');
+  await expect(accordion.locator('.orlyata-accordion__summary')).toHaveCSS('color', 'rgb(24, 23, 23)');
+});
+
+test('Accordion uses the approved one-line group table row at the 393px mobile reference', async ({ page }) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await openStory(page, 'components-accordion--states');
+
+  const accordion = page.locator('.orlyata-accordion').first();
+  const summary = accordion.locator('.orlyata-accordion__summary');
+  const label = summary.locator('.orlyata-accordion__label');
+  const title = summary.locator('.orlyata-accordion__title');
+  const separator = summary.locator('.orlyata-accordion__separator');
+  const meta = summary.locator('.orlyata-accordion__meta');
+  const toggle = summary.locator('.orlyata-accordion__toggle-icon');
+  const [summaryBox, titleBox, metaBox, toggleBox] = await Promise.all([
+    summary.boundingBox(),
+    title.boundingBox(),
+    meta.boundingBox(),
+    toggle.boundingBox(),
+  ]);
+
+  await expect(label).toHaveText('Подготовительная группа / 5-7 лет');
+  await expect(separator).toHaveCSS('margin-left', '4px');
+  await expect(separator).toHaveCSS('margin-right', '4px');
+  expect(summaryBox?.height).toBeCloseTo(40, 1);
+  expect(titleBox?.y).toBeCloseTo(metaBox?.y ?? 0, 1);
+  expect((metaBox?.y ?? 0) + (metaBox?.height ?? 0) / 2).toBeCloseTo((toggleBox?.y ?? 0) + (toggleBox?.height ?? 0) / 2, 1);
+  expect(toggleBox?.width).toBeCloseTo(24, 1);
+  await expect(summary).toHaveCSS('column-gap', '8px');
+  expect(toggleBox?.height).toBeCloseTo(24, 1);
+  expect((toggleBox?.x ?? 0) + (toggleBox?.width ?? 0)).toBeCloseTo((summaryBox?.x ?? 0) + (summaryBox?.width ?? 0), 1);
+  await expect(toggle).toHaveCSS('stroke-width', '2px');
 });
 
 test('DataTable preserves semantic table markup', async ({ page }) => {
@@ -145,32 +180,53 @@ test('DataTable preserves semantic table markup', async ({ page }) => {
   await expect(rows.last()).toHaveCSS('border-bottom-width', '1px');
 });
 
-test('DataTable achievements aligns Year and Competition to editorial columns 1 and 3', async ({ page }) => {
-  await page.setViewportSize({ width: 1920, height: 1080 });
-  await openStory(page, 'components-data-table--variants');
+test('DataTable keeps the 48px header contract on tablet', async ({ page }) => {
+  await page.setViewportSize({ width: 1279, height: 900 });
+  await openStory(page, 'components-data-table--photo');
 
   const table = page.getByRole('table');
-  const headers = table.getByRole('columnheader');
-  const [tableBox, headerBoxes] = await Promise.all([
-    table.boundingBox(),
-    Promise.all((await headers.all()).map((header) => header.boundingBox())),
+  const headerRow = table.locator('thead tr');
+  const firstHeader = table.getByRole('columnheader').first();
+  const [headerBox, rowBox] = await Promise.all([
+    headerRow.boundingBox(),
+    table.locator('tbody tr').first().boundingBox(),
   ]);
 
-  expect(tableBox).not.toBeNull();
-  expect(headerBoxes).toHaveLength(4);
+  expect(headerBox?.height).toBeCloseTo(48, 1);
+  expect(rowBox?.height).toBeCloseTo(49, 1);
+  await expect(headerRow).toHaveCSS('border-bottom-width', '1px');
+  await expect(firstHeader).toHaveCSS('vertical-align', 'middle');
+});
 
-  const tableWidth = tableBox?.width ?? 0;
-  const tableStart = tableBox?.x ?? 0;
-  const gridGap = 16;
-  const editorialColumnWidth = (tableWidth - gridGap * 3) / 4;
-  const competitionStart = tableStart + editorialColumnWidth * 2 + gridGap * 2;
-  const equalIntermediateColumnWidth = (competitionStart - tableStart) / 3;
-  const yearColumnWidth = equalIntermediateColumnWidth * 0.6;
-  const remainingColumnWidth = equalIntermediateColumnWidth * 1.2;
-  const expectedStarts = [tableStart, tableStart + yearColumnWidth, tableStart + yearColumnWidth + remainingColumnWidth, competitionStart];
+test('DataTable achievements aligns Competition with global editorial column 3 on desktop and tablet', async ({ page }) => {
+  for (const viewport of [
+    { width: 1920, height: 1080 },
+    { width: 1279, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await openStory(page, 'components-data-table--variants');
 
-  for (const [index, headerBox] of headerBoxes.entries()) {
-    expect(headerBox?.x).toBeCloseTo(expectedStarts[index], 1);
+    const table = page.getByRole('table');
+    const headers = table.getByRole('columnheader');
+    const cells = table.locator('tbody tr').first().locator('td');
+    const [tableBox, headerBoxes, gridGap] = await Promise.all([
+      table.boundingBox(),
+      Promise.all((await headers.all()).map((header) => header.boundingBox())),
+      table.evaluate((element) => Number.parseFloat(getComputedStyle(element.querySelector('thead tr') as Element).columnGap)),
+    ]);
+
+    expect(await headers.allTextContents()).toEqual(['Год', 'Достижение', 'Конкурс']);
+    expect(headerBoxes).toHaveLength(3);
+    await expect(cells.nth(1)).toHaveText('Лауреат I степени / Старший');
+
+    const trackWidth = ((tableBox?.width ?? 0) * 0.5 - gridGap * 2.5) / 3;
+    const tableStart = tableBox?.x ?? 0;
+    const expectedStarts = [tableStart, tableStart + trackWidth + gridGap, tableStart + (tableBox?.width ?? 0) * 0.5 + gridGap / 2];
+
+    for (const [index, headerBox] of headerBoxes.entries()) {
+      expect(headerBox?.x).toBeCloseTo(expectedStarts[index], 0);
+    }
+    expect(headerBoxes[1]?.width).toBeCloseTo(trackWidth * 2 + gridGap, 1);
   }
 });
 
@@ -192,7 +248,8 @@ test('DataTable photo aligns Name, Date, Type and arrow to the editorial grid', 
   expect(headerBoxes).toHaveLength(4);
   expect(arrowBox).not.toBeNull();
   expect(firstRowBox?.height).toBeCloseTo(49, 1);
-  expect(headerRowBox?.height).toBeCloseTo(64, 1);
+  expect(headerRowBox?.height).toBeCloseTo(48, 1);
+  await expect(table.locator('thead tr')).toHaveCSS('border-bottom-width', '1px');
 
   const tableWidth = tableBox?.width ?? 0;
   const tableStart = tableBox?.x ?? 0;
@@ -300,6 +357,27 @@ test('Advantage matches the approved 170px vertical geometry at the 1920px refer
   await expect(label).toHaveCSS('color', 'rgb(111, 111, 120)');
 });
 
+test('Advantage keeps its accent aligned with the label and value across responsive references', async ({ page }) => {
+  for (const viewport of [
+    { width: 1920, height: 1080, expectedGap: 16 },
+    { width: 1279, height: 1024, expectedGap: 16 },
+    { width: 393, height: 852, expectedGap: 8 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await openStory(page, 'components-advantage--variants');
+
+    const card = page.locator('.orlyata-advantage').first();
+    const accent = card.locator('.orlyata-advantage__accent');
+    const value = card.locator('.orlyata-advantage__value');
+    const label = card.locator('.orlyata-advantage__label');
+    const [accentBox, valueBox, labelBox] = await Promise.all([accent.boundingBox(), value.boundingBox(), label.boundingBox()]);
+
+    expect(accentBox === null || labelBox === null ? 0 : accentBox.x).toBeCloseTo(labelBox === null ? 0 : labelBox.x, 1);
+    expect(accentBox === null || valueBox === null ? 0 : accentBox.y + (accentBox.height / 2)).toBeCloseTo(valueBox === null ? 0 : valueBox.y + (valueBox.height / 2), 1);
+    expect(accentBox === null || valueBox === null ? 0 : valueBox.x - (accentBox.x + accentBox.width)).toBeCloseTo(viewport.expectedGap, 1);
+  }
+});
+
 test('Badge inverse uses the white surface token', async ({ page }) => {
   await openStory(page, 'components-badge--variants');
 
@@ -308,10 +386,63 @@ test('Badge inverse uses the white surface token', async ({ page }) => {
   await expect(inverse).toHaveCSS('border-color', 'rgb(255, 255, 255)');
 });
 
+
+test('Badge and NewsCard category markers use the borderless Surface muted fill', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await openStory(page, 'components-badge--variants');
+  for (const badge of await page.locator('.orlyata-badge:not(.orlyata-badge--inverse)').all()) {
+    await expect(badge).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+    await expect(badge).toHaveCSS('border-top-width', '0px');
+  }
+
+  await openStory(page, 'components-news-card--variants');
+  const iconBadge = page.locator('.orlyata-news-card__meta .orlyata-badge--icon');
+  await expect(iconBadge).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+  await expect(iconBadge).toHaveCSS('border-top-width', '0px');
+
+  const categoryGlyph = page.locator('.orlyata-news-card__meta .orlyata-badge--icon .orlyata-badge__icon');
+  await expect(categoryGlyph).toHaveAttribute('src', /news-category-news\.png$/);
+  await expect(categoryGlyph).toHaveCSS('width', '32px');
+
+  await page.setViewportSize({ width: 1279, height: 852 });
+  await openStory(page, 'components-news-card--variants');
+  await expect(page.locator('.orlyata-news-card__meta .orlyata-badge--icon .orlyata-badge__icon')).toHaveCSS('width', '32px');
+
+  await page.setViewportSize({ width: 393, height: 852 });
+  await openStory(page, 'components-news-card--variants');
+  await expect(page.locator('.orlyata-news-card__meta .orlyata-badge--icon .orlyata-badge__icon')).toHaveCSS('width', '24px');
+
+  await page.setViewportSize({ width: 320, height: 852 });
+  await openStory(page, 'components-news-card--variants');
+  const mobileGlyphWidth = await page.locator('.orlyata-news-card__meta .orlyata-badge--icon .orlyata-badge__icon').evaluate((glyph) => parseFloat(getComputedStyle(glyph).width));
+  expect(mobileGlyphWidth).toBeLessThan(24);
+  expect(mobileGlyphWidth).toBeGreaterThan(19);
+});
+
 test('Badge examples capitalize a text label without changing a date month', async ({ page }) => {
   await openStory(page, 'components-badge--variants');
 
   await expect(page.locator('.orlyata-badge')).toHaveText(['Сегодня', 'RuTube', '23 мая', 'Сегодня']);
+});
+
+test('Badge height follows the mobile S_m projection with its text', async ({ page }) => {
+  for (const width of [320, 393, 767]) {
+    await page.setViewportSize({ width, height: 852 });
+    await openStory(page, 'components-badge--variants');
+
+    const badge = page.locator('.orlyata-badge').first();
+    const box = await badge.boundingBox();
+    const expectedHeight = 36 * width / 393;
+
+    expect(box?.height).toBeCloseTo(expectedHeight, 1);
+
+    if (width === 393) {
+      await expect(badge).toHaveCSS("font-size", "14px");
+      await expect(badge).toHaveCSS("line-height", "16.8px");
+      await expect(badge).toHaveCSS("padding-left", "12px");
+      await expect(badge).toHaveCSS("padding-right", "12px");
+    }
+  }
 });
 
 test('Input exposes all four Figma states', async ({ page }) => {
@@ -432,6 +563,57 @@ test('MediaCard matches 540px cards, small spacing and title weight', async ({ p
 });
 
 
+test('MediaCard mobile uses one image-overlay title and metadata treatment at the 393px reference', async ({ page }) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await openStory(page, 'components-media-card--variants');
+
+  for (const size of ['big', 'small'] as const) {
+    const card = page.locator('.orlyata-media-card--' + size);
+    const image = card.locator('.orlyata-media-card__image-wrap');
+    const title = card.locator('.orlyata-media-card__title');
+    const meta = card.locator(size === 'big' ? '.orlyata-media-card__top-meta' : '.orlyata-media-card__meta');
+    const [imageBox, titleBox, metaBox] = await Promise.all([image.boundingBox(), title.boundingBox(), meta.boundingBox()]);
+    const gradient = await image.evaluate((element) => { const style = getComputedStyle(element, '::after'); return { backgroundImage: style.backgroundImage, bottom: style.bottom, height: Number.parseFloat(style.height), top: Number.parseFloat(style.top) }; });
+
+    await expect(card).toHaveCSS('aspect-ratio', 'auto');
+    await expect(card.locator('.orlyata-media-card__link')).toHaveCSS('display', 'grid');
+    expect((imageBox?.width ?? 0) / (imageBox?.height ?? 1)).toBeCloseTo(13 / 10, 3);
+    await expect(title).toHaveCSS('inline-size', '310px');
+    expect(titleBox?.x).toBeCloseTo((imageBox?.x ?? 0) + 16, 1);
+    expect(titleBox === null || imageBox === null ? undefined : imageBox.y + imageBox.height - titleBox.y - titleBox.height).toBeCloseTo(16, 1);
+    expect(metaBox === null || titleBox === null ? undefined : titleBox.y - metaBox.y - metaBox.height).toBeCloseTo(8, 1);
+    await expect(title).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(image).toHaveCSS('--media-card-mobile-gradient-height', '50%');
+    await expect(meta).toHaveCSS('gap', '0px');
+    await expect(meta.locator('.orlyata-badge')).toHaveCSS('background-color', size === 'big' ? 'rgb(255, 255, 255)' : 'rgb(244, 244, 245)');
+    await expect(meta.locator('.orlyata-badge')).toHaveCSS('border-top-width', '0px');
+    if (size === 'big') {
+      await expect(meta.locator('.orlyata-media-card__play')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+      await expect(meta.locator('.orlyata-media-card__play')).toHaveCSS('border-top-style', 'none');
+      await expect(card.locator('.orlyata-media-card__play')).toHaveCSS('width', '36px');
+      await expect(card.locator('.orlyata-media-card__play')).toHaveCSS('height', '36px');
+    }
+    expect(gradient.height).toBeCloseTo((imageBox?.height ?? 0) * 0.5, 1);
+    expect(gradient.top + gradient.height).toBeCloseTo(imageBox?.height ?? 0, 1);
+    expect(gradient.bottom).toBe('0px');
+    expect(gradient.backgroundImage).toContain('linear-gradient');
+  }
+});
+
+test('MediaCard mobile title width follows S_m', async ({ page }) => {
+  for (const width of [320, 393, 767]) {
+    await page.setViewportSize({ width, height: 852 });
+    await openStory(page, 'components-media-card--variants');
+
+    const title = page.locator('.orlyata-media-card--big .orlyata-media-card__title');
+    const inlineSize = await title.evaluate((element) => Number.parseFloat(getComputedStyle(element).inlineSize));
+
+    expect(inlineSize).toBeCloseTo(310 * width / 393, 1);
+  }
+});
+
+
+
 test('MediaCard renders date first and provider only for video', async ({ page }) => {
   await openStory(page, 'components-media-card--variants');
 
@@ -499,10 +681,16 @@ test('MediaCard Playground always shows Play in video cards, never in photos', a
   await expect(page.locator('.orlyata-media-card--small.orlyata-media-card--video')).toBeVisible();
   const smallCard = page.locator('.orlyata-media-card--small.orlyata-media-card--video');
   const smallImage = smallCard.locator('.orlyata-media-card__image-wrap');
-  const smallPlay = smallCard.locator('.orlyata-media-card__play');
-  const [smallCardBox, smallImageBox, smallPlayBox] = await Promise.all([smallCard.boundingBox(), smallImage.boundingBox(), smallPlay.boundingBox()]);
-  expect(smallPlayBox?.x).toBe(smallCardBox === null ? undefined : smallCardBox.x + 24);
-  expect(smallPlayBox?.y).toBe(smallImageBox === null ? undefined : smallImageBox.y + 16);
+  const smallMeta = smallCard.locator('.orlyata-media-card__meta');
+  const smallBadge = smallMeta.locator('.orlyata-badge');
+  const smallPlay = smallMeta.locator('.orlyata-media-card__play');
+  const [smallBadgeBox, smallPlayBox] = await Promise.all([smallBadge.boundingBox(), smallPlay.boundingBox()]);
+  await expect(smallImage.locator('.orlyata-media-card__play')).toHaveCount(0);
+  await expect(smallMeta).toHaveCSS('gap', '0px');
+  await expect(smallPlay).toHaveCSS('border-top-width', '0px');
+  await expect(smallPlay).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+  expect(smallPlayBox?.x).toBeCloseTo((smallBadgeBox?.x ?? 0) + (smallBadgeBox?.width ?? 0), 1);
+  expect(smallPlayBox?.y).toBeCloseTo(smallBadgeBox?.y, 1);
   await expect(page.locator('.orlyata-media-card__play')).toBeVisible();
   await expect(page.locator('.orlyata-media-card--video video')).toHaveCount(1);
 
@@ -511,6 +699,35 @@ test('MediaCard Playground always shows Play in video cards, never in photos', a
   await expect(page.locator('.orlyata-media-card__play')).toHaveCount(0);
   await expect(page.locator('.orlyata-media-card--video video')).toHaveCount(0);
 });
+test('MediaCard desktop and tablet keep date and Play contiguous', async ({ page }) => {
+  for (const width of [1920, 1279]) {
+    await page.setViewportSize({ width, height: 1080 });
+    await page.goto('/iframe.html?id=components-media-card--playground&viewMode=story&args=mediaType:video;size:big');
+    await expect(page.locator('main.component-page')).toBeVisible({ timeout: 15_000 });
+    const meta = page.locator('.orlyata-media-card--big .orlyata-media-card__top-meta');
+    const badge = meta.locator('.orlyata-badge');
+    const play = meta.locator('.orlyata-media-card__play');
+    const [badgeBox, playBox] = await Promise.all([badge.boundingBox(), play.boundingBox()]);
+    await expect(meta).toHaveCSS('gap', '0px');
+    await expect(play).toHaveCSS('border-top-width', '0px');
+    await expect(badge).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    expect(playBox?.x).toBeCloseTo((badgeBox?.x ?? 0) + (badgeBox?.width ?? 0), 1);
+    expect(playBox?.y).toBeCloseTo(badgeBox?.y, 1);
+    await page.goto('/iframe.html?id=components-media-card--playground&viewMode=story&args=mediaType:video;size:small');
+    const small = page.locator('.orlyata-media-card--small.orlyata-media-card--video');
+    const smallMeta = small.locator('.orlyata-media-card__meta');
+    const smallBadge = smallMeta.locator('.orlyata-badge');
+    const smallPlay = smallMeta.locator('.orlyata-media-card__play');
+    const [smallBadgeBox, smallPlayBox] = await Promise.all([smallBadge.boundingBox(), smallPlay.boundingBox()]);
+    await expect(small.locator('.orlyata-media-card__image-wrap .orlyata-media-card__play')).toHaveCount(0);
+    await expect(smallMeta).toHaveCSS('gap', '0px');
+    await expect(smallPlay).toHaveCSS('border-top-width', '0px');
+    await expect(smallPlay).toHaveCSS('background-color', 'rgb(244, 244, 245)');
+    expect(smallPlayBox?.x).toBeCloseTo((smallBadgeBox?.x ?? 0) + (smallBadgeBox?.width ?? 0), 1);
+    expect(smallPlayBox?.y).toBeCloseTo(smallBadgeBox?.y, 1);
+  }
+});
+
 
 test('MediaCard title keeps the separator between multi-line copies on hover', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
@@ -556,6 +773,19 @@ test('NewsCard title uses Figma weight 500 and rolls like the published Storyboo
   await expect(label).toHaveCSS('transition-duration', '0.4s');
 });
 
+for (const viewport of [
+  { name: 'desktop', width: 1920, height: 1080 },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'mobile', width: 320, height: 852 },
+]) {
+  test('NewsCard keeps adjacent metadata badges on ' + viewport.name, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await openStory(page, 'components-news-card--variants');
+
+    await expect(page.locator('.orlyata-news-card__meta')).toHaveCSS('gap', '0px');
+  });
+}
+
 test('TeacherCard uses the stage grid and rolls both text lines on card hover', async ({ page }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
   await openStory(page, 'components-teacher-card--playground');
@@ -595,5 +825,39 @@ test('TeacherCard uses the stage grid and rolls both text lines on card hover', 
 
     expect(translateY).toBeCloseTo(-(box?.height ?? 0) - 4, 1);
     await expect(label).toHaveCSS('transition-duration', '0.4s');
+  }
+});
+
+test('Storybook documents the previously missing component variants at the mobile reference', async ({ page, request }) => {
+  const response = await request.get('/index.json');
+  expect(response.ok()).toBe(true);
+  const index = await response.json() as { entries: Record<string, { parameters?: { viewport?: { defaultViewport?: string } } }> };
+  const expected = [
+    'components-achievements-table--mobile',
+    'components-achievements-table--variants',
+    'components-data-table--notes',
+    'components-advantage--mobile',
+    'components-badge--icon',
+    'components-badge--mobile',
+    'components-button--mobile',
+    'components-input--mobile',
+    'components-link--color-inverse',
+    'components-link--mobile',
+    'components-page-hero--mobile',
+    'components-searchinput--focus-visible',
+    'components-searchinput--mobile',
+    'components-searchinput--playground',
+  ];
+
+  for (const story of expected) {
+    expect(index.entries).toHaveProperty(story);
+  }
+
+  const mobileStories = expected.filter((item) => item.endsWith('--mobile'));
+  await page.setViewportSize({ width: 393, height: 852 });
+  for (const story of mobileStories) {
+    await page.goto('/iframe.html?id=' + story + '&viewMode=story');
+    await expect(page.locator('#storybook-root')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(393);
   }
 });

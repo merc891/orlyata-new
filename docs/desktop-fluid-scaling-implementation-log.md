@@ -155,7 +155,7 @@ Storybook build завершился с существующим предупр�
 - внутренние desktop-токены Button, Badge, Input, ApplicationForm и DataTable;
 - размеры и постоянные ratios Advantage, NewsCard и MediaCard;
 - устранение desktop page-level overrides размеров и ratios компонентов;
-- пропорции History `1617/544`, Application surface `1617/620` и Footer `1616/469`;
+- пропорции History `1617/568`, Application surface `1617/620` и Footer `1616/469`;
 - синхронизация Storybook-проверок с reference viewport `1920 px`;
 - обязательные проверки anchors `1280/1920/2560`, промежуточных ширин и границы `1279 px`.
 

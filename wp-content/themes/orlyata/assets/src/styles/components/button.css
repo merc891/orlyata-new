@@ -14,7 +14,9 @@
   cursor: pointer;
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body);
-  font-weight: 400;
+  font-style: normal;
+  font-synthesis: none;
+  font-weight: 500;
   letter-spacing: var(--letter-spacing-body);
   line-height: var(--line-height-body);
   text-align: center;
@@ -59,7 +61,7 @@
   padding: 0;
 }
 .orlyata-button--play {
-  background: var(--color-surface-muted);
+  background: var(--color-surface);
 }
 
 .orlyata-button--arrow-left,
@@ -229,11 +231,19 @@
   }
 }
 
-.orlyata-button:disabled,
-.orlyata-button[aria-disabled="true"],
-.orlyata-button[data-visual-state="disabled"],
-.orlyata-button.is-loading {
-  opacity: var(--opacity-interactive-disabled);
-  cursor: not-allowed;
-  pointer-events: none;
+@media (width <= 767px) {
+  .orlyata-button--archive-filter {
+    block-size: var(--badge-height);
+    min-block-size: var(--badge-height);
+    padding: var(--button-padding-block) var(--badge-padding-inline);
+    font-size: var(--badge-font-size);
+    letter-spacing: var(--badge-letter-spacing);
+    line-height: var(--badge-line-height);
+  }
+
+  .orlyata-button--archive-filter .orlyata-button__icon {
+    inline-size: var(--button-archive-filter-icon-size);
+    block-size: var(--button-archive-filter-icon-size);
+  }
 }
+

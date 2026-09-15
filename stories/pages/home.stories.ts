@@ -37,7 +37,7 @@ function createHero(): HTMLElement {
   const capella = element('div', 'orlyata-home__hero-panel orlyata-home__hero-panel--capella orlyata-home__hero-video-trigger');
   const capellaContent = element('div', 'orlyata-home__hero-panel-content');
   const preview = element('video', 'orlyata-home__hero-preview');
-  preview.src = assetRoot + '/videos/home/hero-preview.mp4';
+  preview.src = assetRoot + '/videos/home/hero-original.mp4';
   preview.autoplay = true;
   preview.loop = true;
   preview.muted = true;
@@ -99,10 +99,10 @@ function createFacts(): HTMLElement {
   const facts = element('section', 'orlyata-home__facts');
   facts.setAttribute('aria-label', 'В цифрах и фактах');
   facts.append(
-    advantage('80+', 'мальчиков и юношей'),
-    advantage('5–17 лет', 'возрастной состав'),
-    advantage('6', 'опытных педагогов'),
-    advantage('15–20', 'выступлений в год'),
+    advantage('80+', 'Ребят в капелле'),
+    advantage('5–17 лет', 'Возрастной состав'),
+    advantage('6', 'Опытных педагогов'),
+    advantage('15–20', 'Выступлений в год'),
   );
   return facts;
 }
@@ -133,8 +133,9 @@ function createHistory(): HTMLElement {
   tags.append(element('span', 'orlyata-home__history-tag', 'О капелле'), element('span', 'orlyata-home__history-tag', 'Педагоги'));
   intro.append(
     element('p', 'orlyata-home__history-lead type-lead', 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман'),
-    tags,
   );
+  const title = element('h2', 'orlyata-home__history-title type-heading-2', 'О капелле');
+  title.id = 'storybook-home-history-title';
   const teachers = element('div', 'orlyata-home__history-teachers');
   const photos = element('div', 'orlyata-home__history-photos');
   photos.setAttribute('aria-hidden', 'true');
@@ -161,12 +162,14 @@ function createHistory(): HTMLElement {
   }
   teacherLink.append(arrowTrack);
   teachers.append(photos, teacherLink);
+  intro.append(teachers);
   details.append(
+    title,
     element('p', 'orlyata-home__history-copy type-body', 'Пройдя большой путь в поиске «своего лица и в выборе репертуара, и в стиле работы, планах обучения и приобщения ребят к лучшим образцам певческого искусства, в капелле сложилась устойчивая система музыкально-хорового воспитания мальчиков от 5 до 17 лет'),
-    teachers,
+    tags,
   );
   grid.append(intro, details);
-  section.append(sectionHead('История', 'storybook-home-history-title', 'Подробнее', '/o-kapelle/'), grid);
+  section.append(sectionHead('О капелле', 'storybook-home-history-mobile-title', 'Подробнее', '/o-kapelle/'), grid);
   return section;
 }
 
@@ -174,7 +177,14 @@ function createApplication(): HTMLElement {
   const section = element('section', 'orlyata-home__section orlyata-home__application');
   section.id = 'application';
   const copy = element('div', 'orlyata-home__application-copy');
-  const heading = element('h2', 'type-heading-1', 'Хотите вырастить творческую личность — запишите мальчика в капеллу');
+  const heading = element('h2', 'orlyata-home__application-title type-heading-2');
+  const titleIcon = element('span', 'orlyata-home__application-title-icon');
+  titleIcon.setAttribute('aria-hidden', 'true');
+  const titleIconImage = element('img');
+  titleIconImage.src = assetRoot + '/icons/news-category-news.png';
+  titleIconImage.alt = '';
+  titleIcon.append(titleIconImage);
+  heading.append('Хотите вырастить творческую личность? ', titleIcon, ' Запишите мальчика ', element('span', 'orlyata-home__application-title-preposition', 'в капеллу'));
   heading.id = 'storybook-home-application-title';
   copy.append(heading);
   section.setAttribute('aria-labelledby', heading.id);
@@ -219,7 +229,7 @@ export function createHomeDesktopPreview(): HTMLElement {
   const main = element('main', 'orlyata-home__content');
   main.id = 'main';
   const grid = element('div', 'orlyata-home__content-grid');
-  grid.append(createHero(), createFacts(), createMedia(), createHistory(), createApplication(), createAchievements());
+  grid.append(createHero(), createFacts(), createMedia(), createHistory(), createAchievements(), createApplication());
   const footer = createFooter({
     address: 'г. Зеленоград,\nЦентральная площадь, 1\nКЦ «Зеленоград»',
     email: 'info@zelorlyata.ru',
@@ -227,8 +237,8 @@ export function createHomeDesktopPreview(): HTMLElement {
     phonePrimary: '+7 (925) 434-51-98',
     phoneSecondary: '+7 (916) 258-49-12',
   });
-  grid.append(footer);
   main.append(grid);
+  main.append(footer);
   root.append(sidebar, main);
   return root;
 }

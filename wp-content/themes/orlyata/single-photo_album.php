@@ -51,7 +51,7 @@ $photo_archive_url          = get_post_type_archive_link( 'photo_album' );
 
 get_header();
 ?>
-<div class="orlyata-photo-album-detail">
+<div class="orlyata-media-gallery orlyata-photo-album-detail">
 	<?php get_template_part( 'template-parts/layout/sidebar' ); ?>
 	<main class="orlyata-photo-album-detail__content" id="main">
 		<?php

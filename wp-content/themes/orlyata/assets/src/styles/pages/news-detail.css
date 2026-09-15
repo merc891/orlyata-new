@@ -44,6 +44,7 @@
   overflow: hidden;
   border-radius: var(--radius-large);
   aspect-ratio: var(--news-detail-gallery-aspect-ratio);
+  touch-action: pan-y;
 }
 
 .orlyata-news-detail__gallery-track {
@@ -123,5 +124,11 @@
 @media (width <= 1279px) {
   .orlyata-news-detail {
     display: block;
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-news-detail__gallery-arrows {
+    display: none;
   }
 }

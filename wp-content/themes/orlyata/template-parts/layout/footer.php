@@ -4,6 +4,7 @@
  *
  * Expected arguments:
  * - site_settings: Address, phones and emails supplied by orlyata-core.
+ * - socials: Footer social links with icon, label and URL.
  * - navigation: Optional primary navigation items.
  * - media_navigation: Optional media navigation items.
  * - slogan_lines: Two-line static slogan.
@@ -21,6 +22,18 @@ $footer_args       = wp_parse_args(
 	is_array( $args ?? null ) ? $args : array(),
 	array(
 		'site_settings'    => null,
+		'socials'          => array(
+			array(
+				'icon'  => 'assets/icons/share/vk.svg',
+				'label' => __( 'ВКонтакте', 'orlyata' ),
+				'url'   => 'https://vk.ru/zelorlyata',
+			),
+			array(
+				'icon'  => 'assets/icons/share/telegram.svg',
+				'label' => __( 'Telegram', 'orlyata' ),
+				'url'   => 'https://t.me/zel_orlyata',
+			),
+		),
 		'navigation'       => array(
 			array(
 				'label' => __( 'О капелле', 'orlyata' ),
@@ -49,7 +62,7 @@ $footer_args       = wp_parse_args(
 		),
 		'media_navigation' => array(
 			array(
-				'label' => __( 'Фотогалерея', 'orlyata' ),
+				'label' => __( 'Фото', 'orlyata' ),
 				'url'   => home_url( '/mediagalereya/foto/' ),
 			),
 			array(
@@ -78,6 +91,7 @@ $phones            = isset( $site_settings['phones'] ) && is_array( $site_settin
 $emails            = isset( $site_settings['emails'] ) && is_array( $site_settings['emails'] )
 	? array_values( array_filter( $site_settings['emails'], 'is_string' ) )
 	: array();
+$footer_socials    = is_array( $footer_args['socials'] ) ? $footer_args['socials'] : array();
 $navigation        = is_array( $footer_args['navigation'] ) ? $footer_args['navigation'] : array();
 $media_navigation  = is_array( $footer_args['media_navigation'] ) ? $footer_args['media_navigation'] : array();
 $slogan_lines      = is_array( $footer_args['slogan_lines'] ) ? $footer_args['slogan_lines'] : array();
@@ -88,7 +102,7 @@ $current_year      = max( $start_year, absint( wp_date( 'Y' ) ) );
 $year_range        = $start_year === $current_year
 	? (string) $start_year
 	: $start_year . '–' . $current_year;
-$has_contacts      = '' !== $address || array() !== $phones || array() !== $emails;
+$has_contacts      = '' !== $address || array() !== $phones || array() !== $emails || array() !== $footer_socials;
 
 $render_link_list = static function ( array $items, string $class_name ): void {
 	?>
@@ -137,7 +151,7 @@ $render_link_list = static function ( array $items, string $class_name ): void {
 				<?php $render_link_list( $navigation, 'orlyata-footer__list' ); ?>
 			</div>
 			<div class="orlyata-footer__navigation-group">
-				<p class="orlyata-footer__section-title"><?php esc_html_e( 'Медиа', 'orlyata' ); ?></p>
+				<p class="orlyata-footer__section-title"><?php esc_html_e( 'Медиагалерея', 'orlyata' ); ?></p>
 				<?php $render_link_list( $media_navigation, 'orlyata-footer__list' ); ?>
 			</div>
 		</nav>
@@ -148,6 +162,30 @@ $render_link_list = static function ( array $items, string $class_name ): void {
 					<p class="orlyata-footer__section-title"><?php esc_html_e( 'Контакты', 'orlyata' ); ?></p>
 					<?php if ( '' !== $address ) : ?>
 						<address class="orlyata-footer__address"><?php echo esc_html( $address ); ?></address>
+					<?php endif; ?>
+					<?php if ( array() !== $footer_socials ) : ?>
+						<ul class="orlyata-footer__socials" aria-label="<?php esc_attr_e( "Социальные сети", "orlyata" ); ?>">
+							<?php foreach ( $footer_socials as $social ) : ?>
+								<?php
+								if ( ! is_array( $social ) ) {
+									continue;
+								}
+
+								$social_label = isset( $social["label"] ) && is_string( $social["label"] ) ? trim( $social["label"] ) : "";
+								$social_url   = isset( $social["url"] ) && is_string( $social["url"] ) ? trim( $social["url"] ) : "";
+								$social_icon  = isset( $social["icon"] ) && is_string( $social["icon"] ) ? trim( $social["icon"] ) : "";
+
+								if ( "" === $social_label || "" === $social_url || "" === $social_icon ) {
+									continue;
+								}
+								?>
+								<li>
+									<a class="orlyata-footer__social-link" href="<?php echo esc_url( $social_url ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( $social_label ); ?>">
+										<img src="<?php echo esc_url( get_theme_file_uri( $social_icon ) ); ?>" alt="" aria-hidden="true" />
+									</a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
 					<?php endif; ?>
 				</div>
 

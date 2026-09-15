@@ -10,6 +10,7 @@
   gap: var(--space-4);
   align-items: center;
   cursor: pointer;
+  color: var(--color-text-primary);
   list-style: none;
   transition: color var(--duration-micro) var(--easing-out);
 }
@@ -28,8 +29,22 @@
   line-height: var(--line-height-body);
 }
 
-.orlyata-accordion__summary:hover {
-  color: var(--color-text-secondary);
+.orlyata-accordion__label {
+  display: contents;
+}
+
+.orlyata-accordion__separator {
+  display: none;
+  margin-inline: 0.25em;
+  color: currentcolor;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+.orlyata-accordion[open] .orlyata-accordion__summary {
+  color: var(--color-text-primary);
 }
 
 .orlyata-accordion__toggle {
@@ -74,13 +89,39 @@
 @media (width <= 767px) {
   .orlyata-accordion__summary {
     grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--space-2);
+    min-height: calc(var(--accordion-row-height) * 0.833333);
   }
 
-  .orlyata-accordion__meta {
-    grid-column: 1;
+  .orlyata-accordion__label {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+  }
+
+  .orlyata-accordion__separator {
+    display: inline;
+  }
+
+  .orlyata-accordion__toggle {
+    width: var(--accordion-icon-glyph-size);
+    height: var(--accordion-icon-glyph-size);
+    justify-self: end;
   }
 
   .orlyata-accordion__content {
     margin-inline: var(--space-0);
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-accordion__toggle,
+  .orlyata-accordion__toggle-icon {
+    inline-size: var(--icon-size-ui-mobile);
+    block-size: var(--icon-size-ui-mobile);
+  }
+
+  .orlyata-accordion__toggle-icon {
+    stroke-width: var(--icon-stroke-ui-mobile);
   }
 }

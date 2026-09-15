@@ -46,12 +46,12 @@ test('Footer matches the approved Figma desktop geometry', async ({ page }) => {
   expect(legalBox?.x).toBe(1224);
   await expect(footer).toHaveCSS('background-color', 'rgb(24, 23, 23)');
   await expect(footer).toHaveCSS('border-radius', '24px');
-  await expect(page.getByText('Навигация', { exact: true })).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(page.getByText('Медиагалерея', { exact: true })).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(page.getByRole('link', { name: 'О капелле' })).toHaveCSS('color', 'rgb(153, 153, 162)');
   await expect(page.locator('.orlyata-footer__address')).toHaveCSS('color', 'rgb(153, 153, 162)');
   await expect(slogan).toContainText('а завтра – орлы!');
 
-  const photoBox = await page.getByRole('link', { name: 'Фотогалерея' }).boundingBox();
+  const photoBox = await page.getByRole('link', { name: 'Фото' }).boundingBox();
   const videoBox = await page.getByRole('link', { name: 'Видео' }).boundingBox();
   expect(videoBox?.y).toBeCloseTo((photoBox?.y ?? 0) + 32, 0);
 });
@@ -84,7 +84,7 @@ test('Footer exposes semantic routes and contact protocols', async ({ page }) =>
 
   const navigation = page.getByRole('navigation', { name: 'Навигация в подвале' });
   await expect(navigation.getByRole('link')).toHaveCount(8);
-  await expect(navigation.getByRole('link', { name: 'Фотогалерея' })).toHaveAttribute('href', '/mediagalereya/foto/');
+  await expect(navigation.getByRole('link', { name: 'Фото' })).toHaveAttribute('href', '/mediagalereya/foto/');
   await expect(page.getByRole('link', { name: '+7 (925) 434-51-98' })).toHaveAttribute('href', 'tel:+79254345198');
   await expect(page.getByRole('link', { name: 'info@zelorlyata.ru' })).toHaveAttribute('href', 'mailto:info@zelorlyata.ru');
   await expect(page.getByRole('link', { name: 'Политика конфиденциальности' })).toHaveAttribute('href', '/politika-konfidencialnosti/');
@@ -137,6 +137,19 @@ for (const { width, gap } of [
     expect(legal?.y).toBeCloseTo(video?.y ?? 0, 0);
   });
 }
+test('Footer tablet social links match the Sidebar menu control at the reference width', async ({ page }) => {
+  await page.setViewportSize({ width: 1279, height: 800 });
+  await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
+  await page.locator('.footer-story-preview').evaluate((element) => {
+    element.classList.remove('footer-story-preview');
+  });
+
+  const social = page.locator('.orlyata-footer__social-link').first();
+  const socialBox = await social.boundingBox();
+  expect(socialBox?.width).toBeCloseTo(64, 0);
+  expect(socialBox?.height).toBeCloseTo(64, 0);
+});
+
 for (const width of [1279, 768]) {
   test('Footer is available as a two-column tablet layout at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
@@ -183,7 +196,7 @@ for (const width of [1279, 768]) {
   });
 }
 
-for (const width of [767, 320]) {
+for (const width of [767, 393, 320]) {
   test('Footer becomes a readable mobile flow at ' + String(width) + ' px', async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
@@ -193,6 +206,26 @@ for (const width of [767, 320]) {
     await expect(page.locator('.orlyata-footer')).toBeVisible({ timeout: 15_000 });
     const horizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
     expect(horizontalOverflow).toBe(false);
+  });
+
+  test('Footer contact rows align with the final primary navigation rows at ' + String(width) + ' px', async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.goto('/iframe.html?id=components-footer--default&viewMode=story');
+    await expect(page.locator('.orlyata-footer')).toBeVisible({ timeout: 15_000 });
+
+    const footer = page.locator('.orlyata-footer');
+    const [teachers, notes, contacts, phonePrimary, phoneSecondary, email] = await Promise.all([
+      footer.getByRole('link', { name: 'Педагоги' }).boundingBox(),
+      footer.getByRole('link', { name: 'Ноты' }).boundingBox(),
+      footer.getByRole('link', { name: 'Контакты' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (925) 434-51-98' }).boundingBox(),
+      footer.getByRole('link', { name: '+7 (916) 258-49-12' }).boundingBox(),
+      footer.getByRole('link', { name: 'info@zelorlyata.ru' }).boundingBox(),
+    ]);
+
+    expect(phonePrimary?.y).toBeCloseTo(teachers?.y ?? 0, 0);
+    expect(phoneSecondary?.y).toBeCloseTo(notes?.y ?? 0, 0);
+    expect(email?.y).toBeCloseTo(contacts?.y ?? 0, 0);
   });
 }
 

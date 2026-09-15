@@ -7,12 +7,14 @@
  * - variant: primary, secondary, play, arrow-left, arrow-right, arrow-left-muted, arrow-right-muted or menu-tablet.
  * - href: Optional URL; when present the component renders a link.
  * - icon: Optional close icon for the primary variant.
+ * - size: Optional archive-filter mobile size modifier.
  * - aria_label: Accessible name for icon-only variants.
  * - aria_controls: Optional IDREF for the controlled content.
  * - aria_expanded: Optional expanded state for action buttons.
  * - disabled: Whether the control is unavailable.
  * - loading: Busy state for button elements only.
  * - loading_label: Visible busy-state label.
+ * - decorative: Render a non-interactive, aria-hidden icon wrapper.
  * - type: button, submit or reset.
  * - class: Optional additional class names.
  *
@@ -28,12 +30,14 @@ $button_args = wp_parse_args(
 		'variant'       => 'primary',
 		'href'          => '',
 		'icon'          => '',
+		'size'          => '',
 		'aria_label'    => '',
         'aria_controls' => '',
         'aria_expanded' => null,
 		'disabled'      => false,
 		'loading'       => false,
 		'loading_label' => __( 'Отправка…', 'orlyata' ),
+		'decorative'    => false,
 		'type'          => 'button',
 		'class'         => '',
 	)
@@ -48,6 +52,7 @@ $href               = is_string( $button_args['href'] ) ? trim( $button_args['hr
 $is_icon_only       = in_array( $variant, array( 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet' ), true );
 $loading            = (bool) $button_args['loading'] && '' === $href;
 $disabled           = (bool) $button_args['disabled'] || $loading;
+$decorative         = (bool) $button_args['decorative'];
 $loading_label      = is_string( $button_args['loading_label'] ) && '' !== trim( $button_args['loading_label'] )
 	? trim( $button_args['loading_label'] )
 	: __( 'Отправка…', 'orlyata' );
@@ -80,10 +85,16 @@ if ( $is_icon_only && '' === $aria_label ) {
 	};
 }
 
+$size = 'archive-filter' === ( $button_args['size'] ?? '' ) ? 'archive-filter' : '';
+
 $class_names = array(
 	'orlyata-button',
 	'orlyata-button--' . $variant,
 );
+
+if ( '' !== $size ) {
+	$class_names[] = 'orlyata-button--' . $size;
+}
 
 $icon = is_string( $button_args['icon'] ) ? $button_args['icon'] : '';
 
@@ -138,7 +149,7 @@ $render_content = static function () use ( $icon_uri, $is_icon_only, $loading, $
 	if ( 'menu-tablet' === $variant ) {
 		?>
 		<svg class="orlyata-button__icon orlyata-button__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<path class="orlyata-button__menu-icon-path" d="M4 6h16M4 12h16M4 18h16"></path>
+			<path class="orlyata-button__menu-icon-path" d="M3 8.5h18m-18 7h18"></path>
 		</svg>
 		<?php
 		return;
@@ -181,6 +192,15 @@ if ( '' !== $href ) {
 	>
 		<?php $render_content(); ?>
 	</a>
+	<?php
+	return;
+}
+
+if ( $decorative ) {
+	?>
+	<span class="<?php echo esc_attr( implode( ' ', $class_names ) ); ?>" aria-hidden="true">
+		<?php $render_content(); ?>
+	</span>
 	<?php
 	return;
 }

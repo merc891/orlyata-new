@@ -34,6 +34,7 @@ if ( ! is_string( $page_hero_args['title'] ) || '' === $page_hero_args['title'] 
 
 $page_hero_variant              = is_string( $page_hero_args['variant'] ) && in_array( $page_hero_args['variant'], array( 'default', 'archive', 'news-detail', 'teacher-detail' ), true ) ? $page_hero_args['variant'] : 'default';
 $page_hero_foreground_image_src = is_string( $page_hero_args['foreground_image_src'] ) ? $page_hero_args['foreground_image_src'] : '';
+$page_hero_mobile_image_src     = get_theme_file_uri( 'assets/images/teachers/bg-mobile-inner.png' );
 $page_hero_foreground_image_alt = is_string( $page_hero_args['foreground_image_alt'] ) ? $page_hero_args['foreground_image_alt'] : '';
 
 $page_hero_title_id     = is_string( $page_hero_args['title_id'] ) && '' !== $page_hero_args['title_id'] ? $page_hero_args['title_id'] : wp_unique_id( 'page-hero-title-' );
@@ -46,10 +47,18 @@ $page_hero_back_label   = is_string( $page_hero_args['back_label'] ) ? $page_her
 $page_hero_share_links  = is_array( $page_hero_args['share_links'] ) ? $page_hero_args['share_links'] : array();
 $page_hero_share_label  = is_string( $page_hero_args['share_label'] ) && '' !== $page_hero_args['share_label'] ? $page_hero_args['share_label'] : __( 'Поделиться новостью', 'orlyata' );
 $page_hero_title_class  = 'news-detail' === $page_hero_variant ? 'type-heading-1' : 'type-display';
+$page_hero_classes      = array( 'orlyata-page-hero', 'orlyata-page-hero--' . $page_hero_variant );
+
+if ( in_array( $page_hero_variant, array( 'default', 'archive' ), true ) ) {
+	$page_hero_classes[] = 'orlyata-page-hero--image-inline-start';
+}
 ?>
-<section class="orlyata-page-hero orlyata-page-hero--<?php echo esc_attr( $page_hero_variant ); ?>" aria-labelledby="<?php echo esc_attr( $page_hero_title_id ); ?>">
+<section class="<?php echo esc_attr( implode( ' ', $page_hero_classes ) ); ?>" aria-labelledby="<?php echo esc_attr( $page_hero_title_id ); ?>">
 	<?php if ( is_string( $page_hero_args['image_src'] ) && '' !== $page_hero_args['image_src'] ) : ?>
-		<img class="orlyata-page-hero__image" src="<?php echo esc_url( $page_hero_args['image_src'] ); ?>" alt="<?php echo esc_attr( is_string( $page_hero_args['image_alt'] ) ? $page_hero_args['image_alt'] : '' ); ?>">
+		<picture class="orlyata-page-hero__picture">
+			<source media="(max-width: 767px)" srcset="<?php echo esc_url( $page_hero_mobile_image_src ); ?>">
+			<img class="orlyata-page-hero__image" src="<?php echo esc_url( $page_hero_args['image_src'] ); ?>" alt="<?php echo esc_attr( is_string( $page_hero_args['image_alt'] ) ? $page_hero_args['image_alt'] : '' ); ?>">
+		</picture>
 	<?php endif; ?>
 	<?php if ( '' !== $page_hero_foreground_image_src ) : ?>
 		<img class="orlyata-page-hero__foreground-image" src="<?php echo esc_url( $page_hero_foreground_image_src ); ?>" alt="<?php echo esc_attr( $page_hero_foreground_image_alt ); ?>">

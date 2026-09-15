@@ -1,0 +1,59 @@
+.orlyata-legal-document {
+  box-sizing: border-box;
+  min-block-size: 100vh;
+  padding: var(--space-7) var(--layout-content-gutter);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.orlyata-legal-document__content {
+  inline-size: min(100%, 50rem);
+  margin-inline: auto;
+}
+
+.orlyata-legal-document__title,
+.orlyata-legal-document__section-title,
+.orlyata-legal-document__paragraph,
+.orlyata-legal-document__body ol {
+  margin: 0;
+}
+
+.orlyata-legal-document__title {
+  max-inline-size: 42rem;
+}
+
+.orlyata-legal-document__body {
+  display: grid;
+  gap: var(--space-5);
+  margin-block-start: var(--space-7);
+}
+
+.orlyata-legal-document__section-title {
+  margin-block-start: var(--space-4);
+}
+
+.orlyata-legal-document__body ol {
+  display: grid;
+  gap: var(--space-2);
+  padding-inline-start: 1.5em;
+}
+
+.orlyata-legal-document__body li,
+.orlyata-legal-document__paragraph {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-body);
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+@media (width <= 767px) {
+  .orlyata-legal-document {
+    padding-block: var(--space-6);
+  }
+
+  .orlyata-legal-document__body {
+    gap: var(--space-4);
+    margin-block-start: var(--space-6);
+  }
+}

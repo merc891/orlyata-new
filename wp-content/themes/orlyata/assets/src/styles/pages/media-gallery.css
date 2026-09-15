@@ -1,19 +1,19 @@
-.orlyata-media-gallery {
+:is(.orlyata-media-gallery, .orlyata-media-archive) {
   display: flex;
   align-items: stretch;
   background: var(--color-surface);
 }
 
-.orlyata-media-gallery__content {
+:is(.orlyata-media-gallery__content, .orlyata-media-archive__content) {
   min-width: 0;
   flex: auto;
 }
 
-.orlyata-media-gallery .orlyata-page-hero {
+:is(.orlyata-media-gallery, .orlyata-media-archive) .orlyata-page-hero {
   border-radius: 0 0 var(--radius-large) var(--radius-large);
 }
 
-.orlyata-media-gallery__body {
+:is(.orlyata-media-gallery__body, .orlyata-media-archive__body) {
   box-sizing: border-box;
   padding: var(--media-gallery-hero-content-gap) var(--layout-content-gutter) var(--space-5);
 }
@@ -33,18 +33,29 @@
 
 .orlyata-media-gallery__grid .orlyata-media-card {
   width: 100%;
-  height: auto;
 }
 
 @media (width >= 1280px) {
   .orlyata-media-gallery__grid .orlyata-media-card--big {
     grid-column: span 2;
-    aspect-ratio: var(--media-card-big-aspect-ratio);
   }
 
-  .orlyata-media-gallery__grid .orlyata-media-card--small {
-    aspect-ratio: var(--media-card-small-aspect-ratio);
+}
+
+@media (width >= 768px) and (width <= 1279px) {
+  :is(.orlyata-media-gallery, .orlyata-media-archive) {
+    display: block;
   }
+
+  .orlyata-media-gallery__section,
+  .orlyata-media-gallery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .orlyata-media-gallery__grid .orlyata-media-card--big {
+    grid-column: 1 / -1;
+  }
+
 }
 
 .has-js .orlyata-media-gallery__section.is-reveal-pending .orlyata-media-card {
@@ -103,4 +114,37 @@
 .has-js .orlyata-media-gallery__media-list-section.is-revealed .orlyata-media-gallery__media-list-table {
   animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
   animation-delay: var(--delay-home-media-cards-reveal);
+}
+
+
+@media (width <= 767px) {
+  /* The MediaGallery section links reuse the Home linked-H2 treatment. */
+  .orlyata-media-gallery .orlyata-media-gallery__media-list-section-head {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .orlyata-media-gallery .orlyata-media-gallery__media-list-section-head .orlyata-text-link {
+    display: inline-flex;
+    flex: 0 0 1.5rem;
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+    column-gap: 0;
+  }
+
+  .orlyata-media-gallery .orlyata-media-gallery__media-list-section-head .orlyata-text-link__label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .orlyata-media-gallery .orlyata-media-gallery__media-list-section-head :is(.orlyata-text-link__icon-track, .orlyata-text-link__icon) {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
 }

@@ -47,3 +47,12 @@ export const States: Story = {
     return root;
   },
 };
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Accordion', 'Раскрывающийся блок для материалов страницы «О капелле».');
+    appendSection(root, 'States', [accordion(false), accordion(true)]);
+    return root;
+  },
+};

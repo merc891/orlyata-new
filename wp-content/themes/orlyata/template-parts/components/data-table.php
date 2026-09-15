@@ -46,10 +46,11 @@ $table_video_provider_icons    = array(
 		'label'      => __( 'VK', 'orlyata' ),
 	),
 );
+$table_is_achievements         = 'achievements' === $table_variant;
 $table_is_teacher_achievements = 'teacher-achievements' === $table_variant;
 $table_is_link_list            = in_array( $table_variant, array( 'news', 'photo', 'video', 'notes' ), true );
 $table_classes                 = array( 'orlyata-data-table' );
-if ( 'achievements' === $table_variant ) {
+if ( $table_is_achievements ) {
 	$table_classes[] = 'orlyata-data-table--achievements';
 } elseif ( $table_is_teacher_achievements ) {
 	$table_classes[] = 'orlyata-data-table--teacher-achievements';
@@ -58,7 +59,7 @@ if ( 'achievements' === $table_variant ) {
 }
 ?>
 <table class="<?php echo esc_attr( implode( ' ', $table_classes ) ); ?>">
-	<?php if ( ( 'achievements' === $table_variant || $table_is_link_list ) && 4 === count( $table_args['headers'] ) ) : ?>
+	<?php if ( ( $table_is_achievements && 3 === count( $table_args['headers'] ) ) || ( $table_is_link_list && 4 === count( $table_args['headers'] ) ) ) : ?>
 		<colgroup>
 			<?php foreach ( $table_args['headers'] as $header ) : ?>
 				<col>
@@ -86,8 +87,19 @@ if ( 'achievements' === $table_variant ) {
 			$row_category  = isset( $table_row_categories[ $row_index ] ) && is_string( $table_row_categories[ $row_index ] ) ? $table_row_categories[ $row_index ] : '';
 			$row_is_hidden = isset( $table_hidden_rows[ $row_index ] ) && true === $table_hidden_rows[ $row_index ];
 			$row_title     = isset( $row[0] ) && is_string( $row[0] ) ? $row[0] : '';
+			$row_author    = isset( $row[1] ) && is_string( $row[1] ) ? $row[1] : '';
 			$row_provider  = isset( $table_row_provider_icons[ $row_index ] ) && is_string( $table_row_provider_icons[ $row_index ] ) ? $table_row_provider_icons[ $row_index ] : '';
 			$row_link      = isset( $table_row_links[ $row_index ] ) && is_string( $table_row_links[ $row_index ] ) ? $table_row_links[ $row_index ] : '';
+			$table_row_cells = $row;
+			if ( $table_is_achievements ) {
+				$table_achievement = isset( $row[1] ) && is_string( $row[1] ) ? trim( $row[1] ) : '';
+				$table_choir       = isset( $row[2] ) && is_string( $row[2] ) ? trim( $row[2] ) : '';
+				$table_row_cells   = array(
+					isset( $row[0] ) && is_string( $row[0] ) ? $row[0] : '',
+					trim( $table_achievement . ( '' !== $table_achievement && '' !== $table_choir ? ' / ' : '' ) . $table_choir ),
+					isset( $row[3] ) && is_string( $row[3] ) ? $row[3] : '',
+				);
+			}
 			?>
 			<tr<?php echo '' !== $row_category ? ' data-row-category="' . esc_attr( $row_category ) . '"' : ''; ?><?php echo 'notes' === $table_variant && '' !== $row_category ? ' data-notes-choir="' . esc_attr( $row_category ) . '"' : ''; ?><?php echo $table_is_link_list && '' !== $row_link ? ' data-row-link="' . esc_url( $row_link ) . '"' : ''; ?><?php echo $row_is_hidden ? ' hidden' : ''; ?>>
 				<?php foreach ( $table_args['headers'] as $index => $header ) : ?>
@@ -132,8 +144,11 @@ if ( 'achievements' === $table_variant ) {
 									<?php endif; ?>
 								</a>
 							<?php endif; ?>
+							<?php elseif ( 'notes' === $table_variant && 0 === $index ) : ?>
+							<span class="orlyata-data-table__notes-mobile-primary" aria-hidden="true"><?php echo esc_html( trim( $row_title . ( '' !== $row_title && '' !== $row_author ? ' / ' : '' ) . $row_author ) ); ?></span>
+							<span class="orlyata-data-table__notes-desktop-value"><?php echo esc_html( isset( $table_row_cells[ $index ] ) && is_string( $table_row_cells[ $index ] ) ? $table_row_cells[ $index ] : '' ); ?></span>
 						<?php else : ?>
-							<?php echo esc_html( isset( $row[ $index ] ) && is_string( $row[ $index ] ) ? $row[ $index ] : '' ); ?>
+							<?php echo esc_html( isset( $table_row_cells[ $index ] ) && is_string( $table_row_cells[ $index ] ) ? $table_row_cells[ $index ] : '' ); ?>
 						<?php endif; ?>
 					</td>
 				<?php endforeach; ?>

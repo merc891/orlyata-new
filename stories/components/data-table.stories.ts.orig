@@ -1,0 +1,107 @@
+import type { Meta, StoryObj } from '@storybook/html-vite';
+
+import { appendSection, createComponentPage, dataTable } from './content.stories';
+import { motionSpecifications } from './motion-specifications';
+
+const meta = {
+  tags: ['autodocs'],
+  id: 'components-data-table',
+  title: 'Components/DataTable',
+  parameters: { docs: { description: { component: motionSpecifications.dataTable } } },
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+interface DataTableArgs {
+  achievement: string;
+  choir: string;
+  competition: string;
+  year: string;
+}
+
+export const Playground: StoryObj<DataTableArgs> = {
+  args: {
+    achievement: 'Лауреат I степени',
+    choir: 'Старший',
+    competition: 'XI Московский областной открытый конкурс хоров мальчиков Подмосковья',
+    year: '2026',
+  },
+  argTypes: {
+    achievement: { control: 'text' },
+    choir: { control: 'text' },
+    competition: { control: 'text' },
+    year: { control: 'text' },
+  },
+  render: (args) => {
+    const root = createComponentPage('DataTable Playground', 'Изменяйте данные строки через Controls.');
+    appendSection(root, 'Preview', [dataTable([[args.year, args.achievement, args.choir, args.competition]])]);
+    return root;
+  },
+};
+
+export const News: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / News', 'Вариант для списка новостей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
+    appendSection(root, 'News', [dataTable(undefined, 'news')]);
+    return root;
+  },
+};
+
+export const Photo: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Photo', 'Вариант для списка фотогалерей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
+    appendSection(root, 'Photo', [dataTable(undefined, 'photo')]);
+    return root;
+  },
+};
+
+export const Video: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Video', 'Вариант для списка видео с четырёхколоночной desktop-сеткой и иконками провайдеров.');
+    appendSection(root, 'Video', [dataTable(undefined, 'video')]);
+    return root;
+  },
+};
+
+export const Variants: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table', 'Таблица для структурированных списков достижений и нот с нижней разделительной линией между строками.');
+    appendSection(root, 'Default', [dataTable()]);
+    return root;
+  },
+};
+
+export const TeacherAchievements: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'desktop1920' } },
+  render: () => {
+    const root = createComponentPage('Data table / Teacher achievements', 'Двухколоночный вариант для страницы педагога: «Достижение» начинается с третьей колонки desktop-сетки.');
+    appendSection(root, 'Teacher achievements', [dataTable([
+      ['2024', 'Специальный диплом «за композиторское мастерство» Московского международного фестиваля-конкурса «Рождественская песнь»'],
+      ['2024', 'Специальный диплом «за духовное воспитание молодежи» Московского международного фестиваля-конкурса «Рождественская песнь»'],
+    ], 'teacher-achievements')]);
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Data table', 'Таблица для структурированных списков достижений и нот с нижней разделительной линией между строками.');
+    appendSection(root, 'Default', [dataTable()]);
+    return root;
+  },
+};
+
+export const Notes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Notes', 'Вариант для библиотеки нот с доступной ссылкой на скачивание.');
+    appendSection(root, 'Notes', [dataTable(undefined, 'notes')]);
+    return root;
+  },
+};

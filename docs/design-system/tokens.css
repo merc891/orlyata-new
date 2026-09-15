@@ -18,9 +18,12 @@
   --color-text-inverse: #ffffff;
   --color-surface: #ffffff;
   --color-surface-muted: #f4f4f5;
+  --color-surface-dark: #403f3f;
   --color-neutral-50: #f4f4f5;
   --color-neutral-150: #c7c7cc;
   --color-surface-inverse: #181717;
+  --color-overlay-scrim: rgb(24 23 23 / 32%);
+  --color-overlay-content-scrim: rgb(24 23 23 / 20%);
   --color-surface-photo: #c6ccc2;
   --color-border-subtle: #c7c7cc;
   --color-border-menu: #d4d4d4;
@@ -53,6 +56,7 @@
   --duration-media-card-hover: 400ms;
   --easing-media-card-hover: cubic-bezier(0.46, 0, 0, 1);
   --duration-link-roll: 400ms;
+  --duration-home-mobile-sidebar-reveal: 200ms;
   --distance-title-roll-separator: 0.25rem;
   --duration-link-color-hover: 200ms;
   --duration-button-hover: 200ms;
@@ -93,6 +97,13 @@
 
   --badge-height: clamp(3rem, calc(2.5vw + 1rem), 5rem);
   --badge-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --badge-font-size: var(--font-size-body);
+  --badge-line-height: var(--line-height-body);
+  --badge-letter-spacing: var(--letter-spacing-body);
+  --badge-icon-size: clamp(2.666667rem, 3.333334vw, 5.333333rem);
+  --badge-icon-gap: clamp(0.166667rem, 0.208334vw, 0.333333rem);
+  --badge-icon-glyph-size: clamp(1rem, 1.25vw, 2rem);
+  --news-card-category-glyph-size: clamp(1.333333rem, 1.666667vw, 2.666667rem);
   --duration-input-label-transition: 400ms;
   --input-height: clamp(3rem, calc(2.5vw + 1rem), 5rem);
   --input-padding-block: clamp(0.09375rem, calc(0.078125vw + 0.03125rem), 0.15625rem);
@@ -127,6 +138,7 @@
   --advantage-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
   --advantage-padding-block-end: clamp(0.75rem, calc(0.625vw + 0.25rem), 1.25rem);
   --advantage-accent-size: clamp(0.46875rem, calc(0.390625vw + 0.15625rem), 0.78125rem);
+  --advantage-accent-value-gap: clamp(0.600469rem, 1.250977vw, 1rem);
   --news-card-width: clamp(17.109375rem, calc(14.2578125vw + 5.703125rem), 28.515625rem);
   --news-card-height: clamp(14.625rem, calc(12.1875vw + 4.875rem), 24.375rem);
   --news-card-aspect-ratio: 365 / 312;
@@ -137,6 +149,8 @@
   --media-card-big-aspect-ratio: 797 / 540;
   --media-card-big-padding-block: clamp(1.5rem, calc(1.25vw + 0.5rem), 2.5rem);
   --media-card-big-padding-inline: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --media-card-big-meta-inset: clamp(1.125rem, calc(0.9375vw + 0.375rem), 1.875rem);
+  --media-card-big-meta-gap: 0;
   --media-card-big-title-width: 26.875rem;
   --media-card-small-width: clamp(18.28125rem, calc(15.234375vw + 6.09375rem), 30.46875rem);
   --media-card-small-height: clamp(25.3125rem, calc(21.09375vw + 8.4375rem), 42.1875rem);
@@ -151,6 +165,14 @@
   --sidebar-logo-offset-block: clamp(0.3125rem, calc(0.46875vw - 0.0625rem), 0.6875rem);
   --sidebar-tablet-logo-width: 11.25rem;
   --sidebar-tablet-logo-height: 6.25625rem;
+  --sidebar-tablet-cta-width: clamp(7.875rem, 16.419077vw, 13.125rem);
+  --sidebar-tablet-menu-gap: 0.25rem;
+  --sidebar-tablet-menu-contacts-inset-block-end: 2rem;
+  --sidebar-menu-social-size: var(--footer-social-size);
+  --sidebar-tablet-menu-control-visual-size: 4rem;
+  --sidebar-tablet-menu-control-size: var(--button-height);
+  --sidebar-menu-social-gap: var(--space-1);
+  --sidebar-mobile-social-cta-gap: 3rem;
   --sidebar-mobile-logo-height: 4.68rem;
   --sidebar-tablet-menu-line-width: 3rem;
   --sidebar-nav-offset-block: clamp(7.125rem, calc(5.9375vw + 2.375rem), 11.875rem);
@@ -180,6 +202,7 @@
   --footer-contacts-offset-inline: calc(75% + clamp(1.6875rem, calc(1.40625vw + 0.5625rem), 2.8125rem));
   --footer-contacts-width: clamp(14.15625rem, calc(11.796875vw + 4.71875rem), 23.59375rem);
   --footer-contacts-height: 17rem;
+  --footer-social-size: 3rem;
   --footer-copyright-offset-block: clamp(14.8359375rem, calc(12.36328125vw + 4.9453125rem), 24.7265625rem);
   --footer-legal-offset-block: calc(var(--footer-nav-offset-block) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-7) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2));
   --footer-contacts-links-offset-block: calc(var(--footer-nav-offset-block) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2));
@@ -216,10 +239,13 @@
   --photo-album-gallery-width: 101rem;
   --photo-album-gallery-large-aspect-ratio: 40 / 31;
   --photo-album-gallery-large-height: 38.75rem;
+  --photo-album-gallery-row-aspect-ratio: 404 / 155;
   --contacts-hero-content-gap: 4rem;
   --contacts-row-trailing-gap: 6rem;
   --contacts-row-padding-block: 1.5rem;
-  --contacts-social-icon-size: 3rem;
+  --contacts-social-icon-size: var(--footer-social-size);
+  --contacts-information-alignment-offset: 0;
+  --contacts-address-inline-size: 28rem;
   --news-filter-offset-block: 4rem;
   --news-filter-table-gap: 2rem;
   --archive-filter-gap: 0.25rem;
@@ -231,13 +257,19 @@
   --not-found-message-width: 43.125rem;
   --search-input-clear-icon-size: 1.5rem;
   --about-intro-offset-block: 4rem;
+  --about-intro-groups-gap: var(--layout-section-gap);
   --about-intro-lead-width: 43.125rem;
   --about-intro-copy-width: 45rem;
   --about-life-column-aspect-ratio: 803 / 600;
+  --about-life-mobile-column-height: 28.75rem;
+  --about-life-mobile-card-padding: 1rem;
+  --about-life-mobile-title-inset: 1.5rem;
+  --about-life-mobile-copy-width: 19.375rem;
   --about-section-heading-content-gap: 2rem;
   --about-life-copy-width: 37.5rem;
-  --about-life-controls-inset: 1.5rem;
-  --about-life-copy-controls-gap: 2rem;
+  --about-life-card-padding: 2rem;
+  --about-life-controls-inset: 2rem;
+  --about-life-copy-controls-gap: 1.5rem;
   --about-life-pagination-dot-size: 0.375rem;
   --about-life-pagination-dot-gap: 0.75rem;
   --about-teacher-card-aspect-ratio: 257 / 340;
@@ -258,9 +290,10 @@
   --home-advantage-aspect-ratio: 787 / 340;
   --home-news-card-min-height: clamp(14.625rem, calc(9.0625vw + 7.375rem), 21.25rem);
   --home-news-card-padding-inline: clamp(0.75rem, calc(1.875vw - 0.75rem), 1.875rem);
+  --home-news-grid-inset: clamp(0.75rem, 1.25vw, 2rem);
   --home-media-card-big-aspect-ratio: 803 / 540;
   --home-media-card-small-aspect-ratio: 787 / 1080;
-  --home-history-aspect-ratio: 1617 / 544;
+  --home-history-aspect-ratio: 1617 / 520;
   --home-history-height: clamp(25.5rem, calc(21.25vw + 8.5rem), 42.5rem);
   --home-history-heading-offset: clamp(0.703125rem, calc(0.5859375vw + 0.234375rem), 1.171875rem);
   --home-history-content-height: clamp(22.5rem, calc(18.75vw + 7.5rem), 37.5rem);
@@ -273,36 +306,49 @@
   --home-application-height: clamp(29.0625rem, calc(24.21875vw + 9.6875rem), 48.4375rem);
   --home-application-surface-padding: clamp(1.875rem, calc(1.5625vw + 0.625rem), 3.125rem);
   --home-application-title-width: clamp(43.75rem, calc(27.5vw + 21.75rem), 65.75rem);
+  --home-application-title-icon-size: clamp(2.666667rem, 3.333334vw, 5.333333rem);
   --home-application-title-gap: clamp(1.5rem, calc(1.25vw + 0.5rem), 2.5rem);
 
-  --font-family-primary: "F37 Ginger Cyrillic VF", Arial, sans-serif;
+  --font-family-primary: "TT Turns", Arial, sans-serif;
 
-  --font-size-display: clamp(2.5rem, calc(2.5vw + 2rem), 6rem);
-  --font-size-heading-1: clamp(2.25rem, calc(1.875vw + 1.75rem), 4.75rem);
-  --font-size-heading-2: clamp(1.75rem, calc(1.25vw + 1.25rem), 3.25rem);
-  --font-size-lead: clamp(1.5rem, calc(0.9375vw + 1.125rem), 2.625rem);
-  --font-size-heading-3: clamp(1.25rem, calc(0.3125vw + 1.125rem), 1.625rem);
-  --font-size-body: clamp(1rem, calc(0.3125vw + 0.875rem), 1.375rem);
-  --font-size-caption: clamp(0.75rem, calc(0.3125vw + 0.5rem), 1rem);
-  --font-size-body-small: clamp(0.75rem, calc(0.3125vw + 0.5rem), 1rem);
+  --font-size-display: 4.5rem;
+  --font-size-heading-1: 4rem;
+  --font-size-heading-2: 2.75rem;
+  --font-size-lead: 2.25rem;
+  --font-size-menu: 1.5rem;
+  --font-size-heading-3: 1.5rem;
+  --font-size-body: 1.25rem;
+  --font-size-caption: 0.875rem;
+  --font-size-badge: 0.875rem;
+  --font-size-body-small: 0.875rem;
 
-  --line-height-display: 0.65;
-  --line-height-heading-1: 0.8;
+  --line-height-display: 0.7;
+  --line-height-heading-1: 0.9;
   --line-height-heading-2: 0.9;
-  --line-height-lead: 1;
-  --line-height-heading-3: 1.2;
+  --line-height-lead: 1.2;
+  --line-height-menu: 1;
+  --line-height-heading-3: 1.3;
   --line-height-body: 1.4;
+  --line-height-body-120: 1.2;
   --line-height-caption: 1.5;
+  --line-height-badge: 1.4;
   --line-height-body-small: 1.5;
 
-  --letter-spacing-display: clamp(-0.390625rem, calc(-0.1953125vw - 0.078125rem), -0.234375rem);
-  --letter-spacing-heading-1: clamp(-0.234375rem, calc(-0.1171875vw - 0.046875rem), -0.140625rem);
-  --letter-spacing-heading-2: clamp(-0.15625rem, calc(-0.078125vw - 0.03125rem), -0.09375rem);
-  --letter-spacing-lead: clamp(-0.078125rem, calc(-0.0390625vw - 0.015625rem), -0.046875rem);
-  --letter-spacing-heading-3: clamp(-0.078125rem, calc(-0.0390625vw - 0.015625rem), -0.046875rem);
-  --letter-spacing-body: clamp(-0.0390625rem, calc(-0.01953125vw - 0.0078125rem), -0.0234375rem);
-  --letter-spacing-caption: clamp(-0.015625rem, calc(-0.0078125vw - 0.003125rem), -0.009375rem);
-  --letter-spacing-body-small: clamp(-0.015625rem, calc(-0.0078125vw - 0.003125rem), -0.009375rem);
+  /* Adjacent semantic Body paragraphs use this rhythm outside mobile. */
+  --body-paragraph-spacing: var(--space-4);
+
+  /* The shared achievements section owns the distance from its H2 to the table. */
+  --achievements-heading-content-gap: var(--space-5);
+
+  --letter-spacing-display: -0.125rem;
+  --letter-spacing-heading-1: -0.0625rem;
+  --letter-spacing-heading-2: -0.03125rem;
+  --letter-spacing-lead: -0.03125rem;
+  --letter-spacing-menu: 0;
+  --letter-spacing-heading-3: 0;
+  --letter-spacing-body: 0;
+  --letter-spacing-caption: 0;
+  --letter-spacing-body-small: 0;
 
   --space-0: 0;
   --space-1: clamp(0.1875rem, calc(0.15625vw + 0.0625rem), 0.3125rem);
@@ -318,6 +364,12 @@
   --radius-full: 9999px;
 }
 
+@media (width >= 768px) and (width <= 1279px) {
+  :root {
+    --news-card-category-glyph-size: clamp(1.5rem, 2.501955vw, 2rem);
+  }
+}
+
 @media (width >= 1280px) {
   :root {
     /*
@@ -331,6 +383,11 @@
 
     --button-height: clamp(3rem, 3.333334vw, 5.333333rem);
     --badge-height: clamp(3rem, 3.333334vw, 5.333333rem);
+    --badge-icon-size: clamp(2.666667rem, 3.333334vw, 5.333333rem);
+    --badge-icon-gap: clamp(0.166667rem, 0.208334vw, 0.333333rem);
+    --badge-icon-glyph-size: clamp(1rem, 1.25vw, 2rem);
+    --media-card-big-meta-inset: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --media-card-big-meta-gap: 0;
     --input-height: clamp(3rem, 3.333334vw, 5.333333rem);
 
     --button-padding-block: clamp(0.5rem, 0.625vw, 1rem);
@@ -376,6 +433,7 @@
     --advantage-padding-inline: clamp(1rem, 1.25vw, 2rem);
     --advantage-padding-block-end: clamp(0.666667rem, 0.833334vw, 1.333333rem);
     --advantage-accent-size: clamp(0.416667rem, 0.520833vw, 0.833333rem);
+    --advantage-accent-value-gap: clamp(0.666667rem, 0.833334vw, 1.333333rem);
 
     --news-card-width: clamp(15.208333rem, 19.010417vw, 30.416667rem);
     --news-card-height: clamp(11.25rem, 14.0625vw, 22.5rem);
@@ -387,6 +445,8 @@
     --media-card-big-height: clamp(22.5rem, 28.125vw, 45rem);
     --media-card-big-padding-block: clamp(1.333333rem, 1.666667vw, 2.666667rem);
     --media-card-big-padding-inline: clamp(1rem, 1.25vw, 2rem);
+    --media-card-big-meta-inset: clamp(1rem, 1.25vw, 2rem);
+    --media-card-big-meta-gap: 0;
     --media-card-big-title-width: clamp(17.916667rem, 22.395833vw, 35.833333rem);
     --media-card-small-width: clamp(16.25rem, 20.3125vw, 32.5rem);
     --media-card-small-height: clamp(22.5rem, 28.125vw, 45rem);
@@ -422,6 +482,7 @@
     --footer-contacts-offset-inline: calc(75% + clamp(1.5rem, 1.875vw, 3rem));
     --footer-contacts-width: clamp(12.583333rem, 15.729167vw, 25.166667rem);
     --footer-contacts-height: clamp(11.333333rem, 14.166667vw, 22.666667rem);
+    --footer-social-size: clamp(2rem, 2.5vw, 4rem);
     --footer-copyright-offset-block: clamp(13.1875rem, 16.484375vw, 26.375rem);
     --footer-contacts-links-offset-block: calc(var(--footer-nav-offset-block) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2));
     --footer-section-title-height: clamp(0.875rem, 1.09375vw, 1.75rem);
@@ -459,9 +520,11 @@
     --contacts-hero-content-gap: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --contacts-row-trailing-gap: clamp(4rem, 5vw, 8rem);
     --contacts-row-padding-block: clamp(1rem, 1.25vw, 2rem);
-    --contacts-social-icon-size: clamp(3rem, 2.5vw, 4rem);
+    --contacts-social-icon-size: var(--footer-social-size);
+    --contacts-address-inline-size: clamp(18.666667rem, 23.333333vw, 37.333333rem);
     --news-filter-offset-block: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --news-filter-table-gap: clamp(1.333333rem, 1.666667vw, 2.666667rem);
+    --achievements-heading-content-gap: clamp(1rem, 1.25vw, 2rem);
     --notes-filter-table-gap: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --notes-filter-search-gap: clamp(7.5rem, 9.375vw, 15rem);
     --notes-empty-offset-block: clamp(5rem, 6.25vw, 10rem);
@@ -470,13 +533,14 @@
     --not-found-message-width: clamp(28.75rem, 35.9375vw, 57.5rem);
     --search-input-clear-icon-size: clamp(1rem, 1.25vw, 2rem);
     --about-intro-offset-block: clamp(2.666667rem, 3.333333vw, 5.333333rem);
-    --about-intro-lead-width: clamp(28.75rem, 35.9375vw, 57.5rem);
+    --about-intro-lead-width: clamp(23.333333rem, 36.458333vw, 46.666667rem);
     --about-intro-copy-width: clamp(30rem, 37.5vw, 60rem);
     --about-life-column-aspect-ratio: 803 / 600;
     --about-section-heading-content-gap: clamp(1.333333rem, 1.666667vw, 2.666667rem);
     --about-life-copy-width: clamp(25rem, 31.25vw, 50rem);
-    --about-life-controls-inset: clamp(1rem, 1.25vw, 2rem);
-    --about-life-copy-controls-gap: clamp(1.333333rem, 1.666667vw, 2.666667rem);
+    --about-life-card-padding: clamp(1.333333rem, 1.666667vw, 2.666667rem);
+    --about-life-controls-inset: clamp(1.333333rem, 1.666667vw, 2.666667rem);
+    --about-life-copy-controls-gap: clamp(1rem, 1.25vw, 2rem);
     --about-life-pagination-dot-size: clamp(0.25rem, 0.3125vw, 0.5rem);
     --about-life-pagination-dot-gap: clamp(0.5rem, 0.625vw, 1rem);
     --about-teacher-card-aspect-ratio: 257 / 340;
@@ -487,36 +551,39 @@
 
     --home-hero-content-padding-block-end: clamp(1.333333rem, 1.666667vw, 2.666667rem);
     --home-facts-height: clamp(7.083333rem, 8.854167vw, 14.166667rem);
-    --home-history-height: clamp(22.666667rem, 28.333333vw, 45.333333rem);
-    --home-history-heading-offset: clamp(0.625rem, 0.78125vw, 1.25rem);
-    --home-history-content-height: clamp(20rem, 25vw, 40rem);
+    --home-history-height: clamp(21.666667rem, 27.083334vw, 43.333333rem);
+    --home-history-heading-offset: clamp(1rem, 1.25vw, 2rem);
+    --home-history-content-height: clamp(20.666667rem, 25.833334vw, 41.333333rem);
     --home-history-grid-gap: clamp(0.666667rem, 0.833334vw, 1.333333rem);
     --home-history-lead-width: clamp(28.75rem, 35.9375vw, 57.5rem);
+    --home-history-created-width: clamp(23.333333rem, 36.458333vw, 46.666667rem);
     --home-history-copy-width: clamp(25.833333rem, 32.291667vw, 51.666667rem);
     --home-history-copy-offset-block: clamp(0.833333rem, 1.041667vw, 1.666667rem);
     --home-history-teacher-size: clamp(4.166667rem, 5.208333vw, 8.333333rem);
     --home-application-height: clamp(25.833333rem, 32.291667vw, 51.666667rem);
     --home-application-surface-padding: clamp(1.666667rem, 2.083333vw, 3.333333rem);
     --home-application-title-width: clamp(36.5rem, 45.625vw, 73rem);
+    --home-application-title-icon-size: clamp(2.666667rem, 3.333334vw, 5.333333rem);
     --home-application-title-gap: clamp(1.333333rem, 1.666667vw, 2.666667rem);
 
-    --font-size-display: clamp(3.333333rem, 4.166667vw, 6.666667rem);
+    --font-size-display: clamp(3rem, 3.75vw, 6rem);
     --font-size-heading-1: clamp(2.666667rem, 3.333333vw, 5.333333rem);
     --font-size-heading-2: clamp(1.833333rem, 2.291667vw, 3.666667rem);
     --font-size-lead: clamp(1.5rem, 1.875vw, 3rem);
     --font-size-heading-3: clamp(1rem, 1.25vw, 2rem);
     --font-size-body: clamp(0.833333rem, 1.041667vw, 1.666667rem);
     --font-size-caption: clamp(0.583333rem, 0.729167vw, 1.166667rem);
+    --font-size-badge: clamp(0.583333rem, 0.729167vw, 1.166667rem);
     --font-size-body-small: clamp(0.583333rem, 0.729167vw, 1.166667rem);
 
-    --letter-spacing-display: clamp(-0.416667rem, -0.260417vw, -0.208333rem);
-    --letter-spacing-heading-1: clamp(-0.25rem, -0.15625vw, -0.125rem);
-    --letter-spacing-heading-2: clamp(-0.166667rem, -0.104167vw, -0.083333rem);
-    --letter-spacing-lead: clamp(-0.083333rem, -0.052083vw, -0.041667rem);
-    --letter-spacing-heading-3: clamp(-0.083333rem, -0.052083vw, -0.041667rem);
-    --letter-spacing-body: clamp(-0.041667rem, -0.026042vw, -0.020833rem);
-    --letter-spacing-caption: clamp(-0.016667rem, -0.010417vw, -0.008333rem);
-    --letter-spacing-body-small: clamp(-0.016667rem, -0.010417vw, -0.008333rem);
+    --letter-spacing-display: clamp(-0.166667rem, -0.104167vw, -0.083333rem);
+    --letter-spacing-heading-1: clamp(-0.083333rem, -0.052083vw, -0.041667rem);
+    --letter-spacing-heading-2: clamp(-0.041667rem, -0.026042vw, -0.020833rem);
+    --letter-spacing-lead: clamp(-0.041667rem, -0.026042vw, -0.020833rem);
+    --letter-spacing-heading-3: 0;
+    --letter-spacing-body: 0;
+    --letter-spacing-caption: 0;
+    --letter-spacing-body-small: 0;
 
     --space-1: clamp(0.166667rem, 0.208334vw, 0.333333rem);
     --space-2: clamp(0.333333rem, 0.416667vw, 0.666667rem);
@@ -528,5 +595,362 @@
     --radius-small: clamp(0.333333rem, 0.416667vw, 0.666667rem);
     --radius-medium: clamp(0.666667rem, 0.833334vw, 1.333333rem);
     --radius-large: clamp(1rem, 1.25vw, 2rem);
+  }
+}
+
+
+/* Mobile S_m ledger: 393px reference, one global projection for every page, 320–767px. */
+/* S_m = clamp(81.43%, viewportWidth / 393px, 195.17%). */
+@media (width >= 768px) and (width <= 1279px) {
+  :root {
+    /* Tablet typography follows S_t from the approved 1279px reference. */
+    --font-size-display: clamp(2.702111rem, 5.629398vw, 4.5rem);
+    --font-size-heading-1: clamp(2.401876rem, 5.003909vw, 4rem);
+    --font-size-heading-2: clamp(1.651291rem, 3.440188vw, 2.75rem);
+    --font-size-lead: clamp(1.351056rem, 2.814699vw, 2.25rem);
+    --font-size-heading-3: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --font-size-body: clamp(0.750586rem, 1.563722vw, 1.25rem);
+    --font-size-caption: clamp(0.525410rem, 1.094605vw, 0.875rem);
+    --font-size-badge: clamp(0.525410rem, 1.094605vw, 0.875rem);
+    --font-size-body-small: clamp(0.525410rem, 1.094605vw, 0.875rem);
+    --letter-spacing-display: clamp(-0.125rem, -0.156372vw, -0.075059rem);
+    --letter-spacing-heading-1: clamp(-0.0625rem, -0.078186vw, -0.037529rem);
+    --letter-spacing-heading-2: clamp(-0.03125rem, -0.039093vw, -0.018765rem);
+    --letter-spacing-lead: clamp(-0.03125rem, -0.039093vw, -0.018765rem);
+    --letter-spacing-heading-3: 0;
+    --letter-spacing-body: 0;
+    --letter-spacing-caption: 0;
+    --letter-spacing-body-small: 0;
+    --page-hero-height: clamp(13.322909rem, 27.756059vw, 22.1875rem);
+    --layout-content-gutter: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    /* Footer tablet contract: shared by every page shell. */
+    --footer-preceding-gap: clamp(4.503518rem, 9.382330vw, 7.5rem);
+    --footer-padding: clamp(1.801407rem, 3.752932vw, 3rem);
+    --footer-tablet-brand-links-gap: clamp(2.401876rem, 5.003909vw, 4rem);
+    --footer-navigation-heading-links-gap: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --footer-section-title-height: clamp(0.788116rem, 1.641908vw, 1.3125rem);
+    --footer-link-item-height: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --footer-tablet-navigation-groups-gap: clamp(1.501173rem, 5.003909vw, 2.5rem);
+    --footer-tablet-contact-links-gap: clamp(0.300235rem, 1.000782vw, 0.5rem);
+    --footer-tablet-social-gap: clamp(0.150117rem, 0.500391vw, 0.25rem);
+    --footer-tablet-column-gap: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --footer-tablet-list-gap: clamp(0.300235rem, 0.625489vw, 0.5rem);
+    --footer-social-size: clamp(1.801407rem, 3.752932vw, 3rem);
+    --sidebar-tablet-menu-control-visual-size: clamp(2.401876rem, 5.003680vw, 4rem);
+    --sidebar-tablet-menu-control-size: max(3rem, var(--sidebar-tablet-menu-control-visual-size));
+    --sidebar-tablet-header-height: max(var(--sidebar-tablet-logo-height), var(--sidebar-tablet-menu-control-size));
+    --sidebar-menu-social-size: var(--sidebar-tablet-menu-control-size);
+    --media-card-big-padding-block: clamp(1.200938rem, 2.501955vw, 2rem);
+    --media-card-big-padding-inline: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --media-card-big-meta-inset: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --media-card-big-meta-gap: 0;
+    --body-paragraph-spacing: clamp(0.600469rem, 1.250977vw, 1rem);
+    --media-card-small-tablet-content-height: clamp(7.505864rem, 15.637217vw, 12.5rem);
+    --about-life-tablet-column-aspect-ratio: 243 / 208;
+    --about-teacher-tablet-card-aspect-ratio: 1199 / 1020;
+    --about-life-card-padding: var(--about-life-controls-inset);
+    --sidebar-tablet-logo-width: clamp(6.755278rem, 14.073495vw, 11.25rem);
+    --sidebar-tablet-logo-height: clamp(3.756685rem, 7.826427vw, 6.25625rem);
+    --sidebar-tablet-menu-line-width: clamp(1.801407rem, 3.752932vw, 3rem);
+    --sidebar-menu-social-gap: clamp(0.15rem, 0.312745vw, 0.3125rem);
+    --news-filter-offset-block: clamp(2.4rem, 5.003909vw, 4rem);
+    --news-filter-table-gap: clamp(1.2rem, 2.501955vw, 2rem);
+    --archive-filter-gap: clamp(0.15rem, 0.312745vw, 0.25rem);
+    /* 404 empty-state: S_t projection from the 1279px tablet reference. */
+    /* Contacts keeps its desktop four-track composition and projects its
+     * page-owned rhythm from the approved 1279px tablet reference. */
+    --contacts-hero-content-gap: clamp(2.4rem, 5.003909vw, 4rem);
+    --contacts-row-trailing-gap: clamp(3.602815rem, 7.505864vw, 6rem);
+    --contacts-row-padding-block: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --contacts-social-icon-size: var(--footer-social-size);
+    /* Contacts tablet optical alignment: 6px at the 1279px reference. */
+    --contacts-information-alignment-offset: clamp(0.225176rem, 0.469117vw, 0.375rem);
+    --contacts-address-inline-size: clamp(16.810008rem, 35.027365vw, 28rem);
+    --not-found-message-offset-block: clamp(5.328563rem, 11.101173vw, 8.875rem);
+    --not-found-message-width: clamp(25.895231rem, 53.948397vw, 43.125rem);
+    /* 404 tablet shell: minimum clear space from the empty-state message to Footer. */
+    --not-found-footer-minimum-gap: 7.5rem;
+  }
+}
+
+@media (width <= 767px) {
+  :root {
+    --line-height-body: 1.3;
+    --focus-ring-offset: clamp(0.061117rem, 0.305583vw, 0.146489rem);
+    --button-padding-block: clamp(0.366699rem, 1.833494vw, 0.878931rem);
+    --button-padding-inline: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --button-gap: clamp(0.244466rem, 1.222331vw, 0.585955rem);
+    --button-icon-size: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --button-play-icon-size: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --data-table-video-provider-icon-size: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    /* Archive DataTable mobile record: 16px arrow at the 393px reference. */
+    --data-table-news-mobile-arrow-size: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --data-table-news-mobile-arrow-stroke: clamp(0.076336rem, 0.381679vw, 0.182968rem);
+    --data-table-archive-mobile-leading-track: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --button-archive-filter-icon-size: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --button-loading-dot-size: clamp(0.152791rem, 0.763957vw, 0.366222rem);
+    --button-loading-dot-gap: clamp(0.203404rem, 1.017018vw, 0.487533rem);
+    --distance-button-loading-dot-rise: clamp(0.061117rem, 0.305583vw, 0.146489rem);
+    --distance-title-roll-separator: clamp(0.122232rem, 0.611162vw, 0.292976rem);
+    --badge-padding-inline: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --badge-font-size: var(--font-size-badge);
+    --badge-line-height: var(--line-height-body-120);
+    --badge-letter-spacing: 0;
+    --badge-icon-size: clamp(1.832061rem, 9.160305vw, 4.391221rem);
+    --badge-icon-gap: clamp(0.101781rem, 0.508906vw, 0.243956rem);
+    --badge-icon-glyph-size: 1rem;
+    --news-card-category-glyph-size: clamp(1.22112rem, 6.10687vw, 1.5rem);
+    --input-padding-block: clamp(0.061117rem, 0.305583vw, 0.146489rem);
+    --input-padding-inline: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --input-label-line-height: clamp(0.641723rem, 3.208615vw, 1.538130rem);
+    --input-value-offset-block: clamp(0.839874rem, 4.199372vw, 2.013074rem);
+    --input-value-line-height: clamp(0.855153rem, 4.275765vw, 2.049695rem);
+    --application-form-min-height: clamp(16.379208rem, 81.896042vw, 39.258915rem);
+    --application-form-success-min-height: clamp(13.934551rem, 69.672753vw, 33.399376rem);
+    --distance-application-form-success-reveal: clamp(0.244466rem, 1.222331vw, 0.585955rem);
+    --application-form-padding: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --application-form-success-padding-block: clamp(1.100097rem, 5.500483vw, 2.636794rem);
+    --application-form-gap: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --application-form-fields-gap: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --application-form-success-icon-size: clamp(2.933590rem, 14.667949vw, 7.031448rem);
+    --application-form-success-content-gap: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --application-form-success-content-height: clamp(6.845043rem, 34.225214vw, 16.406712rem);
+    --application-form-success-actions-gap: clamp(2.933590rem, 14.667949vw, 7.031448rem);
+    --accordion-row-height: clamp(2.442748rem, 12.213740vw, 5.854962rem);
+    --accordion-icon-glyph-size: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --accordion-icon-stroke: 0.125rem;
+    --about-accordion-content-offset-mobile: clamp(1.6285rem, 8.142492vw, 3.903308rem);
+    --advantage-height: clamp(5.194898rem, 25.974490vw, 12.451521rem);
+    --advantage-padding-block-start: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --advantage-padding-inline: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --advantage-padding-block-end: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --advantage-accent-size: clamp(0.305105rem, 1.525524vw, 0.731298rem);
+    --advantage-accent-value-gap: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --news-card-height: clamp(8.250720rem, 41.253601vw, 19.775945rem);
+    --news-card-padding: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --news-card-gap: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --media-card-big-height: clamp(16.501442rem, 82.507208vw, 39.551893rem);
+    --media-card-big-padding-block: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --media-card-big-padding-inline: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --media-card-small-height: clamp(16.501442rem, 82.507208vw, 39.551893rem);
+    --media-card-small-content-gap: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --media-card-mobile-content-gap: clamp(0.203562rem, 1.017812vw, 0.487913rem);
+    --media-card-mobile-image-content-gap: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --media-card-mobile-image-aspect-ratio: 13 / 10;
+    --media-card-mobile-title-inset: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --media-card-mobile-title-width: clamp(15.776081rem, 78.880407vw, 37.813295rem);
+    --media-card-mobile-gradient-height: 50%;
+    --media-card-mobile-meta-title-gap: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --media-card-mobile-play-size: var(--badge-height);
+    --media-card-mobile-play-icon-size: var(--home-mobile-play-icon-size);
+    --media-card-small-play-offset-block: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --sidebar-reference-height: clamp(31.474361rem, 157.371803vw, 75.440108rem);
+    --sidebar-logo-height: clamp(3.361405rem, 16.807024vw, 8.056867rem);
+    --sidebar-logo-offset-block: clamp(0.244466rem, 1.222331vw, 0.585955rem);
+    --sidebar-nav-offset-block: clamp(4.644850rem, 23.224252vw, 11.133126rem);
+    --sidebar-link-height: clamp(1.100097rem, 5.500483vw, 2.636794rem);
+    --sidebar-link-padding-inline: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --sidebar-link-radius: clamp(0.305105rem, 1.525524vw, 0.731298rem);
+    --sidebar-nav-gap: clamp(0.061117rem, 0.305583vw, 0.146489rem);
+    --sidebar-mobile-overlay-nav-gap: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --sidebar-cta-inset-inline-start: clamp(0.519489rem, 2.597447vw, 1.245151rem);
+    --sidebar-cta-inset-inline-end: clamp(0.763479rem, 3.817396vw, 1.829964rem);
+    --footer-preceding-gap: clamp(3.666987rem, 18.334934vw, 8.789309rem);
+    --footer-height: clamp(14.331807rem, 71.659037vw, 34.351551rem);
+    --footer-padding: clamp(1.466794rem, 7.333972vw, 3.515723rem);
+    --footer-content-height: clamp(11.398218rem, 56.991088vw, 27.320103rem);
+    --footer-navigation-heading-links-gap: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --footer-contacts-height: clamp(8.311837rem, 41.559186vw, 19.922435rem);
+    --footer-copyright-offset-block: clamp(9.671678rem, 48.358392vw, 23.181804rem);
+    --footer-section-title-height: clamp(0.641723rem, 3.208615vw, 1.538130rem);
+    --footer-link-item-height: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --footer-mobile-padding: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --footer-mobile-height: clamp(33.486117rem, 167.430025vw, 80.291985rem);
+    --footer-mobile-radius: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --footer-social-size: clamp(3rem, 12.213740vw, 5.857779rem);
+    --footer-mobile-brand-links-gap: clamp(2.595420rem, 12.977099vw, 6.220102rem);
+    --footer-mobile-navigation-width: clamp(4.783715rem, 23.918575vw, 11.460560rem);
+    --footer-mobile-navigation-contacts-gap: clamp(4.020357rem, 20.101781vw, 9.639440rem);
+    --footer-mobile-contacts-width: clamp(6.688295rem, 33.460560vw, 16.035623rem);
+    --footer-mobile-heading-links-gap: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --footer-mobile-link-gap: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --footer-mobile-social-gap: clamp(0.203562rem, 1.017812vw, 0.487913rem);
+    --footer-mobile-contacts-height: clamp(10.254198rem, 51.272265vw, 24.589059rem);
+    --footer-mobile-contact-links-gap: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --footer-mobile-contact-rows-optical-offset: clamp(0.568910rem, 2.843512vw, 1.364135rem);
+    --footer-mobile-copyright-gap: clamp(4.885496rem, 24.427481vw, 11.715649rem);
+    --footer-mobile-copyright-paragraph-gap: clamp(1.058524rem, 5.292621vw, 2.535623rem);
+    --footer-mobile-legal-gap: calc(var(--footer-link-item-height) + var(--footer-mobile-copyright-paragraph-gap));
+    --page-hero-height: clamp(14.752000rem, 73.791349vw, 35.361322rem);
+    --page-hero-padding-inline-start: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --page-hero-padding-block-end: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    /* Shared mobile projection for the first content block after any internal PageHero. */
+    --internal-page-mobile-hero-content-gap: calc(var(--home-mobile-space-12) * 2);
+    /* Archive filter-row to DataTable gap at the 393px mobile reference. */
+    --archive-mobile-filter-table-gap: calc(var(--home-mobile-space-32) + var(--home-mobile-space-8));
+    --news-detail-hero-height: clamp(17.723281rem, 88.616407vw, 42.480490rem);
+    --news-detail-hero-inset: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --news-detail-hero-bottom-inset: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --news-detail-share-size: clamp(1.466794rem, 7.333972vw, 3.515723rem);
+    --news-detail-share-gap: clamp(0.121756rem, 0.608778vw, 0.291833rem);
+    --news-detail-mobile-meta-title-gap: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --news-detail-mobile-back-meta-gap: clamp(2.442748rem, 12.213741vw, 5.854962rem);
+    --news-detail-hero-meta-title-gap: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --teacher-detail-hero-description-title-gap: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    /* Teacher portrait composition below the shared mobile header: 440px at the 393px reference. */
+    --teacher-detail-mobile-hero-height: clamp(22.391858rem, 111.959288vw, 53.670483rem);
+    --teacher-detail-mobile-content-width: clamp(15.776081rem, 78.880407vw, 37.810910rem);
+    --teacher-detail-mobile-position-gap: calc(var(--home-mobile-space-12) * 2);
+    --teacher-detail-mobile-portrait-width: clamp(17.302799rem, 86.513995vw, 41.472646rem);
+    --teacher-detail-hero-achievements-gap: calc(var(--home-mobile-space-12) * 4);
+    /* Teacher-detail major transitions share the 96px-at-393px mobile section rhythm. */
+    --teacher-detail-achievements-quote-gap: var(--layout-section-gap);
+    --teacher-detail-quote-gallery-gap: var(--layout-section-gap);
+    --news-detail-article-offset-block: var(--internal-page-mobile-hero-content-gap);
+    --news-detail-article-content-gap: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --news-detail-article-gallery-gap: clamp(1.955250rem, 9.776248vw, 4.686489rem);
+    --news-detail-gallery-control-offset: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --news-detail-gallery-pagination-gap: clamp(0.611164rem, 3.055821vw, 1.464884rem);
+    --news-detail-gallery-copy-gap: clamp(1.405201rem, 7.026007vw, 3.368092rem);
+    --news-detail-article-category-gap: clamp(1.955250rem, 9.776248vw, 4.686489rem);
+    --media-gallery-hero-content-gap: var(--internal-page-mobile-hero-content-gap);
+    --media-gallery-media-list-section-gap: clamp(2.933590rem, 14.667949vw, 7.031448rem);
+    --photo-album-gallery-large-height: clamp(18.946099rem, 94.730495vw, 45.411431rem);
+    --contacts-hero-content-gap: var(--internal-page-mobile-hero-content-gap);
+    --contacts-row-trailing-gap: clamp(2.933590rem, 14.667949vw, 7.031448rem);
+    --contacts-row-padding-block: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --contacts-mobile-label-track: 1fr;
+    --contacts-mobile-information-track: 2fr;
+    --contacts-social-icon-size: var(--footer-social-size);
+    --contacts-mobile-value-person-gap: clamp(0.101781rem, 0.508906vw, 0.243956rem);
+    --contacts-address-inline-size: clamp(14.859288rem, 74.300255vw, 35.599237rem);
+    --news-filter-offset-block: var(--internal-page-mobile-hero-content-gap);
+    --news-filter-table-gap: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --notes-filter-table-gap: var(--internal-page-mobile-hero-content-gap);
+    --notes-filter-search-gap: clamp(5.500481rem, 27.502404vw, 13.183965rem);
+    --notes-empty-offset-block: clamp(3.666987rem, 18.334934vw, 8.789309rem);
+    --notes-empty-icon-size: clamp(2.933590rem, 14.667949vw, 7.031448rem);
+    --not-found-message-offset-block: clamp(4.338779rem, 21.693895vw, 10.399511rem);
+    --not-found-message-width: calc(100% - (var(--layout-content-gutter) * 2));
+    --search-input-clear-icon-size: clamp(0.733398rem, 3.666989vw, 1.757863rem);
+    --about-intro-offset-block: var(--internal-page-mobile-hero-content-gap);
+    --about-intro-groups-gap: clamp(1.628499rem, 8.142493vw, 3.905853rem);
+    --about-section-heading-content-gap: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --about-life-controls-inset: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --about-life-copy-controls-gap: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --about-life-pagination-dot-size: clamp(0.183350rem, 0.916748vw, 0.439466rem);
+    --about-life-pagination-dot-gap: clamp(0.366699rem, 1.833494vw, 0.878931rem);
+    --about-teacher-photo-size: clamp(4.888827rem, 24.444137vw, 11.717908rem);
+    --about-teacher-photo-margin-block-end: clamp(2.169634rem, 10.848171vw, 5.200342rem);
+    --about-teachers-mobile-card-height: clamp(13.232824rem, 66.164122vw, 31.716285rem);
+    --about-teachers-mobile-photo-size: clamp(6.106870rem, 30.534351vw, 14.637405rem);
+    --about-teachers-mobile-card-padding-block-start: var(--home-mobile-space-16);
+    --about-teachers-mobile-card-padding-block-end: clamp(1.017812rem, 5.089059vw, 2.442748rem);
+    --layout-section-gap: clamp(4.885496rem, 24.427481vw, 11.715649rem);
+    --home-hero-panel-height: clamp(26.055980rem, 130.279898vw, 62.452926rem);
+    --home-hero-content-padding-block-end: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --home-facts-height: clamp(5.194898rem, 25.974490vw, 12.451521rem);
+    --home-mobile-hero-height: clamp(29.949109rem, 149.872774vw, 71.819338rem);
+    --home-mobile-hero-content-inset: calc(var(--home-mobile-space-12) * 2);
+    --home-mobile-hero-radius: calc(var(--home-mobile-space-12) * 2);
+    --home-mobile-hero-title-bottom-inset: var(--home-mobile-space-32);
+    --home-mobile-hero-play-title-gap: calc(var(--home-mobile-space-12) * 2);
+    --home-mobile-hero-overlay: rgb(24 23 23 / 20%);
+    --home-mobile-hero-top-gradient: linear-gradient(#000c 0%, #0000 36.47%);
+    --home-mobile-news-height: clamp(26.463104rem, 132.315522vw, 63.428753rem);
+    --home-mobile-news-card-height: clamp(10.178117rem, 50.890585vw, 24.395674rem);
+    --home-mobile-fact-height: clamp(7.124682rem, 35.623410vw, 17.080153rem);
+    --home-mobile-icon-size: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --icon-size-ui-mobile: clamp(1rem, 4.071247vw, 1.951654rem);
+    --icon-stroke-ui-mobile: clamp(0.1125rem, 0.458015vw, 0.219561rem);
+    --home-mobile-control-size: calc(var(--home-mobile-icon-size) * 2);
+    --home-mobile-play-icon-size: var(--home-mobile-space-12);
+    --home-mobile-achievements-competition-width: clamp(13.199745rem, 66.157761vw, 31.714377rem);
+    --data-table-mobile-leading-track: clamp(1.933842rem, 9.669211vw, 4.633906rem);
+    --home-mobile-achievements-competition-gap: var(--home-mobile-space-4);
+    --home-mobile-achievements-row-padding: clamp(0.152672rem, 0.763359vw, 0.366870rem);
+    --home-mobile-space-2: clamp(0.101781rem, 0.508906vw, 0.243956rem);
+    --home-mobile-space-32: clamp(1.628499rem, 8.142494vw, 3.903308rem);
+    --home-mobile-space-4: clamp(0.203562rem, 1.017812vw, 0.487913rem);
+    --home-mobile-space-12: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --home-mobile-space-16: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --home-mobile-space-8: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --home-mobile-media-offset: var(--layout-section-gap);
+    --home-history-height: clamp(16.623185rem, 83.115924vw, 39.843696rem);
+    --home-history-heading-offset: clamp(0.458374rem, 2.291868vw, 1.098664rem);
+    --home-history-content-height: clamp(14.667948rem, 73.339738vw, 35.157237rem);
+    --home-history-grid-gap: clamp(0.488932rem, 2.444658vw, 1.171908rem);
+    --home-history-copy-offset-block: clamp(0.611164rem, 3.055821vw, 1.464884rem);
+    --home-history-teacher-size: clamp(2.442748rem, 12.213740vw, 5.854962rem);
+    --home-application-height: clamp(18.946099rem, 94.730495vw, 45.411431rem);
+    --home-application-surface-padding: clamp(1.221852rem, 6.109261vw, 2.928627rem);
+    --home-application-title-gap: clamp(0.977863rem, 4.889314vw, 2.343815rem);
+    --font-size-display: clamp(2.035623rem, 10.178117vw, 4.879135rem);
+    --line-height-display: 0.7;
+    --font-size-heading-1: var(--font-size-display);
+    --line-height-heading-1: 0.9;
+    --line-height-heading-2: 1;
+    --line-height-lead: 1;
+    --line-height-menu: 1;
+    --line-height-heading-3: 1.2;
+    --line-height-body: 1.4;
+    --line-height-body-120: 1.2;
+    --line-height-caption: 1.5;
+    --line-height-badge: 1.4;
+    --line-height-body-small: 1.5;
+    --font-size-heading-2: clamp(1.628499rem, 8.142494vw, 3.903308rem);
+    --font-size-lead: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --font-size-menu: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --font-size-heading-3: clamp(1.017812rem, 5.089059vw, 2.439567rem);
+    --font-size-body: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --font-size-caption: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --font-size-badge: clamp(0.712468rem, 3.562341vw, 1.707697rem);
+    --font-size-body-small: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --letter-spacing-display: clamp(-0.050891rem, -0.254453vw, -0.121978rem);
+    --letter-spacing-heading-1: var(--letter-spacing-display);
+    --letter-spacing-heading-2: clamp(-0.060989rem, -0.127226vw, -0.025445rem);
+    --letter-spacing-lead: clamp(-0.121978rem, -0.254453vw, -0.050891rem);
+    --letter-spacing-menu: 0;
+    --letter-spacing-heading-3: 0;
+    --letter-spacing-body: 0;
+    --letter-spacing-caption: clamp(-0.060989rem, -0.127226vw, -0.025445rem);
+    --letter-spacing-body-small: clamp(-0.060989rem, -0.127226vw, -0.025445rem);
+    --body-paragraph-spacing-mobile: clamp(0.407125rem, 2.035623vw, 0.975827rem);
+    --radius-large: clamp(0.814249rem, 4.071247vw, 1.951654rem);
+    --about-life-mobile-column-height: clamp(23.425191rem, 117.048346vw, 56.167939rem);
+    --about-life-mobile-card-padding: var(--home-mobile-space-16);
+    --about-life-mobile-title-inset: clamp(1.221374rem, 6.106870vw, 2.927481rem);
+    --about-life-mobile-copy-width: clamp(15.776081rem, 78.880407vw, 37.813295rem);
+    /* Contract exception: 48px interaction targets. Inline gutter follows S_m. */
+    --layout-content-gutter: clamp(0.610687rem, 3.053435vw, 1.463740rem);
+    --layout-grid-columns: 1;
+    --layout-editorial-max-width: 100%;
+    --layout-grid-gap: var(--space-4);
+    --button-height: clamp(3rem, 12.213740vw, 5.854962rem);
+    --badge-height: clamp(1.832061rem, 9.160305vw, 4.391221rem);
+    --input-height: clamp(3rem, 12.213740vw, 5.854962rem);
+    --application-form-width: min(100%, 31.25rem);
+    --media-card-big-title-width: 100%;
+    --home-history-lead-width: 100%;
+    --home-history-copy-width: 100%;
+    --home-application-title-width: 100%;
+    --home-application-title-icon-size: var(--font-size-heading-2);
+    --sidebar-mobile-logo-width: clamp(6.666667rem, 33.333333vw, 15.979008rem);
+    --sidebar-mobile-logo-height: clamp(2.442748rem, 12.213740vw, 5.854962rem);
+    --sidebar-mobile-padding-block-start: var(--home-mobile-space-12);
+    --sidebar-mobile-header-height: calc(max(var(--button-height), var(--sidebar-mobile-logo-height)) + (var(--sidebar-mobile-padding-block-start) * 2));
+    --sidebar-tablet-menu-line-width: clamp(2.442748rem, 12.213741vw, 5.854962rem);
+    --sidebar-menu-line-height: clamp(0.101781rem, 0.508906vw, 0.243766rem);
+    --sidebar-menu-social-gap: clamp(0.203563rem, 1.017811vw, 0.487932rem);
+    --sidebar-mobile-social-cta-gap: clamp(2.442748rem, 12.213741vw, 5.854962rem);
+  }
+}
+
+/* Tablet S_t: 1279px reference; radii scale with the rest of the interface. */
+@media (width >= 768px) and (width <= 1279px) {
+  :root {
+    --radius-small: clamp(0.300235rem, 0.625489vw, 0.5rem);
+    --radius-medium: clamp(0.600469rem, 1.250977vw, 1rem);
+    --radius-large: clamp(0.900704rem, 1.876466vw, 1.5rem);
   }
 }

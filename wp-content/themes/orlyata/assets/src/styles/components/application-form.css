@@ -125,3 +125,9 @@ form.orlyata-application-form {
 .orlyata-application-form__success-action {
   width: 100%;
 }
+
+@media (width <= 767px) {
+  .orlyata-application-form__success-copy {
+    width: min(100%, clamp(18.75rem, 95.419847vw, 36.599237rem));
+  }
+}

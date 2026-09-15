@@ -14,11 +14,16 @@ export type PageHeroOptions = {
 
 export function createPageHero({ cornerMeta = '', imageAlt = '', imageSrc, meta = '', title, variant = 'default' }: PageHeroOptions): HTMLElement {
   const hero = document.createElement('section');
+  const picture = document.createElement('picture');
+  const mobileSource = document.createElement('source');
   const image = document.createElement('img');
   const content = document.createElement('div');
   const heading = document.createElement('h1');
 
-  hero.className = `orlyata-page-hero orlyata-page-hero--${variant}`;
+  hero.className = `orlyata-page-hero orlyata-page-hero--${variant}${variant === 'default' || variant === 'archive' ? ' orlyata-page-hero--image-inline-start' : ''}`;
+  picture.className = 'orlyata-page-hero__picture';
+  mobileSource.media = '(max-width: 767px)';
+  mobileSource.srcset = '/wp-content/themes/orlyata/assets/images/teachers/bg-mobile-inner.png';
   image.className = 'orlyata-page-hero__image';
   image.src = imageSrc;
   image.alt = imageAlt;
@@ -76,7 +81,8 @@ export function createPageHero({ cornerMeta = '', imageAlt = '', imageSrc, meta 
   }
 
   content.append(heading);
-  hero.append(image, content);
+  picture.append(mobileSource, image);
+  hero.append(picture, content);
   if (cornerMeta !== '') {
     const cornerMetaElement = document.createElement('p');
     cornerMetaElement.className = 'orlyata-page-hero__corner-meta type-body';
@@ -136,17 +142,25 @@ export const Archive: Story = {
 
 export const TeacherDetail: Story = {
   render: () => {
+    const page = document.createElement("div");
+    const main = document.createElement("main");
     const hero = createPageHero({
-      imageAlt: "Чернецов Андрей Викторович",
-      imageSrc: "/wp-content/themes/orlyata/assets/images/teachers-chernetsov.png",
+      imageAlt: "",
+      imageSrc: "/wp-content/themes/orlyata/assets/images/news/bg-hero2.png",
       title: "Чернецов Андрей Викторович",
       variant: "teacher-detail",
     });
     const content = hero.querySelector(".orlyata-page-hero__content");
     const title = hero.querySelector(".orlyata-page-hero__title");
+    const foreground = document.createElement("img");
     const back = document.createElement("a");
     const description = document.createElement("p");
     const badge = document.createElement("span");
+
+    foreground.className = "orlyata-page-hero__foreground-image";
+    foreground.src = "/wp-content/themes/orlyata/assets/images/teachers-chernetsov.png";
+    foreground.alt = "Чернецов Андрей Викторович";
+    hero.append(foreground);
 
     back.className = "orlyata-button orlyata-button--arrow-left orlyata-button--icon-only orlyata-page-hero__back";
     back.href = "/o-kapelle/";
@@ -161,7 +175,11 @@ export const TeacherDetail: Story = {
     badgeWrap.className = "orlyata-page-hero__badge";
     badgeWrap.append(badge);
     hero.append(badgeWrap);
-    return hero;
+    page.className = "orlyata-teacher-detail";
+    main.className = "orlyata-teacher-detail__content";
+    main.append(hero);
+    page.append(main);
+    return page;
   },
 };
 
@@ -170,5 +188,21 @@ export const CornerMeta: Story = {
     cornerMeta: '45 файлов',
     imageSrc: '/wp-content/themes/orlyata/assets/images/about/img271.png',
     title: 'Ноты',
+  }),
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => createPageHero({
+    imageSrc: '/wp-content/themes/orlyata/assets/images/about/img271.png',
+    title: 'О капелле',
+  }),
+};
+
+export const TabletDefaultFraming: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'tablet1279' } },
+  render: () => createPageHero({
+    imageSrc: '/wp-content/themes/orlyata/assets/images/contacts/hero.png',
+    title: 'Контакты',
   }),
 };

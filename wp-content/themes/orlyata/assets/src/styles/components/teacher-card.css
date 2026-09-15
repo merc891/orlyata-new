@@ -37,10 +37,10 @@
 }
 
 .orlyata-teacher-card__name {
-  font-size: var(--font-size-heading-3);
+  font-size: var(--font-size-body);
   font-weight: 500;
-  line-height: var(--line-height-heading-3);
-  letter-spacing: var(--letter-spacing-heading-3);
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
 }
 
 .orlyata-teacher-card__meta {

@@ -56,9 +56,12 @@
 .orlyata-contacts__connection-grid,
 .orlyata-contacts__social-list {
   grid-column: 3 / span 2;
+  margin-inline-start: var(--contacts-information-alignment-offset);
+  inline-size: calc(100% - var(--contacts-information-alignment-offset));
 }
 
 .orlyata-contacts__address {
+  inline-size: min(100%, var(--contacts-address-inline-size));
   color: var(--color-text-primary);
   font-style: normal;
 }
@@ -67,7 +70,7 @@
   display: grid;
   align-items: start;
   align-content: start;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) max-content;
   column-gap: var(--layout-grid-gap);
   row-gap: var(--space-4);
 }
@@ -97,11 +100,18 @@
   color: var(--color-text-secondary);
 }
 
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-contacts__person {
+    white-space: nowrap;
+  }
+}
+
 .orlyata-contacts__social-list {
   display: flex;
   gap: var(--space-1);
   padding: 0;
-  margin: 0;
+  margin-block: 0;
+  margin-inline-end: 0;
   list-style: none;
 }
 
@@ -116,5 +126,45 @@
   display: block;
   inline-size: 100%;
   block-size: 100%;
+}
+
+@media (width <= 767px) {
+  .orlyata-contacts__row {
+    grid-template-columns: minmax(0, var(--contacts-mobile-label-track)) minmax(0, var(--contacts-mobile-information-track));
+  }
+
+  .orlyata-contacts__address,
+  .orlyata-contacts__connection-grid,
+  .orlyata-contacts__social-list {
+    grid-column: 2;
+  }
+
+  .orlyata-contacts__connection-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+  }
+
+  .orlyata-contacts__heading,
+  .orlyata-contacts__address,
+  .orlyata-contacts__person,
+  .orlyata-contacts__value {
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+  }
+
+  .orlyata-contacts__person {
+    margin-block-start: var(--contacts-mobile-value-person-gap);
+  }
+
+  .orlyata-contacts__person:not(:last-child) {
+    margin-block-end: var(--space-4);
+  }
+
+  .orlyata-contacts__social-link {
+    inline-size: var(--footer-social-size);
+    block-size: var(--footer-social-size);
+  }
 }
 

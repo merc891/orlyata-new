@@ -27,7 +27,7 @@ get_header();
 			<section class="orlyata-contacts__details" aria-labelledby="contacts-title" data-archive-content-reveal>
 				<div class="orlyata-contacts__row orlyata-contacts__row--address">
 					<h2 class="orlyata-contacts__heading type-heading-3"><?php esc_html_e( 'Адрес', 'orlyata' ); ?></h2>
-					<address class="orlyata-contacts__address type-heading-3"><?php esc_html_e( 'г. Зеленоград, Центральная площадь, 1', 'orlyata' ); ?><br><?php esc_html_e( 'КЦ «Зеленоград»', 'orlyata' ); ?></address>
+					<address class="orlyata-contacts__address type-heading-3"><?php esc_html_e( 'г. Зеленоград, Центральная площадь, 1 КЦ «Зеленоград»', 'orlyata' ); ?></address>
 				</div>
 				<div class="orlyata-contacts__row orlyata-contacts__row--connection">
 					<h2 class="orlyata-contacts__heading type-heading-3"><?php esc_html_e( 'Связь', 'orlyata' ); ?></h2>

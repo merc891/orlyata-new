@@ -5,17 +5,66 @@
   align-items: center;
   justify-content: center;
   padding: var(--button-padding-block) var(--badge-padding-inline);
-  border: 1px solid var(--color-border-subtle);
+  border: 0;
+  background: var(--color-surface-muted);
   border-radius: var(--radius-full);
-  color: var(--color-text-secondary);
+  color: var(--color-text-secondary-on-muted);
   font-family: var(--font-family-primary);
-  font-size: var(--font-size-body);
-  letter-spacing: var(--letter-spacing-body);
-  line-height: var(--line-height-body);
+  font-size: var(--badge-font-size);
+  letter-spacing: var(--badge-letter-spacing);
+  line-height: var(--badge-line-height);
   white-space: nowrap;
 }
 
+.orlyata-badge--icon {
+  width: var(--badge-icon-size);
+  min-width: var(--badge-icon-size);
+  height: var(--badge-icon-size);
+  min-height: var(--badge-icon-size);
+  padding: 0;
+}
+.orlyata-badge__icon,
+.orlyata-badge__emoji {
+  width: var(--badge-icon-glyph-size);
+  height: var(--badge-icon-glyph-size);
+}
+
+.orlyata-badge__emoji {
+  display: grid;
+  place-items: center;
+  color: var(--color-text-secondary);
+  font-size: var(--badge-icon-glyph-size);
+  line-height: 1;
+}
+
+
 .orlyata-badge--inverse {
-  border-color: var(--color-surface);
+  border: 1px solid var(--color-surface);
+  background: transparent;
   color: var(--color-surface);
+}
+
+.orlyata-badge--filled {
+  border: 0;
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary-on-muted);
+}
+
+.orlyata-badge--dark {
+  background: var(--color-surface-dark);
+  color: var(--color-text-inverse);
+}
+
+.orlyata-badge--dark-icon {
+  width: var(--badge-icon-size);
+  min-width: var(--badge-icon-size);
+  height: var(--badge-icon-size);
+  min-height: var(--badge-icon-size);
+  padding: 0;
+  background: var(--color-surface-dark);
+}
+
+.orlyata-badge--dark-icon .orlyata-badge__icon {
+  width: var(--news-card-category-glyph-size);
+  height: var(--news-card-category-glyph-size);
 }

@@ -248,3 +248,65 @@
     padding: var(--space-4);
   }
 }
+
+/* Fixed desktop-visible canvases for typography reference stories. */
+.foundation-page--type-tablet,
+.foundation-page--type-mobile {
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+
+.foundation-page--type-tablet {
+  inline-size: 768px;
+  /* Actual foundation-token values at the 768px tablet boundary. */
+  --font-size-display: 2.702111rem;
+  --font-size-heading-1: 2.401876rem;
+  --font-size-heading-2: 1.651291rem;
+  --font-size-lead: 1.351056rem;
+  --font-size-heading-3: 0.900704rem;
+  --font-size-body: 0.750586rem;
+  --font-size-caption: 0.525410rem;
+  --font-size-body-small: 0.525410rem;
+  --letter-spacing-display: -0.075059rem;
+  --letter-spacing-heading-1: -0.037529rem;
+  --letter-spacing-heading-2: -0.018765rem;
+  --letter-spacing-lead: -0.018765rem;
+  --letter-spacing-heading-3: 0;
+  --letter-spacing-body: 0;
+  --letter-spacing-caption: 0;
+  --letter-spacing-body-small: 0;
+}
+
+.foundation-page--type-mobile {
+  inline-size: 393px;
+  --font-size-display: 2.5rem;
+  --font-size-heading-1: var(--font-size-display);
+  --font-size-heading-2: 2rem;
+  --font-size-lead: 1.5rem;
+  --font-size-menu: 1.5rem;
+  --font-size-heading-3: 1.25rem;
+  --font-size-body: 1rem;
+  --font-size-caption: 0.75rem;
+  --font-size-badge: 0.875rem;
+  --font-size-body-small: 0.75rem;
+  --line-height-display: 0.7;
+  --line-height-heading-1: 0.9;
+  --line-height-heading-2: 1;
+  --line-height-lead: 1;
+  --line-height-menu: 1;
+  --line-height-heading-3: 1.2;
+  --line-height-body: 1.4;
+  --line-height-body-120: 1.2;
+  --line-height-caption: 1.5;
+  --line-height-badge: 1.4;
+  --line-height-body-small: 1.5;
+  --letter-spacing-display: -0.0625rem;
+  --letter-spacing-heading-1: var(--letter-spacing-display);
+  --letter-spacing-heading-2: -0.03125rem;
+  --letter-spacing-lead: -0.0625rem;
+  --letter-spacing-menu: 0;
+  --letter-spacing-heading-3: 0;
+  --letter-spacing-body: 0;
+  --letter-spacing-caption: -0.03125rem;
+  --letter-spacing-body-small: -0.03125rem;
+}

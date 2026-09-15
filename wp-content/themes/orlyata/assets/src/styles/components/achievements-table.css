@@ -1,0 +1,14 @@
+section.orlyata-achievements .orlyata-home__section-head h2,
+section.orlyata-achievements .orlyata-data-table {
+  margin-block: 0;
+}
+
+section.orlyata-achievements .orlyata-home__table-wrap {
+  margin-block-start: var(--achievements-heading-content-gap);
+}
+
+@media (width >= 1280px) {
+  .orlyata-achievements .orlyata-home__section-head {
+    block-size: var(--font-size-heading-2);
+  }
+}

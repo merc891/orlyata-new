@@ -341,3 +341,8 @@ export const Errors: Story = {
     return preview;
   },
 };
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => createPreview(defaultArgs, 'mobile'),
+};

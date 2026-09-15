@@ -1,0 +1,10 @@
+/*
+ * Isolated smoothing experiment for /ginger-antialiased-preview/.
+ * Typography continues to come from the production design system.
+ */
+
+body.orlyata-ginger-antialiased-preview .orlyata-home,
+body.orlyata-ginger-antialiased-preview .orlyata-home :where(*) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -30,3 +30,18 @@ test('SearchInput shows its clear action only for entered text', async ({ page }
   await expect(clearActions.nth(0)).toBeHidden();
   await expect(clearActions.nth(1)).toBeVisible();
 });
+test('SearchInput archive-control matches the Button height on tablet', async ({ page }) => {
+  await page.setViewportSize({ width: 768, height: 800 });
+  await page.goto('/iframe.html?id=components-searchinput--tablet-archive-control&viewMode=story');
+  const field = page.locator('.orlyata-search-input__field');
+  await expect(field).toBeVisible({ timeout: 15_000 });
+  const heights = await field.evaluate((element) => {
+    const probe = document.createElement('div');
+    probe.style.height = 'var(--button-height)';
+    element.parentElement?.append(probe);
+    const result = { field: element.getBoundingClientRect().height, button: probe.getBoundingClientRect().height };
+    probe.remove();
+    return result;
+  });
+  expect(heights.field).toBeCloseTo(heights.button, 2);
+});

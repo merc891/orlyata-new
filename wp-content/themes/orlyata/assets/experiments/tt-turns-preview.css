@@ -1,0 +1,60 @@
+/*
+ * Isolated typography experiment for /tt-turns-preview/.
+ * This file must not be imported by the production stylesheet.
+ */
+
+@font-face {
+  font-family: "TT Turns Preview";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/tt-turns-medium.woff2") format("woff2"),
+    url("../fonts/tt-turns-medium.woff") format("woff");
+}
+
+body.orlyata-tt-turns-preview :is(.orlyata-home, .orlyata-about),
+body.orlyata-tt-turns-preview :is(.orlyata-home, .orlyata-about) :where(*) {
+  font-family: "TT Turns Preview", sans-serif;
+  font-weight: 500;
+}
+
+body.orlyata-tt-turns-preview :is(.orlyata-home, .orlyata-about) {
+  --font-family-primary: "TT Turns Preview", sans-serif;
+  --font-size-display: clamp(2.6667rem, 3.3333vw, 5.3333rem);
+  --line-height-display: 0.7;
+  --letter-spacing-display: -0.125rem;
+  --letter-spacing-heading-2: -0.03125rem;
+  --letter-spacing-heading-3: -0.03125rem;
+  --letter-spacing-lead: -0.03125rem;
+  --letter-spacing-body: 0;
+  --letter-spacing-body-small: 0;
+  --letter-spacing-caption: 0;
+}
+
+body.orlyata-tt-turns-preview--antialiased :is(.orlyata-home, .orlyata-about),
+body.orlyata-tt-turns-preview--antialiased :is(.orlyata-home, .orlyata-about) :where(*) {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.orlyata-tt-turns-preview--antialiased :is(.orlyata-home, .orlyata-about) {
+  --font-size-display: clamp(3.3333rem, 4.1667vw, 6.6667rem);
+  --line-height-display: 0.65;
+}
+
+@media (width <= 767px) {
+  body.orlyata-tt-turns-preview--antialiased .orlyata-home {
+    --font-size-display: clamp(2.442748rem, 12.21374vw, 5.854962rem);
+  }
+}
+
+@media (width >= 768px) {
+  body.orlyata-tt-turns-preview--antialiased .orlyata-home :is(
+    .orlyata-news-card__title,
+    .orlyata-media-card--small .orlyata-media-card__title
+  ) {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+  }
+}

@@ -65,3 +65,28 @@
 .orlyata-news .orlyata-data-table tbody tr.is-entering {
   animation: orlyata-news-row-enter 800ms var(--easing-standard);
 }
+
+
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-news {
+    display: block;
+  }
+
+  .orlyata-news__content {
+    inline-size: 100%;
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-news__body {
+    padding-block-start: var(--news-filter-offset-block);
+  }
+
+  .orlyata-news__filter-list {
+    align-items: flex-start;
+  }
+
+  .orlyata-news__table {
+    margin-block-start: var(--archive-mobile-filter-table-gap);
+  }
+}

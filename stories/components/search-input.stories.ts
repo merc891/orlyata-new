@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
-const renderSearchInput = (value = ''): HTMLDivElement => {
+const renderSearchInput = (value = '', variant = ''): HTMLDivElement => {
   const root = document.createElement('div');
-  root.className = 'orlyata-search-input';
+  root.className = 'orlyata-search-input' + (variant === '' ? '' : ' orlyata-search-input--' + variant);
   const label = document.createElement('label');
   label.className = 'screen-reader-text';
   label.htmlFor = 'storybook-search';
@@ -35,11 +35,52 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = { render: () => renderSearchInput() };
 export const Typing: Story = { render: () => renderSearchInput('Debussy') };
 
+export const TabletArchiveControl: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'tablet768' } },
+  render: () => {
+    const shell = document.createElement('main');
+    shell.className = 'orlyata-media-gallery';
+    shell.append(renderSearchInput('', 'archive-control'));
+    return shell;
+  },
+};
+
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
     const root = document.createElement('div');
     root.append(renderSearchInput(), renderSearchInput('Debussy'));
+    return root;
+  },
+};
+
+export const Playground: Story = {
+  render: () => renderSearchInput('Debussy'),
+};
+
+export const FocusVisible: Story = {
+  render: () => {
+    const root = renderSearchInput();
+    window.requestAnimationFrame(() => root.querySelector<HTMLInputElement>('.orlyata-search-input__field')?.focus());
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = document.createElement('main');
+    root.className = 'component-page';
+    const section = document.createElement('section');
+    section.className = 'component-section';
+    const heading = document.createElement('h1');
+    const row = document.createElement('div');
+    heading.className = 'type-heading-2';
+    heading.textContent = 'SearchInput / Mobile';
+    row.className = 'component-row';
+    row.append(renderSearchInput(), renderSearchInput('Debussy'));
+    section.append(heading, row);
+    root.append(section);
     return root;
   },
 };

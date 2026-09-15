@@ -11,8 +11,8 @@ export interface SidebarArgs {
 
 const navigationItems = [
   { id: 'about', label: 'О капелле', url: '/o-kapelle/' },
-  { id: 'media', label: 'Медиагалерея', url: '/mediagalereya/' },
   { id: 'news', label: 'Новости', url: '/novosti/' },
+  { id: 'media', label: 'Медиагалерея', url: '/mediagalereya/' },
   { id: 'scores', label: 'Ноты', url: '/noty/' },
   { id: 'contacts', label: 'Контакты', url: '/kontakty/' },
 ] as const;
@@ -20,6 +20,9 @@ const navigationItems = [
 export function createSidebar(args: SidebarArgs): HTMLElement {
   const sidebar = document.createElement('aside');
   const logoLink = document.createElement('a');
+  const logoPicture = document.createElement('picture');
+  const mobileLogoSource = document.createElement('source');
+  const tabletLogoSource = document.createElement('source');
   const logo = document.createElement('img');
   const navigation = document.createElement('nav');
   const toggle = document.createElement('button');
@@ -28,24 +31,34 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
   const list = document.createElement('ul');
   const cta = document.createElement('a');
   const ctaText = document.createElement('span');
+  const tabletCta = document.createElement('a');
+  const tabletCtaText = document.createElement('span');
+  const contacts = document.createElement('ul');
+  const socials = document.createElement('ul');
 
   sidebar.className = 'orlyata-sidebar';
 
   logoLink.className = 'orlyata-sidebar__logo-link';
   logoLink.href = '/';
   logoLink.setAttribute('aria-label', 'Орлята — на главную');
+  logoPicture.className = 'orlyata-sidebar__logo-picture';
+  mobileLogoSource.media = '(max-width: 767px)';
+  mobileLogoSource.srcset = '/wp-content/themes/orlyata/assets/icons/logo-mob.svg';
+  tabletLogoSource.media = '(max-width: 1279px)';
+  tabletLogoSource.srcset = '/wp-content/themes/orlyata/assets/icons/logo-tablet.svg';
   logo.className = 'orlyata-sidebar__logo';
   logo.src = '/wp-content/themes/orlyata/assets/icons/logo-orlyata.svg';
   logo.alt = '';
   logo.width = 240;
   logo.height = 110;
-  logoLink.append(logo);
+  logoPicture.append(mobileLogoSource, tabletLogoSource, logo);
+  logoLink.append(logoPicture);
 
   toggle.className = 'orlyata-button orlyata-button--menu-tablet orlyata-button--icon-only orlyata-sidebar__menu-toggle';
   toggle.type = 'button';
   toggle.setAttribute('aria-controls', 'sidebar-navigation');
   toggle.setAttribute('aria-expanded', 'true');
-  toggle.innerHTML = '<svg class="orlyata-button__icon orlyata-button__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="orlyata-button__menu-icon-path" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
+  toggle.innerHTML = '<svg class="orlyata-button__icon orlyata-button__menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="orlyata-button__menu-icon-path" d="M3 8.5h18m-18 7h18"></path></svg>';
   toggle.setAttribute('aria-label', 'Открыть меню');
 
   navigation.className = 'orlyata-sidebar__nav';
@@ -77,6 +90,12 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
 
   navigation.append(list);
 
+  tabletCta.className = 'orlyata-button orlyata-button--primary orlyata-sidebar__tablet-cta';
+  tabletCta.href = '/#application';
+  tabletCtaText.className = 'orlyata-button__label';
+  tabletCtaText.textContent = args.ctaLabel;
+  tabletCta.append(tabletCtaText);
+
   cta.className = 'orlyata-button orlyata-button--primary orlyata-sidebar__cta';
   menuPanel.className = 'orlyata-sidebar__menu-panel';
   menuPanelContent.className = 'orlyata-sidebar__menu-panel-content';
@@ -85,8 +104,48 @@ export function createSidebar(args: SidebarArgs): HTMLElement {
   ctaText.textContent = args.ctaLabel;
   cta.append(ctaText);
 
-  menuPanelContent.append(navigation, cta);
+  contacts.className = 'orlyata-sidebar__menu-contacts';
+  contacts.setAttribute('aria-label', 'Контакты');
+  for (const contact of [
+    { label: 'info@zelorlyata.ru', href: 'mailto:info@zelorlyata.ru' },
+    { label: '+7 (925) 434-51-98', href: 'tel:+79254345198' },
+    { label: '+7 (916) 258-49-12', href: 'tel:+79162584912' },
+  ]) {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    item.className = 'orlyata-sidebar__menu-contact-item';
+    link.className = 'orlyata-sidebar__menu-contact-link';
+    link.href = contact.href;
+    link.textContent = contact.label;
+    item.append(link);
+    contacts.append(item);
+  }
+
+  socials.className = 'orlyata-sidebar__menu-socials';
+  socials.setAttribute('aria-label', 'Социальные сети');
+  for (const social of [
+    { label: 'ВКонтакте', url: 'https://vk.ru/zelorlyata', icon: 'vk.svg' },
+    { label: 'Telegram', url: 'https://t.me/zel_orlyata', icon: 'telegram.svg' },
+  ]) {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    const icon = document.createElement('img');
+    link.className = 'orlyata-sidebar__menu-social-link';
+    link.href = social.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.setAttribute('aria-label', social.label);
+    icon.src = '/wp-content/themes/orlyata/assets/icons/share/' + social.icon;
+    icon.alt = '';
+    icon.setAttribute('aria-hidden', 'true');
+    link.append(icon);
+    item.append(link);
+    socials.append(item);
+  }
+
+  menuPanelContent.append(navigation, socials, contacts, cta);
   menuPanel.append(menuPanelContent);
+  sidebar.append(logoLink, tabletCta, toggle, menuPanel);
   return sidebar;
 }
 
@@ -102,6 +161,7 @@ const meta = {
   title: 'Components/Sidebar',
   excludeStories: ['createSidebar'],
   parameters: {
+    layout: 'fullscreen',
     docs: { description: { component: motionSpecifications.sidebar } },
     viewport: { defaultViewport: 'desktop1920' },
   },
@@ -128,6 +188,11 @@ export const Playground: StoryObj<SidebarArgs> = {
 
 export const Default: Story = {
   parameters: { controls: { disable: true } },
+  render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'none' }),
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
   render: () => createSidebarPreview({ ctaLabel: 'Записаться к нам', currentPage: 'none' }),
 };
 

@@ -66,3 +66,17 @@ export const States: Story = {
     return root;
   },
 };
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Input', 'Default, заполненное, error и маскированные поля на mobile reference 393 px.');
+    appendSection(root, 'Mobile', [
+      input('ФИО родителя', 'default', 'mobile-parent-name'),
+      input('Дата рождения ребёнка', 'filled', 'mobile-birth-date', '2021-02-16', undefined, 'date'),
+      input('Телефон', 'filled', 'mobile-phone', '+7 (926) 232-11-27', undefined, 'tel'),
+      input('ФИО ребёнка', 'error', 'mobile-child-name'),
+    ]);
+    return root;
+  },
+};

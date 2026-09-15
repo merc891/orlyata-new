@@ -23,13 +23,16 @@ if (document.readyState === 'complete') {
   window.addEventListener('load', initializeNotFoundMessage, { once: true });
 }
 
-const initializeAboutLifeCarousel = (): void => {
+export const initializeAboutLifeCarousel = (): void => {
   document.querySelectorAll<HTMLElement>("[data-life-carousel]").forEach((carousel) => {
     const slides = [...carousel.querySelectorAll<HTMLElement>("[data-life-slide]")];
     const selectors = [...carousel.querySelectorAll<HTMLButtonElement>("[data-life-slide-select]")];
     const media = carousel.parentElement?.querySelector<HTMLElement>("[data-life-media]");
+    const swipeThreshold = 24;
+    let swipeStart: { pointerId: number; x: number; y: number } | undefined;
     const activeIndex = (): number => Math.max(0, slides.findIndex((slide) => slide.classList.contains("is-active")));
-    const select = (requestedIndex: number, direction: "next" | "previous"): void => {
+    const select = (requestedIndex: number): void => {
+      if (slides.length === 0) return;
       const currentIndex = activeIndex();
       const index = (requestedIndex + slides.length) % slides.length;
       if (index === currentIndex) return;
@@ -41,9 +44,26 @@ const initializeAboutLifeCarousel = (): void => {
       });
       if (media !== null && media !== undefined) media.dataset.lifeActive = String(index);
     };
-    carousel.querySelector<HTMLButtonElement>(".orlyata-button--arrow-left")?.addEventListener("click", () => select(activeIndex() - 1, "previous"));
-    carousel.querySelector<HTMLButtonElement>(".orlyata-button--arrow-right")?.addEventListener("click", () => select(activeIndex() + 1, "next"));
-    selectors.forEach((control, index) => control.addEventListener("click", () => select(index, index > activeIndex() ? "next" : "previous")));
+    carousel.querySelector<HTMLButtonElement>(".orlyata-button--arrow-left")?.addEventListener("click", () => select(activeIndex() - 1));
+    carousel.querySelector<HTMLButtonElement>(".orlyata-button--arrow-right")?.addEventListener("click", () => select(activeIndex() + 1));
+    selectors.forEach((control, index) => control.addEventListener("click", () => select(index)));
+    carousel.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" || event.target instanceof Element && event.target.closest("button")) return;
+      swipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+      carousel.setPointerCapture(event.pointerId);
+    });
+    carousel.addEventListener("pointerup", (event) => {
+      if (swipeStart === undefined || swipeStart.pointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStart.x;
+      const deltaY = event.clientY - swipeStart.y;
+      swipeStart = undefined;
+      if (carousel.hasPointerCapture(event.pointerId)) carousel.releasePointerCapture(event.pointerId);
+      if (Math.abs(deltaX) < swipeThreshold || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+      select(activeIndex() + (deltaX < 0 ? 1 : -1));
+    });
+    carousel.addEventListener("pointercancel", (event) => {
+      if (swipeStart?.pointerId === event.pointerId) swipeStart = undefined;
+    });
   });
 };
 
@@ -53,6 +73,9 @@ const initializeNewsGalleries = (): void => {
   document.querySelectorAll<HTMLElement>("[data-news-gallery]").forEach((gallery) => {
     const slides = [...gallery.querySelectorAll<HTMLElement>(".orlyata-news-detail__gallery-slide")];
     const selectors = [...gallery.querySelectorAll<HTMLButtonElement>("[data-news-gallery-select]")];
+    const viewport = gallery.querySelector<HTMLElement>(".orlyata-news-detail__gallery-viewport");
+    const swipeThreshold = 24;
+    let swipeStart: { pointerId: number; x: number; y: number } | undefined;
     const activeIndex = (): number => Math.max(0, Number.parseInt(gallery.dataset.newsGalleryActive ?? "0", 10) || 0);
     const select = (requestedIndex: number): void => {
       const index = (requestedIndex + slides.length) % slides.length;
@@ -68,6 +91,22 @@ const initializeNewsGalleries = (): void => {
     gallery.querySelector<HTMLButtonElement>(".orlyata-button--arrow-left-muted")?.addEventListener("click", () => select(activeIndex() - 1));
     gallery.querySelector<HTMLButtonElement>(".orlyata-button--arrow-right-muted")?.addEventListener("click", () => select(activeIndex() + 1));
     selectors.forEach((control, index) => control.addEventListener("click", () => select(index)));
+    viewport?.addEventListener("pointerdown", (event) => {
+      swipeStart = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
+      viewport.setPointerCapture(event.pointerId);
+    });
+    viewport?.addEventListener("pointerup", (event) => {
+      if (swipeStart === undefined || swipeStart.pointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStart.x;
+      const deltaY = event.clientY - swipeStart.y;
+      swipeStart = undefined;
+      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+      if (Math.abs(deltaX) < swipeThreshold || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+      select(activeIndex() + (deltaX < 0 ? 1 : -1));
+    });
+    viewport?.addEventListener("pointercancel", (event) => {
+      if (swipeStart?.pointerId === event.pointerId) swipeStart = undefined;
+    });
   });
 };
 
@@ -191,6 +230,25 @@ export const initializeMediaCardVideoPreviews = (): void => {
 
 initializeMediaCardVideoPreviews();
 
+export const initializeHomeHeroPreviewPlayback = (): void => {
+  document.querySelectorAll<HTMLVideoElement>('.orlyata-home__hero-preview').forEach((preview) => {
+    const playMutedInlinePreview = (): void => {
+      preview.autoplay = true;
+      preview.defaultMuted = true;
+      preview.loop = true;
+      preview.muted = true;
+      preview.playsInline = true;
+      void preview.play().catch(() => undefined);
+    };
+
+    preview.addEventListener('canplay', playMutedInlinePreview, { once: true });
+    window.addEventListener('pageshow', playMutedInlinePreview);
+    playMutedInlinePreview();
+  });
+};
+
+initializeHomeHeroPreviewPlayback();
+
 const initializeHomeHeroVideoDialog = (): void => {
   const dialog = document.querySelector<HTMLDialogElement>('.orlyata-home__hero-dialog');
   const original = dialog?.querySelector<HTMLVideoElement>('.orlyata-home__hero-dialog-video');
@@ -270,33 +328,67 @@ const initializeHomeHeroVideoDialog = (): void => {
 initializeHomeHeroVideoDialog();
 
 const sidebarMenuRevealDelayMs = 400;
-const sidebarMenuIcon: IconNode = [['path', { d: 'M4 6h16M4 12h16M4 18h16' }]];
+const sidebarMenuIcon: IconNode = [['path', { d: 'M3 8.5h18m-18 7h18' }]];
 const sidebarCloseIcon: IconNode = [['path', { d: 'M18 6 6 18M6 6l12 12' }]];
 
-document.querySelectorAll<HTMLButtonElement>('.orlyata-sidebar__menu-toggle').forEach((toggle) => {
-  const sidebar = toggle.closest<HTMLElement>('.orlyata-sidebar');
+const initializedSidebarMenuToggles = new WeakSet<HTMLButtonElement>();
+
+export const initializeSidebarMenus = (): void => {
+  document.querySelectorAll<HTMLButtonElement>('.orlyata-sidebar__menu-toggle').forEach((toggle) => {
+    if (initializedSidebarMenuToggles.has(toggle)) return;
+
+    const sidebar = toggle.closest<HTMLElement>('.orlyata-sidebar');
+    if (sidebar === null) return;
+
+    initializedSidebarMenuToggles.add(toggle);
+    sidebar.classList.remove('is-menu-open', 'is-menu-open-content');
+    toggle.setAttribute('aria-expanded', 'false');
+    const path = toggle.querySelector<SVGPathElement>('.orlyata-button__menu-icon-path');
+    const morph = path === null ? undefined : createMorph(path, sidebarMenuIcon, { reducedMotion: 'never' });
+
+    toggle.addEventListener('click', () => {
+      const isOpen = sidebar.classList.toggle('is-menu-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+      morph?.morphTo(isOpen ? sidebarCloseIcon : sidebarMenuIcon);
+
+      if (isOpen) {
+        window.setTimeout(() => {
+          if (sidebar.classList.contains('is-menu-open')) sidebar.classList.add('is-menu-open-content');
+        }, sidebarMenuRevealDelayMs);
+      } else {
+        sidebar.classList.remove('is-menu-open-content');
+      }
+    });
+  });
+};
+
+initializeSidebarMenus();
+
+const homeSidebarScrollThreshold = 0;
+
+const initializeHomeSidebarScrollState = (): void => {
+  const sidebar = document.querySelector<HTMLElement>('.home .orlyata-sidebar');
   if (sidebar === null) return;
 
-  sidebar.classList.remove('is-menu-open', 'is-menu-open-content');
-  toggle.setAttribute('aria-expanded', 'false');
-  const path = toggle.querySelector<SVGPathElement>('.orlyata-button__menu-icon-path');
-  const morph = path === null ? undefined : createMorph(path, sidebarMenuIcon, { reducedMotion: 'never' });
+  const updateScrollState = (): void => {
+    const isScrolled = window.scrollY > homeSidebarScrollThreshold;
 
-  toggle.addEventListener('click', () => {
-    const isOpen = sidebar.classList.toggle('is-menu-open');
-    toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
-    morph?.morphTo(isOpen ? sidebarCloseIcon : sidebarMenuIcon);
-
-    if (isOpen) {
-      window.setTimeout(() => {
-        if (sidebar.classList.contains('is-menu-open')) sidebar.classList.add('is-menu-open-content');
-      }, sidebarMenuRevealDelayMs);
-    } else {
-      sidebar.classList.remove('is-menu-open-content');
+    if (!isScrolled) {
+      sidebar.classList.remove('is-home-scrolled');
+      return;
     }
-  });
-});
+
+    if (!sidebar.classList.contains('is-home-scrolled')) {
+      sidebar.classList.add('is-home-scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', updateScrollState, { passive: true });
+  updateScrollState();
+};
+
+initializeHomeSidebarScrollState();
 
 
 const accordionPlus: IconNode = [["path", { d: "M5 12h14" }], ["path", { d: "M12 5v14" }]];
@@ -949,6 +1041,106 @@ const initializeNotesSearch = (): void => {
 
 initializeNotesSearch();
 
+const initializeNotesSearchToggle = (): void => {
+  const mobileQuery = window.matchMedia("(max-width: 767px)");
+  document.querySelectorAll<HTMLButtonElement>("[data-notes-search-toggle]").forEach((toggle) => {
+    const formId = toggle.getAttribute("aria-controls");
+    const form = formId === null ? null : document.getElementById(formId) as HTMLFormElement | null;
+    const sheet = form?.closest<HTMLElement>("[data-notes-search-sheet]");
+    const panel = sheet?.querySelector<HTMLElement>("[data-notes-search-sheet-panel]");
+    const field = form?.querySelector<HTMLInputElement>("[data-notes-search]");
+    const close = sheet?.querySelector<HTMLButtonElement>(".orlyata-notes__search-sheet-close");
+    const controls = document.querySelector<HTMLElement>(".orlyata-notes__controls");
+    const backdrop = sheet?.querySelector<HTMLButtonElement>("[data-notes-search-dismiss]");
+    if (form === null || sheet === null || panel === null || field === null || close === null || backdrop === null || controls === null) return;
+
+    let isOpen = mobileQuery.matches && field.value.trim() !== "";
+    let hasInteracted = false;
+    let lockedScrollY: number | undefined;
+    let removeKeyboardViewportListener: (() => void) | undefined;
+
+    const updateVisualViewportOffset = (): void => {
+      const offset = window.visualViewport?.offsetTop ?? 0;
+      document.documentElement.style.setProperty("--notes-search-visual-viewport-offset", String(offset) + "px");
+    };
+
+    const lockPageAtControls = (): void => {
+      const contentGap = Number.parseFloat(getComputedStyle(panel).columnGap);
+      const controlsDocumentTop = window.scrollY + controls.getBoundingClientRect().top;
+      lockedScrollY = Math.max(0, controlsDocumentTop - panel.getBoundingClientRect().height - contentGap);
+      document.documentElement.style.setProperty("--notes-search-locked-scroll-y", String(lockedScrollY) + "px");
+      updateVisualViewportOffset();
+      document.body.classList.add("is-notes-search-open");
+    };
+
+    const unlockPage = (): void => {
+      const restoreScrollY = lockedScrollY ?? window.scrollY;
+      document.body.classList.remove("is-notes-search-open");
+      document.documentElement.style.removeProperty("--notes-search-locked-scroll-y");
+      document.documentElement.style.removeProperty("--notes-search-visual-viewport-offset");
+      lockedScrollY = undefined;
+      window.scrollTo(0, restoreScrollY);
+    };
+
+    const listenForKeyboardViewport = (): void => {
+      removeKeyboardViewportListener?.();
+      const viewport = window.visualViewport;
+      const realign = (): void => { updateVisualViewportOffset(); };
+      viewport?.addEventListener("resize", realign);
+      viewport?.addEventListener("scroll", realign);
+      removeKeyboardViewportListener = (): void => {
+        viewport?.removeEventListener("resize", realign);
+        viewport?.removeEventListener("scroll", realign);
+        removeKeyboardViewportListener = undefined;
+      };
+    };
+
+    const sync = (): void => {
+      const isMobile = mobileQuery.matches;
+      if (!isMobile) isOpen = false;
+      if (isMobile && !hasInteracted && field.value.trim() !== "") isOpen = true;
+
+      toggle.hidden = !isMobile;
+      sheet.hidden = isMobile && !isOpen;
+      close.hidden = !isOpen;
+      backdrop.hidden = !isOpen;
+      toggle.setAttribute("aria-expanded", String(isOpen));
+
+    };
+
+    const open = (): void => {
+      hasInteracted = true;
+      isOpen = true;
+      sync();
+      lockPageAtControls();
+      listenForKeyboardViewport();
+      field.focus({ preventScroll: true });
+    };
+
+    const closeSheet = (restoreFocus: boolean): void => {
+      removeKeyboardViewportListener?.();
+      unlockPage();
+      hasInteracted = true;
+      isOpen = false;
+      sync();
+      if (restoreFocus && mobileQuery.matches) toggle.focus();
+    };
+
+    toggle.addEventListener("click", open);
+    close.addEventListener("click", () => { closeSheet(true); });
+    backdrop.addEventListener("click", () => { closeSheet(true); });
+    document.addEventListener("keydown", (event) => {
+      if (!isOpen || !mobileQuery.matches || event.key !== "Escape") return;
+      event.preventDefault();
+      closeSheet(true);
+    });
+    mobileQuery.addEventListener("change", sync);
+    sync();
+  });
+};
+
+initializeNotesSearchToggle();
+
 document.querySelectorAll<HTMLInputElement>('[data-notes-search]').forEach((search) => {
   const clear = search.parentElement?.querySelector<HTMLButtonElement>('[data-notes-search-clear]');
   const syncClear = (): void => { if (clear !== null && clear !== undefined) clear.hidden = search.value === ''; };
@@ -1026,22 +1218,54 @@ const initializeHomeNewsCarousel = (): void => {
     controls.forEach((control, index) => {
       control.addEventListener("click", () => { select(index); });
     });
-    let startX: number | null = null;
-    let swiped = false;
+    let swipeStart: { pointerId: number; x: number } | undefined;
     panel.addEventListener("pointerdown", (event) => {
-      startX = event.clientX;
-      swiped = false;
+      if (event.pointerType === "mouse" || event.target instanceof Element && event.target.closest("a, button")) return;
+      swipeStart = { pointerId: event.pointerId, x: event.clientX };
       panel.setPointerCapture(event.pointerId);
     });
-    panel.addEventListener("pointermove", (event) => {
-      if (startX !== null && Math.abs(event.clientX - startX) >= 40) swiped = true;
-    });
     panel.addEventListener("pointerup", (event) => {
-      if (startX !== null && Math.abs(event.clientX - startX) >= 40) select(event.clientX < startX ? activeIndex() + 1 : activeIndex() - 1);
-      startX = null;
+      if (swipeStart === undefined || swipeStart.pointerId !== event.pointerId) return;
+      const deltaX = event.clientX - swipeStart.x;
+      swipeStart = undefined;
+      if (panel.hasPointerCapture(event.pointerId)) panel.releasePointerCapture(event.pointerId);
+      if (Math.abs(deltaX) >= 40) select(deltaX < 0 ? activeIndex() + 1 : activeIndex() - 1);
     });
-    panel.addEventListener("click", (event) => { if (swiped) { event.preventDefault(); swiped = false; } });
+    panel.addEventListener("pointercancel", (event) => {
+      if (swipeStart === undefined || swipeStart.pointerId !== event.pointerId) return;
+      swipeStart = undefined;
+      if (panel.hasPointerCapture(event.pointerId)) panel.releasePointerCapture(event.pointerId);
+    });
   });
 };
 
 initializeHomeNewsCarousel();
+
+const initializeApplicationDemo = (): void => {
+  if (new URLSearchParams(window.location.search).get("application_demo") !== "1") return;
+  document.querySelectorAll<HTMLFormElement>("form.orlyata-application-form").forEach((form) => {
+    const initialMarkup = form.outerHTML;
+    form.addEventListener("submit", (event) => {
+      const fields = [...form.querySelectorAll<HTMLInputElement>(".orlyata-input__field")];
+      if (fields.some((field) => field.required && (field.value.trim() === "" || field.value === "+7 ("))) return;
+      event.preventDefault();
+      const submit = form.querySelector<HTMLButtonElement>(".orlyata-application-form__submit");
+      if (submit === null || form.dataset.applicationDemoSubmitting === "true") return;
+      form.dataset.applicationDemoSubmitting = "true";
+      form.setAttribute("aria-busy", "true"); submit.disabled = true; submit.classList.add("is-loading");
+      const label = submit.querySelector<HTMLElement>(".orlyata-button__label"); if (label !== null) label.innerHTML = `Отправляем заявку <span class="orlyata-button__loading-dots" aria-hidden="true"><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span></span>`;
+      window.setTimeout(() => {
+        form.outerHTML = `<div class="orlyata-application-form orlyata-application-form--success" role="status"><div class="orlyata-application-form__success-content"><img class="orlyata-application-form__success-icon" src="/wp-content/themes/orlyata/assets/icons/application-success.svg" alt=""><h2 class="orlyata-application-form__success-title">Заявка принята!</h2><p class="orlyata-application-form__success-copy">Нам нужно немного времени, чтобы её обработать и перезвонить вам</p></div><a class="orlyata-button orlyata-button--primary orlyata-application-form__success-action" href="#application" data-application-demo-reset><span class="orlyata-button__label">Хорошо</span></a></div>`;
+        document.querySelector<HTMLAnchorElement>("[data-application-demo-reset]")?.addEventListener("click", (resetEvent) => { resetEvent.preventDefault(); resetEvent.stopPropagation(); const success = resetEvent.currentTarget.closest<HTMLElement>(".orlyata-application-form--success"); if (success !== null) { success.outerHTML = initialMarkup; initializeApplicationFormValidation(); } });
+      }, 3000);
+    });
+  });
+};
+
+initializeApplicationDemo();
+
+document.addEventListener("click", (event) => {
+  const reset = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-application-demo-reset]") : null;
+  if (reset === null) return;
+  event.preventDefault();
+});

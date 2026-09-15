@@ -1,11 +1,8 @@
 @font-face {
-  font-family: "F37 Ginger Cyrillic VF";
+  font-family: "TT Turns";
   font-style: normal;
-  font-weight: 100 900;
+  font-weight: 500;
   font-display: swap;
-  src:
-    local("F37 Ginger Cyrillic VF"),
-    local("F37 Ginger Cyrillic"),
-    url("/wp-content/themes/orlyata/assets/fonts/f37-ginger-cyrillic-vf.woff2") format("woff2-variations");
+  src: url("/wp-content/themes/orlyata/assets/fonts/tt-turns-medium.woff2") format("woff2"),
+    url("/wp-content/themes/orlyata/assets/fonts/tt-turns-medium.woff") format("woff");
 }
-

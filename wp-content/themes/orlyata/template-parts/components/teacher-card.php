@@ -35,5 +35,5 @@ $full_name = trim( implode( ' ', array( $last_name, $first_name, $middle_name ) 
 		<img class="orlyata-teacher-card__photo" src="<?php echo esc_url( $image_src ); ?>" alt="<?php echo esc_attr( $full_name ); ?>" width="240" height="240" loading="lazy" decoding="async">
 	</span>
 	<h3 class="orlyata-teacher-card__name"><span class="orlyata-teacher-card__name-label" data-text="<?php echo esc_attr( $last_name ); ?>"><?php echo esc_html( $last_name ); ?></span></h3>
-	<p class="orlyata-teacher-card__meta"><span class="orlyata-teacher-card__meta-label" data-text="<?php echo esc_attr( $first_name . ' ' . $middle_name ); ?>"><?php echo esc_html( $first_name . ' ' . $middle_name ); ?></span></p>
+	<p class="orlyata-teacher-card__meta"><span class="orlyata-teacher-card__meta-label" data-text="<?php echo esc_attr( $first_name . " " . $middle_name ); ?>"><span class="orlyata-teacher-card__meta-first"><?php echo esc_html( $first_name ); ?></span> <span class="orlyata-teacher-card__meta-middle"><?php echo esc_html( $middle_name ); ?></span></span></p>
 </a></article>

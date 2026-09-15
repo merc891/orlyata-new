@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 $home_preview_assets = array(
 	'application_background' => get_theme_file_uri( 'assets/images/home/application-background.png' ),
 	'hero_original'          => get_theme_file_uri( 'assets/videos/home/hero-original.mp4' ),
-	'hero_preview'           => get_theme_file_uri( 'assets/videos/home/hero-preview.mp4' ),
+	'hero_preview'           => get_theme_file_uri( 'assets/videos/home/hero-original.mp4' ),
 	'news_background'        => get_theme_file_uri( 'assets/images/home/news-background.png' ),
 	'teacher_one'            => get_theme_file_uri( 'assets/images/home/teacher-one.png' ),
 	'teacher_two'            => get_theme_file_uri( 'assets/images/home/teacher-two.png' ),
@@ -25,27 +25,33 @@ $home_preview_assets = array(
 $home_preview_facts = array(
 	array(
 		'value' => '80+',
-		'label' => __( 'мальчиков и юношей', 'orlyata' ),
+		'label' => __( 'Ребят в капелле', 'orlyata' ),
 	),
 	array(
 		'value' => '5–17 лет',
-		'label' => __( 'возрастной состав', 'orlyata' ),
+		'label' => __( 'Возрастной состав', 'orlyata' ),
 	),
 	array(
 		'value' => '6',
-		'label' => __( 'опытных педагогов', 'orlyata' ),
+		'label' => __( 'Опытных педагогов', 'orlyata' ),
 	),
 	array(
 		'value' => '15–20',
-		'label' => __( 'выступлений в год', 'orlyata' ),
+		'label' => __( 'Выступлений в год', 'orlyata' ),
 	),
 );
 
 $home_preview_achievements = array(
-	array( '2026', __( 'Лауреат I степени', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'XI Московский областной открытый конкурс хоров мальчиков Подмосковья', 'orlyata' ) ),
-	array( '2025', __( 'Лауреат II степени', 'orlyata' ), __( 'Младший', 'orlyata' ), __( 'VII Международный фестиваль хорового искусства', 'orlyata' ) ),
-	array( '2024', __( 'Дипломант', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'IV Всероссийский конкурс хоровых коллективов', 'orlyata' ) ),
-	array( '2023', __( 'Лауреат I степени', 'orlyata' ), __( 'Юноши', 'orlyata' ), __( 'X Международный фестиваль хоровой музыки', 'orlyata' ) ),
+	array( '2025', __( 'Лауреат II степени', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'XXVI Московский международный фестиваль-конкурс «Рождественская песнь», в номинации исполнение православной духовной музыки', 'orlyata' ) ),
+	array( '2025', __( 'Лауреат I степени', 'orlyata' ), __( 'Младший', 'orlyata' ), __( 'XXVI Московский международный фестиваль-конкурс «Рождественская песнь», в номинации исполнение зарубежной духовной музыки', 'orlyata' ) ),
+	array( '2024', __( 'Лауреат I степени', 'orlyata' ), __( 'Юноши', 'orlyata' ), __( 'В номинации пение на испанском языке', 'orlyata' ) ),
+	array( '2024', __( 'Лауреат III степени', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'Золотой диплом в номинации хоры мальчиков и юношей', 'orlyata' ) ),
+	array( '2024', __( 'Лауреат II степени', 'orlyata' ), __( 'Младший', 'orlyata' ), __( 'В номинации исполнение православной духовной музыки — юношеский состав', 'orlyata' ) ),
+	array( '2024', __( 'Лауреат I степени', 'orlyata' ), __( 'Юноши', 'orlyata' ), __( 'В номинации исполнение православной духовной музыки — старший хор', 'orlyata' ) ),
+	array( '2023', __( 'Лауреат II степени', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'Конкурс «Поющее мужское братство» (категория «Хор мальчиков и юношей»)', 'orlyata' ) ),
+	array( '2023', __( 'Лауреат I степени', 'orlyata' ), __( 'Младший', 'orlyata' ), __( 'Конкурс «Поющее мужское братство» (категория «Хор мальчиков»)', 'orlyata' ) ),
+	array( '2023', __( 'Лауреат II степени', 'orlyata' ), __( 'Юноши', 'orlyata' ), __( 'Конкурс «Рождественская песнь» (категория «Хор мальчиков и юношей»)', 'orlyata' ) ),
+	array( '2023', __( 'Лауреат II степени', 'orlyata' ), __( 'Старший', 'orlyata' ), __( 'Конкурс «Рождественская песнь» (категория «Хор мальчиков»)', 'orlyata' ) ),
 );
 
 get_header();
@@ -99,7 +105,7 @@ get_header();
 							null,
 							array(
 								'category' => __( 'сегодня', 'orlyata' ),
-								'icon_uri' => get_theme_file_uri( 'assets/icons/home/news-theatre.svg' ),
+								'category_slug' => 'news',
 								'title'    => __( '«Крылатое сердце» — большой весенний концерт', 'orlyata' ),
 								'url'      => home_url( '/novosti/' ),
 							)
@@ -111,7 +117,7 @@ get_header();
 							null,
 							array(
 								'category' => __( '21 апреля', 'orlyata' ),
-								'icon_uri' => get_theme_file_uri( 'assets/icons/home/news-star.svg' ),
+								'category_slug' => 'achievement',
 								'title'    => __( 'Ансамбль юношей — Лауреаты I степени', 'orlyata' ),
 								'url'      => home_url( '/novosti/' ),
 							)
@@ -202,7 +208,7 @@ get_header();
 
 		<section class="orlyata-home__section orlyata-home__history" aria-labelledby="home-history-title">
 			<div class="orlyata-home__section-head">
-				<h2 class="type-heading-2" id="home-history-title"><?php esc_html_e( 'История', 'orlyata' ); ?></h2>
+				<h2 class="type-heading-2" id="home-history-mobile-title"><?php esc_html_e( 'О капелле', 'orlyata' ); ?></h2>
 				<?php
 				get_template_part(
 					'template-parts/components/text-link',
@@ -219,13 +225,6 @@ get_header();
 			<div class="orlyata-home__history-grid">
 				<div class="orlyata-home__history-intro">
 					<p class="orlyata-home__history-lead type-lead"><?php esc_html_e( 'Создана руководителями академического хора «Ковчег» — Заслуженным работником РФ Андреем Чернецовым и хормейстером Ириной Карпман', 'orlyata' ); ?></p>
-					<div class="orlyata-home__history-tags">
-						<span class="orlyata-home__history-tag"><?php esc_html_e( 'О капелле', 'orlyata' ); ?></span>
-						<span class="orlyata-home__history-tag"><?php esc_html_e( 'Педагоги', 'orlyata' ); ?></span>
-					</div>
-				</div>
-				<div class="orlyata-home__history-details">
-					<p class="orlyata-home__history-copy type-body"><?php esc_html_e( 'Пройдя большой путь в поиске «своего лица и в выборе репертуара, и в стиле работы, планах обучения и приобщения ребят к лучшим образцам певческого искусства, в капелле сложилась устойчивая система музыкально-хорового воспитания мальчиков от 5 до 17 лет', 'orlyata' ); ?></p>
 					<div class="orlyata-home__history-teachers">
 						<div class="orlyata-home__history-photos" aria-hidden="true">
 							<span class="orlyata-home__history-photo"><img src="<?php echo esc_url( $home_preview_assets['teacher_one'] ); ?>" alt=""></span>
@@ -239,61 +238,36 @@ get_header();
 						</a>
 					</div>
 				</div>
+				<div class="orlyata-home__history-details">
+
+					<h2 class="orlyata-home__history-title type-heading-2" id="home-history-title"><?php esc_html_e( 'О капелле', 'orlyata' ); ?></h2>
+					<p class="orlyata-home__history-copy type-body"><?php esc_html_e( 'Пройдя большой путь в поиске «своего лица и в выборе репертуара, и в стиле работы, планах обучения и приобщения ребят к лучшим образцам певческого искусства, в капелле сложилась устойчивая система музыкально-хорового воспитания мальчиков от 5 до 17 лет', 'orlyata' ); ?></p>
+					<div class="orlyata-home__history-tags">
+						<span class="orlyata-home__history-tag"><?php esc_html_e( 'О капелле', 'orlyata' ); ?></span>
+						<span class="orlyata-home__history-tag"><?php esc_html_e( 'Педагоги', 'orlyata' ); ?></span>
+					</div>
+				</div>
 			</div>
 		</section>
 
-		<section class="orlyata-home__section orlyata-home__application" aria-labelledby="home-application-title">
-			<div class="orlyata-home__application-copy">
-				<h2 class="type-heading-1" id="home-application-title"><?php esc_html_e( 'Хотите вырастить творческую личность — запишите мальчика в капеллу', 'orlyata' ); ?></h2>
-			</div>
-			<div class="orlyata-home__application-surface">
-				<img class="orlyata-home__application-background" src="<?php echo esc_url( $home_preview_assets['application_background'] ); ?>" alt="" aria-hidden="true">
-				<?php
-				get_template_part(
-					'template-parts/sections/application-form',
-					null,
-					array(
-						'id'      => 'application',
-						'variant' => 'home',
-					)
-				);
-				?>
-			</div>
-		</section>
 
-		<section class="orlyata-home__section orlyata-home__achievements" aria-labelledby="home-achievements-title">
-			<div class="orlyata-home__section-head">
-				<h2 class="type-heading-2" id="home-achievements-title"><?php esc_html_e( 'Достижения', 'orlyata' ); ?></h2>
-				<?php
-				get_template_part(
-					'template-parts/components/text-link',
-					null,
-					array(
-						'has_chevron' => true,
-						'href'        => home_url( '/o-kapelle/#achievements' ),
-						'label'       => __( 'Все достижения', 'orlyata' ),
-						'variant'     => 'color',
-					)
-				);
-				?>
-			</div>
-			<div class="orlyata-home__table-wrap">
-				<?php
-				get_template_part(
-					'template-parts/components/data-table',
-					null,
-					array(
-						'headers' => array( __( 'Год', 'orlyata' ), __( 'Достижение', 'orlyata' ), __( 'Хор', 'orlyata' ), __( 'Конкурс', 'orlyata' ) ),
-						'rows'    => $home_preview_achievements,
-						'variant' => 'achievements',
-					)
-				);
-				?>
-			</div>
-		</section>
+		<?php
+		get_template_part(
+			'template-parts/sections/achievements-table',
+			null,
+			array(
+				'link_href'  => home_url( '/o-kapelle/#achievements' ),
+				'link_label' => __( 'Все достижения', 'orlyata' ),
+				'rows'       => $home_preview_achievements,
+				'section_id' => 'home-achievements',
+			)
+		);
+		?>
 
-		<?php get_template_part( 'template-parts/layout/footer' ); ?>
+		<?php get_template_part( 'template-parts/sections/application-cta' ); ?>
+
 		</div>
+		<?php get_template_part( 'template-parts/layout/footer' ); ?>
 		<dialog class="orlyata-home__hero-dialog" aria-label="<?php esc_attr_e( 'Видео о капелле', 'orlyata' ); ?>">
 			<div class="orlyata-home__hero-dialog-content">
 				<video class="orlyata-home__hero-dialog-video" src="<?php echo esc_url( $home_preview_assets['hero_original'] ); ?>" controls playsinline preload="metadata"></video>

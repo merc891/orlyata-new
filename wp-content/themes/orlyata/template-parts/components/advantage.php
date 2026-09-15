@@ -23,6 +23,9 @@ if ( '' === $value || '' === $label ) {
 }
 ?>
 <div class="orlyata-advantage">
-	<p class="orlyata-advantage__value"><?php echo esc_html( $value ); ?></p>
+	<div class="orlyata-advantage__stat">
+		<span class="orlyata-advantage__accent" aria-hidden="true"></span>
+		<p class="orlyata-advantage__value"><?php echo esc_html( $value ); ?></p>
+	</div>
 	<p class="orlyata-advantage__label"><?php echo esc_html( $label ); ?></p>
 </div>

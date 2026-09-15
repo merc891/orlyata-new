@@ -11,6 +11,7 @@
 @import "components/news-card.css";
 @import "components/media-card.css";
 @import "components/data-table.css";
+@import "components/achievements-table.css";
 @import "components/sidebar.css";
 @import "components/footer.css";
 @import "components/application-form.css";
@@ -30,6 +31,7 @@
 @import "pages/media-archive.css";
 @import "pages/media-card-video-preview.css";
 @import "pages/not-found.css";
+@import "pages/legal-document.css";
 
 /* Desktop-only hover contract: tablet and mobile retain default, active and keyboard focus. */
 @media (width <= 1279px) {
@@ -86,4 +88,40 @@
   .orlyata-data-table--video tbody tr:hover:not(:focus-within) .orlyata-data-table__provider-icon-image--color { opacity: 0; }
   .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video, .orlyata-data-table--notes) tbody tr:hover:not(:focus-within) .orlyata-data-table__row-arrow:first-child { transform: none; }
   .orlyata-data-table:is(.orlyata-data-table--news, .orlyata-data-table--photo, .orlyata-data-table--video, .orlyata-data-table--notes) tbody tr:hover:not(:focus-within) .orlyata-data-table__row-arrow:nth-child(2) { transform: translateX(-100%); }
+}
+
+
+/* Mobile shell: every page uses the same available, guttered column. */
+@media (width <= 767px) {
+  :is(.orlyata-about, .orlyata-media-gallery, .orlyata-news, .orlyata-notes, .orlyata-contacts, .orlyata-media-archive, .orlyata-photo-album-detail, .orlyata-news-detail, .orlyata-teacher-detail) {
+    display: block;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  :is(.orlyata-about__content, .orlyata-media-gallery__content, .orlyata-news__content, .orlyata-notes__content, .orlyata-contacts__content, .orlyata-media-archive__content, .orlyata-photo-album-detail__content, .orlyata-news-detail__content, .orlyata-teacher-detail__content) {
+    min-inline-size: 0;
+    inline-size: 100%;
+  }
+
+  :is(.orlyata-about__grid, .orlyata-media-gallery__section, .orlyata-media-gallery__grid) {
+    min-inline-size: 0;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .orlyata-media-gallery__media-list-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .orlyata-about__teacher-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Tablet shell: the shared header occupies the first flex row above every page canvas. */
+@media (width >= 768px) and (width <= 1279px) {
+  :is(.orlyata-about, .orlyata-media-gallery, .orlyata-news, .orlyata-notes, .orlyata-contacts, .orlyata-media-archive, .orlyata-photo-album-detail, .orlyata-news-detail, .orlyata-teacher-detail) {
+    flex-wrap: wrap;
+  }
 }

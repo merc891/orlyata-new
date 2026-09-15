@@ -65,6 +65,12 @@
   appearance: none;
 }
 
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-search-input--archive-control .orlyata-search-input__field {
+    height: var(--button-height);
+  }
+}
+
 .orlyata-search-input__clear[hidden] {
   display: none;
 }

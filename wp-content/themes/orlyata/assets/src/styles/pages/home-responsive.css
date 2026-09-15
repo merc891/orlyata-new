@@ -5,6 +5,19 @@
 }
 
 @media (width <= 767px) {
+  .orlyata-home .orlyata-home__hero-panel--capella::before {
+    background: var(--home-mobile-hero-overlay);
+  }
+
+  .orlyata-home .orlyata-home__hero-panel--capella::after {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+    background: var(--home-mobile-hero-top-gradient);
+  }
+
   .orlyata-home__hero-panel--news {
     padding: 0;
   }
@@ -14,32 +27,53 @@
     inset: auto;
   }
 
-  .orlyata-home__news-grid {
+  .orlyata-home .orlyata-home__news-grid {
     inset: auto;
-    margin-block-start: var(--space-5);
+    margin-block-start: auto;
   }
 }
 @media (width >= 768px) and (width <= 1279px) {
   body.home,
+  body:has(.orlyata-about),
+  body:has(.orlyata-news),
+  body:has(.orlyata-media-gallery),
+  body:has(.orlyata-news-detail),
+  body:has(.orlyata-teacher-detail),
+  body:has(.orlyata-not-found),
+  body:has(.orlyata-contacts),
   :root:has(.orlyata-home),
-  .orlyata-home {
+  :root:has(.orlyata-about),
+  :root:has(.orlyata-news),
+  :root:has(.orlyata-media-gallery),
+  :root:has(.orlyata-news-detail),
+  :root:has(.orlyata-teacher-detail),
+  :root:has(.orlyata-not-found),
+  :root:has(.orlyata-contacts),
+  .orlyata-home,
+  .orlyata-about,
+  .orlyata-news,
+  .orlyata-media-gallery,
+  .orlyata-news-detail,
+  .orlyata-not-found,
+  .orlyata-contacts,
+  .orlyata-teacher-detail {
     /* At 1279px these are the 1920px desktop values; every value below follows S_t. */
-    --font-size-display: clamp(3.002346rem, 6.254762vw, 5rem);
-    --font-size-heading-1: clamp(2.401876rem, 5.003680vw, 4rem);
+    --font-size-display: clamp(2.702111rem, 5.629398vw, 4.5rem);
+    --font-size-heading-1: clamp(2.401876rem, 5.003909vw, 4rem);
     --font-size-heading-2: clamp(1.651291rem, 3.440188vw, 2.75rem);
     --font-size-lead: clamp(1.351056rem, 2.814699vw, 2.25rem);
     --font-size-heading-3: clamp(0.900704rem, 1.876466vw, 1.5rem);
     --font-size-body: clamp(0.750586rem, 1.563722vw, 1.25rem);
     --font-size-caption: clamp(0.52541rem, 1.094605vw, 0.875rem);
     --font-size-body-small: clamp(0.52541rem, 1.094605vw, 0.875rem);
-    --letter-spacing-display: clamp(-0.3125rem, -0.625476vw, -0.187646rem);
-    --letter-spacing-heading-1: clamp(-0.1875rem, -0.375286vw, -0.112588rem);
-    --letter-spacing-heading-2: clamp(-0.125rem, -0.250190vw, -0.075059rem);
-    --letter-spacing-lead: clamp(-0.09375rem, -0.187643vw, -0.056294rem);
-    --letter-spacing-heading-3: clamp(-0.09375rem, -0.187643vw, -0.056294rem);
-    --letter-spacing-body: clamp(-0.046875rem, -0.093821vw, -0.028147rem);
-    --letter-spacing-caption: clamp(-0.01875rem, -0.037529vw, -0.011259rem);
-    --letter-spacing-body-small: clamp(-0.01875rem, -0.037529vw, -0.011259rem);
+    --letter-spacing-display: clamp(-0.125rem, -0.156372vw, -0.075059rem);
+    --letter-spacing-heading-1: clamp(-0.0625rem, -0.078186vw, -0.037529rem);
+    --letter-spacing-heading-2: clamp(-0.03125rem, -0.039093vw, -0.018765rem);
+    --letter-spacing-lead: clamp(-0.03125rem, -0.039093vw, -0.018765rem);
+    --letter-spacing-heading-3: 0;
+    --letter-spacing-body: 0;
+    --letter-spacing-caption: 0;
+    --letter-spacing-body-small: 0;
     --space-1: clamp(0.150117rem, 0.500391vw, 0.25rem);
     --space-2: clamp(0.300235rem, 1.000782vw, 0.5rem);
     --space-4: clamp(0.600469rem, 2.001564vw, 1rem);
@@ -49,8 +83,13 @@
     --radius-small: clamp(0.300235rem, 1.000782vw, 0.5rem);
     --radius-medium: clamp(0.600469rem, 2.001564vw, 1rem);
     --radius-large: clamp(0.900704rem, 3.002346vw, 1.5rem);
-    --button-height: clamp(2.401876rem, 5.003680vw, 4rem);
+    /* Controls share the 48px minimum interaction target below the S_t value. */
+    --button-height: clamp(3rem, 5.003680vw, 4rem);
     --badge-height: clamp(2.401876rem, 5.003680vw, 4rem);
+    --badge-icon-size: clamp(2.401876rem, 5.003680vw, 4rem);
+    --badge-icon-gap: clamp(0.150117rem, 0.312744vw, 0.250000rem);
+    --badge-icon-glyph-size: clamp(0.900704rem, 1.876466vw, 1.5rem);
+    --news-card-category-glyph-size: clamp(1.5rem, 2.501955vw, 2rem);
     --button-padding-block: clamp(0.450352rem, 1.501173vw, 0.75rem);
     --button-padding-inline: clamp(0.900704rem, 3.002346vw, 1.5rem);
     --button-gap: clamp(0.300235rem, 1.000782vw, 0.5rem);
@@ -71,15 +110,13 @@
     --sidebar-tablet-logo-width: clamp(6.755278rem, 14.073495vw, 11.25rem);
     --sidebar-tablet-logo-height: clamp(3.756685rem, 7.826427vw, 6.25625rem);
     --sidebar-tablet-menu-line-width: clamp(1.801407rem, 3.752932vw, 3rem);
-    --footer-preceding-gap: clamp(4.503518rem, 9.382330vw, 7.5rem);
-    --footer-tablet-brand-links-gap: clamp(2.401876rem, 5.003909vw, 4rem);
     --layout-section-gap: clamp(4.503518rem, 9.382330vw, 7.5rem);
     --home-history-height: clamp(20.412822rem, 6.805317vw, 34rem);
     --home-history-heading-offset: clamp(0.56294rem, 0.187647vw, 0.9375rem);
     --home-history-content-height: clamp(18.011728rem, 6.008444vw, 30rem);
     --home-history-grid-gap: clamp(0.600469rem, 2.001564vw, 1rem);
-    --home-history-lead-width: clamp(25.894449rem, 8.642815vw, 43.125rem);
-    --home-history-copy-width: clamp(23.279515rem, 7.770320vw, 38.75rem);
+    --home-history-lead-width: clamp(25.894449rem, 53.948397vw, 43.125rem);
+    --home-history-copy-width: clamp(23.279515rem, 48.475371vw, 38.75rem);
     --home-history-copy-offset-block: clamp(0.750586rem, 2.501955vw, 1.25rem);
     --home-history-teacher-size: clamp(3.752932rem, 12.509773vw, 6.25rem);
     --home-application-height: clamp(23.279515rem, 7.770320vw, 38.75rem);
@@ -114,10 +151,7 @@
   }
 
   .orlyata-home__news-grid > .orlyata-news-card {
-    min-height: 0;
-    height: auto;
     padding: var(--news-card-padding);
-    aspect-ratio: var(--news-card-aspect-ratio);
   }
 
   .orlyata-home__facts {
@@ -140,10 +174,6 @@
     aspect-ratio: var(--media-card-big-aspect-ratio);
   }
 
-  .orlyata-home__media-grid .orlyata-media-card--small {
-    height: auto;
-    aspect-ratio: var(--media-card-small-aspect-ratio);
-  }
 
   .orlyata-home__history {
     min-height: 0;
@@ -170,52 +200,166 @@
 }
 
 @media (width <= 767px) {
-  .orlyata-home {
-    --font-size-display: clamp(1.5rem, calc(3.222vw + 0.855rem), 2.4rem);
-    --font-size-heading-1: clamp(1.5rem, 2.503vw, 1.92rem);
-    --font-size-heading-2: clamp(1.125rem, 1.006vw + 0.868rem, 1.35rem);
-    --font-size-lead: clamp(1.25rem, 1.788vw + 0.893rem, 1.25rem);
-    --font-size-heading-3: 1rem;
-    --font-size-body: 0.875rem;
-    --font-size-caption: 0.75rem;
-    --font-size-body-small: 0.75rem;
-    --space-1: clamp(0.125rem, 0.391vw, 0.1875rem);
-    --space-2: clamp(0.25rem, 0.782vw, 0.375rem);
-    --space-4: clamp(0.5rem, 1.616vw, 0.775rem);
-    --space-5: clamp(0.75rem, 3.13vw, 1.5rem);
-    --space-7: clamp(1rem, 4.172vw, 2rem);
-    --radius-large: clamp(0.625rem, 3.13vw, 1.5rem);
-    --button-icon-size: clamp(1rem, 2.086vw, 1rem);
-    --news-card-aspect-ratio: 365 / 270;
-    --news-card-padding: clamp(0.75rem, 3.13vw, 1.5rem);
-    --home-hero-panel-height: clamp(20rem, calc(26.8vw + 11.44rem), 32rem);
+  /* Approved Home mobile geometry at the 393px reference. */
+  .orlyata-home .orlyata-home__content {
+    padding-block-start: 0;
   }
 
-  .orlyata-home__content {
-    padding-inline: var(--layout-content-gutter);
+  .orlyata-home .orlyata-home__hero {
+    inline-size: calc(100% + (var(--layout-content-gutter) * 2));
+    margin-inline: calc(-1 * var(--layout-content-gutter));
+    margin-block-start: 0;
   }
 
-  .orlyata-home__hero-panel {
-    min-height: var(--home-hero-panel-height);
+  .orlyata-home .orlyata-home__hero-panel--capella {
+    min-block-size: var(--home-mobile-hero-height);
+    block-size: var(--home-mobile-hero-height);
+    border-radius: 0 0 var(--home-mobile-hero-radius) var(--home-mobile-hero-radius);
   }
 
-  .orlyata-home__news-grid > .orlyata-news-card {
-    min-height: 0;
-    height: auto;
-    padding: var(--news-card-padding);
-    aspect-ratio: var(--news-card-aspect-ratio);
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) {
+    flex-direction: row;
+    align-items: center;
   }
 
-  .orlyata-home__facts .orlyata-advantage {
-    aspect-ratio: var(--advantage-aspect-ratio);
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) .orlyata-text-link {
+    display: inline-flex;
+    flex: 0 0 var(--icon-size-ui-mobile);
+    inline-size: var(--icon-size-ui-mobile);
+    block-size: var(--icon-size-ui-mobile);
+    column-gap: 0;
   }
 
-  .orlyata-home__media-grid .orlyata-media-card--big {
-    aspect-ratio: var(--media-card-big-aspect-ratio);
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) .orlyata-text-link__label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) .orlyata-text-link__icon-track,
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) .orlyata-text-link__icon {
+    inline-size: var(--icon-size-ui-mobile);
+    block-size: var(--icon-size-ui-mobile);
+  }
+
+  .orlyata-home .orlyata-home__hero-panel--capella > .orlyata-home__hero-title {
+    position: absolute;
+    inset-block-end: var(--home-mobile-hero-title-bottom-inset);
+    inset-inline: var(--home-mobile-hero-content-inset);
+  }
+
+  .orlyata-home .orlyata-home__hero-play {
+    inset-block-start: auto;
+    inset-block-end: calc(var(--home-mobile-hero-title-bottom-inset) + (var(--font-size-display) * var(--line-height-display) * 3) + var(--home-mobile-hero-play-title-gap));
+    inset-inline-start: var(--home-mobile-hero-content-inset);
+    inline-size: var(--home-mobile-control-size);
+    block-size: var(--home-mobile-control-size);
+  }
+
+  .orlyata-home .orlyata-home__hero-play .orlyata-button__icon--play {
+    inline-size: var(--home-mobile-play-icon-size);
+    block-size: var(--home-mobile-play-icon-size);
+  }
+
+  .orlyata-home .orlyata-home__hero-panel--news {
+    display: flex;
+    inline-size: calc(100% - (var(--layout-content-gutter) * 2));
+    min-block-size: calc(var(--home-mobile-news-height) + var(--home-mobile-space-4));
+    block-size: calc(var(--home-mobile-news-height) + var(--home-mobile-space-4));
+    margin-inline: var(--layout-content-gutter);
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .orlyata-home .orlyata-home__hero-panel--news .orlyata-home__hero-panel-content {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    min-block-size: 0;
+    padding: 0;
+  }
+
+  .orlyata-home__news-head {
+    padding: var(--home-mobile-space-16) var(--home-mobile-space-12) 0;
+  }
+
+  .orlyata-home__news-grid {
+    inset: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--home-mobile-space-12);
+    padding: 0 var(--home-mobile-space-12) var(--home-mobile-space-16);
+    margin-block-start: 0;
+  }
+
+  .orlyata-home__news-pagination {
+    display: none;
+  }
+
+  .orlyata-home .orlyata-home__news-grid > .orlyata-news-card {
+    min-block-size: var(--home-mobile-news-card-height);
+    block-size: var(--home-mobile-news-card-height);
+    aspect-ratio: auto;
+  }
+
+  .orlyata-home__facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--home-mobile-space-12);
+    margin-block-start: var(--home-mobile-space-16);
+  }
+
+  .orlyata-home .orlyata-home__facts .orlyata-advantage {
+    min-block-size: var(--home-mobile-fact-height);
+    block-size: var(--home-mobile-fact-height);
+    aspect-ratio: auto;
+  }
+
+  .orlyata-home__media-section {
+    margin-block-start: var(--home-mobile-media-offset);
+  }
+
+  .orlyata-home__media-grid {
+    row-gap: var(--space-5);
+  }
+
+
+  .orlyata-home__media-grid .orlyata-media-card--big,
   .orlyata-home__media-grid .orlyata-media-card--small {
-    aspect-ratio: var(--media-card-small-aspect-ratio);
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  .orlyata-home__history-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .orlyata-home__history-intro,
+  .orlyata-home__history-details {
+    display: contents;
+  }
+
+  .orlyata-home__history-lead {
+    order: 1;
+    margin-block-start: 0;
+  }
+
+  .orlyata-home__history-teachers {
+    order: 2;
+    position: static;
+    margin-block-start: var(--home-mobile-space-16);
+  }
+
+  .orlyata-home__history-copy {
+    order: 3;
+    inline-size: 100%;
+    margin-block-start: var(--space-5);
   }
 
   .orlyata-home__history,
@@ -226,21 +370,91 @@
     min-height: 0;
   }
 
-  .orlyata-home__history-tags,
-  .orlyata-home__history-teachers {
+  .orlyata-home__history-tags {
+    display: none;
     position: static;
     margin-block-start: var(--space-5);
   }
 
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody tr {
+    display: grid;
+    grid-template-columns: var(--data-table-mobile-leading-track) minmax(0, 1fr);
+    row-gap: var(--home-mobile-achievements-competition-gap);
+    padding-block: 0 var(--home-mobile-space-12);
+    margin-block-end: var(--home-mobile-space-12);
+  }
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody td {
+    width: auto;
+    min-block-size: 0;
+    padding: 0;
+  }
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody td::before {
+    content: none;
+  }
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody :is(td) {
+    color: var(--color-text-primary);
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-body);
+    line-height: var(--line-height-body);
+  }
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody td:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody td:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    margin-inline-start: var(--home-mobile-space-32);
+  }
+
+
+  .orlyata-home__achievements .orlyata-data-table--achievements tbody td:nth-child(3) {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    inline-size: auto;
+    margin-inline-start: var(--home-mobile-space-32);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    line-height: var(--line-height-body);
+  }
+
   .orlyata-home__application-surface {
     aspect-ratio: auto;
+    padding-inline: var(--home-mobile-space-12);
   }
 }
 
 @media (width >= 768px) and (width <= 1279px) {
   body.home,
+  body:has(.orlyata-about),
+  body:has(.orlyata-news),
+  body:has(.orlyata-media-gallery),
+  body:has(.orlyata-news-detail),
+  body:has(.orlyata-teacher-detail),
+  body:has(.orlyata-not-found),
+  body:has(.orlyata-contacts),
   :root:has(.orlyata-home),
-  .orlyata-home {
+  :root:has(.orlyata-about),
+  :root:has(.orlyata-news),
+  :root:has(.orlyata-media-gallery),
+  :root:has(.orlyata-news-detail),
+  :root:has(.orlyata-teacher-detail),
+  :root:has(.orlyata-not-found),
+  :root:has(.orlyata-contacts),
+  .orlyata-home,
+  .orlyata-about,
+  .orlyata-news,
+  .orlyata-media-gallery,
+  .orlyata-news-detail,
+  .orlyata-not-found,
+  .orlyata-contacts,
+  .orlyata-teacher-detail {
     --focus-ring-width: clamp(0.075059rem, 0.156372vw, 0.125000rem);
     --focus-ring-offset: clamp(0.075059rem, 0.156372vw, 0.125000rem);
     --button-padding-block: clamp(0.450352rem, 0.938233vw, 0.750000rem);
@@ -254,6 +468,9 @@
     --distance-button-loading-dot-rise: clamp(0.075059rem, 0.156372vw, 0.125000rem);
     --distance-title-roll-separator: clamp(0.150117rem, 0.312744vw, 0.250000rem);
     --badge-padding-inline: clamp(0.900704rem, 1.876466vw, 1.500000rem);
+    --badge-icon-size: clamp(2.401876rem, 5.003680vw, 4rem);
+    --badge-icon-gap: clamp(0.150117rem, 0.312744vw, 0.250000rem);
+    --badge-icon-glyph-size: clamp(0.900704rem, 1.876466vw, 1.5rem);
     --input-padding-block: clamp(0.075059rem, 0.156372vw, 0.125000rem);
     --input-padding-inline: clamp(0.600469rem, 1.250977vw, 1.000000rem);
     --input-label-line-height: clamp(0.788116rem, 1.641908vw, 1.312500rem);
@@ -290,6 +507,7 @@
     --media-card-big-height: clamp(20.265833rem, 42.220485vw, 33.750000rem);
     --media-card-big-padding-block: clamp(1.200938rem, 2.501955vw, 2.000000rem);
     --media-card-big-padding-inline: clamp(0.900704rem, 1.876466vw, 1.500000rem);
+    --media-card-big-meta-inset: clamp(0.900704rem, 1.876466vw, 1.500000rem);
     --media-card-big-title-width: clamp(16.137007rem, 33.618765vw, 26.874000rem);
     --media-card-small-width: clamp(14.636435rem, 30.492572vw, 24.375000rem);
     --media-card-small-height: clamp(20.265833rem, 42.220485vw, 33.750000rem);
@@ -310,22 +528,6 @@
     --sidebar-nav-gap: clamp(0.075059rem, 0.156372vw, 0.125000rem);
     --sidebar-cta-inset-inline-start: clamp(0.637998rem, 1.329163vw, 1.062500rem);
     --sidebar-cta-inset-inline-end: clamp(0.937648rem, 1.953432vw, 1.561525rem);
-    --footer-preceding-gap: clamp(4.503518rem, 9.382330vw, 7.500000rem);
-    --footer-reference-width: clamp(60.647381rem, 126.348710vw, 101.000000rem);
-    --footer-height: clamp(17.601251rem, 36.669273vw, 29.312500rem);
-    --footer-padding: clamp(1.801407rem, 3.752932vw, 3.000000rem);
-    --footer-content-height: clamp(13.998436rem, 29.163409vw, 23.312500rem);
-    --footer-navigation-heading-links-gap: clamp(0.900704rem, 1.876466vw, 1.500000rem);
-    --footer-brand-width: clamp(19.674746rem, 40.989054vw, 32.765625rem);
-    --footer-nav-width: clamp(7.149335rem, 14.894449vw, 11.906250rem);
-    --footer-contacts-offset-inline: clamp(55.393276rem, 115.402658vw, 92.250000rem);
-    --footer-contacts-width: clamp(11.333855rem, 23.612197vw, 18.875000rem);
-    --footer-contacts-height: clamp(10.207975rem, 21.266615vw, 17.000000rem);
-    --footer-copyright-offset-block: clamp(11.878030rem, 24.745895vw, 19.781250rem);
-    --footer-contacts-links-offset-block: calc(var(--footer-nav-offset-block) + var(--footer-section-title-height) + var(--footer-navigation-heading-links-gap) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2) + var(--footer-link-item-height) + var(--space-2));
-    --footer-section-title-height: clamp(0.788116rem, 1.641908vw, 1.312500rem);
-    --footer-link-item-height: clamp(0.900704rem, 1.876466vw, 1.500000rem);
-    --page-hero-height: clamp(13.322909rem, 27.756059vw, 22.187500rem);
     --page-hero-padding-inline-start: clamp(0.900704rem, 1.876466vw, 1.500000rem);
     --page-hero-padding-block-end: clamp(1.200938rem, 2.501955vw, 2.000000rem);
     --news-detail-hero-height: clamp(21.766405rem, 45.346677vw, 36.249000rem);
@@ -359,7 +561,7 @@
     --news-filter-offset-block: clamp(2.401291rem, 5.002690vw, 3.999025rem);
     --news-filter-table-gap: clamp(1.200938rem, 2.501955vw, 2.000000rem);
     --notes-filter-table-gap: clamp(2.401291rem, 5.002690vw, 3.999025rem);
-    --notes-filter-search-gap: clamp(6.755278rem, 14.073495vw, 11.250000rem);
+    --notes-filter-search-gap: var(--accordion-row-height);
     --notes-empty-offset-block: clamp(4.503518rem, 9.382330vw, 7.500000rem);
     --notes-empty-icon-size: clamp(3.602815rem, 7.505864vw, 6.000000rem);
     --not-found-message-offset-block: clamp(5.328563rem, 11.101173vw, 8.874000rem);
@@ -371,7 +573,7 @@
     --about-section-heading-content-gap: clamp(1.200938rem, 2.501955vw, 2.000000rem);
     --about-life-copy-width: clamp(22.517592rem, 46.911650vw, 37.500000rem);
     --about-life-controls-inset: clamp(0.900704rem, 1.876466vw, 1.500000rem);
-    --about-life-copy-controls-gap: clamp(1.200938rem, 2.501955vw, 2.000000rem);
+    --about-life-copy-controls-gap: clamp(0.900704rem, 1.876466vw, 1.500000rem);
     --about-life-pagination-dot-size: clamp(0.225176rem, 0.469116vw, 0.375000rem);
     --about-life-pagination-dot-gap: clamp(0.450352rem, 0.938233vw, 0.750000rem);
     --about-teacher-photo-size: clamp(6.004091rem, 12.508522vw, 9.999000rem);
@@ -384,16 +586,17 @@
     --home-history-heading-offset: clamp(0.562940rem, 1.172791vw, 0.937500rem);
     --home-history-content-height: clamp(18.014073rem, 37.529320vw, 30.000000rem);
     --home-history-grid-gap: clamp(0.600469rem, 1.250977vw, 1.000000rem);
-    --home-history-lead-width: clamp(25.895231rem, 53.948397vw, 43.125000rem);
+    --home-history-lead-width: clamp(22.517592rem, 46.911650vw, 37.500000rem);
     --home-history-copy-width: clamp(23.268178rem, 48.475371vw, 38.750000rem);
     --home-history-copy-offset-block: clamp(0.750586rem, 1.563722vw, 1.250000rem);
     --home-history-teacher-size: clamp(3.752347rem, 7.817389vw, 6.249025rem);
     --home-application-height: clamp(23.268178rem, 48.475371vw, 38.750000rem);
     --home-application-surface-padding: clamp(1.500587rem, 3.126224vw, 2.499025rem);
     --home-application-title-width: clamp(32.875684rem, 68.491009vw, 54.750000rem);
+    --home-application-title-icon-size: clamp(2.401876rem, 5.003909vw, 4rem);
     --home-application-title-gap: clamp(1.200938rem, 2.501955vw, 2.000000rem);
-    --font-size-display: clamp(3.002346rem, 6.254887vw, 5.000000rem);
-    --font-size-heading-1: clamp(2.401291rem, 5.002690vw, 3.999025rem);
+    --font-size-display: clamp(2.702111rem, 5.629398vw, 4.5rem);
+    --font-size-heading-1: clamp(2.401876rem, 5.003909vw, 4rem);
     --font-size-heading-2: clamp(1.651290rem, 3.440188vw, 2.750000rem);
     --font-size-lead: clamp(1.351056rem, 2.814699vw, 2.250000rem);
     --font-size-heading-3: clamp(0.900704rem, 1.876466vw, 1.500000rem);
@@ -409,8 +612,6 @@
     --radius-small: clamp(0.300235rem, 0.625489vw, 0.500000rem);
     --radius-medium: clamp(0.600469rem, 1.250977vw, 1.000000rem);
     --radius-large: clamp(0.900704rem, 1.876466vw, 1.500000rem);
-    /* Documented minimum: it does not participate in the tablet coefficient. */
-    --layout-content-gutter: 1.5rem;
   }
 }
 
@@ -420,7 +621,14 @@
     --home-tablet-news-card-height: clamp(10.133rem, 21.11vw, 16.875rem);
     --home-tablet-facts-height: clamp(6.38rem, 13.292vw, 10.625rem);
     --home-tablet-media-big-height: clamp(28.536rem, 59.421vw, 47.5rem);
-    --home-tablet-history-height: clamp(17.262rem, 35.943vw, 28.75rem);
+    --home-tablet-history-height: clamp(19.515rem, 40.656763vw, 32.5rem);
+    --home-tablet-history-text-scale: clamp(0.600469, calc(100vw / 1279px), 1);
+    --home-tablet-history-lead-reference-width: 37.5rem;
+    --home-tablet-history-copy-reference-width: 34.59375rem;
+    --home-tablet-history-lead-reference-size: 2.25rem;
+    --home-tablet-history-copy-reference-size: 1.25rem;
+    --home-tablet-history-lead-reference-tracking: -0.03125rem;
+    --home-tablet-history-copy-reference-tracking: 0;
   }
 
   .orlyata-home__hero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -430,11 +638,26 @@
   .orlyata-home__facts .orlyata-advantage { block-size: var(--home-tablet-facts-height); aspect-ratio: auto; }
   .orlyata-home__media-grid .orlyata-media-card--big { block-size: var(--home-tablet-media-big-height); aspect-ratio: auto; }
   .orlyata-home__history { block-size: var(--home-tablet-history-height); aspect-ratio: auto; }
-  .orlyata-home__history-grid { block-size: calc(100% - var(--font-size-heading-2) - var(--space-5)); }
+  .orlyata-home__history-lead,
+  .orlyata-home__history-copy {
+    max-inline-size: none;
+    transform: scale(var(--home-tablet-history-text-scale));
+    transform-origin: top left;
+  }
+  .orlyata-home__history-lead {
+    inline-size: var(--home-tablet-history-lead-reference-width);
+    font-size: var(--home-tablet-history-lead-reference-size);
+    letter-spacing: var(--home-tablet-history-lead-reference-tracking);
+  }
+  .orlyata-home__history-copy {
+    inline-size: var(--home-tablet-history-copy-reference-width);
+    font-size: var(--home-tablet-history-copy-reference-size);
+    letter-spacing: var(--home-tablet-history-copy-reference-tracking);
+  }
+  .orlyata-home__history-grid { grid-template-columns: var(--home-history-lead-width) minmax(0, 1fr); block-size: calc(100% - var(--font-size-heading-2) - var(--space-5)); }
   .orlyata-home__history-intro, .orlyata-home__history-details { display: flex; flex-direction: column; }
   .orlyata-home__history-tags, .orlyata-home__history-teachers { margin-block-start: auto; }
   .orlyata-home__application-surface { block-size: auto; min-block-size: calc(var(--application-form-min-height) + var(--home-application-surface-padding) + var(--home-application-surface-padding)); }
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(thead tr, tbody tr) { grid-template-columns: 10% 20% 20% minmax(0, 50%); }
 }
 
 @media (width >= 768px) and (width <= 1279px) {
@@ -477,19 +700,8 @@
     place-items: center;
   }
 
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(thead tr, tbody tr) {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    column-gap: var(--layout-grid-gap);
-  }
 
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td) { display: grid; min-width: 0; }
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(1) { grid-column: 1; }
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(2) { grid-column: 2; padding-inline-start: 20%; }
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(3) { grid-column: 3; padding-inline-start: 20%; }
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(4) { grid-column: 3 / -1; }
 }
-
 @media (width >= 768px) and (width <= 1279px) {
   .orlyata-home__news-grid {
     bottom: calc(var(--space-5) + var(--about-life-pagination-dot-size) + var(--space-4));
@@ -512,49 +724,9 @@
     max-inline-size: calc(100% - var(--home-application-surface-padding) - var(--home-application-surface-padding));
   }
 
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(thead tr, tbody tr) {
-    --orlyata-data-table-year-column: calc((100% + var(--layout-grid-gap)) / 10);
-    --orlyata-data-table-remaining-column: calc((100% + var(--layout-grid-gap)) / 5);
-    --orlyata-data-table-competition-column: calc(50% - (var(--layout-grid-gap) / 2));
-    display: grid;
-    grid-template-columns: minmax(0, var(--orlyata-data-table-year-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-remaining-column)) minmax(0, var(--orlyata-data-table-competition-column));
-    column-gap: 0;
-  }
 
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td) {
-    display: block;
-    min-width: 0;
-    padding-inline-start: 0;
-  }
-
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(1),
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(2),
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(3),
-  .orlyata-home__achievements .orlyata-data-table--achievements :is(th, td):nth-child(4) {
-    grid-column: auto;
-  }
 }
-
-@media (width >= 768px) and (width <= 1279px) {
-  .orlyata-home__media-grid .orlyata-media-card--small {
-    block-size: auto;
-    aspect-ratio: auto;
-  }
-
-  .orlyata-home__media-grid .orlyata-media-card--small .orlyata-media-card__image-wrap {
-    block-size: auto;
-    aspect-ratio: 9 / 5;
-  }
-}
-
-@media (width >= 768px) and (width <= 1279px) {
-  .orlyata-home__history-lead {
-    inline-size: 100%;
-    max-inline-size: none;
-  }
-}
-
-@media (width >= 768px) and (width <= 1279px) {
+ @media (width >= 768px) and (width <= 1279px) {
   .orlyata-home__hero-panel--news { touch-action: pan-y; }
 }
 
@@ -581,6 +753,8 @@
   .orlyata-home .orlyata-home__news-grid > .orlyata-news-card:nth-child(n) {
     display: flex;
     flex: 0 0 100%;
+    min-block-size: 0;
+    block-size: var(--home-tablet-news-card-height);
   }
 
   .orlyata-home__news-viewport[data-home-news-active="1"] .orlyata-home__news-grid {
@@ -600,36 +774,196 @@
   }
 }
 
+
+@media (width <= 767px) {
+  .orlyata-home :is(.orlyata-home__news-head, .orlyata-home__section-head) :is(.orlyata-text-link__icon-track, .orlyata-text-link__icon) {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+
+  .orlyata-home__hero-dialog-close svg,
+  .orlyata-home__history-teachers-link img {
+    inline-size: var(--icon-size-ui-mobile);
+    block-size: var(--icon-size-ui-mobile);
+  }
+
+  .orlyata-home__hero-dialog-close svg path {
+    stroke-width: var(--icon-stroke-ui-mobile);
+  }
+}
+
+
+/* Tablet achievements uses block data cells, while header labels remain vertically centred grid cells. */
 @media (width >= 768px) and (width <= 1279px) {
-  .orlyata-home__media-grid .orlyata-media-card--small {
-    block-size: auto;
+  .orlyata-home__achievements .orlyata-data-table--achievements thead th {
+    display: grid;
+    align-content: center;
+  }
+}
+
+/* Keep the tablet history section on the same four-column composition as desktop. */
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-home__history-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .orlyata-home__history-intro,
+  .orlyata-home__history-details {
+    display: contents;
+  }
+
+  .orlyata-home__history-copy,
+  .orlyata-home__history-tags {
+    grid-column: 1 / span 2;
+  }
+
+  .orlyata-home__history-lead,
+  .orlyata-home__history-teachers {
+    grid-column: 3 / -1;
+  }
+
+  .orlyata-home__history-copy,
+  .orlyata-home__history-lead {
+    grid-row: 1;
+  }
+
+  .orlyata-home__history-tags,
+  .orlyata-home__history-teachers {
+    position: static;
+    grid-row: 2;
+    align-self: end;
+    justify-self: start;
+    margin-block-start: 0;
+  }
+}
+
+/* Tablet S_t: global component radii use the 1279px reference values. */
+@media (width >= 768px) and (width <= 1279px) {
+  :root {
+    --radius-small: clamp(0.300235rem, 0.625489vw, 0.5rem);
+    --radius-medium: clamp(0.600469rem, 1.250977vw, 1rem);
+    --radius-large: clamp(0.900704rem, 1.876466vw, 1.5rem);
+  }
+}
+
+/* History text starts on one shared baseline in every responsive mode. */
+.orlyata-home__history-lead,
+.orlyata-home__history-copy {
+  margin-block-start: 0;
+}
+
+/* Offset the history creation statement upward by 8px at the 1920px/1279px references. */
+@media (width >= 1280px) {
+  .orlyata-home__history-lead {
+    translate: 0 clamp(-0.666667rem, -0.416667vw, -0.333333rem);
+  }
+}
+
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-home__history-lead {
+    translate: 0 calc(-0.5rem * var(--home-tablet-history-text-scale));
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-home__history-copy {
+    margin-block-start: var(--space-5);
+  }
+}
+
+/* Figma 4897:888: desktop/tablet History is a 520px reference composition. */
+@media (width >= 768px) {
+  .orlyata-home__history > .orlyata-home__section-head {
+    display: none;
+  }
+
+  .orlyata-home__history {
+    min-block-size: 0;
+    block-size: var(--home-history-height);
     aspect-ratio: auto;
+    padding-block-start: var(--space-5);
   }
 
-  .orlyata-home__media-grid .orlyata-media-card--small .orlyata-media-card__image-wrap {
-    block-size: auto;
-    aspect-ratio: 9 / 5;
-  }
-
-  .orlyata-home__media-grid .orlyata-media-card--small .orlyata-media-card__content {
-    flex: 1;
+  .orlyata-home__history-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
     min-block-size: 0;
+    block-size: 100%;
+    margin-block-start: 0;
+  }
+
+  .orlyata-home__history-intro,
+  .orlyata-home__history-details {
+    display: grid;
+    grid-row: 1;
+    align-self: stretch;
+    min-block-size: 0;
+    block-size: 100%;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+
+  .orlyata-home__history-intro {
+    grid-column: 3 / -1;
+  }
+
+  .orlyata-home__history-details {
+    grid-column: 1 / span 2;
+  }
+
+  .orlyata-home__history-title,
+  .orlyata-home__history-copy,
+  .orlyata-home__history-lead,
+  .orlyata-home__history-tags,
+  .orlyata-home__history-teachers {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .orlyata-home__history-title {
+    display: block;
+    margin: 0;
+  }
+
+  .orlyata-home__history-copy {
+    align-self: start;
+    margin-block-start: var(--space-5);
+  }
+
+  .orlyata-home__history-lead {
+    align-self: start;
+    margin: 0;
+    translate: none;
+  }
+
+  .orlyata-home__history-tags,
+  .orlyata-home__history-teachers {
+    position: static;
+    align-self: end;
+    justify-self: start;
+    margin: 0;
+  }
+
+  .orlyata-home__history-tag {
+    border: 0;
+    background: var(--color-surface-muted);
   }
 }
 
 @media (width >= 768px) and (width <= 1279px) {
-  .orlyata-home {
-    --home-tablet-media-small-content-height: clamp(7.505864rem, 15.637217vw, 12.5rem);
-  }
-
-  .orlyata-home__media-grid .orlyata-media-card--small .orlyata-media-card__content {
-    flex: 0 0 var(--home-tablet-media-small-content-height);
-    min-block-size: 0;
+  .orlyata-home__history {
+    block-size: var(--home-tablet-history-height);
   }
 }
 
-@media (width >= 768px) and (width <= 1279px) {
-  .orlyata-home__media-section + .orlyata-home__history {
-    margin-block-start: calc(var(--layout-section-gap) - var(--home-history-heading-offset));
+@media (width <= 767px) {
+  .orlyata-home__history-title {
+    display: none;
+  }
+
+  .orlyata-home__history > .orlyata-home__section-head .orlyata-text-link {
+    display: none;
   }
 }

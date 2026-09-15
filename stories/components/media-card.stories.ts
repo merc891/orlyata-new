@@ -72,8 +72,26 @@ export const ProviderEmbedPreview: Story = {
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
-    const root = createComponentPage('Media card', 'Карточка фото- или видеоальбома в большом и малом размере.');
+    const root = createComponentPage('Media card', 'Карточка фото- или видеоальбома в большом и малом размере. Заголовок Small использует роль Body во всех режимах.');
     appendSection(root, 'Variants', [mediaCard('big', undefined, 'Сегодня', 'RuTube', '#media', { mediaType: 'video' }), mediaCard('small', undefined, '23 мая')]);
+    return root;
+  },
+};
+
+export const Tablet: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'tablet1279' } },
+  render: () => {
+    const root = createComponentPage('Media card — tablet', 'Small MediaCard owns the 13/10 image region and 200px content region at the 1279px reference; the title-to-metadata distance is shared by every page.');
+    appendSection(root, 'Small video', [mediaCard('small', undefined, '23 мая', '', '#media', { mediaType: 'video' })]);
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Media card', 'Карточка фото- или видеоальбома в большом и малом размере. Заголовок Small использует роль Body во всех режимах.');
+    appendSection(root, 'Variants', [mediaCard('small', undefined, 'Сегодня', '', '#media', { mediaType: 'video' })]);
     return root;
   },
 };

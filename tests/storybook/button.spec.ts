@@ -46,6 +46,8 @@ test('Button matches the confirmed desktop geometry', async ({ page }) => {
   await expect(secondary).toHaveCSS('height', '64px');
   await expect(play).toHaveCSS('width', '64px');
   await expect(play).toHaveCSS('height', '64px');
+  await expect(play).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(play).toHaveCSS('border-top-width', '0px');
   await expect(previous).toHaveCSS('width', '64px');
   await expect(previous).toHaveCSS('height', '64px');
 });
@@ -75,6 +77,22 @@ test('Text buttons without the close icon keep 24px end padding in every state',
 
     await expect(control).toHaveCSS('padding-right', '24px');
   }
+});
+
+test('Archive filter Button matches the mobile Badge geometry', async ({ page }) => {
+  await page.setViewportSize({ width: 393, height: 852 });
+  await page.goto('/iframe.html?id=components-button--mobile&viewMode=story');
+  await expectGingerLoaded(page);
+
+  const filter = page.locator('.orlyata-button--archive-filter').first();
+  const close = filter.locator('.orlyata-button__icon');
+
+  await expect(filter).toHaveCSS('height', '36px');
+  await expect(filter).toHaveCSS('min-height', '36px');
+  await expect(filter).toHaveCSS('font-size', '14px');
+  await expect(filter).toHaveCSS('line-height', '16.8px');
+  await expect(close).toHaveCSS('width', '16px');
+  await expect(close).toHaveCSS('height', '16px');
 });
 
 test('Button preserves native semantics and visible keyboard focus', async ({ page }) => {
@@ -191,4 +209,6 @@ test('Default Play remains 64px on hover', async ({ page }) => {
   await play.hover();
   await expect(play).toHaveCSS('width', '64px');
   await expect(play).toHaveCSS('height', '64px');
+  await expect(play).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+  await expect(play).toHaveCSS('border-top-width', '0px');
 });

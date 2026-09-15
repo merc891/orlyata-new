@@ -126,7 +126,7 @@ test('Home section links align with the bottom edge of their h2 headings on desk
 test('Home news panel keeps its cards in the mobile document flow', async ({ page }) => {
   await mountHomeReveal(page);
 
-  for (const width of [320, 767]) {
+  for (const width of [320, 393, 767]) {
     await page.setViewportSize({ width, height: 900 });
     await page.locator('#storybook-root').evaluate((root, markup) => {
       root.innerHTML = markup;
@@ -140,6 +140,10 @@ test('Home news panel keeps its cards in the mobile document flow', async ({ pag
     await expect(content).toHaveCSS('position', 'relative');
     await expect(grid).toHaveCSS('position', 'relative');
     await expect(cards).toHaveCount(2);
+
+    if (width === 393) {
+      await expect(panel.locator('.orlyata-home__news-head')).toHaveCSS('padding-top', '16px');
+    }
 
     const [firstCard, secondCard] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox()]);
     expect(secondCard?.y).toBeGreaterThan((firstCard?.y ?? 0) + (firstCard?.height ?? 0));

@@ -85,7 +85,7 @@ $notes_preview_links       = array_fill( 0, count( $notes_preview_rows ), $notes
 
 get_header();
 ?>
-<div class="orlyata-notes">
+<div class="orlyata-media-gallery orlyata-notes">
 	<?php get_template_part( 'template-parts/layout/sidebar' ); ?>
 	<main class="orlyata-notes__content" id="main">
 		<?php
@@ -101,6 +101,11 @@ get_header();
 		);
 		?>
 		<div class="orlyata-notes__body">
+			<div class="orlyata-notes__controls">
+				<button class="orlyata-notes__search-toggle" type="button" aria-controls="notes-search-form" aria-expanded="false" data-notes-search-toggle hidden>
+					<span class="screen-reader-text"><?php esc_html_e( 'Открыть поиск нот', 'orlyata' ); ?></span>
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+				</button>
 				<nav class="orlyata-notes__filters" aria-label="<?php esc_attr_e( 'Категории нот', 'orlyata' ); ?>" data-archive-content-reveal data-notes-filters data-table-filters data-table-filter-parameter="orlyata_notes_choir" data-table-filter-multiple="true" data-notes-close-icon="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-close.svg' ) ); ?>">
 				<ul class="orlyata-notes__filter-list">
 					<?php foreach ( $notes_categories as $slug => $label ) : ?>
@@ -118,6 +123,7 @@ get_header();
 									'href'    => $url,
 									'icon'    => $is_current && '' !== $slug ? 'close' : '',
 									'label'   => $label,
+									'size'    => 'archive-filter',
 									'variant' => $is_current ? 'primary' : 'secondary',
 								)
 							);
@@ -125,8 +131,22 @@ get_header();
 						</li>
 					<?php endforeach; ?>
 				</ul>
-			</nav>
-			<form class="orlyata-notes__search" method="get" role="search" data-archive-content-reveal>
+				</nav>
+			</div>
+			<div class="orlyata-notes__search-sheet" data-notes-search-sheet>
+				<button class="orlyata-notes__search-sheet-backdrop" type="button" data-notes-search-dismiss hidden>
+					<span class="screen-reader-text"><?php esc_html_e( 'Закрыть поиск нот', 'orlyata' ); ?></span>
+				</button>
+				<div class="orlyata-notes__search-sheet-panel" data-notes-search-sheet-panel>
+					<span class="orlyata-notes__search-sheet-handle" aria-hidden="true"></span>
+					<div class="orlyata-notes__search-sheet-header">
+						<h2 class="orlyata-notes__search-sheet-title type-heading-3" id="notes-search-sheet-title"><?php esc_html_e( 'Поиск нот', 'orlyata' ); ?></h2>
+						<button class="orlyata-notes__search-sheet-close" type="button" data-notes-search-dismiss hidden>
+							<span class="screen-reader-text"><?php esc_html_e( 'Закрыть поиск нот', 'orlyata' ); ?></span>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+						</button>
+					</div>
+			<form class="orlyata-notes__search" id="notes-search-form" method="get" role="search" data-archive-content-reveal>
 				<?php foreach ( $current_categories as $current_category ) : ?>
 					<input type="hidden" name="orlyata_notes_choir" value="<?php echo esc_attr( $current_category ); ?>">
 				<?php endforeach; ?>
@@ -139,10 +159,13 @@ get_header();
 						'name'        => 'q',
 						'placeholder' => __( 'Поиск по названию, автору', 'orlyata' ),
 						'value'       => $notes_search,
+							'variant'     => 'archive-control',
 					)
 				);
 				?>
 			</form>
+				</div>
+			</div>
 			<div class="orlyata-notes__loading" data-notes-loading role="status" aria-live="polite" hidden>
 				<span class="screen-reader-text"><?php esc_html_e( 'Идёт поиск', 'orlyata' ); ?></span>
 				<span class="orlyata-button__loading-dots" aria-hidden="true"><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span><span class="orlyata-button__loading-dot"></span></span>

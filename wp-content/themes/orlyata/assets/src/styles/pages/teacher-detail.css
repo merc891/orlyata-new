@@ -83,3 +83,26 @@
   animation: orlyata-home-media-card-reveal var(--duration-home-block-reveal) var(--easing-home-media-card-reveal) both;
   animation-delay: var(--delay-home-media-cards-reveal);
 }
+
+
+@media (width <= 767px) {
+  .orlyata-teacher-detail__quote-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: calc(var(--data-table-mobile-leading-track) + var(--home-mobile-space-32) - var(--home-history-teacher-size));
+  }
+
+  .orlyata-teacher-detail__quote-portrait {
+    flex: 0 0 var(--home-history-teacher-size);
+    width: var(--home-history-teacher-size);
+    height: var(--home-history-teacher-size);
+  }
+
+  .orlyata-teacher-detail__quote-copy {
+    min-width: 0;
+    flex: 1;
+    font-size: var(--font-size-heading-3);
+    letter-spacing: var(--letter-spacing-heading-3);
+    line-height: var(--line-height-heading-3);
+  }
+}

@@ -14,6 +14,7 @@ $search_input_args = wp_parse_args(
 		'name'        => 'q',
 		'placeholder' => '',
 		'value'       => '',
+		'variant'     => 'notes',
 	)
 );
 
@@ -21,12 +22,13 @@ $search_input_id          = is_string( $search_input_args['id'] ) ? sanitize_htm
 $search_input_name        = is_string( $search_input_args['name'] ) ? sanitize_key( $search_input_args['name'] ) : '';
 $search_input_placeholder = is_string( $search_input_args['placeholder'] ) ? $search_input_args['placeholder'] : '';
 $search_input_value       = is_string( $search_input_args['value'] ) ? $search_input_args['value'] : '';
+$search_input_variant     = 'archive-control' === ( $search_input_args['variant'] ?? 'notes' ) ? 'archive-control' : 'notes';
 
 if ( '' === $search_input_id || '' === $search_input_name || '' === $search_input_placeholder ) {
 	return;
 }
 ?>
-<div class="orlyata-search-input">
+<div class="orlyata-search-input<?php echo 'archive-control' === $search_input_variant ? ' orlyata-search-input--archive-control' : ''; ?>">
 	<label class="screen-reader-text" for="<?php echo esc_attr( $search_input_id ); ?>"><?php echo esc_html( $search_input_placeholder ); ?></label>
 	<input class="orlyata-search-input__field" id="<?php echo esc_attr( $search_input_id ); ?>" name="<?php echo esc_attr( $search_input_name ); ?>" type="search" value="<?php echo esc_attr( $search_input_value ); ?>" placeholder="<?php echo esc_attr( $search_input_placeholder ); ?>" data-notes-search>
 	<button class="orlyata-search-input__clear" type="button" aria-label="<?php esc_attr_e( 'Очистить поиск', 'orlyata' ); ?>" hidden data-notes-search-clear>

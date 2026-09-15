@@ -20,8 +20,13 @@ const primaryNavigation = [
 ] as const;
 
 const mediaNavigation = [
-  ['Фотогалерея', '/mediagalereya/foto/'],
+  ['Фото', '/mediagalereya/foto/'],
   ['Видео', '/mediagalereya/video/'],
+] as const;
+
+const footerSocials = [
+  ['ВКонтакте', 'https://vk.ru/zelorlyata', '/wp-content/themes/orlyata/assets/icons/share/vk.svg'],
+  ['Telegram', 'https://t.me/zel_orlyata', '/wp-content/themes/orlyata/assets/icons/share/telegram.svg'],
 ] as const;
 
 function createLink(label: string, href: string, extraClass = ''): HTMLAnchorElement {
@@ -40,6 +45,33 @@ function createLinkList(items: ReadonlyArray<readonly [string, string]>): HTMLUL
     const item = document.createElement('li');
     item.className = 'orlyata-footer__list-item';
     item.append(createLink(label, href));
+    list.append(item);
+  }
+
+  return list;
+}
+
+function createSocialLinks(): HTMLUListElement {
+  const list = document.createElement("ul");
+
+  list.className = "orlyata-footer__socials";
+  list.setAttribute("aria-label", "Социальные сети");
+
+  for (const [label, href, icon] of footerSocials) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    const image = document.createElement("img");
+
+    link.className = "orlyata-footer__social-link";
+    link.href = href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.setAttribute("aria-label", label);
+    image.src = icon;
+    image.alt = "";
+    image.setAttribute("aria-hidden", "true");
+    link.append(image);
+    item.append(link);
     list.append(item);
   }
 
@@ -97,7 +129,7 @@ export function createFooter(args: FooterArgs): HTMLElement {
   navigation.setAttribute('aria-label', 'Навигация в подвале');
   navigation.append(
     createNavigationGroup('Навигация', primaryNavigation),
-    createNavigationGroup('Медиа', mediaNavigation),
+    createNavigationGroup('Медиагалерея', mediaNavigation),
   );
 
   contacts.className = 'orlyata-footer__contacts';
@@ -106,7 +138,7 @@ export function createFooter(args: FooterArgs): HTMLElement {
   contactsTitle.textContent = 'Контакты';
   address.className = 'orlyata-footer__address';
   address.textContent = args.address;
-  contactsAddress.append(contactsTitle, address);
+  contactsAddress.append(contactsTitle, address, createSocialLinks());
 
   contactLinks.className = 'orlyata-footer__contact-links';
   if (args.phonePrimary.trim() !== '') {
@@ -182,5 +214,10 @@ export const Playground: StoryObj<FooterArgs> = {
 
 export const Default: Story = {
   parameters: { controls: { disable: true } },
+  render: () => createFooterPreview(sampleArgs),
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
   render: () => createFooterPreview(sampleArgs),
 };

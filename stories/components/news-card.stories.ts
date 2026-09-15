@@ -41,7 +41,16 @@ export const Playground: StoryObj<NewsCardArgs> = {
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
-    const root = createComponentPage('News card', 'Карточка публикации для ленты новостей и блока на главной.');
+    const root = createComponentPage('News card', 'Карточка публикации для ленты новостей и блока на главной. Заголовок использует роль Body во всех режимах.');
+    appendSection(root, 'Default', [newsCard()]);
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('News card', 'Карточка публикации для ленты новостей и блока на главной. Заголовок использует роль Body во всех режимах.');
     appendSection(root, 'Default', [newsCard()]);
     return root;
   },

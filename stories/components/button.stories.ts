@@ -4,6 +4,7 @@ import { motionSpecifications } from './motion-specifications';
 
 type ButtonVariant = 'primary' | 'secondary' | 'play' | 'arrow-left' | 'arrow-right' | 'arrow-left-muted' | 'arrow-right-muted' | 'menu-tablet';
 type VisualState = 'default' | 'hover' | 'active' | 'disabled' | 'loading';
+type ButtonSize = 'archive-filter';
 
 interface ButtonOptions {
   ariaLabel?: string;
@@ -11,18 +12,23 @@ interface ButtonOptions {
   icon?: 'close';
   label?: string;
   state?: VisualState;
+  size?: ButtonSize;
   variant: ButtonVariant;
 }
 
 const iconRoot = '/wp-content/themes/orlyata/assets/icons';
 
-function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonElement {
+export function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonElement {
   const isIconOnly = ['play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet'].includes(options.variant);
   const isLoading = options.state === 'loading' && options.href === undefined;
   const isDisabled = options.state === 'disabled' || isLoading;
   const control = options.href === undefined ? document.createElement('button') : document.createElement('a');
 
   control.className = `orlyata-button orlyata-button--${options.variant}`;
+
+  if (options.size !== undefined) {
+    control.classList.add('orlyata-button--' + options.size);
+  }
 
   if (isIconOnly) {
     control.classList.add('orlyata-button--icon-only');
@@ -72,7 +78,7 @@ function createButton(options: ButtonOptions): HTMLAnchorElement | HTMLButtonEle
     icon.setAttribute('viewBox', '0 0 24 24');
     icon.setAttribute('width', '24');
     path.setAttribute('class', 'orlyata-button__menu-icon-path');
-    path.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+    path.setAttribute('d', 'M3 8.5h18m-18 7h18');
     icon.append(path);
     control.append(icon);
   }
@@ -178,6 +184,7 @@ interface ButtonPlaygroundArgs {
   asLink: boolean;
   label: string;
   state: VisualState;
+  size?: ButtonSize;
   variant: ButtonVariant;
   withClose: boolean;
 }
@@ -188,6 +195,7 @@ export const Playground: StoryObj<ButtonPlaygroundArgs> = {
     asLink: false,
     label: 'Кнопка',
     state: 'default',
+    size: 'archive-filter',
     variant: 'primary',
     withClose: true,
   },
@@ -196,6 +204,7 @@ export const Playground: StoryObj<ButtonPlaygroundArgs> = {
     asLink: { control: 'boolean', description: 'Рендерить текстовый вариант как ссылку.' },
     label: { control: 'text', description: 'Видимый текст кнопки.' },
     state: { control: 'select', options: ['default', 'hover', 'active', 'disabled', 'loading'] },
+    size: { control: 'select', options: ['archive-filter'] },
     variant: { control: 'select', options: ['primary', 'secondary', 'play', 'arrow-left', 'arrow-right', 'arrow-left-muted', 'arrow-right-muted', 'menu-tablet'] },
     withClose: { control: 'boolean', description: 'Добавить Figma close-иконку в Primary.' },
   },
@@ -208,6 +217,9 @@ export const Playground: StoryObj<ButtonPlaygroundArgs> = {
       state: args.state,
       variant: args.variant,
     };
+    if (args.size !== undefined) {
+      options.size = args.size;
+    }
     if (args.asLink && isTextVariant) {
       options.href = '#destination';
     }
@@ -246,31 +258,49 @@ export const Variants: Story = {
 export const States: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
-    const page = createComponentPage('Состояния Button', 'Default и hover сверены с Figma. Active, disabled и loading — проектные дополнения; реальный keyboard focus проверяется интерактивно.');
+    const page = createComponentPage("Состояния Button", "Default и hover сверены с Figma. Active, disabled и loading — проектные дополнения; реальный keyboard focus проверяется интерактивно.");
 
-    appendSection(page, 'Primary', [
-      stateSpecimen('Default', { icon: 'close', label: 'Кнопка', state: 'default', variant: 'primary' }),
-      stateSpecimen('Hover', { icon: 'close', label: 'Кнопка', state: 'hover', variant: 'primary' }),
-      stateSpecimen('Active', { icon: 'close', label: 'Кнопка', state: 'active', variant: 'primary' }),
-      stateSpecimen('Disabled', { icon: 'close', label: 'Кнопка', state: 'disabled', variant: 'primary' }),
-      stateSpecimen('Loading', { icon: 'close', label: 'Кнопка', state: 'loading', variant: 'primary' }),
+    appendSection(page, "Primary", [
+      stateSpecimen("Default", { icon: "close", label: "Кнопка", state: "default", variant: "primary" }),
+      stateSpecimen("Hover", { icon: "close", label: "Кнопка", state: "hover", variant: "primary" }),
+      stateSpecimen("Active", { icon: "close", label: "Кнопка", state: "active", variant: "primary" }),
+      stateSpecimen("Disabled", { icon: "close", label: "Кнопка", state: "disabled", variant: "primary" }),
+      stateSpecimen("Loading", { icon: "close", label: "Кнопка", state: "loading", variant: "primary" }),
     ]);
-    appendSection(page, 'Secondary', [
-      stateSpecimen('Default', { label: 'Кнопка', state: 'default', variant: 'secondary' }),
-      stateSpecimen('Hover', { label: 'Кнопка', state: 'hover', variant: 'secondary' }),
+    appendSection(page, "Secondary", [
+      stateSpecimen("Default", { label: "Кнопка", state: "default", variant: "secondary" }),
+      stateSpecimen("Hover", { label: "Кнопка", state: "hover", variant: "secondary" }),
     ]);
-    appendSection(page, 'Play', [
-      stateSpecimen('Default', { ariaLabel: 'Воспроизвести', state: 'default', variant: 'play' }),
+    appendSection(page, "Play", [
+      stateSpecimen("Default", { ariaLabel: "Воспроизвести", state: "default", variant: "play" }),
     ]);
-    appendSection(page, 'Arrow', [
-      stateSpecimen('Default · влево', { ariaLabel: 'Предыдущий материал', state: 'default', variant: 'arrow-left' }),
-      stateSpecimen('Default · вправо', { ariaLabel: 'Следующий материал', state: 'default', variant: 'arrow-right' }),
-      stateSpecimen('Hover · влево', { ariaLabel: 'Предыдущий материал', state: 'hover', variant: 'arrow-left' }),
-      stateSpecimen('Hover · вправо', { ariaLabel: 'Следующий материал', state: 'hover', variant: 'arrow-right' }),
-      stateSpecimen('Gallery default · влево', { ariaLabel: 'Предыдущая фотография', state: 'default', variant: 'arrow-left-muted' }),
-      stateSpecimen('Gallery hover · вправо', { ariaLabel: 'Следующая фотография', state: 'hover', variant: 'arrow-right-muted' }),
+    appendSection(page, "Arrow", [
+      stateSpecimen("Default · влево", { ariaLabel: "Предыдущий материал", state: "default", variant: "arrow-left" }),
+      stateSpecimen("Default · вправо", { ariaLabel: "Следующий материал", state: "default", variant: "arrow-right" }),
+      stateSpecimen("Hover · влево", { ariaLabel: "Предыдущий материал", state: "hover", variant: "arrow-left" }),
+      stateSpecimen("Hover · вправо", { ariaLabel: "Следующий материал", state: "hover", variant: "arrow-right" }),
+      stateSpecimen("Gallery default · влево", { ariaLabel: "Предыдущая фотография", state: "default", variant: "arrow-left-muted" }),
+      stateSpecimen("Gallery hover · вправо", { ariaLabel: "Следующая фотография", state: "hover", variant: "arrow-right-muted" }),
     ]);
 
+    return page;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const page = createComponentPage('Button', 'Все применимые Button-варианты на mobile reference 393 px.');
+    appendSection(page, 'Mobile', [
+      createButton({ label: 'Записаться к нам', variant: 'primary' }),
+      createButton({ label: 'Подробнее', variant: 'secondary' }),
+      createButton({ icon: 'close', label: 'Категория', size: 'archive-filter', variant: 'primary' }),
+      createButton({ label: 'Категория', size: 'archive-filter', variant: 'secondary' }),
+      createButton({ ariaLabel: 'Воспроизвести', variant: 'play' }),
+      createButton({ ariaLabel: 'Предыдущий материал', variant: 'arrow-left' }),
+      createButton({ ariaLabel: 'Следующий материал', variant: 'arrow-right' }),
+      createButton({ ariaLabel: 'Открыть меню', variant: 'menu-tablet' }),
+    ]);
     return page;
   },
 };

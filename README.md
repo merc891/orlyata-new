@@ -42,7 +42,7 @@
 - Storybook — `https://89.125.120.78/storybook-20260814/`;
 - Mailpit — `https://89.125.120.78/mailpit/`.
 
-Все публичные маршруты stage закрыты HTTP Basic Auth с учётными данными `STAGING_AUTH_USER` и `STAGING_AUTH_PASSWORD` из локального `.env`. Nginx также отдаёт `X-Robots-Tag: noindex, nofollow, noarchive`, а в WordPress отключена видимость для поисковых систем (`blog_public=0`). Администратор WordPress использует отдельные `WP_ADMIN_USER` и `WP_ADMIN_PASSWORD`.
+Сайт, WordPress и Storybook на stage доступны без HTTP Basic Auth для внешней визуальной проверки. Nginx отдаёт `X-Robots-Tag: noindex, nofollow, noarchive`, а в WordPress отключена видимость для поисковых систем (`blog_public=0`). Почтовый интерфейс Mailpit остаётся закрыт HTTP Basic Auth с учётными данными `STAGING_AUTH_USER` и `STAGING_AUTH_PASSWORD` из локального `.env`; администратор WordPress использует отдельные `WP_ADMIN_USER` и `WP_ADMIN_PASSWORD`.
 
 Nginx публикует только `80/443`; WordPress, Mailpit и Vite остаются на loopback или во внутренней Docker-сети. Доверенный IP-сертификат Let's Encrypt действует около шести дней, Certbot проверяет продление каждые 12 часов, а Nginx регулярно перечитывает обновлённый сертификат.
 
@@ -106,7 +106,7 @@ docker compose --profile tools run --rm qa composer analyse:php
 - `wp-content/themes/orlyata` — только представление сайта.
 - `wp-content/mu-plugins/orlyata-core.php` и `orlyata-core/` — данные и бизнес-правила.
 - `compose.yaml` — WordPress 7.0.2/PHP 8.3, MySQL 8.0.46, Mailpit, Nginx и Certbot.
-- `docker/proxy` — HTTPS, noindex, Basic Auth для Mailpit и reverse proxy staging-сервера.
+- `docker/proxy` — HTTPS, noindex, Basic Auth только для Mailpit и reverse proxy staging-сервера.
 - `docker/qa` — воспроизводимое PHP 8.3/Composer-окружение проверок.
 
 ## Текущий статус

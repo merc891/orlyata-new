@@ -100,7 +100,7 @@
 .pswp__counter {
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body);
-  font-weight: 400;
+  font-weight: 500;
   line-height: var(--line-height-body);
   letter-spacing: var(--letter-spacing-body);
 }
@@ -118,6 +118,12 @@
 
 .orlyata-photo-album-lightbox__arrow--next {
   inset-inline-end: var(--news-detail-gallery-control-offset);
+}
+
+@media (width <= 767px) {
+  .orlyata-photo-album-lightbox__arrow {
+    display: none;
+  }
 }
 
 @media (width >= 1280px) {
@@ -144,5 +150,43 @@
   .orlyata-photo-album-detail__row--mirrored .orlyata-photo-album-detail__photo--large {
     grid-column: 3 / span 2;
     grid-row: 1 / span 2;
+  }
+}
+
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-photo-album-detail {
+    display: block;
+  }
+
+  .orlyata-photo-album-detail__row {
+    aspect-ratio: var(--photo-album-gallery-row-aspect-ratio);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .orlyata-photo-album-detail__row--incomplete {
+    aspect-ratio: auto;
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .orlyata-photo-album-detail__row--incomplete .orlyata-photo-album-detail__photo {
+    aspect-ratio: var(--photo-album-gallery-large-aspect-ratio);
+  }
+
+  .orlyata-photo-album-detail__photo--large {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: var(--photo-album-gallery-large-aspect-ratio);
+  }
+
+  .orlyata-photo-album-detail__row--mirrored .orlyata-photo-album-detail__photo--large {
+    grid-column: 3 / span 2;
+    grid-row: 1 / span 2;
+  }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-photo-album-detail__photo {
+    aspect-ratio: var(--photo-album-gallery-large-aspect-ratio);
   }
 }

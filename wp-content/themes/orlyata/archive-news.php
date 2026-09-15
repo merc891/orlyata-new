@@ -94,6 +94,7 @@ get_header();
 									'href'    => $url,
 									'icon'    => $is_current && '' !== $slug ? 'close' : '',
 									'label'   => $label,
+									'size'    => 'archive-filter',
 									'variant' => $is_current ? 'primary' : 'secondary',
 								)
 							);

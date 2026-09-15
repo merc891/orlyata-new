@@ -1,4 +1,4 @@
-.orlyata-about .orlyata-page-hero{border-radius:0 0 var(--radius-large) var(--radius-large)}.orlyata-about{display:flex;background:var(--color-surface)}.orlyata-about__content{min-width:0;flex:auto}.orlyata-about__body{box-sizing:border-box;padding:var(--about-intro-offset-block) var(--layout-content-gutter) var(--space-5)}.orlyata-about__grid{display:grid;width:min(100%,var(--layout-editorial-max-width));gap:var(--layout-section-gap);margin-inline:auto}.orlyata-about__intro,.orlyata-about__life-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--layout-grid-gap);align-items:start}.orlyata-about__intro{grid-template-columns:repeat(4,minmax(0,1fr))}.orlyata-about__lead{grid-column:1 / span 2;grid-row:1;max-width:var(--about-intro-lead-width)}.orlyata-about__intro-teachers{position:static;grid-column:1;grid-row:1;align-self:end;margin:0}.orlyata-about__lead,.orlyata-about__copy p{margin:0}.orlyata-about__copy{grid-column:3 / span 2;grid-row:1;max-width:var(--about-intro-copy-width);display:grid;gap:var(--space-5)}.orlyata-about__life h2,.orlyata-about__teachers h2{margin:0 0 var(--about-section-heading-content-gap)}.orlyata-about__achievements h2{margin:0 0 var(--space-5)}.orlyata-about__life-card{position:relative;box-sizing:border-box;min-height:37.5rem;padding:var(--space-5);border-radius:var(--radius-large);background:var(--color-surface-inverse);color:var(--color-text-inverse)}.orlyata-about__life-slide h3,.orlyata-about__life-copy p{margin:0}.orlyata-about__life-copy{position:absolute;inset-inline-start:var(--space-5);inset-block-end:calc(var(--about-life-controls-inset) + var(--button-height) + var(--about-life-copy-controls-gap));max-width:var(--about-life-copy-width);margin:0;color:var(--color-neutral-200)}.orlyata-about__life-copy p+p,.orlyata-about__life-copy ul{margin:var(--space-4) 0 0}.orlyata-about__life-copy ul{padding-inline-start:1.25em}.orlyata-about__life-arrows,.orlyata-about__life-pagination{position:absolute;inset-block-end:var(--about-life-controls-inset);display:flex;align-items:center}.orlyata-about__life-arrows{inset-inline-start:var(--about-life-controls-inset);gap:var(--space-2)}.orlyata-about__life-pagination{inset-inline-end:var(--about-life-controls-inset);gap:var(--about-life-pagination-dot-gap)}.orlyata-about__life-pagination-button{box-sizing:border-box;width:var(--about-life-pagination-dot-size);height:var(--about-life-pagination-dot-size);padding:0;border:0;border-radius:var(--radius-full);background:var(--color-text-secondary-on-inverse);cursor:pointer;transition:background-color var(--duration-button-hover) var(--easing-out),transform var(--duration-button-hover) var(--easing-out)}.orlyata-about__life-pagination-button.is-active{background:var(--color-text-inverse);transform:scale(1.15)}.orlyata-about__life-pagination-button:focus-visible{outline:var(--focus-ring-width) solid var(--color-brand);outline-offset:var(--focus-ring-offset)}.orlyata-about__life-slide:not(.is-active){display:none}.orlyata-about__life-slide.is-active{animation:orlyata-about-life-slide-reveal var(--duration-about-life-slide-transition) var(--easing-out)}.orlyata-about__life-media{position:relative;width:100%;min-height:37.5rem;overflow:hidden;border-radius:var(--radius-large)}.orlyata-about__life-image-track{display:flex;width:300%;height:100%;transition:transform var(--duration-about-life-slide-transition) var(--easing-out)}.orlyata-about__life-media[data-life-active="1"] .orlyata-about__life-image-track{transform:translateX(-33.333333%)}.orlyata-about__life-media[data-life-active="2"] .orlyata-about__life-image-track{transform:translateX(-66.666667%)}.orlyata-about__life-image{display:block;flex:0 0 33.333333%;width:33.333333%;height:100%;object-fit:cover}@keyframes orlyata-about-life-slide-reveal{from{opacity:0}to{opacity:1}}.orlyata-about__groups .orlyata-accordion{border-block-end:1px solid var(--color-border-subtle)}.orlyata-about__groups .orlyata-accordion__summary{grid-template-columns:repeat(4,minmax(0,1fr));cursor:pointer}.orlyata-about__groups .orlyata-accordion__title{grid-column:1 / span 2}.orlyata-about__groups .orlyata-accordion__meta{grid-column:3}.orlyata-about__groups .orlyata-accordion__toggle{grid-column:4;justify-self:end}.orlyata-about__groups .orlyata-accordion__summary:hover{color:var(--color-text-secondary)}.orlyata-about__groups .orlyata-accordion__content{max-width:none;margin:var(--space-5) 0 var(--space-5) calc(50% + (var(--layout-grid-gap) / 2));padding-top:0}.orlyata-about__teacher-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--space-4)}.orlyata-about__teacher{box-sizing:border-box;display:flex;min-height:21.25rem;flex-direction:column;padding:var(--space-5);border-radius:var(--radius-large);background:var(--color-surface-muted);color:var(--color-text-primary);text-align:center;text-decoration:none}.orlyata-about__teacher:hover{opacity:var(--opacity-interactive-hover)}.orlyata-about__teacher:focus-visible{outline:var(--focus-ring-width) solid var(--color-brand);outline-offset:var(--focus-ring-offset)}.orlyata-about__teacher-photo{display:block;width:var(--about-teacher-photo-size);height:var(--about-teacher-photo-size);margin:0 auto var(--about-teacher-photo-margin-block-end);overflow:hidden;border-radius:var(--radius-full);background:var(--color-surface-photo)}.orlyata-about__teacher-photo img{width:100%;height:100%;object-fit:cover}.orlyata-about__teacher-name,.orlyata-about__teacher-meta{display:block;font-family:var(--font-family-primary)}.orlyata-about__teacher-name{font-size:var(--font-size-heading-3);font-weight:500;line-height:var(--line-height-heading-3);letter-spacing:var(--letter-spacing-heading-3)}.orlyata-about__teacher-meta{color:var(--color-text-secondary);font-size:var(--font-size-body);line-height:var(--line-height-body);letter-spacing:var(--letter-spacing-body)}.orlyata-about__application>h2{max-width:var(--home-application-title-width);margin:0 auto;text-align:center}.orlyata-about__application-surface{position:relative;display:grid;min-height:var(--home-application-height);margin-block-start:var(--home-application-title-gap);overflow:hidden;border-radius:var(--radius-large);place-items:center}.orlyata-about__application-surface>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.orlyata-about__application-surface .orlyata-application-form{z-index:1}.orlyata-about__achievements .orlyata-data-table{margin-block-start:var(--space-5)} @media (width >= 1280px) {
+.orlyata-about .orlyata-page-hero{border-radius:0 0 var(--radius-large) var(--radius-large)}.orlyata-about{display:flex;background:var(--color-surface)}.orlyata-about__content{min-width:0;flex:auto}.orlyata-about__body{box-sizing:border-box;padding:var(--about-intro-offset-block) var(--layout-content-gutter) var(--space-5)}.orlyata-about__grid{display:grid;width:min(100%,var(--layout-editorial-max-width));gap:var(--layout-section-gap);margin-inline:auto}.orlyata-about__intro,.orlyata-about__life-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--layout-grid-gap);align-items:start}.orlyata-about__intro{grid-template-columns:repeat(4,minmax(0,1fr))}.orlyata-about__lead{grid-column:1 / span 2;grid-row:1;max-width:var(--about-intro-lead-width)}.orlyata-about__intro-teachers{position:static;grid-column:1;grid-row:1;align-self:end;margin:0}.orlyata-about__lead,.orlyata-about__copy p{margin:0}.orlyata-about__copy{grid-column:3 / span 2;grid-row:1;max-width:var(--about-intro-copy-width);display:grid;gap:var(--space-5)}.orlyata-about__life h2,.orlyata-about__teachers h2{margin:0 0 var(--about-section-heading-content-gap)}.orlyata-about__achievements h2{margin:0 0 var(--space-5)}.orlyata-about__life-card{position:relative;box-sizing:border-box;min-height:37.5rem;padding:var(--about-life-card-padding);border-radius:var(--radius-large);background:var(--color-surface-inverse);color:var(--color-text-inverse)}.orlyata-about__life-meta{display:flex;gap:0}.orlyata-about__life-copy p{margin:0}.orlyata-about__life-copy{position:absolute;inset-inline-start:var(--about-life-card-padding);inset-inline-end:var(--about-life-card-padding);inset-block-end:calc(var(--about-life-controls-inset) + var(--button-height) + var(--about-life-copy-controls-gap));max-width:var(--about-life-copy-width);margin:0;color:var(--color-neutral-200)}.orlyata-about__life-copy p+p,.orlyata-about__life-copy ul{margin:var(--space-4) 0 0}.orlyata-about__life-copy ul{padding-inline-start:1.25em}.orlyata-about__life-arrows,.orlyata-about__life-pagination{position:absolute;inset-block-end:var(--about-life-controls-inset);display:flex;align-items:center}.orlyata-about__life-arrows{inset-inline-start:var(--about-life-controls-inset);gap:var(--space-2)}.orlyata-about__life-pagination{inset-inline-end:var(--about-life-controls-inset);gap:var(--about-life-pagination-dot-gap)}.orlyata-about__life-pagination-button{box-sizing:border-box;width:var(--about-life-pagination-dot-size);height:var(--about-life-pagination-dot-size);padding:0;border:0;border-radius:var(--radius-full);background:var(--color-text-secondary-on-inverse);cursor:pointer;transition:background-color var(--duration-button-hover) var(--easing-out),transform var(--duration-button-hover) var(--easing-out)}.orlyata-about__life-pagination-button.is-active{background:var(--color-text-inverse);transform:scale(1.15)}.orlyata-about__life-pagination-button:focus-visible{outline:var(--focus-ring-width) solid var(--color-brand);outline-offset:var(--focus-ring-offset)}.orlyata-about__life-slide:not(.is-active){display:none}.orlyata-about__life-slide.is-active{animation:orlyata-about-life-slide-reveal var(--duration-about-life-slide-transition) var(--easing-out)}.orlyata-about__life-media{position:relative;width:100%;min-height:37.5rem;overflow:hidden;border-radius:var(--radius-large)}.orlyata-about__life-image-track{display:flex;width:300%;height:100%;transition:transform var(--duration-about-life-slide-transition) var(--easing-out)}.orlyata-about__life-media[data-life-active="1"] .orlyata-about__life-image-track{transform:translateX(-33.333333%)}.orlyata-about__life-media[data-life-active="2"] .orlyata-about__life-image-track{transform:translateX(-66.666667%)}.orlyata-about__life-image{display:block;flex:0 0 33.333333%;width:33.333333%;height:100%;object-fit:cover}@keyframes orlyata-about-life-slide-reveal{from{opacity:0}to{opacity:1}}.orlyata-about__groups .orlyata-accordion{border-block-end:1px solid var(--color-border-subtle)}.orlyata-about__groups .orlyata-accordion__summary{grid-template-columns:repeat(4,minmax(0,1fr));cursor:pointer}.orlyata-about__groups .orlyata-accordion__title{grid-column:1 / span 2}.orlyata-about__groups .orlyata-accordion__meta{grid-column:3}.orlyata-about__groups .orlyata-accordion__toggle{grid-column:4;justify-self:end}.orlyata-about__groups .orlyata-accordion__content{max-width:none;margin:var(--space-5) 0 var(--space-5) calc(50% + (var(--layout-grid-gap) / 2));padding-top:0}.orlyata-about__teacher-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--space-4)}.orlyata-about__teacher{box-sizing:border-box;display:flex;min-height:21.25rem;flex-direction:column;padding:var(--space-5);border-radius:var(--radius-large);background:var(--color-surface-muted);color:var(--color-text-primary);text-align:center;text-decoration:none}.orlyata-about__teacher:hover{opacity:var(--opacity-interactive-hover)}.orlyata-about__teacher:focus-visible{outline:var(--focus-ring-width) solid var(--color-brand);outline-offset:var(--focus-ring-offset)}.orlyata-about__teacher-photo{display:block;width:var(--about-teacher-photo-size);height:var(--about-teacher-photo-size);margin:0 auto var(--about-teacher-photo-margin-block-end);overflow:hidden;border-radius:var(--radius-full);background:var(--color-surface-photo)}.orlyata-about__teacher-photo img{width:100%;height:100%;object-fit:cover}.orlyata-about__teacher-name,.orlyata-about__teacher-meta{display:block;font-family:var(--font-family-primary)}.orlyata-about__teacher-name{font-size:var(--font-size-heading-3);font-weight:500;line-height:var(--line-height-heading-3);letter-spacing:var(--letter-spacing-heading-3)}.orlyata-about__teacher-meta{color:var(--color-text-secondary);font-size:var(--font-size-body);line-height:var(--line-height-body);letter-spacing:var(--letter-spacing-body)}.orlyata-about__application,.orlyata-about__achievements{margin-block-start:0}.orlyata-about__application>h2{max-width:var(--home-application-title-width);margin:0 auto;text-align:center}.orlyata-about__application-surface{position:relative;display:grid;min-height:var(--home-application-height);margin-block-start:var(--home-application-title-gap);overflow:hidden;border-radius:var(--radius-large);place-items:center}.orlyata-about__application-surface>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.orlyata-about__application-surface .orlyata-application-form{z-index:1}.orlyata-about__achievements .orlyata-data-table{margin-block-start:var(--space-5)} @media (width >= 1280px) {
   .orlyata-about__life-card,
   .orlyata-about__life-media {
     min-height: 0;
@@ -11,7 +11,7 @@
   }
 }
 
-@media(width<=1279px){.orlyata-about__groups .orlyata-accordion__summary{grid-template-columns:minmax(0,1fr) auto auto}.orlyata-about__groups .orlyata-accordion__title{grid-column:auto}.orlyata-about__groups .orlyata-accordion__meta{grid-column:auto}.orlyata-about__groups .orlyata-accordion__toggle{grid-column:auto}.orlyata-about__intro{grid-template-columns:repeat(2,minmax(0,1fr))}.orlyata-about__lead,.orlyata-about__copy{grid-column:auto;grid-row:auto;max-width:none}.orlyata-about__groups .orlyata-accordion__content{margin-inline:0}.orlyata-about{display:block}.orlyata-about__teacher-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(width<=767px){.orlyata-about__intro,.orlyata-about__life-grid{grid-template-columns:1fr}.orlyata-about__teacher-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.orlyata-about__application-surface{padding:var(--space-5)}}
+@media(width<=1279px){.orlyata-about__lead{grid-column:1;grid-row:1}.orlyata-about__copy{grid-column:2;grid-row:1}.orlyata-about__intro-teachers{grid-column:1;grid-row:1;align-self:end}.orlyata-about__groups .orlyata-accordion__summary{grid-template-columns:minmax(0,1fr) auto auto}.orlyata-about__groups .orlyata-accordion__title{grid-column:auto}.orlyata-about__groups .orlyata-accordion__meta{grid-column:auto}.orlyata-about__groups .orlyata-accordion__toggle{grid-column:auto}.orlyata-about__intro{grid-template-columns:repeat(2,minmax(0,1fr))}.orlyata-about__lead,.orlyata-about__copy{max-width:none}.orlyata-about__groups .orlyata-accordion__content{margin-inline:0}.orlyata-about{display:block}.orlyata-about__teacher-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(width<=767px){.orlyata-about__intro,.orlyata-about__life-grid{grid-template-columns:1fr}.orlyata-about__teacher-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.orlyata-about__application-surface{padding:var(--space-5)}}
 
 .has-js .orlyata-about__intro.is-reveal-pending .orlyata-about__lead,
 .has-js .orlyata-about :is(.orlyata-about__life, .orlyata-about__teachers, .orlyata-about__application, .orlyata-about__achievements).is-reveal-pending > h2 { opacity: 0; }
@@ -39,4 +39,220 @@
 @keyframes orlyata-about-hero-title-reveal {
   from { opacity: 0; transform: translateY(var(--about-hero-title-reveal-start-offset)); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-about :is(.orlyata-home__application, .orlyata-home__achievements) {
+    margin-block-start: 0;
+  }
+
+  .orlyata-about__achievements h2,
+  .orlyata-about__achievements .orlyata-data-table {
+    margin-block-start: 0;
+    margin-block-end: 0;
+  }
+
+  .orlyata-about__intro + .orlyata-about__groups {
+    margin-block-start: calc(var(--about-intro-groups-gap) - var(--layout-section-gap));
+  }
+
+  .orlyata-about__groups .orlyata-accordion__summary {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .orlyata-about__groups .orlyata-accordion__toggle {
+    grid-column: auto;
+    justify-self: end;
+  }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-about__groups .orlyata-accordion[open] .orlyata-accordion__summary {
+    color: var(--color-text-primary);
+  }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-about__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .orlyata-about__lead {
+    order: 1;
+    margin-block-start: 0;
+  }
+
+  .orlyata-about__intro-teachers {
+    order: 2;
+    align-self: flex-start;
+    margin-block-start: var(--home-mobile-space-16);
+  }
+
+  .orlyata-about__copy {
+    order: 3;
+    margin-block-start: var(--space-5);
+  }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-about__groups .orlyata-accordion__summary {
+    color: var(--color-text-primary);
+  }
+}
+
+
+@media (width <= 767px) {
+  .orlyata-about__copy {
+    display: block;
+    gap: 0;
+  }
+
+  .orlyata-about__copy p + p {
+    margin-block-start: var(--body-paragraph-spacing-mobile);
+  }
+
+  .orlyata-about__life-card,
+  .orlyata-about__life-media {
+    min-height: var(--about-life-mobile-column-height);
+    height: var(--about-life-mobile-column-height);
+  }
+
+  .orlyata-about__life-card {
+    padding: var(--about-life-mobile-card-padding);
+  }
+
+  .orlyata-about__life-meta {
+    margin-block-start: calc(var(--about-life-mobile-title-inset) - var(--about-life-mobile-card-padding));
+  }
+
+  .orlyata-about__life-copy {
+    inset-inline-start: var(--about-life-mobile-card-padding);
+    inset-inline-end: auto;
+    inset-block-end: calc(var(--about-life-controls-inset) + var(--home-mobile-control-size) + var(--about-life-copy-controls-gap));
+    inline-size: var(--about-life-mobile-copy-width);
+    max-width: none;
+  }
+
+  .orlyata-about__life-copy p + p {
+    margin-block-start: var(--body-paragraph-spacing-mobile);
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-about__groups .orlyata-accordion__content {
+    margin: var(--about-accordion-content-offset-mobile) 0 var(--space-5);
+    padding-block-start: 0;
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-about__teacher-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--home-mobile-space-12);
+  }
+
+  .orlyata-about__teacher-grid .orlyata-teacher-card {
+    min-block-size: var(--about-teachers-mobile-card-height);
+    block-size: var(--about-teachers-mobile-card-height);
+    padding: var(--about-teachers-mobile-card-padding-block-start) var(--home-mobile-space-12) var(--about-teachers-mobile-card-padding-block-end);
+  }
+
+  .orlyata-about__teacher-grid .orlyata-teacher-card__photo-wrap {
+    inline-size: var(--about-teachers-mobile-photo-size);
+    block-size: var(--about-teachers-mobile-photo-size);
+    margin-block: 0;
+    margin-inline: auto;
+  }
+
+  .orlyata-about__teacher-grid .orlyata-teacher-card__name {
+    margin-block-start: auto;
+  }
+}
+
+@media (width <= 767px) {
+  .orlyata-about__life-grid {
+    touch-action: pan-y;
+  }
+
+  .orlyata-about__life-arrows {
+    inset-inline-start: var(--about-life-mobile-card-padding);
+  }
+
+  .orlyata-about__life-arrows :is(.orlyata-button--arrow-left, .orlyata-button--arrow-right) {
+    inline-size: var(--home-mobile-control-size);
+    block-size: var(--home-mobile-control-size);
+  }
+
+  .orlyata-about__teacher-grid .orlyata-teacher-card__meta-label::after {
+    display: none;
+  }
+
+  .orlyata-about__teacher-grid :is(.orlyata-teacher-card__meta-first, .orlyata-teacher-card__meta-middle) {
+    display: block;
+  }
+}
+
+
+@media (width >= 768px) and (width <= 1279px) {
+  .orlyata-about__groups .orlyata-accordion__summary {
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+  }
+
+  .orlyata-about__groups .orlyata-accordion__title {
+    grid-column:1 / span 2;
+  }
+
+  .orlyata-about__groups .orlyata-accordion__meta {
+    grid-column:3;
+  }
+
+  .orlyata-about__groups .orlyata-accordion__toggle {
+    grid-column:4;
+    justify-self:end;
+  }
+
+  .orlyata-about__groups .orlyata-accordion__content {
+    margin-inline-start:calc(50% + (var(--layout-grid-gap) / 2));
+  }
+
+  .orlyata-about__life-grid {
+    align-items:stretch;
+  }
+
+  .orlyata-about :is(.orlyata-about__life-card, .orlyata-about__life-media) {
+    min-block-size:0;
+    aspect-ratio:var(--about-life-tablet-column-aspect-ratio);
+  }
+
+  .orlyata-about__teacher-grid {
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+
+  .orlyata-about .orlyata-teacher-card {
+    min-block-size:0;
+    aspect-ratio:var(--about-teacher-tablet-card-aspect-ratio);
+  }
+
+  .orlyata-about .orlyata-teacher-card__name {
+    margin-block-start:auto;
+  }
+
+  .orlyata-about .orlyata-home__application-surface {
+    min-block-size:calc(var(--application-form-min-height) + var(--home-application-surface-padding) + var(--home-application-surface-padding));
+    aspect-ratio:auto;
+  }
+}
+@media (width <= 767px) {
+  .orlyata-about__lead {
+    font-size: var(--font-size-heading-3);
+    line-height: var(--line-height-heading-3);
+    letter-spacing: var(--letter-spacing-heading-3);
+  }
 }

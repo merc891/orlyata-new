@@ -38,3 +38,12 @@ export const Variants: Story = {
     return root;
   },
 };
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Advantage', 'Мобильное представление цифрового показателя на reference-ширине 393 px.');
+    appendSection(root, 'Mobile', [advantage('6', 'опытных педагогов'), advantage('35', 'лет истории капеллы')]);
+    return root;
+  },
+};

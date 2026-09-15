@@ -55,6 +55,31 @@ test('ApplicationForm default matches the approved Figma geometry', async ({ pag
   await expect(form).toHaveCSS('border-radius', '24px');
 });
 
+for (const viewport of [
+  { height: 900, name: 'tablet-minimum', width: 768 },
+  { height: 900, name: 'tablet-reference', width: 1279 },
+  { height: 844, name: 'mobile', width: 320 },
+]) {
+  test('ApplicationForm controls preserve their shared target at ' + viewport.name, async ({ page }) => {
+    await page.setViewportSize(viewport);
+    await page.goto('/iframe.html?id=components-application-form--default&viewMode=story');
+    await expect(page.locator('.orlyata-application-form')).toBeVisible({ timeout: 15_000 });
+    await expectGingerLoaded(page);
+
+    const controlHeights = await page.locator('.orlyata-input__control').evaluateAll(
+      (controls) => controls.map((control) => control.getBoundingClientRect().height),
+    );
+    const submitHeight = await page.locator('.orlyata-application-form__submit').evaluate(
+      (submit) => submit.getBoundingClientRect().height,
+    );
+
+    for (const height of controlHeights) {
+      expect(height).toBeCloseTo(submitHeight, 1);
+      expect(height).toBeGreaterThanOrEqual(48);
+    }
+  });
+}
+
 test('ApplicationForm keeps native field and submit semantics', async ({ page }) => {
   await openApplicationForm(page);
 

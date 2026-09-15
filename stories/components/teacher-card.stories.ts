@@ -27,6 +27,8 @@ export function createTeacherCard({ firstName, imageSrc, lastName, middleName }:
   const meta = document.createElement('p');
   const nameLabel = document.createElement('span');
   const metaLabel = document.createElement('span');
+  const firstNameLabel = document.createElement('span');
+  const middleNameLabel = document.createElement('span');
   const fullGivenName = `${firstName} ${middleName}`;
 
   card.className = 'orlyata-teacher-card';
@@ -44,7 +46,11 @@ export function createTeacherCard({ firstName, imageSrc, lastName, middleName }:
   meta.className = 'orlyata-teacher-card__meta';
   metaLabel.className = 'orlyata-teacher-card__meta-label';
   metaLabel.dataset.text = fullGivenName;
-  metaLabel.textContent = fullGivenName;
+  firstNameLabel.className = 'orlyata-teacher-card__meta-first';
+  firstNameLabel.textContent = firstName;
+  middleNameLabel.className = 'orlyata-teacher-card__meta-middle';
+  middleNameLabel.textContent = middleName;
+  metaLabel.append(firstNameLabel, document.createTextNode(' '), middleNameLabel);
   name.append(nameLabel);
   meta.append(metaLabel);
   photo.append(image);
@@ -106,6 +112,18 @@ export const Variants: Story = {
       createTeacherCard({ firstName: 'Марьяна', imageSrc: teacherImageSources.mar, lastName: 'Климова', middleName: 'Геннадьевна' }),
       createTeacherCard({ firstName: 'Ольга', imageSrc: teacherImageSources.olg, lastName: 'Угольникова', middleName: 'Александровна' }),
       createTeacherCard({ firstName: 'Мария', imageSrc: teacherImageSources.mash, lastName: 'Моисеева', middleName: 'Андреевна' }),
+    ]);
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Teacher card', 'Утверждённые портреты педагогов для страницы «О капелле».');
+    appendTeacherPreview(root, [
+      createTeacherCard({ firstName: 'Андрей', imageSrc: teacherImageSources.vict, lastName: 'Чернецов', middleName: 'Викторович' }),
+      createTeacherCard({ firstName: 'Ирина', imageSrc: teacherImageSources.karp, lastName: 'Карпман', middleName: 'Рафаиловна' }),
     ]);
     return root;
   },

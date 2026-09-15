@@ -70,35 +70,22 @@ if ( '' === $media_card_title || '' === $url || '' === $image_url || '' === $dat
 		</div>
 		<div class="orlyata-media-card__content">
 			<h3 class="orlyata-media-card__title"><span class="orlyata-media-card__title-label" data-text="<?php echo esc_attr( $media_card_title ); ?>"><?php echo esc_html( $media_card_title ); ?></span></h3>
-			<div class="orlyata-media-card__meta">
-				<?php
-				get_template_part(
-					'template-parts/components/badge',
-					null,
-					array(
-						'label'   => $date,
-						'variant' => 'big' === $size ? 'inverse' : 'default',
-					)
-				);
-				?>
-				<?php if ( $is_video && '' !== $provider ) : ?>
-						<?php
-						get_template_part(
-							'template-parts/components/badge',
-							null,
-							array(
-								'label'   => $provider,
-								'variant' => 'big' === $size ? 'inverse' : 'default',
-							)
-						);
-						?>
-				<?php endif; ?>
-			</div>
+			<?php if ( 'big' === $size ) : ?>
+				<div class="orlyata-media-card__top-meta orlyata-media-card__meta--mobile-overlay">
+					<?php get_template_part( 'template-parts/components/badge', null, array( 'label' => $date, 'variant' => 'filled' ) ); ?>
+					<?php if ( $is_video ) : ?>
+						<?php get_template_part( 'template-parts/components/button', null, array( 'class' => 'orlyata-media-card__play orlyata-media-card__play--inline', 'decorative' => true, 'variant' => 'play' ) ); ?>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+			<?php if ( 'small' === $size ) : ?>
+				<div class="orlyata-media-card__meta orlyata-media-card__meta--mobile-overlay">
+					<?php get_template_part( 'template-parts/components/badge', null, array( 'label' => $date, 'variant' => 'default' ) ); ?>
+					<?php if ( $is_video ) : ?>
+						<?php get_template_part( 'template-parts/components/button', null, array( 'class' => 'orlyata-media-card__play', 'decorative' => true, 'variant' => 'play' ) ); ?>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</div>
-		<?php if ( $is_video ) : ?>
-			<span class="orlyata-button orlyata-button--play orlyata-media-card__play" aria-hidden="true">
-				<img class="orlyata-button__icon orlyata-button__icon--play" src="<?php echo esc_url( get_theme_file_uri( 'assets/icons/button-play.svg' ) ); ?>" alt="" aria-hidden="true" />
-			</span>
-		<?php endif; ?>
 	</a>
 </article>

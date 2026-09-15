@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 
 import { createApplicationForm } from '../components/application-form.stories';
+import { createButton } from "../components/button.stories";
 import { dataTable } from '../components/content.stories';
 import { createFooter } from '../components/footer.stories';
 import { createPageHero } from '../components/page-hero.stories';
@@ -13,7 +14,7 @@ const groups = [
   ['Подготовительная группа', '5-7 лет'],
   ['Младший хор', '7-8 лет'],
   ['Старший хор', '8-12 лет'],
-  ['Юношеская группа', 'Юношеская группа'],
+  ['Юношеская группа', '13-18 лет'],
 ] as const;
 
 const teachers = [
@@ -67,13 +68,25 @@ const el = <K extends keyof HTMLElementTagNameMap>(
 function createGroupRow(titleText: string, metaText: string): HTMLElement {
   const row = el("details", "orlyata-accordion");
   const summary = el("summary", "orlyata-accordion__summary");
+  const label = el("span", "orlyata-accordion__label");
   const title = el("span", "orlyata-accordion__title", titleText);
+  const separator = el("span", "orlyata-accordion__separator", " / ");
   const meta = el("span", "orlyata-accordion__meta", metaText);
   const toggle = el("span", "orlyata-accordion__toggle");
   const panel = el("div", "orlyata-accordion__panel");
   const content = el("div", "orlyata-accordion__content");
+  separator.setAttribute("aria-hidden", "true");
   toggle.setAttribute("aria-hidden", "true");
-  summary.append(title, meta, toggle);
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  icon.setAttribute("class", "orlyata-accordion__toggle-icon");
+  icon.setAttribute("viewBox", "0 0 24 24");
+  path.setAttribute("class", "orlyata-accordion__toggle-path");
+  path.setAttribute("d", "M5 12h14M12 5v14");
+  icon.append(path);
+  toggle.append(icon);
+  label.append(title, separator, meta);
+  summary.append(label, toggle);
   panel.append(content);
   row.append(summary, panel);
   return row;
@@ -124,16 +137,40 @@ export function createAboutDesktopPreview(): HTMLElement {
 
   const life = el('section', 'orlyata-about__life');
   life.dataset.aboutReveal = '';
-  const lifeGrid = el('div', 'orlyata-about__life-grid');
-  const lifeCard = el('article', 'orlyata-about__life-card');
-  const lifeImage = el('img');
-  lifeCard.append(
-    el('h3', 'type-heading-3', 'Выступления'),
-    el('p', 'type-body', 'Младший, старший хор и юноши активно выступают и принимают участие во многих московских, российских фестивалях и конкурсах'),
-  );
-  lifeImage.src = `${assetRoot}/images/about/life.png`;
-  lifeImage.alt = '';
-  lifeGrid.append(lifeCard, lifeImage);
+  const lifeGrid = el("div", "orlyata-about__life-grid");
+  const lifeCard = el("div", "orlyata-about__life-card");
+  const lifeMedia = el("div", "orlyata-about__life-media");
+  const lifeTrack = el("div", "orlyata-about__life-image-track");
+  lifeGrid.dataset.lifeCarousel = "";
+  lifeMedia.dataset.lifeMedia = "";
+  lifeMedia.dataset.lifeActive = "0";
+  [["Выступления", "Младшая, старшая группы и юноши регулярно выходят на сцену московских и всероссийских фестивалей."], ["Достижения", "Хор «Орлята» становился лауреатом 1 и 2-й степени на международных конкурсах."], ["Отдых", "В период каникул ребята с педагогами и родителями выезжают в театры, музеи и на экскурсии."]].forEach(([title, copy], index) => {
+    const slide = el("article", "orlyata-about__life-slide" + (index === 0 ? " is-active" : ""));
+    slide.dataset.lifeSlide = "";
+    const lifeMeta = el("div", "orlyata-about__life-meta");
+    const lifeBadge = el("span", "orlyata-badge orlyata-badge--dark", title);
+    const lifeIcon = el("span", "orlyata-badge orlyata-badge--dark-icon");
+    const lifeIconImage = el("img", "orlyata-badge__icon");
+    lifeIconImage.src = assetRoot + ("/icons/news-category-news.png");
+    lifeIconImage.alt = "";
+    lifeIcon.setAttribute("aria-hidden", "true");
+    lifeIcon.append(lifeIconImage);
+    lifeMeta.append(lifeBadge, lifeIcon);
+    slide.append(lifeMeta, el("div", "orlyata-about__life-copy type-body", copy));
+    lifeCard.append(slide);
+  });
+  const lifeArrows = el("div", "orlyata-about__life-arrows");
+  lifeArrows.setAttribute("aria-label", "Переключение слайдов");
+  lifeArrows.append(createButton({ ariaLabel: "Предыдущий слайд", variant: "arrow-left" }), createButton({ ariaLabel: "Следующий слайд", variant: "arrow-right" }));
+  lifeCard.append(lifeArrows);
+  ["life.png", "win.jpg", "otdykh.jpeg"].forEach((source) => {
+    const image = el("img", "orlyata-about__life-image");
+    image.src = assetRoot + "/images/about/" + source;
+    image.alt = "";
+    lifeTrack.append(image);
+  });
+  lifeMedia.append(lifeTrack);
+  lifeGrid.append(lifeCard, lifeMedia);
   life.append(el('h2', 'type-heading-2', 'Жизнь капеллы'), lifeGrid);
 
   const teacherSection = el('section', 'orlyata-about__teachers');
@@ -146,10 +183,10 @@ export function createAboutDesktopPreview(): HTMLElement {
   });
   teacherSection.append(teacherGrid);
 
-  const application = el('section', 'orlyata-about__application');
+  const application = el('section', 'orlyata-home__section orlyata-home__application orlyata-about__application');
   application.dataset.aboutReveal = '';
-  const surface = el('div', 'orlyata-about__application-surface');
-  const background = el('img');
+  const surface = el('div', 'orlyata-home__application-surface');
+  const background = el('img', 'orlyata-home__application-background');
   background.src = `${assetRoot}/images/home/application-background.png`;
   background.alt = '';
   surface.append(
@@ -165,16 +202,25 @@ export function createAboutDesktopPreview(): HTMLElement {
       variant: 'about',
     }, 'about-page'),
   );
-  application.append(
-    el('h2', 'type-heading-1', 'Хотите вырастить творческую личность — запишите мальчика в капеллу'),
-    surface,
-  );
+  const applicationTitle = el('h2', 'orlyata-home__application-title type-heading-2');
+  const applicationTitleIcon = el('span', 'orlyata-home__application-title-icon');
+  applicationTitleIcon.setAttribute('aria-hidden', 'true');
+  const applicationTitleIconImage = el('img');
+  applicationTitleIconImage.src = assetRoot + '/icons/news-category-news.png';
+  applicationTitleIconImage.alt = '';
+  applicationTitleIcon.append(applicationTitleIconImage);
+  applicationTitle.append('Хотите вырастить творческую личность? ', applicationTitleIcon, ' Запишите мальчика ', el('span', 'orlyata-home__application-title-preposition', 'в капеллу'));
+  application.append(applicationTitle, surface);
 
-  const achievementSection = el('section', 'orlyata-about__achievements');
+  const achievementSection = el('section', 'orlyata-home__section orlyata-home__achievements orlyata-about__achievements');
   achievementSection.dataset.aboutReveal = '';
+  const achievementHead = el('div', 'orlyata-home__section-head');
+  achievementHead.append(el('h2', 'type-heading-2', 'Достижения'));
+  const achievementTableWrap = el('div', 'orlyata-home__table-wrap');
+  achievementTableWrap.append(dataTable(achievements));
   achievementSection.append(
-    el('h2', 'type-heading-2', 'Достижения'),
-    dataTable(achievements),
+    achievementHead,
+    achievementTableWrap,
   );
 
   const footer = createFooter({

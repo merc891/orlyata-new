@@ -41,9 +41,9 @@ export const Playground: StoryObj<DataTableArgs> = {
 };
 
 export const News: Story = {
-  parameters: { controls: { disable: true } },
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'tablet1279' } },
   render: () => {
-    const root = createComponentPage('Data table / News', 'Вариант для списка новостей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
+    const root = createComponentPage('Data table / News', 'На tablet сохраняется исходная четырёхколоночная сетка: только ячейки названия занимают 90% прежней ширины; многострочное название растит строку, а его первая строка выравнивается с датой, типом и стрелкой. На mobile — запись со стрелкой 16px в масштабируемой обёртке 16×24px, названием primary сверху и датой secondary снизу.');
     appendSection(root, 'News', [dataTable(undefined, 'news')]);
     return root;
   },
@@ -54,6 +54,16 @@ export const Photo: Story = {
   render: () => {
     const root = createComponentPage('Data table / Photo', 'Вариант для списка фотогалерей с четырёхколоночной desktop-сеткой и доступными стрелками-ссылками.');
     appendSection(root, 'Photo', [dataTable(undefined, 'photo')]);
+    return root;
+  },
+};
+
+export const MobileArchives: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: "mobile393" } },
+  render: () => {
+    const root = createComponentPage("Data table / Mobile media archives", "Photo reuses the News mobile record with the name above the date and a 16px arrow vertically centered in a scaling 16×24px wrapper; Video uses its provider icon in the same leading track. Type is visually hidden while its semantic header remains available.");
+    appendSection(root, "Photo", [dataTable(undefined, "photo")]);
+    appendSection(root, "Video", [dataTable(undefined, "video")]);
     return root;
   },
 };
@@ -84,6 +94,33 @@ export const TeacherAchievements: Story = {
       ['2024', 'Специальный диплом «за композиторское мастерство» Московского международного фестиваля-конкурса «Рождественская песнь»'],
       ['2024', 'Специальный диплом «за духовное воспитание молодежи» Московского международного фестиваля-конкурса «Рождественская песнь»'],
     ], 'teacher-achievements')]);
+    return root;
+  },
+};
+
+export const Mobile: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: 'mobile393' } },
+  render: () => {
+    const root = createComponentPage('Data table', 'Таблица для структурированных списков достижений и нот с нижней разделительной линией между строками.');
+    appendSection(root, 'Default', [dataTable()]);
+    return root;
+  },
+};
+
+export const MobileNotes: Story = {
+  parameters: { controls: { disable: true }, viewport: { defaultViewport: "mobile393" } },
+  render: () => {
+    const root = createComponentPage("Data table / Mobile notes", "На mobile «Ноты» используют reading-record таблицы новостей: слева стрелка скачивания 16px направлена вниз и центрируется в масштабируемой обёртке 16×24px, название и автор объединены в primary-строке, категория хора находится снизу в secondary-цвете.");
+    appendSection(root, "Notes", [dataTable(undefined, "notes")]);
+    return root;
+  },
+};
+
+export const Notes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const root = createComponentPage('Data table / Notes', 'Вариант для библиотеки нот с доступной ссылкой на скачивание.');
+    appendSection(root, 'Notes', [dataTable(undefined, 'notes')]);
     return root;
   },
 };

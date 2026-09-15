@@ -74,6 +74,8 @@
   color: var(--color-text-primary);
   font-family: var(--font-family-primary);
   font-size: var(--font-size-body);
+  font-style: normal;
+  font-synthesis: none;
   letter-spacing: var(--letter-spacing-body);
   line-height: var(--line-height-body);
   outline: none;

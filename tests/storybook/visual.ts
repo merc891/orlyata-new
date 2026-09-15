@@ -10,10 +10,11 @@ export const viewports = [
   { height: 960, name: '1279', width: 1279 },
   { height: 1024, name: '768', width: 768 },
   { height: 1024, name: '767', width: 767 },
+  { height: 852, name: '393', width: 393 },
   { height: 800, name: '320', width: 320 },
 ] as const;
 
-const fontPath = 'wp-content/themes/orlyata/assets/fonts/f37-ginger-cyrillic-vf.woff2';
+const fontPath = 'wp-content/themes/orlyata/assets/fonts/tt-turns-medium.woff2';
 
 if (!existsSync(fontPath)) {
   throw new Error(`Required visual-test font is missing: ${fontPath}`);
@@ -22,7 +23,7 @@ if (!existsSync(fontPath)) {
 export const expectGingerLoaded = async (page: Page): Promise<void> => {
   const faces = await page.evaluate(async () => {
     const gingerFaces = [...document.fonts].filter((face) =>
-      face.family.includes('F37 Ginger Cyrillic VF'),
+      face.family.includes('TT Turns'),
     );
 
     await Promise.all(gingerFaces.map(async (face) => face.load()));

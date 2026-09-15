@@ -13,15 +13,18 @@
   background: var(--color-surface-muted);
 }
 
-.orlyata-advantage::before {
-  position: absolute;
-  top: var(--space-5);
-  right: var(--space-5);
+.orlyata-advantage__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--advantage-accent-value-gap);
+}
+
+.orlyata-advantage__accent {
   width: var(--advantage-accent-size);
   height: var(--advantage-accent-size);
+  flex: 0 0 var(--advantage-accent-size);
   border-radius: var(--radius-full);
   background: var(--color-brand);
-  content: "";
 }
 
 .orlyata-advantage__value,

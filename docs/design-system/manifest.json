@@ -132,10 +132,25 @@
         "figma": "Semantic/Bg/Muted",
         "role": "Muted controls and cards"
       },
+      "surface-dark": {
+        "value": "#403f3f",
+        "figma": "4903:1701 / Semantic/Bg/Dark",
+        "role": "Dark background for Badge variants in About life carousel"
+      },
       "surface-inverse": {
         "value": "#181717",
         "figma": "Semantic/Bg/Inverse",
         "role": "Footer, primary controls and dark panels"
+      },
+      "overlay-scrim": {
+        "value": "rgb(24 23 23 / 32%)",
+        "css": "--color-overlay-scrim",
+        "role": "Modal backdrop for the mobile Notes search bottom-sheet"
+      },
+      "overlay-content-scrim": {
+        "value": "rgb(24 23 23 / 20%)",
+        "css": "--color-overlay-content-scrim",
+        "role": "Mobile search panel overlay above page content and below its fixed top bar"
       },
       "surface-photo": {
         "value": "#c6ccc2",
@@ -165,30 +180,30 @@
     },
     "typography": {
       "fluid_scale": {
-        "css": "--font-size-display, --font-size-heading-1, --font-size-heading-2, --font-size-lead, --font-size-heading-3, --font-size-body, --font-size-caption and --font-size-body-small",
+        "css": "--font-size-display, --font-size-heading-1, --font-size-heading-2, --font-size-lead, --font-size-menu, --font-size-heading-3, --font-size-body, --font-size-caption and --font-size-body-small",
         "formula_source": "tokens.layout.fluid-scale in this manifest; docs/design-system/tokens.css is the implemented local desktop ledger; published staging was validated on 2026-08-26",
-        "coverage": "At desktop widths 1280–2560px, every typography role follows the same 66.6667% → 100% → 133.3333% envelope as its component geometry, except explicit accessibility and technical minimums. Figma reference remains 1920px. Desktop card geometry preserves each approved aspect ratio, and component padding, gaps, badges, imagery and form internals follow the same scale. Tablet and mobile retain their own readable mode values."
+        "coverage": "At desktop widths 1280–2560px, typography follows the documented S scale: 66.6667% at 1280px, 100% at the approved 1920px reference, and 133.3333% at 2560px. Tablet and mobile retain their own mode values."
       },
       "family-primary": {
-        "value": "F37 Ginger Cyrillic VF",
+        "value": "TT Turns",
         "fallback": "Arial, sans-serif",
         "status": "approved-for-implementation"
       },
       "display": {
         "figma": "Heading/Hero",
-        "size_rem": 5,
+        "size_rem": 4.5,
         "weight": 500,
-        "line_height": 0.65,
-        "letter_spacing_rem": -0.3125,
+        "line_height": 0.7,
+        "letter_spacing_rem": -0.125,
         "viewport": "desktop",
         "status": "needs-visual-validation"
       },
       "heading-1": {
-        "figma": "Heading/Lead 64",
+        "figma": "Heading/H1",
         "size_rem": 4,
         "weight": 500,
-        "line_height": 0.8,
-        "letter_spacing_rem": -0.1875,
+        "line_height": 0.9,
+        "letter_spacing_rem": -0.0625,
         "viewport": "desktop"
       },
       "heading-2": {
@@ -196,46 +211,120 @@
         "size_rem": 2.75,
         "weight": 500,
         "line_height": 0.9,
-        "letter_spacing_rem": -0.125,
+        "letter_spacing_rem": -0.03125,
         "viewport": "desktop"
       },
       "lead": {
         "figma": "Heading/Lead 36",
         "size_rem": 2.25,
         "weight": 500,
-        "line_height": 1,
-        "letter_spacing_rem": -0.0625,
+        "line_height": 1.2,
+        "letter_spacing_rem": -0.03125,
         "viewport": "desktop"
       },
       "heading-3": {
         "figma": "Heading/H3",
         "size_rem": 1.5,
         "weight": 500,
-        "line_height": 1.2,
-        "letter_spacing_rem": -0.0625,
+        "line_height": 1.3,
+        "letter_spacing_rem": 0,
         "viewport": "desktop"
       },
       "body": {
         "figma": "Body/Normal",
         "size_rem": 1.25,
-        "weight": 400,
+        "weight": 500,
         "line_height": 1.4,
-        "letter_spacing_rem": -0.03125,
+        "letter_spacing_rem": 0,
         "viewport": "desktop"
+      },
+      "body-120": {
+        "figma": "Body 120",
+        "size_rem": 1.25,
+        "weight": 500,
+        "line_height": 1.2,
+        "letter_spacing_rem": 0,
+        "viewport": "desktop",
+        "usage": "Only the Home mobile achievements Competition cell uses this Body variant."
       },
       "caption": {
         "figma": "Body/Small",
         "size_rem": 0.875,
-        "weight": 400,
+        "weight": 500,
         "line_height": 1.5,
-        "letter_spacing_rem": -0.0125,
+        "letter_spacing_rem": 0,
         "viewport": "desktop"
       },
       "tablet": {
-        "status": "to-design"
+        "status": "approved-for-implementation",
+        "reference_viewport_px": 1279,
+        "scale": "S_t = clamp(768/1279, viewportWidth/1279, 1)",
+        "roles_match_desktop": true,
+        "typography_reference": "At 1279px, tablet roles use the approved 1920px role values: Hero 72/0.7/-2, H1 64/0.9/-1, H2 44/0.9/-0.5, Lead 36/1.2/-0.5, H3 24/1.3/0 and Body 20/1.4/0; values follow S_t through 768–1279px."
       },
       "mobile": {
-        "status": "to-design"
+        "status": "approved-for-implementation",
+        "reference_viewport_px": 393,
+        "scale": "S_m = clamp(320/393, viewportWidth/393, 767/393)",
+        "roles": {
+          "display": {
+            "size_px": 40,
+            "weight": 500,
+            "line_height": 0.7,
+            "letter_spacing_px": -1
+          },
+          "heading-1": {
+            "size_px": 40,
+            "weight": 500,
+            "line_height": 0.9,
+            "letter_spacing_px": -1,
+            "inherits": "display font size and tracking"
+          },
+          "heading-2": {
+            "size_px": 32,
+            "weight": 500,
+            "line_height": 1,
+            "letter_spacing_px": -0.5
+          },
+          "menu": {
+            "size_px": 24,
+            "weight": 500,
+            "line_height": 1,
+            "letter_spacing_px": 0,
+            "usage": "Mobile Sidebar overlay navigation only"
+          },
+          "heading-3": {
+            "size_px": 20,
+            "weight": 500,
+            "line_height": 1.2,
+            "letter_spacing_px": 0
+          },
+          "body": {
+            "size_px": 16,
+            "weight": 500,
+            "line_height": 1.4,
+            "letter_spacing_px": 0
+          },
+          "body-120": {
+            "size_px": 16,
+            "weight": 500,
+            "line_height": 1.2,
+            "letter_spacing_px": 0
+          },
+          "badge": {
+            "size_px": 14,
+            "weight": 500,
+            "line_height": 1.4,
+            "letter_spacing_px": 0,
+            "usage": "Badge component"
+          },
+          "caption": {
+            "size_px": 12,
+            "weight": 500,
+            "line_height": 1.5,
+            "letter_spacing_px": -0.5
+          }
+        }
       }
     },
     "spacing": {
@@ -291,7 +380,7 @@
           "Width and height of a proportional block derive from the same scale or from one approved aspect ratio; do not give them independent fluid curves.",
           "Minimum 24px content gutters and 48px interaction targets may stop shrinking before the proportional value, but these exceptions must not change card or section aspect ratios.",
           "Technical 1px hairlines, dimensionless line-height, colors, opacity and full-radius are not multiplied by S.",
-          "Archive filter groups use --archive-filter-gap at a fixed 0.25rem (4px), per the approved user request; this is a documented exception to S.",
+          "Archive filter groups use --archive-filter-gap at a fixed 0.25rem (4px), per the approved user request; this is a documented exception to S. At mobile 320–767px, every archive filter group (Notes, News, Photo and Video) is one non-wrapping horizontal row inside its own horizontal scroll container; overflow never reaches the page, the scroll container breaks out of the page body to the viewport width, keeps the mobile outer gutter only at its inline start, and touch panning, and touch panning plus keyboard focus retain access to every server-rendered link.",
           "Viewport-height Hero geometry is an explicit composition exception; it must not authorize independent scaling of components placed inside it."
         ]
       },
@@ -299,7 +388,7 @@
         "rem": 1.5,
         "alias": "spacing.5",
         "css": "--layout-content-gutter",
-        "role": "Minimum inline inset between the content canvas and the desktop rail or browser edge"
+        "role": "Inline inset between the content canvas and the desktop rail or browser edge; on tablet 768–1279 px it follows S_t from 14.411 px to 24 px; on mobile 320–767 px it follows S_m with an 12 px (0.75rem) reference at 393 px"
       },
       "grid-columns": {
         "value": 4,
@@ -339,11 +428,69 @@
         "css": "--home-hero-content-padding-block-end",
         "role": "Bottom inset below the three-line title in the home capella hero"
       },
+      "home-mobile-hero-height": {
+        "reference_px": 589,
+        "css": "--home-mobile-hero-height",
+        "role": "Full-bleed Home capella video height at the 393px mobile reference; follows S_m from 320 to 767px"
+      },
+      "home-mobile-hero-content-inset": {
+        "reference_px": 24,
+        "css": "--home-mobile-hero-content-inset",
+        "role": "Shared inline inset for the Home mobile capella title and Play control; follows S_m"
+      },
+      "home-mobile-hero-radius": {
+        "reference_px": 24,
+        "css": "--home-mobile-hero-radius",
+        "role": "Bottom-only corner radius of the full-bleed Home capella Hero; follows S_m"
+      },
+      "home-mobile-hero-title-bottom-inset": {
+        "reference_px": 32,
+        "alias": "home-mobile-space-32",
+        "css": "--home-mobile-hero-title-bottom-inset",
+        "role": "Bottom inset below the three-line Home mobile capella title; follows S_m"
+      },
+      "home-mobile-hero-play-title-gap": {
+        "reference_px": 24,
+        "alias": "home-mobile-space-12 × 2",
+        "css": "--home-mobile-hero-play-title-gap",
+        "role": "Vertical gap between the Home mobile capella Play control and its three-line title; follows S_m"
+      },
+      "home-mobile-hero-overlay": {
+        "value": "rgb(24 23 23 / 20%)",
+        "base_color_alias": "color-surface-inverse",
+        "css": "--home-mobile-hero-overlay",
+        "role": "Uniform color overlay above the Home mobile capella video"
+      },
+      "home-mobile-hero-top-gradient": {
+        "value": "linear-gradient(#000c 0%, #0000 36.47%)",
+        "css": "--home-mobile-hero-top-gradient",
+        "role": "Top readability gradient layered above the uniform Home mobile capella video overlay"
+      },
+      "data-table-mobile-leading-track": {
+        "reference_px": 38,
+        "css": "--data-table-mobile-leading-track",
+        "role": "Shared first track for Home achievements and News mobile reading records; follows S_m"
+      },
+      "home-mobile-achievements-competition-gap": {
+        "reference_px": 4,
+        "alias": "home-mobile-space-4",
+        "css": "--home-mobile-achievements-competition-gap",
+        "role": "Vertical gap from the Home mobile achievement result to the Competition entry; follows S_m"
+      },
+      "home-mobile-sidebar-scroll-threshold": {
+        "reference_px": 0,
+        "role": "The Home mobile transparent Hero header becomes the shared fixed white Sidebar header at the first nonzero scroll position"
+      },
       "home-first-screen-gap": {
         "rem": 1,
         "alias": "spacing.4",
         "css": "--home-first-screen-gap",
         "role": "Vertical gap between the home hero panels and the first-row advantage cards"
+      },
+      "achievements-heading-content-gap": {
+        "rem": 1.5,
+        "css": "--achievements-heading-content-gap",
+        "role": "Shared vertical gap from the Achievements H2 to its data table; 24 px at the 1920 px desktop reference and one shared tablet value"
       },
       "home-first-screen-panel-height": {
         "value": "calc(100svh - space.5 - home-first-screen-gap - advantage.height - space.5)",
@@ -412,6 +559,7 @@
       "duration-media-card-hover-ms": 400,
       "easing-media-card-hover": "cubic-bezier(0.46, 0, 0, 1)",
       "duration-link-roll-ms": 400,
+      "duration-home-mobile-sidebar-reveal-ms": 200,
       "distance-title-roll-separator-px": 4,
       "duration-link-color-hover-ms": 200,
       "duration-button-hover-ms": 200,
@@ -474,6 +622,7 @@
       "variants": [
         "primary",
         "secondary",
+        "archive-filter",
         "play",
         "arrow-left",
         "arrow-right",
@@ -491,9 +640,10 @@
       ],
       "usage_rules": [
         "Use a real button for actions and a real link for navigation",
-        "Do not invent one-off colors or radii",
+        "archive-filter is a mobile-only size modifier for the News, Notes, Photo and Video category filters: at the 393px reference it exactly reuses mobile Badge height, padding and Badge typography; its selected Primary close icon is 16px and all values follow S_m. At tablet and desktop it preserves the base Primary or Secondary geometry.",
+        "Play uses colors.surface by default; MediaCard Small alone uses the filled, borderless colors.surface-muted treatment for its decorative Play control at every breakpoint. Other Play contexts retain their documented surface.",
         "Gallery arrow variants arrow-left-muted and arrow-right-muted preserve the standard Arrow glyph roll, hit target, keyboard focus and 200ms hover timing; their surface is Neutral 50 by default and Neutral 150 on hover.",
-        "menu-tablet is the Sidebar action variant for 768–1279 px only: it preserves the 48 px hit target, uses the same Neutral 50 surface as muted gallery Arrow controls, renders a 24 px stroke-2 Morphicons Menu glyph while closed and morphs to X while open; aria-expanded and the accessible label always reflect the current menu state."
+        "menu-tablet is the Sidebar action variant for tablet and mobile: it preserves the 48 px hit target, uses the same Neutral 50 surface as muted gallery Arrow controls, renders the Untitled UI Menu-05 glyph in its 24 px box with a 2 px stroke while closed and morphs to X while open; aria-expanded and the accessible label always reflect the current menu state."
       ],
       "do_not": [
         "Do not nest links inside buttons",
@@ -547,9 +697,9 @@
           "wp-content/themes/orlyata/assets/icons/button-close.svg",
           "wp-content/themes/orlyata/assets/icons/button-play.svg",
           "wp-content/themes/orlyata/assets/icons/button-arrow.svg"
-        ]
+        ],
         "menu-tablet-icon-size-rem": 1.5,
-        "menu-tablet-icon-stroke-px": 2,
+        "menu-tablet-icon-stroke-px": 2
       },
       "validation": {
         "figma_node": "4651:1140",
@@ -582,14 +732,22 @@
       "variants": [
         "default",
         "category",
-        "inverse"
+        "icon",
+        "dark",
+        "dark-icon",
+        "inverse",
+        "filled"
       ],
       "states": [
         "default"
       ],
       "usage_rules": [
         "Use for compact metadata or a non-editable category marker",
+        "At the 393px mobile reference, every text Badge uses 14px type, 1.2 line-height and 0 letter-spacing with 12px inline padding; these values follow S_m across mobile widths",
+        "The icon variant is a decorative circular filled Badge: it has colors.surface-muted background and no border, contains one decorative category icon with a 24px reference glyph at desktop 1920px and tablet 1279px, and a 16px reference glyph at mobile 393px; both follow their mode scale. The theatre category icon uses a 1.5px contour at desktop, tablet and mobile. The star remains filled and has no added stroke; its SVG glyph is optically centred with a 0.05px horizontal and -0.875px vertical translation. The circular Badge is 64px square at desktop 1920px and tablet 1279px, and 48px at mobile 393px. NewsCard places it immediately after the date Badge with no gap in desktop, tablet and mobile modes.",
+        "dark keeps the text Badge geometry and applies colors.surface-dark with colors.text-inverse. dark-icon keeps the NewsCard icon Badge geometry and glyph size (32px at desktop 1920px and tablet 1279px; 24px at mobile 393px), applies colors.surface-dark and uses the supplied category asset. Both variants follow the existing desktop, tablet and mobile scales.",
         "Use inverse only over imagery or inverse surfaces; its border and text use colors.surface",
+        "Use filled for compact metadata and category markers: it keeps the default Badge dimensions and colors.text-secondary-on-muted, uses colors.surface-muted as its background, and has no border",
         "Render only the first character of a badge label in uppercase; do not capitalize following words, including a date month after a leading number"
       ],
       "do_not": [
@@ -640,14 +798,15 @@
         "hover"
       ],
       "usage_rules": [
-        "Category determines the icon",
+        "Category determines the decorative Figma-derived glyph: news uses Figma node 4913:696, announcement uses 4913:698, and achievement uses 4913:697. The central NewsCard map resolves reviewed local PNG assets rather than storing a glyph per publication.",
         "The whole card may be clickable only with valid accessible link markup",
-        "The title uses Heading/H3 at weight 500",
-        "Across desktop preserve the approved card aspect ratio; the icon, badge, padding and internal gap use the same fluid scale as its type",
-        "The NewsCard title keeps the standard Heading/H3 token in every composition, including the two-column home Hero",
+        "The title uses Body at weight 500",
+        "Across desktop preserve the approved card aspect ratio; padding, internal gap and metadata follow the same fluid scale as its type. The title begins at the card top inset; the category glyph is rendered only in the circular Badge.icon alongside the date Badge at the bottom. Its glyph is 32px on the 1920px desktop and 1279px tablet references, and 24px on the 393px mobile reference, following Sₘ down to 320px.",
+        "The date Badge and circular category Badge are adjacent with a 0px gap in every responsive mode.",
+        "The NewsCard title keeps the standard Body token in every composition, including the two-column home Hero",
         "Hover and focus-within roll the duplicated title label upward through its clipped track over 400 ms with easing-link-roll, matching MediaCard; keep a 4px separator between the outgoing and incoming copies so multi-line glyphs never show through",
         "At the 1920px desktop reference the NewsCard is 365×270px (22.8125rem × 16.875rem); every desktop composition preserves the owned 365/270 ratio and derives height from allocated width.",
-        "The desktop Home news grid allocates exactly --news-card-width to each of its two cards, keeps space.4 between them and centers the row inside the news Hero panel; at 1920px each Home NewsCard is therefore exactly 365×270px.",
+        "The desktop Home news grid uses the page-owned --home-news-grid-inset on both inline sides and space.4 between two equal tracks. Each NewsCard fills its track and retains the component-owned 365/270 ratio with coherent internal scaling.",
         "A page may set NewsCard width and placement but must not set aspect-ratio:auto, an independent height token or page-specific internal padding."
       ],
       "geometry": {
@@ -683,6 +842,7 @@
         "Use only for the approved factual metrics on the home page",
         "At the 1920px reference keep the card 388×170px with 24px top and inline padding and 16px bottom padding; across desktop preserve its aspect ratio and scale padding with the card, while aligning the value to the top and the secondary label to the bottom",
         "Use colors.text-secondary-on-muted for the label so secondary text passes WCAG AA on the muted card surface",
+        "The stat row starts with the decorative accent dot on the same inline axis as the lower label; the dot is vertically centred against the value, followed by the value after --advantage-accent-value-gap (16px at the 1920px desktop and 1279px tablet references, and 8px at the 393px mobile reference). The dot, gap and type follow the mode scale.",
         "The outer card, type, padding, accent and gaps use the same S coefficient across desktop; a page-specific ratio requires an explicit component variant first."
       ],
       "do_not": [
@@ -735,7 +895,8 @@
     "SearchInput": {
       "path": "wp-content/themes/orlyata/template-parts/components/search-input.php",
       "variants": [
-        "notes"
+        "notes",
+        "archive-control"
       ],
       "states": [
         "default",
@@ -746,6 +907,7 @@
       "usage_rules": [
         "Use a semantic type=search field with a persistent programmatic label.",
         "The field is 64px at the 1920px desktop reference, uses space-4 inline padding and radius.medium (16px at the reference) in default, typing and focus-visible states.",
+        "The named archive-control variant is used by archive filter rows. At 768–1279px its field height follows the shared --button-height so it exactly matches the adjacent filter Button; the base SearchInput geometry remains unchanged on desktop and mobile.",
         "Focus and typing use the single 1px brand border; do not add a second outer outline.",
         "Loading belongs to the Notes page composition and replaces results with the documented three Button loading dots."
       ],
@@ -765,10 +927,12 @@
       "variants": [
         "news",
         "scores",
+        "notes",
         "achievements",
         "teacher-achievements",
         "photo",
-        "video"
+        "video",
+        "mobile-overlay-meta"
       ],
       "states": [
         "default",
@@ -776,12 +940,15 @@
       ],
       "usage_rules": [
         "Use semantic table markup when relationships are tabular",
-        "On desktop, the achievements variant aligns Year to editorial column 1 and Competition to editorial column 3. Year uses 60% of an equal intermediate track; the remaining width is split equally between Achievement and Choir, while Competition uses the remaining table width",
-        "The teacher-achievements variant is a two-column semantic table for a teacher detail: Year is present in every data row, spans editorial columns 1–2 and aligns with the first line of Achievement; Achievement begins at editorial column 3 and spans columns 3–4. Its 64px Hero-to-section gap belongs to the teacher-detail page through --teacher-detail-hero-achievements-gap; long achievement text gives the row natural height. The following teacher quote section begins 96px below the table at 1920px through --teacher-detail-achievements-quote-gap. It has top and bottom 1px color-border-subtle rules, each separated from the Lead text by space-5 (24px). The Lead quote starts at desktop editorial column 3 and spans columns 3–4; the portrait reuses the circular About intro token --home-history-teacher-size, aligns at the bottom and to the left edge of column 1. The quote has two semantic paragraphs split after the sentence about music nurturing the soul, with a space-5 gap. The teacher achievements, quote and gallery each use the existing shared opacity-only scroll reveal with progressive enhancement; the following teacher gallery begins 96px after the quote through --teacher-detail-quote-gallery-gap and reuses the PhotoAlbum tile geometry, server-rendered local-image links and PhotoSwipe enhancement; its locally cropped PNG previews keep 800 by 620 large and 400 by 310 small dimensions, while local JPG originals remain the lightbox source.",
-        "Provide a deliberate mobile representation without losing labels",
+        "At desktop and tablet widths, the achievements variant has three semantic columns: Year, composed Achievement / Choir, and Competition. The area from the table start to the start of global editorial column 3 is split into three equal tracks after accounting for three --layout-grid-gap gaps: Year occupies the first, composed achievement starts at the second and spans the remaining two including their gap, and Competition aligns with global column 3 at calc(50% + --layout-grid-gap / 2) and occupies the remaining width. All tracks and their gap follow the applicable S or S_t coefficient",
+        "The teacher-achievements variant is a two-column semantic table for a teacher detail: On desktop, Year is present in every data row, spans editorial columns 1–2 and aligns with the first line of Achievement; Achievement begins at editorial column 3 and spans columns 3–4. On tablet 768–1279px, it retains the same columns 1–2 for Year and 3–4 for Achievement, keeping Achievement on the same vertical line as the quote below. At 320–767px, it reuses the first line of the Home achievements reading record: Year occupies the shared leading track and Achievement occupies the second track after --home-mobile-space-32; visual per-cell labels are suppressed while semantic headers remain available, and the Competition line is absent. The page-owned gap is 64px at the 1920px desktop reference and 48px from the end of the position copy to the Achievements section at the 393px mobile reference through --teacher-detail-hero-achievements-gap; long achievement text gives the row natural height. The following teacher quote section begins 96px below the table at 1920px through --teacher-detail-achievements-quote-gap. It has top and bottom 1px color-border-subtle rules, each separated from the Lead text by space-5 (24px). The Lead quote starts at desktop editorial column 3 and spans columns 3–4; the portrait reuses the circular About intro token --home-history-teacher-size, aligns at the bottom and to the left edge of column 1. The quote has two semantic paragraphs At 320–767px, the quote becomes a Home History-style horizontal media record: the circular portrait is at inline start, and the existing Lead quote starts on the same vertical line as the Achievement column above. Its gap from the portrait is derived as calc(--data-table-mobile-leading-track + --home-mobile-space-32 - --home-history-teacher-size), so it follows the shared mobile table geometry. It uses the same mobile Heading 3 visual type as the Home History Lead; the portrait keeps --home-history-teacher-size and the copy wraps naturally in the remaining width.  split after the sentence about music nurturing the soul, with a space-5 gap. The teacher achievements, quote and gallery each use the existing shared opacity-only scroll reveal with progressive enhancement; the following teacher gallery begins 96px after the quote through --teacher-detail-quote-gallery-gap and reuses the PhotoAlbum tile geometry, server-rendered local-image links and PhotoSwipe enhancement; its locally cropped PNG previews keep 800 by 620 large and 400 by 310 small dimensions, while local JPG originals remain the lightbox source.",
+        "At 320–767px, teacher-detail transitions from Achievements to the quote and from the quote to the gallery reuse --layout-section-gap: 96px at the 393px reference, projected with S_m. The page-owned aliases --teacher-detail-achievements-quote-gap and --teacher-detail-quote-gallery-gap must not define independent mobile curves.",
+        "At 320–767px, each teacher-achievements record keeps the shared --home-mobile-space-12 outer block-end margin except the final visible row, whose outer margin is zero. Its own block-end padding remains, so the following page-owned 96px section transition starts at the visual bottom of the table.",
+        "Provide a deliberate mobile representation without losing labels. On the Home achievements preview at the 393px mobile reference, each semantic row remains a three-level reading record: Year and composed Achievement / Choir share the first line, and Competition follows as secondary text; visual per-cell labels are suppressed while table headers remain available to assistive technology. At the 393px reference its Year and Choir use Body in color-text-secondary; the primary Achievement uses Body, 8px below that top line; Competition follows 4px below in Body and color-text-secondary, with a 24px block-end inset before the row separator.",
         "Every data row except the final visible row ends with a 1px color-border-subtle stroke; page wrappers must not duplicate this border",
         "Desktop row minimum height, type and cell padding scale coherently with S or use natural content height; do not keep a fixed row height while type scales.",
-        "Every desktop DataTable header cell is 4rem (64px) high. Normal table cells use vertical-align: middle; the achievements grid variant centers its single-line label in the cell. The news, photo and video variants have four semantic columns: Name spans editorial columns 1–2, Date starts at column 3, Type at column 4, and the accessible arrow link is right-aligned at the edge of column 4. A news or photo row uses cursor: pointer; its entire visible row activates the same server-rendered arrow-link URL with JavaScript, while the arrow remains a working link without JavaScript; hover or focus-within changes all row text and the arrow to color-text-secondary over duration-link-color-hover/easing-standard; its arrow reuses the Home History left-to-right roll with duplicated glyphs over duration-link-roll/easing-link-roll. A video row uses cursor: pointer and the same text color transition, but replaces the arrow with a paired local SVG source-provider icon (YouTube, RuTube or VK). Its gray version is visible by default; hover or focus-within of the row crossfades to the colored version over duration-link-color-hover/easing-standard. The icon is centered vertically in the row and has a 2rem (32px) reference size via --data-table-video-provider-icon-size. For the Home achievements preview, the section heading container is 2.75rem (44px) with a 1.5rem (24px) gap to the table header."
+        "At 320–767px, the notes variant reuses the News reading-record rhythm: its 16px leading link glyph is vertically centered in a 16×24px wrapper and uses the supplied download arrow directed downward; the visual primary line combines the source Title and Author as «Title / Author», while the Choir cell follows below in color-text-secondary. The original semantic Title, Author and Choir cells plus headers remain present for assistive technology. This mapping applies only on mobile; notes retains the default four-track DataTable at 768px and above.",
+        "At desktop and tablet widths, every DataTable header cell uses the same --accordion-row-height as a data row (48px at the reference), centers text vertically and sits above a 1px color-border-subtle separator. The mobile representation does not display the visual header. At 320–767px, the News, Photo and Video records reuse the Home achievements row padding, divider rhythm and second-column inset, but their primary-to-secondary record gap is --home-mobile-space-2 (2px at the 393px reference): Name is primary Body above Date in secondary Body; a multiline Name grows the first grid row naturally before Date, and Type is visually hidden while its header remains available to assistive technology. News and Photo replace the leading track with the supplied 16px arrow, vertically centered in a 16×24px wrapper at the 393px reference, and retain a 48px absolutely positioned link target that does not alter the reading-record grid row height. Video uses the same record geometry but replaces the arrow with its paired local SVG provider icon, 24px at the 393px reference through --data-table-video-provider-icon-size; its link target remains at least 48px. Normal table cells use vertical-align: middle; the achievements grid variant centers its single-line label in the cell. On tablet, News keeps the desktop four-track row and visible header. Its four tracks retain the default equal allocation and the shared gap remains unchanged. Only each body-row Name cell uses 90% of its original two-track area and stays aligned to its inline start, so Date, Type and header coordinates do not move. Each body row has --accordion-row-height only as its minimum and grows naturally for a multiline Name exactly like the desktop achievements Competition cell. Body cells use equal --space-2 block padding and align-content: start, so the first lines of Name, Date and Type and the arrow glyph share one top line; Date and Type remain on one line. The news, photo and video variants have four semantic columns: Name spans editorial columns 1–2, Date starts at column 3, Type at column 4, and the accessible arrow link is right-aligned at the edge of column 4. A news or photo row uses cursor: pointer; its entire visible row activates the same server-rendered arrow-link URL with JavaScript, while the arrow remains a working link without JavaScript; hover or focus-within changes all row text and the arrow to color-text-secondary over duration-link-color-hover/easing-standard; its arrow reuses the Home History left-to-right roll with duplicated glyphs over duration-link-roll/easing-link-roll. A video row uses cursor: pointer and the same text color transition, but replaces the arrow with a paired local SVG source-provider icon (YouTube, RuTube or VK). Its gray version is visible by default; hover or focus-within of the row crossfades to the colored version over duration-link-color-hover/easing-standard. The icon is centered vertically in the row and has a 2rem (32px) reference size via --data-table-video-provider-icon-size. For the Home achievements preview, the section heading container is 2.75rem (44px) with a 1.5rem (24px) gap to the table header."
       ],
       "do_not": [
         "Do not hide essential columns only to fit mobile"
@@ -834,10 +1001,15 @@
         "closed",
         "opened"
       ],
+      "mobile_393_contract": [
+        "The summary is one 48px row with one inline title-plus-meta label (title space-slash-space meta); a 0.25em visible space is reserved on both sides of the slash, which inherits the title and meta typography, and a decorative Plus/Minus sits in the right toggle column without an inline-end inset",
+        "Plus/Minus uses the approved --icon-size-ui-mobile and --icon-stroke-ui-mobile values on mobile; the 48px row remains the agreed interaction-target exception",
+        "On the About page at mobile, only the final group row has no bottom divider; opened content starts 8px below the summary at the 393px reference through --about-accordion-content-offset-mobile and follows S_m"
+      ],
       "usage_rules": [
         "Use native details and summary disclosure semantics",
         "Use the Figma plus and minus shapes with a 2px stroke through morphicons/dom",
-        "Hover changes title, meta and icon to colors.text-secondary immediately",
+        "Hover does not change title, meta or icon color; closed and opened items remain colors.text-primary",
         "With JavaScript, a measured panel wrapper animates between its current and full height for 400ms with cubic-bezier(0, 0, 0.06, 1), then returns to auto height; without JavaScript, native details disclosure remains available",
         "Only one item in an accordion group may be open at a time",
         "The plus and minus icon morph is decorative and follows the details open state"
@@ -865,18 +1037,18 @@
         "focus-visible"
       ],
       "usage_rules": [
-        "Preserve the approved image/card aspect ratio per variant across desktop, tablet and mobile: Big is 797/540 and Small is 390/540. Content padding, image region, title measure, metadata gap and badges follow the same mode coefficient as the outer card",
-        "Render the publication date as the first metadata badge for every card; render a provider badge second only for video",
+        "Preserve the approved image/card aspect ratio per variant across desktop and tablet: Big is 797/540 and Small is 390/540. On mobile 320–767px, Big uses the approved Small visual treatment but every card has natural height; the image region owns the 13/10 mobile ratio and content determines the remaining height",
+        "Render the publication date as the only metadata badge for every card; do not render a provider name",
+        "At every breakpoint, Big places its filled, borderless date Badge on colors.surface at the top-left --media-card-big-meta-inset (24px at the 1920px and 1279px references). A video Big places the existing decorative Play control directly after it with a 0px gap at both references. Big title remains at the lower left with 24px inline and 32px block-end reference insets; its metadata never appears beneath the title",
         "Big and small variants are both 540px high on desktop",
-        "Small keeps 16px between image and title and aligns metadata badges to the bottom",
-        "Big uses inverse Badge over imagery",
-        "Big and small titles use their Figma heading roles at weight 500",
-        "Show the decorative Play marker only for the video media type in either card size: 24px from the left/top in Big and 24px from the left plus 16px from the top inside Small imagery",
+        "Small keeps 16px between image and title and aligns metadata badges to the bottom. At tablet 768–1279px, Small owns a natural-height composition: its image region is 13/10 and its content region is 200px at the 1279px reference through --media-card-small-tablet-content-height; both follow S_t, so the title-to-metadata distance is identical in every page context. A video Small places its decorative filled, borderless colors.surface-muted Play marker directly after the date Badge with a 0px gap, outside the image region",
+        "Big uses a filled, borderless colors.surface Badge for its date metadata over imagery",
+        "Big uses Lead and Small uses Body at weight 500 in every mode",
+        "Show the decorative Play marker only for the video media type. At desktop and tablet Big and Small place it directly after the date badge; in Big this metadata row is 24px from the left/top. On the 393px mobile reference, the named mobile-overlay-meta variant places the date Badge plus Play in a 36px-high, 0px-gap row inside the image, exactly 8px above the title",
+        "On the 393px mobile reference, all cards use one Small projection; all titles use Body and overlay the image at a 16px inline-start and block-end inset through --media-card-mobile-title-inset; its text container is 310px wide through --media-card-mobile-title-width at the 393px reference and follows S_m across mobile widths; a 50% lower image gradient runs from transparent at its top to rgb(0 0 0 / 80%) at its bottom beneath the title. The named mobile-overlay-meta variant keeps Big’s date Badge on colors.surface; Small uses the filled, borderless colors.surface-muted date Badge and decorative Play in a 0px-gap row exactly 8px above that title. Both controls are 36×36px, while the Play glyph remains 16×16px. Home uses a 24px vertical gap between cards",
         "The video-card link opens the external provider URL in a separate tab; Play does not create a separate action",
-        "video_embed_url is an optional provider iframe preview supplied by the trusted provider adapter; it is aria-hidden and pointer-events:none so the card remains the only interactive link",
-        "On hover, scale only the image or video preview to 110% within its clipping container over 200ms with cubic-bezier(0, 0, 0.5, 1); card geometry and decorative Play remain fixed",
         "The title roll keeps a 4px separator between outgoing and incoming copies, preventing multi-line glyphs from showing through",
-        "Derive the visible provider tag from the URL for YouTube, RuTube and VK Video; do not render photo or video as metadata badges",
+        "Do not render a visible provider tag; video type is represented only by the decorative Play control",
         "The outer card, image region, title measure, padding, metadata and gaps use the same S coefficient across desktop; fixed rem measures that change the composition proportion are not allowed."
       ],
       "do_not": [
@@ -887,7 +1059,13 @@
       "geometry": {
         "big-title-max-width-rem": 26.875,
         "big-title-max-width-css": "--media-card-big-title-width",
-        "desktop_rule": "The title measure follows S with the Big card; the 26.875rem reference is not a fixed desktop maximum."
+        "desktop_rule": "The title measure follows S with the Big card; the 26.875rem reference is not a fixed desktop maximum.",
+        "mobile_title_width_reference_px": 310,
+        "mobile_title_width_css": "--media-card-mobile-title-width",
+        "mobile_title_width_rule": "The unified mobile title container is 310px at the 393px reference and follows S_m from 320px to 767px.",
+        "tablet_small_image_aspect_ratio": "13 / 10",
+        "tablet_small_content_height_reference_px": 200,
+        "tablet_small_content_height_css": "--media-card-small-tablet-content-height"
       },
       "gaps": [
         "missing image",
@@ -959,8 +1137,8 @@
         "Navigation uses a semantic nav/list/link structure and aria-current=page for the current route",
         "All page uses share the same Sidebar markup and styling; only the navigation links and their current-page state may differ",
         "The muted surface of a current navigation item starts 8 px from the left edge of the link; the label keeps the shared navigation padding",
-        "At 768–1279 px, Sidebar becomes a compact top header: it renders the dedicated `logo-tablet.svg`; at the 1279 px tablet reference its left logo is 11.25 rem wide by 6.25625 rem high (180 × 100.1 px) and follows the shared Home S_t projection down to 768 px. The right menu-tablet Button uses its Neutral 50 surface. With JavaScript its shared menu panel expands down over 400 ms with easing-out; only after that, navigation links and CTA fade from opacity 0 to 1 over 400 ms. Navigation begins 48 px below the logo, aligns to its inline start without left padding, and uses Heading 2 typography. Without JavaScript the navigation and admission CTA remain visible.",
-        "At 767 px and below, the rail is not rendered until separate mobile navigation is approved",
+        "At 768–1279 px, Sidebar becomes a compact top header: it renders the dedicated `logo-tablet.svg`; Its block-start and block-end padding are 0; Its logo is absolutely positioned at the header block-start coordinate (y = 0) and retains the header Space 5 inline inset; the CTA and menu button retain their existing alignment; at the 1279 px tablet reference its left logo is 11.25 rem wide by 6.25625 rem high (180 × 100.1 px) and follows the shared Home S_t projection down to 768 px. The header admission CTA is 210 px wide at 1279 px and follows the same S_t projection down to 768 px; it sits 4 px before the right menu-tablet Button. Its visual Neutral 50 surface is 64 × 64 px at the 1279px reference and follows S_t continuously down to 38.43px at 768px through --sidebar-tablet-menu-control-visual-size; the button keeps a centred 48px minimum tap target through --sidebar-tablet-menu-control-size. With JavaScript the panel is a viewport-height overlay above following page content: it expands down over 400 ms with easing-out, then the black Heading 2 navigation links fade from opacity 0 to 1 over 400 ms at vertical centre. VK and Telegram use the same supplied Footer SVGs, match the 64×64 px menu-button size at the 1279px reference with a Space 1 gap, and align to the overlay’s left and bottom insets; the former lower email and phone block is not shown. Without JavaScript navigation, CTA and social links remain visible.",
+        "At 320–767 px, Sidebar is a fixed shared top header above scrolling page content. At the 393px reference it keeps its existing 72px height, white surface, green logo-mob.svg at 131×48px and 48px menu target in the same flex row with equal 12px top and bottom insets on every page. The fixed position must not change these coordinates. With JavaScript its menu uses the tablet's 400ms easing-out full-viewport clip-path reveal, then fades in navigation links. At the 393px reference the bottom row is 16px above the viewport edge: VK and Telegram use the same 48×48px Footer SVG links with a 4px gap at the shared left inset; after a 48px gap the admission CTA fills the remaining inline space to the right content inset. This complete row follows S_m while preserving the 48px minimum interactive target. Without JavaScript navigation, social links and CTA remain available in normal flow; the header must not retain the desktop rail width or create horizontal overflow",
         "Across desktop, rail, logo, navigation geometry and type scale with S; the 24px gutter and 48px hit-target minimums are explicit exceptions, not a second general scale."
       ],
       "do_not": [
@@ -993,12 +1171,13 @@
         "active"
       ],
       "usage_rules": [
-        "The component owns radius-large by default. A full-bleed page may override only its outer corners to preserve the page shell.",
+        "The component owns radius-large by default. A full-bleed page may override only its outer corners to preserve the page shell. At 320–767 px, the default internal-page Hero begins at the viewport top behind the shared Sidebar header. Its total 393px-reference height is 290px through --page-hero-height; the image, title and header follow the same S_m projection.",
+        "At 768–1279px, default and archive PageHero preserve their approved tablet aspect ratio through --page-hero-height = 355px × S_t: 355px at the 1279px reference and 213.25px at 768px. News-detail, teacher-detail and photo-album detail retain their separately documented S_t Hero heights; Home has its own Hero.",
         "With JavaScript, the title reveals once on initialization from opacity 0 and translateY(1.25rem) to its resting state over 400ms with easing-home-reveal. Without JavaScript, the title remains immediately visible.",
-        "The archive variant reuses the default Hero geometry and title typography, adding only the existing arrow-left Button at the top inline start. Photo and Video archives use it to return to Media Gallery; the destination is a server-rendered link and remains available without JavaScript.",
-        "The image is decorative unless image_alt is supplied, and fills the Hero with object-fit: cover.",
-        "The news-detail variant has a 580px reference height and a 800px title/meta container width at 1920px; both follow the same S envelope through --news-detail-hero-height and --news-detail-hero-content-width. It owns its back link, meta line and share controls. The back link is the existing Button arrow-left at the top inline start. Its meta line is Body inverse; its H1 uses Heading 1 and begins 32px below it. Three 48px share controls align with the title’s lower edge at the reference width and use supplied SVG assets. Their hover uses opacity-interactive-hover over duration-button-hover/easing-standard; active uses opacity-interactive-active and focus-visible retains the shared brand outline. The copy control preserves its 24px inner glyph and morphs from Copy to Check only after a successful clipboard write, exposing the copied state through its accessible name.",
-        "The teacher-detail variant reuses the news-detail 580px Hero height and 24px reference top controls. It owns the existing arrow-left Button at the top inline start and an inverse Badge at the top inline end. The supplied 1.5x foreground portrait is centered horizontally over the supplied news-detail background and has the full Hero height. At the 1920px reference its lower-left Body description container is 440px wide through --teacher-detail-hero-content-width; the Display H1 begins 24px below it but is not constrained by that description measure through --teacher-detail-hero-description-title-gap. Height, insets, width, type and gap use the shared desktop S envelope."
+        "The archive variant reuses the default Hero geometry and title typography, adding only the existing arrow-left Button at the top inline start. At mobile 320–767px, default and archive H1 use the Heading 1 visual role; the news-detail variant remains Heading 2 so the same exclusion applies to PhotoAlbumDetail. Photo and Video archives use it to return to Media Gallery; the destination is a server-rendered link and remains available without JavaScript.",
+        "The image is decorative unless image_alt is supplied, and fills the Hero with object-fit: cover. At 320–767 px, every internal-page PageHero variant selects the local 590x660 1.5x asset assets/images/teachers/bg-mobile-inner.png through picture/source, keeps object-fit: cover and aligns it to center bottom without changing the existing Hero geometry. Tablet and desktop retain their page-specific source image and alignment.",
+        "The news-detail variant has a 580px reference height and a 800px title/meta container width at 1920px; both follow the same S envelope through --news-detail-hero-height and --news-detail-hero-content-width. It owns its back link, meta line and share controls. The back link is the existing Button arrow-left at the top inline start. Its meta line is Body inverse; its semantic H1 uses Heading 1 visually on desktop and tablet, and Heading 2 only at mobile 320–767px. Three supplied 48px share controls use color-surface backgrounds in every mode and align by their top edge with the back Button at the top inline end. At mobile the shared fixed Sidebar remains the sole page header and burger control. --sidebar-mobile-header-height is derived from the larger of the shared logo and menu control, plus its scalable block padding; the back link and share controls therefore retain their scalable inset below the actual header at every mobile width. The news-detail back Button uses the shared --home-mobile-control-size and its arrow glyph follows --icon-size-ui-mobile. Meta and H1 are consecutive full-width rows with a 16px reference gap through --news-detail-mobile-meta-title-gap. The title has a --space-5 lower inset (24px at the desktop and 393px references). The Hero has a minimum rather than fixed height at mobile. Its top spacer guarantees at least --news-detail-mobile-back-meta-gap (48px at 393px) from the lower edge of the back Button to the meta row; a title of four or more lines grows the image container naturally. News-detail gallery arrow controls are not shown at mobile; its dot pagination and horizontal touch-pointer swipe remain available. The swipe preserves native vertical scrolling. Their hover uses opacity-interactive-hover over duration-button-hover/easing-standard; active uses opacity-interactive-active and focus-visible retains the shared brand outline. The copy control preserves its 24px inner glyph and morphs from Copy to Check only after a successful clipboard write, exposing the copied state through its accessible name.",
+        "The teacher-detail variant reuses the news-detail 580px Hero height and 24px reference top controls. It owns the existing arrow-left Button at the top inline start and an inverse Badge at the top inline end. The supplied 1.5x foreground portrait is centered horizontally over the supplied news-detail background and has the full Hero height. At the 1920px reference its lower-left Body description container is 440px wide through --teacher-detail-hero-content-width; the Display H1 begins 24px below it but is not constrained by that description measure through --teacher-detail-hero-description-title-gap. Height, insets, width, type and gap use the shared desktop S envelope. At tablet 768–1279px it reuses the accepted news-detail shell and its shared S_t token projection: the description keeps its token measure, the title is capped by the available Hero content width and wraps without changing Hero height, and page CSS does not override PageHero, DataTable or PhotoAlbum internal geometry. At mobile 320–767px teacher-detail owns a portrait composition whose area below the shared mobile header is 440px through --teacher-detail-mobile-hero-height at the 393px reference; the outer Hero is therefore 512px including the 72px header. The local 590x660 1.5x background assets/images/teachers/bg-mobile-inner.png starts below the header and fills that 440px area. The back Button remains at the top inline start after the shared mobile header; the dynamic inverse Badge is top-inline-end, reuses the 36px mobile Badge geometry and aligns by its top edge with the back control. The transparent teacher foreground is 340px wide through --teacher-detail-mobile-portrait-width, centered horizontally and flush with the Hero bottom edge. The semantic FIO H1 remains inside the photo area, uses the mobile Heading 1 visual role and wraps to exactly three visual word lines. The single CMS-owned Body position copy participates in normal flow below the photo area, aligns with the mobile page gutter, is 310px wide through --teacher-detail-mobile-content-width, uses colors.text-secondary on the white surface and starts after 24px through --teacher-detail-mobile-position-gap. All mobile lengths follow S_m; the 48px minimum interaction target remains the documented exception."
       ],
       "gaps": [
         "tablet",
@@ -1027,8 +1206,9 @@
         "Section titles use color-text-inverse; navigation links and contact details use the WCAG AA alias color-text-secondary-on-inverse (#9999a2) instead of the failing Figma value #71717a",
         "Media navigation links use an 8 px (Space 2) vertical gap",
         "The contacts block and legal link start on the fourth desktop editorial column. All Footer geometry derives from the 1920px reference with S; the heading-to-links gap is 16/24/32px at 1280/1920/2560. When both phones and email are present, their rows use the same link-height plus Space 2 rhythm as navigation and align with «Педагоги», «Ноты» and «Контакты» respectively; the second copyright line, Video and privacy link share one text baseline.",
-        "At 768–1279 px, Footer stays visible as a natural-height two-column flow: the slogan and copyright share the first row and align by their lower edge; navigation and contacts form the middle row; the legal link aligns with the Video link; the gap after the first row uses footer-tablet-brand-links-gap (64 px). With both phones and email present, their rows align with «Педагоги», «Ноты» and «Контакты» and use the same link-item height plus Space 2 rhythm as tablet navigation. The address is rendered from site_settings in two lines: «г. Зеленоград, Центральная площадь, 1,» and «КЦ «Зеленоград»». At 767 px and below, Footer is not rendered until a separate mobile layout is approved",
-        "Do not combine percentage placement, fixed rem block sizes and independently scaled offsets inside the same desktop Footer composition."
+        "At desktop and 768–1279 px, Footer replaces the address with the supplied VK and Telegram links; Its tablet navigation-group, contact-link and social-link gaps are component-owned tokens projected from 40px, 8px and 4px at the 1279px reference, so page typography scopes never change Footer geometry; its 24px column and 8px list gaps at the 1279px reference are also component-owned and follow S_t; at 768–1279 px, it stays visible as a natural-height two-column flow: its padding is 48 px on the 1279 px reference and follows S_t on all four sides; the address is replaced by two supplied social links (VK and Telegram) sized 48px on the reference and aligned to the top of «О капелле»; the slogan and copyright share the first row and align by their lower edge; navigation and contacts form the middle row; the legal link aligns with the Video link; the gap after the first row uses footer-tablet-brand-links-gap (64 px). With both phones and email present, their rows align with «Педагоги», «Ноты» and «Контакты» and use the same link-item height plus Space 2 rhythm as tablet navigation. At 320–767 px, Footer is a full-bleed 393px-reference composition with no viewport-side gutter, 24px top corners and 24px inset. It uses the Heading 2 type role for the slogan, a two-column navigation-and-contacts row (94px / 79px / 131.5px), VK and Telegram links with a 4px gap (48px minimum tap target at and below the reference), 16px heading-to-links gaps, 8px navigation-link gaps, and a 96px gap before copyright. The legal link is separated from the copyright block by one empty Body line. The site_settings address stays in the server markup but is visually replaced by the social links; phones and email remain visible; their three rows align with «Педагоги», «Ноты» and «Контакты» in the first navigation group through the shared mobile optical alignment token. All mobile Footer geometry follows S_m, and its full-bleed surface cancels the surrounding page bottom padding.",
+        "Do not combine percentage placement, fixed rem block sizes and independently scaled offsets inside the same desktop Footer composition.",
+        "Tablet clarification: the supplied VK and Telegram Footer links are 48 by 48 px on the 1279 px reference and follow the shared S_t projection down to 768 px; desktop and mobile social-link geometry remain unchanged."
       ],
       "do_not": [
         "Do not duplicate editable contact values in templates",
@@ -1058,25 +1238,50 @@
       "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
       "implementation_rules": [
         "Across 1280–2560px, the About shell, editorial grid, sections and their internals follow S = viewportWidth / 1920 clamped to 0.666667–1.333333, except documented minimums.",
-        "The Life of the Capella two-column block has an 803 by 600 px reference box per column at 1920 px. Its text surface and photograph share the approved 803/600 aspect ratio; padding and the 32 px heading-to-grid gap use the same S. The text surface is a three-slide progressive-enhancement carousel: each slide has a Lead heading and Body content limited to 600 px at the 1920 px reference, while the right photograph changes with the selected slide. Without JavaScript all approved slide text remains available in source order. The Life carousel reuses the existing Button arrow-left and arrow-right variants. At the 1920 px reference arrows are inset 24 px from the left and bottom of the dark surface; slide text ends 32 px above their top edge. Its Figma pagination has three 6 px circular controls, a 12 px gap and a 24 px bottom inset; it is aligned to the surface right inset. The selected dot uses color-brand; inactive dots use color-text-secondary-on-inverse. Control insets and dot geometry follow S across desktop. Slide text reveals from opacity 0 to 1 over 400 ms with easing-out. Pagination transitions its color and scale; the selected dot is white. The image stack clips within the approved photograph box and slides horizontally in the arrow direction over the same 400 ms easing-out, without changing the box geometry.",
-        "The Teachers grid has six equal cards at the 1920 px reference. Each card preserves its allocated-width aspect ratio of 257/340; its 160 px portrait, 71 px portrait-to-name gap, padding, type and grid gaps follow S. The 24 px minimum outer gutter may constrain the available grid width but must not distort the card ratio.",
+        "The Life of the Capella two-column block has an 803 by 600 px reference box per column at 1920 px. Its text surface and photograph share the approved 803/600 aspect ratio; padding and the 32 px heading-to-grid gap use the same S. The text surface is a three-slide progressive-enhancement carousel: each slide has a Lead heading and Body content limited to 600 px at the 1920 px reference, while the right photograph changes with the selected slide. Without JavaScript all approved slide text remains available in source order. The Life carousel reuses the existing Button arrow-left and arrow-right variants. At the 1920 px reference arrows are inset 24 px from the left and bottom of the dark surface; slide text ends 32 px above their top edge. Its Figma pagination has three 6 px circular controls, a 12 px gap and a 24 px bottom inset; it is aligned to the surface right inset. The selected dot uses color-brand; inactive dots use color-text-secondary-on-inverse. Control insets and dot geometry follow S across desktop. At mobile 320–767 px, the Arrow control surface follows the existing --home-mobile-control-size S_m token (48 px at the 393 px reference), not only its glyph. The vertical copy-to-controls contour follows S_m: the control block inset and the copy-to-control gap are 24 px and 24 px at the 393 px reference, with copy reserving the actual control size. On mobile the Arrow group aligns its inline start with the text through --layout-content-gutter. Horizontal touch-pointer swipes on the text surface select the adjacent slide while vertical page scrolling remains native. Slide text reveals from opacity 0 to 1 over 400 ms with easing-out. Pagination transitions its color and scale; the selected dot is white. The image stack clips within the approved photograph box and slides horizontally in the arrow direction over the same 400 ms easing-out, without changing the box geometry.",
+        "The Teachers grid has six equal cards at the 1920 px reference. Each card preserves its allocated-width aspect ratio of 257/340; its 160 px portrait, 71 px portrait-to-name gap, padding, type and grid gaps follow S. The 24 px minimum outer gutter may constrain the available grid width but must not distort the card ratio. At mobile 320–767 px Teachers is a two-column grid. At the 393 px reference cards are 260 px high with 120×120 px portraits, 16 px photo top inset and 20 px name-block bottom inset; card width fills the available container after the fixed 12 px column gap. Rows use the same 12 px gap. A teacher’s surname, first name and patronymic occupy three visual lines at mobile; the surname uses Body primary and the given name and patronymic use Body secondary, while retaining the existing full-name accessible label and desktop text-roll behavior. No carousel controls are rendered.",
         "The shared PageHero owns its one-time title reveal: translateY(20 px) and opacity 0 to the resting state and opacity 1 over 400 ms with cubic-bezier(0, 0, 0.18, 1). Without JavaScript the title remains immediately visible. The first About block Lead is section content and fades without a translateY transform, like the rest of that block.",
+        "At desktop and tablet, the intro places the Lead in the left column and the unified Body copy in the right; the two decorative teacher portraits align to the left column bottom. The unified Body copy keeps its original internal --space-5 gap: 24 px at the 1920px desktop and 1279px tablet references, projected by the applicable mode coefficient.",
+        "At 768–1279px, About applies the complete page-scoped S_t ledger used by Home to header, Hero, editorial canvas, type, spacing, Footer and reused component internals. Life and TeacherCard retain their named ratios; their heights derive only from their width. In the Life dark card, --about-life-card-padding equals --about-life-controls-inset: tag, copy and arrow group therefore share one 24px inline inset at the 1279px reference and the same S_t scale to 768px. On tablet the TeacherCard name block is anchored to the approved --space-5 bottom inset. Grid only places blocks and never defines an independent dimension curve. The application surface, Accordion and DataTable retain natural content height so text and form controls never clip. The About application CTA and achievements section have no additional section margin: from the lower edge of the previous section to the CTA heading is 120 px at the 1920px desktop reference; on tablet, the gap from the form surface to the achievements heading is the shared layout-section-gap (120 px at 1279px).",
+        "At 768–1279px, each About Accordion keeps its four-column editorial placement: title spans columns 1–2, age and the inline start of opened content share column 3, and the toggle is in column 4. Mobile retains its approved two-column row.",
         "Every About section except the Footer uses the approved Home SectionReveal; PageHero uses its own component-owned title reveal: once its top enters the viewport 200 px above the lower edge, its heading reveals from opacity 0 and translateY(20 px) over 600 ms with easing-home-reveal, then its content fades from opacity 0 to 1 over the same 600 ms duration after the existing 400 ms delay. The intro and choir groups form one reveal block: the Lead, copy and accordion rows are its delayed content and fade without a translateY transform. Other sections without a heading reveal their content directly. The Hero motion is intentionally excluded pending a separate approved contract, and server-rendered content stays fully available without JavaScript.",
-        "Life and Teachers are page sections, not new universal components. Their geometry is owned by documented About page tokens and must not use independently scaled fixed heights."
+        "Life and Teachers are page sections, not new universal components. Their geometry is owned by documented About page tokens and must not use independently scaled fixed heights.",
+        "At mobile 320–767 px, the About Life section has an approved stacked variant. At the 393 px reference, both the inverse text card and the following photo are 460 px high; their height uses --about-life-mobile-column-height and follows S_m across the mobile range. The inverse card has 16 px padding through --about-life-mobile-card-padding; its title has a 24 px top inset through --about-life-mobile-title-inset, and its text container is 310 px wide through --about-life-mobile-copy-width; both values follow S_m. Each slide’s descriptions are one .orlyata-about__life-copy Body block; semantic paragraphs use --body-paragraph-spacing-mobile (8 px at 393 px). Desktop and tablet geometry remain unchanged. The mobile Arrow control surface reuses --home-mobile-control-size (48 px at the 393 px reference) and horizontal touch-pointer swipe selects adjacent Life slides without suppressing vertical scrolling."
       ],
       "geometry": {
         "life_column_reference_px": "803 x 600",
         "life_column_aspect_ratio_css": "--about-life-column-aspect-ratio",
+        "mobile_life_column_height_reference_px": 460,
+        "mobile_life_column_height_css": "--about-life-mobile-column-height",
+        "mobile_life_card_padding_css": "--about-life-mobile-card-padding",
+        "mobile_life_title_inset_reference_px": 24,
+        "mobile_life_title_inset_css": "--about-life-mobile-title-inset",
+        "mobile_life_copy_width_reference_px": 310,
+        "mobile_life_copy_width_css": "--about-life-mobile-copy-width",
+        "mobile_life_paragraph_spacing_css": "--body-paragraph-spacing-mobile",
         "life_slide_count": 3,
         "life_copy_reference_px": 600,
         "life_copy_width_css": "--about-life-copy-width",
+        "life_card_padding_css": "--about-life-card-padding (32 px at desktop 1920; scales with S)",
+        "life_copy_inline_inset_css": "--space-5",
         "life_controls_inset_css": "--about-life-controls-inset",
         "life_copy_controls_gap_css": "--about-life-copy-controls-gap",
         "life_pagination_reference_px": "3 dots: 6 px with 12 px gap",
         "teacher_card_reference_px": "257 x 340",
         "teacher_card_aspect_ratio_css": "--about-teacher-card-aspect-ratio",
         "teacher_portrait_reference_px": 160,
-        "teacher_portrait_to_name_gap_reference_px": 71
+        "teacher_portrait_to_name_gap_reference_px": 71,
+        "mobile_intro_groups_gap_reference_px": 32,
+        "mobile_intro_groups_gap_css": "--about-intro-groups-gap",
+        "tablet_scale": "S_t = clamp(768 / 1279, viewportWidth / 1279, 1)",
+        "tablet_life_column_reference_px": "607.5 x 520",
+        "tablet_life_shared_inline_inset_reference_px": 24,
+        "tablet_life_shared_inline_inset_css": "--about-life-card-padding = --about-life-controls-inset",
+        "tablet_page_hero_height_css": "--page-hero-height = 355px × S_t",
+        "tablet_life_column_aspect_ratio_css": "--about-life-tablet-column-aspect-ratio",
+        "tablet_teacher_card_reference_px": "399.667 x 340",
+        "tablet_teacher_card_aspect_ratio_css": "--about-teacher-tablet-card-aspect-ratio",
+        "tablet_application_surface_rule": "Natural height: application form minimum height plus equal tablet S_t padding"
       },
       "sections": [
         "intro",
@@ -1088,22 +1293,46 @@
         "Footer"
       ]
     },
+    "NotesPreview": {
+      "status": "desktop-tablet-and-mobile-geometry-defined",
+      "viewport": "desktop 1280–2560+ (exact comparison target 1920 px), tablet 768–1279 px and mobile 320–767 px",
+      "implementation_rules": [
+        "The page reuses the shared Sidebar, default PageHero with its server-rendered file-count corner meta, Button, SearchInput, DataTable notes variant and Footer without page-specific component variants or overrides.",
+        "At 320–767px, the page-owned 48px Search interaction target with its centred 36px visual container precedes the horizontally scrollable filter row. Its supplied search-md glyph is 16px with a 1.5px stroke through the existing mobile DataTable icon tokens, and the visible container has a 16px reference gap to the filters through --home-mobile-space-16, aligns vertically with their visible controls and uses the same full radius as the 36px archive-filter controls. The Notes filter scrollport is page-owned separately from the guttered DataTable: it retains the filter row’s inline start after search, reaches the viewport edge at inline end with no right gutter and does not create page-level overflow. With JavaScript, the named `notes-search-fullscreen` panel is fixed over the shared mobile header at the viewport top; it is exactly --sidebar-mobile-header-height (72px at 393px), is fixed above a 20% content scrim through --color-overlay-content-scrim; page content remains visible below. The panel and its form open instantly, without an enter animation. Its SearchInput is 48px high, starts at the 12px mobile gutter, and becomes focused immediately on toggle activation so the keyboard opens for text entry. When the search opens, the page content is locked once with filters 24px below the fixed bar; while it stays open, the panel and locked content follow every keyboard-driven visual viewport resize or scroll together, without repeated document scrolling. A 48px close control follows the field after 24px, ends at the right 12px gutter and contains a 16px 1.5px-stroke X; close and Escape restore focus to the toggle. With JavaScript disabled, the semantic search form remains in normal flow. A pre-filled query opens the panel. The notes table begins after filters through the same --space-6 mobile offset as News, Photo and Video. The mobile empty result is a separate page-owned block after the controls: it reuses 404’s icon size, Heading 2 and Body type roles, centered flex stack and --space-4 gap, while its offset remains --notes-empty-offset-block. This mobile-only composition does not alter SearchInput, Sidebar or DataTable geometry at tablet and desktop widths.",
+        "At 768–1279px, Notes composes the same MediaGallery tablet shell: Sidebar is the shared top header, main and Footer use the full available canvas, and the page receives the identical S_t token projection. The shell transition uses normal block flow; no page-specific Sidebar or Footer geometry is introduced.",
+        "The page-owned archive control row on tablet uses normal flex composition: filters keep their intrinsic non-wrapping width, SearchInput fills the remaining line, and the visual distance from the final filter to the field is exactly --notes-filter-search-gap (48px at the 1279px reference). It uses the named SearchInput archive-control variant, whose tablet height follows --button-height. The notes DataTable retains its shared four equal tracks, natural row height and component-owned download-arrow behavior. The table begins after the filters through --news-filter-table-gap, while the Hero-to-controls gap follows --notes-filter-table-gap; both follow S_t. Loading and empty states retain the same full editorial canvas and natural content height."
+      ],
+      "geometry": {
+        "tablet_control_layout": "intrinsic filters + flexible search with --notes-filter-search-gap",
+        "table_tracks": 4,
+        "hero_controls_gap_css": "--notes-filter-table-gap",
+        "controls_table_gap_css": "--news-filter-table-gap"
+      },
+      "sections": [
+        "PageHero",
+        "filters and search",
+        "DataTable",
+        "Footer"
+      ]
+    },
     "MediaGalleryDesktopPreview": {
       "figma": "Медиагалерея / 4566:3131",
-      "status": "desktop-preview-defined",
-      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "status": "desktop-and-tablet-geometry-defined",
+      "viewport": "desktop 1280–2560+ (exact comparison target 1920 px) and tablet 768–1279 px",
       "implementation_rules": [
         "The page reuses the shared Sidebar, PageHero, MediaCard and Footer without page-specific component variants or overrides.",
         "At the 1920px reference, the gap from the PageHero to the three-card media block is 4rem (64px). It follows the common desktop S envelope through --media-gallery-hero-content-gap.",
         "The media block reuses the approved Home three-card composition: one Big MediaCard followed by two Small MediaCards in the four-column editorial grid. On the MediaGallery page it begins directly after the Hero gap: the duplicate section heading and self-link are omitted. When it enters the viewport, all cards use the approved Home SectionReveal: opacity 0 to 1 with the existing delay, duration and easing; without JavaScript they are immediately visible. The page allocates grid spans only; MediaCard owns its ratios and internal geometry.",
         "Each media-list section starts 6rem (96px) after its preceding media block at the 1920px reference through --media-gallery-media-list-section-gap. Photo and Video reuse the Home History section heading pattern: a top 1px border, heading and color TextLink; each DataTable variant renders exactly ten server-rendered fixtures; every photo preview row leads to the approved PhotoAlbumDetail preview URL. When the section enters the viewport, its heading and link use the approved SectionReveal slide-in (opacity and translateY) and the DataTable follows after the existing delay with an opacity-only reveal; without JavaScript both remain immediately visible. The Video fixtures cycle the locally supplied paired gray/colored YouTube, RuTube and VK SVG provider icons in the right-aligned link cell; gray is default and the colored asset appears on row hover/focus. CMS mapping is a later integration responsibility. CMS queries and the photo/video lists remain outside this initial page slice.",
-        "The photo and video archive routes use the same shared Sidebar, archive PageHero and Footer. Their Hero titles are «Фото» and «Видео»; a titleless DataTable begins 4rem (64px) below the Hero through --media-gallery-hero-content-gap, follows the same desktop S envelope, and renders 30 server-rendered rows by cycling the approved ten preview fixtures. The photo table uses the existing arrow-link variant and every server-rendered preview row leads to the approved PhotoAlbumDetail preview URL; the video table uses the existing paired gray/colored source-provider SVG variant. Both archives reuse the News multiple-category filter contract: selected categories use an OR match, each selected category can be removed independently, and «Все» clears the selection. The comma-separated `category` URL parameter is rendered on the server for no-JavaScript navigation and synchronised through the History API with JavaScript. CMS queries and detail routing remain outside this preview slice."
+        "At 768–1279px, the shared Sidebar is a top header and the page shell switches from its desktop side-rail flex layout to normal block flow so the main canvas retains the full available width. The page applies the shared S_t ledger to the top header, Hero, editorial canvas, typography, gaps, Footer and reused component internals. The media block recomposes to two equal page tracks: Big spans the full row and each Small occupies one track in the following row. Big and Small retain their named MediaCard aspect ratios and owned internals; no page-owned height or image-region curve is introduced. The Photo and Video headings, TextLinks and four-track DataTable stay in their shared component tablet treatment, and table rows retain natural height for wrapping names.",
+        "The photo and video archive routes use the same shared Sidebar, archive PageHero and Footer. Their Hero titles are «Фото» and «Видео»; a titleless DataTable begins 4rem (64px) below the Hero through --media-gallery-hero-content-gap, follows the same desktop S envelope, and renders 30 server-rendered rows by cycling the approved ten preview fixtures. The photo table uses the existing arrow-link variant and every server-rendered preview row leads to the approved PhotoAlbumDetail preview URL; the video table uses the existing paired gray/colored source-provider SVG variant. Both archives reuse the News multiple-category filter contract: selected categories use an OR match, each selected category can be removed independently, and «Все» clears the selection. The comma-separated `category` URL parameter is rendered on the server for no-JavaScript navigation and synchronised through the History API with JavaScript. CMS queries and detail routing remain outside this preview slice. At mobile 320–767px, the DataTable begins through --archive-mobile-filter-table-gap below the filter row (40px at 393px), exactly matching the News archive mobile rhythm and following S_m; tablet and desktop retain --news-filter-table-gap."
       ],
       "geometry": {
         "hero_content_gap_reference_px": 64,
         "hero_content_gap_css": "--media-gallery-hero-content-gap",
         "media_cards": "1 Big and 2 Small MediaCards using the Home grid composition",
         "media_list_section_gap_reference_px": 96,
+        "tablet_media_grid": "two equal tracks; Big spans both tracks and each Small occupies one track; named MediaCard ratios are retained",
         "media_list_section_gap_css": "--media-gallery-media-list-section-gap",
         "media_list_rows": 10,
         "media_archive_list_rows": 30,
@@ -1118,11 +1347,13 @@
     },
     "PhotoAlbumDesktopPreview": {
       "figma": "Фото - деталка / 4566:4087",
-      "status": "desktop-preview-defined",
-      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "status": "desktop-and-tablet-geometry-defined",
+      "viewport": "desktop 1280–2560+ (exact comparison target 1920 px) and tablet 768–1279 px",
       "implementation_rules": [
         "The page reuses the same news-detail PageHero, shared Sidebar and Footer without visual component variants.",
         "The gallery begins 4rem (64px) below the PageHero through --media-gallery-hero-content-gap and occupies the four-column editorial grid.",
+        "At 768–1279px, PhotoAlbumDetail composes the same MediaGallery tablet shell: the shared Sidebar is a top header, the main canvas and shared Footer occupy the full available width, and the page receives the identical S_t token projection. The page retains the approved desktop mosaic rather than introducing a tablet-specific tile geometry: every complete five-item row preserves its four editorial tracks, alternating two-by-two large span and 2 by 2 small matrix. The row uses --photo-album-gallery-row-aspect-ratio (the 1616 by 620 reference canvas) so all tile geometry scales together; its large tile retains --photo-album-gallery-large-aspect-ratio. The incomplete row remains a single small-tile track. Sidebar, Footer and PageHero are reused unchanged; only page-owned mosaic placement is defined here.",
+        "At 320–767px, PhotoAlbum uses the one-column mobile grid from the shared layout; every tile, including a teacher gallery tile, uses the same --photo-album-gallery-large-aspect-ratio (40 / 31) and object-fit: cover. Large, small and portrait source files therefore share one visible tile size; page CSS must not introduce a gallery-specific mobile ratio.",
         "Every complete five-item group forms a mirrored gallery row with one large item spanning two editorial columns and a 2 by 2 small-item grid in the remaining two columns; the large item direction alternates between complete rows. An incomplete final group has only small items and fills from the left edge in source order; its row height is derived as calc((var(--photo-album-gallery-large-height) - var(--layout-grid-gap)) / 2), so no unused lower half precedes the shared Footer gap. The large item owns the 40 / 31 ratio through --photo-album-gallery-large-aspect-ratio; small items derive their size from the same row and grid gaps.",
         "Photo links work without JavaScript. With JavaScript, their default navigation is enhanced by the project-bundled PhotoSwipe lightbox with close, smooth previous/next transitions and ArrowLeft/ArrowRight keyboard navigation. It uses the standard PhotoSwipe counter, zoom and close controls; the counter uses the Body type style. PhotoSwipe default arrows are disabled; custom navigation elements render the exact markup and classes of muted Arrow Button variants, preserving the component glyph-roll animation at --news-detail-gallery-control-offset (24px reference) from media viewport edges, and its transition duration uses the existing news-detail gallery token. Each preview tile uses its own cropped WebP derivative (800 by 620 px large; 400 by 310 px small), while its link and PhotoSwipe source remain the approved original PNG. At CMS integration this maps to a registered WordPress image size and srcset; WordPress full remains the lightbox source. Image hover and focus-visible scale uses the existing MediaCard hover scale, duration and easing. When the gallery enters the viewport, it uses the same opacity-only reveal, duration, easing and delay as the Photo and Video DataTables; without JavaScript it remains immediately visible. After the gallery, a «Другие фотоальбомы» section begins through --media-gallery-media-list-section-gap (96px reference), reuses the Photo MediaGallery section heading and photo DataTable variant, and renders ten approved server-rendered preview fixtures; CMS-backed latest albums are a later integration slice."
       ],
@@ -1136,6 +1367,7 @@
         "large_photo_reference_px": "800 x 620",
         "large_photo_aspect_ratio_css": "--photo-album-gallery-large-aspect-ratio",
         "large_photo_height_css": "--photo-album-gallery-large-height",
+        "tablet_gallery_row_aspect_ratio_css": "--photo-album-gallery-row-aspect-ratio",
         "small_photo_layout": "2 x 2 inside the remaining two editorial columns",
         "gallery_rows": 2
       },
@@ -1145,15 +1377,20 @@
         "Footer"
       ]
     },
-    "NewsDesktopPreview": {
+    "NewsArchive": {
       "figma": "Новости / 4566:1608",
-      "status": "desktop-preview-defined",
-      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "status": "responsive-preview-defined",
+      "viewport": "desktop 1280–2560+, tablet 768–1279, mobile 320–767; exact desktop comparison target 1920 px",
       "implementation_rules": [
         "The page reuses the shared Sidebar, PageHero, Button and Footer without page-specific component variants or overrides.",
         "At the 1920px reference, the gap from PageHero to the category filters is 4rem (64px). It follows the common desktop S envelope through --news-filter-offset-block.",
         "The news DataTable starts 2rem (32px) below the filter group at the 1920px reference through --news-filter-table-gap, using the same desktop S envelope. It reuses the DataTable news variant: Name spans editorial columns 1–2, Date starts at column 3, Type and its right-aligned accessible arrow link occupy column 4. The desktop preview renders 50 rows by cycling the only approved Figma fixtures. Per the approved content correction, each preview fixture displays the same Type label as its category: «Новости», «Объявления» or «Достижения». The filter selection applies an OR match to the visible rows. The server renders all fixtures and marks nonmatching rows hidden, so a URL with selected categories works without JavaScript; JavaScript changes the same hidden state without a reload. CMS-backed data is a later integration slice.",
         "The server-rendered preview data-row links all lead to the approved NewsDetail preview URL during stage 5.2. The server-rendered filter links are Все, Новости, Объявления and Достижения. Все uses Button primary when no categories are selected and all specific filters are secondary. Multiple specific categories may be selected: each uses the existing Button withClose state, whose link removes only that category, while Все clears the entire set. Without JavaScript links use normal navigation. With JavaScript the History API updates the URL and UI without a reload. The selected surface changes through a single background-color transition over 400ms using easing-out: the color interpolates directly on the Button itself, without an opacity fade or an additional background layer. A neighboring button whose width is unchanged receives a whole-control transform-only translateX over the same timing, so its label and surface move together. A button whose width changes resolves its geometry without transforming its label or close icon. The filter controls use an isolated composited transform layer to avoid visual flicker during the transition. The close icon is inserted at its final opacity with no independent enter animation. The standard Button hover transitions remain intact. Page geometry and content availability do not depend on the motion."
+      ],
+      "responsive_rules": [
+        "Tablet 768–1279 keeps the default PageHero, wraps server-rendered category filters in document order and projects their offsets and gaps with S_t.",
+        "The news DataTable retains the desktop four-track and visible header on tablet, with the default equal track allocation. Only the Name cell in each body row is 10% narrower within its existing two-track area and remains aligned to the inline start; the header, Date and Type positions do not move. Each body row uses --accordion-row-height as a minimum and grows naturally with a multiline Name; equal --space-2 top and bottom padding determines the additional height. Name, Date and Type use top alignment, and the arrow glyph aligns with their first line; Date and Type do not soft-wrap. The mobile labelled record is never applied at 768–1279px.",
+        "Mobile 320–767 keeps filters in one non-wrapping horizontal row inside the filter navigation’s own swipeable scroll container and projects their offset and gap with S_m. Every internal page begins its first content block 24px after its PageHero at the 393px reference through --internal-page-mobile-hero-content-gap. The News table wrapper begins 40px below the filters at that reference through --archive-mobile-filter-table-gap and follows S_m down to 320px; both overrides apply only through 767px, while tablet and desktop retain their existing tokens. The DataTable hides only its visual header, retains semantic headers for assistive technology, maps every row to a labelled reading record, keeps its arrow link at a 48px minimum target and never causes page-level horizontal overflow. Hover feedback is absent; active and focus-visible remain."
       ],
       "geometry": {
         "filter_offset_reference_px": 64,
@@ -1167,12 +1404,12 @@
     },
     "NewsDetailDesktopPreview": {
       "figma": "Новости - деталка / 4566:3587",
-      "status": "desktop-preview-defined",
-      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "status": "responsive-contract-defined",
+      "viewport": "desktop 1280–2560+, tablet 768–1279, mobile 320–767; exact desktop comparison target 1920 px",
       "implementation_rules": [
         "The page reuses Sidebar, PageHero news-detail and Footer. The Hero is 580px high at the 1920px reference and uses bg-hero2.png as its supplied local background asset.",
-        "PageHero owns the return Button arrow-left at its top inline start, the inverse Body meta line «13 августа • Новость», the Heading 1 H1 after a 32px gap, and the three supplied 48px SVG share controls. Share controls are aligned to the title’s lower edge and retain accessible names. VK and Telegram use their native sharing URLs with the current news URL and title, avoiding a third-party widget; all share controls use the shared 200ms opacity hover and active states. The copy control is rendered as a 24px Copy glyph on the existing 48px muted surface and morphs to Check only when copying succeeds.",
-        "The main article begins 64px below PageHero at the 1920px reference, centered to the Hero in an 800px-wide editorial column through --news-detail-article-offset-block and --news-detail-article-width. The optional CMS summary is the first paragraph in Heading 3. WordPress post content is Body before the page-owned gallery; optional CMS text follows it. The gallery retains editor-selected image attachment order (up to 10 images), 3 / 2 ratio (800×533.333px), and server-rendered Arrow Button plus dot controls. With JavaScript its track switches exactly with the existing About «Жизнь капеллы» 400ms/easing-out carousel; without JavaScript the first image remains available. Gallery arrows are centered vertically 24px outside the image edges. A Badge with the publication category is placed 64px after the final body copy."
+        "PageHero owns the return Button arrow-left at its top inline start, the inverse Body meta line «13 августа • Новость», the semantic H1 and the three supplied 48px SVG share controls. The H1 uses Heading 1 visually on desktop and tablet, and Heading 2 only on mobile. Share controls have white surfaces, align by their top edge with the return Button and retain accessible names. VK and Telegram use their native sharing URLs with the current news URL and title, avoiding a third-party widget; all share controls use the shared 200ms opacity hover and active states. The copy control is rendered as a 24px Copy glyph and morphs to Check only when copying succeeds.",
+        "The main article begins 64px below PageHero at the 1920px reference, centered to the Hero in an 800px-wide editorial column through --news-detail-article-offset-block and --news-detail-article-width. The optional CMS summary is the first paragraph in Heading 3. WordPress post content is Body before the page-owned gallery; optional CMS text follows it. The gallery retains editor-selected image attachment order (up to 10 images), 3 / 2 ratio (800×533.333px), and server-rendered Arrow Button plus dot controls. With JavaScript its track switches with the existing About «Жизнь капеллы» 400ms/easing-out carousel through arrows, dots and horizontal touch-pointer swipe; swipe preserves native vertical scrolling. Without JavaScript the first image remains available. Gallery arrows are centered vertically 24px outside the image edges and are hidden on mobile. A Badge with the publication category is placed 64px after the final body copy."
       ],
       "geometry": {
         "hero_height_reference_px": 580,
@@ -1198,17 +1435,20 @@
         "Footer"
       ]
     },
-    "ContactsDesktopPreview": {
+    "ContactsPreview": {
       "figma": "Контакты / 4566:3038",
-      "status": "desktop-preview-defined",
-      "viewport": "desktop only (1280–2560+); exact comparison target 1920 px",
+      "status": "desktop-and-tablet-defined",
+      "viewport": "desktop 1280–2560+ (exact comparison target 1920 px); tablet 768–1279 (reference 1279 px)",
       "implementation_rules": [
-        "The page reuses the shared Sidebar, default PageHero and Footer without page-specific component variants or overrides.",
-        "At the 1920px reference, the contacts content starts 64px below PageHero and uses the global four-column editorial grid. Address, communication and social rows are server-rendered and do not require JavaScript.",
+        "The page reuses the shared Sidebar, default PageHero and Footer. At tablet, the shared default/archive PageHero media framing uses object-position: left center; it leaves desktop/mobile framing, all detail Hero variants and component geometry unchanged.",
+        "At the 1920px reference, the contacts content starts 64px below PageHero and uses the global four-column editorial grid. Address, communication and social rows are server-rendered and do not require JavaScript. The address is one text node without a forced line break; --contacts-address-inline-size gives it a deterministic S/S_t/S_m-projected measure, so «КЦ «Зеленоград»» naturally starts on the following line.",
+        "At tablet 768–1279, Contacts retains the same four-column editorial grid and column ownership: It uses the shared internal-page tablet token scope, including Sidebar header geometry and type/spacing S_t projection; labels in track 1, address/values/socials at track 3 spanning tracks 3–4, and communication descriptions in track 4. The communication record is a deterministic value / max-content description pair: descriptions do not wrap, while the value track takes the remaining available width. Only the page-owned --contacts-* rhythm follows S_t from the 1279px reference (64px Hero gap, 96px trailing gap, 24px separator inset and 48px social marks); the information blocks have a shared --contacts-information-alignment-offset optical inset of 6px at the reference, projected with S_t, so their visible start matches the Footer line without changing grid-track ownership; Sidebar, PageHero and Footer use their shared tablet contracts without Contacts overrides.",
+        "At tablet, default Contacts PageHero uses the shared default/archive --page-hero-height = 355px × S_t, preserving its tablet aspect ratio (355px at 1279px; 213.25px at 768px). The page supplies no local height override; Home, news detail, photo-album detail and teacher detail use their separately documented Hero compositions.",
         "Labels occupy column 1. Address, phone/email links and social icons begin in column 3; the descriptive names for communication values occupy column 4. Both separators are 1px hairlines; the distance from the final address or communication text line to its following separator is 96px at the 1920px reference through --contacts-row-trailing-gap, and the leading row inset is 24px. These page-owned values use the common desktop S through --contacts-* tokens.",
         "The desktop preview uses only the approved Figma address, phone, email, names and VK/Telegram marks. Its approved external destinations are https://vk.ru/zelorlyata and https://t.me/zel_orlyata; CMS-backed site settings are connected in stage 6.1. This preview must not invent additional contact copy or destinations.",
         "Footer preserves its own preceding gap and shared geometry.",
-        "The contacts rows are one page-owned reveal block. On viewport entry, it reuses the first MediaGallery block reveal unchanged: opacity 0 to 1 only, with its existing delay, duration and easing; without JavaScript the rows are immediately visible."
+        "The contacts rows are one page-owned reveal block. On viewport entry, it reuses the first MediaGallery block reveal unchanged: opacity 0 to 1 only, with its existing delay, duration and easing; without JavaScript the rows are immediately visible.",
+        "At mobile 320–767, every contacts row uses the documented two-column record: --contacts-mobile-label-track / --contacts-mobile-information-track (1fr / 2fr). The label occupies the first track; address, sequential contact-value/person pairs and socials occupy the second, so the address text begins on the same vertical line as the connection values. All four textual roles use the shared mobile Body type role. Each connection value is 2px above its gray person copy at the 393px reference through --contacts-mobile-value-person-gap; a separate existing Space 4 follows each pair, so the three connections remain visually grouped. Contacts social links reuse --footer-social-size in every mode (48px at desktop, tablet 1279px and mobile 393px references), following the shared S/S_t/S_m projection and 48px minimum target; the page does not redefine Footer geometry."
       ],
       "geometry": {
         "hero_content_gap_reference_px": 64,
@@ -1218,9 +1458,40 @@
         "row_padding_reference_px": 24,
         "row_padding_css": "--contacts-row-padding-block",
         "social_icon_reference_px": 48,
-        "social_icon_size_css": "--contacts-social-icon-size"
+        "social_icon_size_css": "--contacts-social-icon-size",
+        "address_inline_size_css": "--contacts-address-inline-size",
+        "address_markup": "one address text node; no br"
       },
-      "sections": ["Sidebar", "PageHero", "contacts rows", "Footer"]
+      "tablet_geometry": {
+        "reference_width_px": 1279,
+        "scale": "S_t = clamp(768 / 1279, viewportWidth / 1279, 1)",
+        "grid": "shared four-column editorial grid; no page-specific tracks or shell overrides",
+        "hero_content_gap_reference_px": 64,
+        "row_trailing_gap_reference_px": 96,
+        "row_padding_reference_px": 24,
+        "social_icon_reference_px": 48,
+        "information_alignment_offset_reference_px": 6,
+        "information_alignment_offset_css": "--contacts-information-alignment-offset",
+        "connection_grid": "minmax(0, 1fr) max-content; descriptions are nowrap",
+        "verification_widths_px": [1279, 768]
+      },
+      "mobile_geometry": {
+        "reference_width_px": 393,
+        "scale": "S_m = clamp(320 / 393, viewportWidth / 393, 767 / 393)",
+        "grid": "--contacts-mobile-label-track / --contacts-mobile-information-track (1fr / 2fr)",
+        "type_role": "Body",
+        "social_icon_size_css": "--footer-social-size",
+        "social_icon_reference_px": 48,
+        "value_person_gap_reference_px": 2,
+        "value_person_gap_css": "--contacts-mobile-value-person-gap",
+        "verification_widths_px": [320, 393, 767]
+      },
+      "sections": [
+        "Sidebar",
+        "PageHero",
+        "contacts rows",
+        "Footer"
+      ]
     },
     "NotFoundDesktopPreview": {
       "figma": "404 / 4622:1433",
@@ -1229,6 +1500,11 @@
       "implementation_rules": [
         "The page reuses the shared Sidebar and Footer without page-specific component variants or overrides.",
         "At the 1920px reference, the centered message begins 142px from the top of the main area and is 690px wide. Both values follow the common desktop S envelope through --not-found-message-offset-block and --not-found-message-width.",
+        "On tablet, the Sidebar becomes the shared top header and the message remains centered in the full-width main area. Its 142px offset and 690px maximum width use the shared S_t projection from the 1279px reference; the Footer keeps its shared two-column tablet composition.",
+        "The tablet page shell is a viewport-height two-row composition: the shared Sidebar header occupies the first row and the main area occupies the remainder. The message keeps its S_t top offset; the page body reuses the News editorial canvas through the shared --layout-content-gutter, and the shared Footer is pushed to the bottom of the available main area with flexible intervening space. The message-to-Footer gap is never below 120 CSS px through --not-found-footer-minimum-gap; excess available height increases that gap, and a short viewport may scroll rather than compress the Footer.",
+        "On mobile, the shared fixed Sidebar is the only header. The message begins after --sidebar-mobile-header-height plus its S_m-projected page offset, and its width is the common content column (100% minus two --layout-content-gutter values); it never adds a page-local shell or Footer override.",
+        "On mobile, the Footer keeps its component-owned --footer-preceding-gap in normal document flow; the 404 shell must not collapse the message margin or override that outer Footer spacing.",
+        "The explanatory Body copy uses the approved accessible secondary neutral --color-text-secondary-on-muted on the white surface; its contrast remains at least 4.5:1 at every text scale.",
         "The server renders a semantic main with an H1, the existing 96px notes-search-empty.svg icon, the approved title «Страница не найдена» and the approved copy «Возможно вы ввели верный адрес или страница была удалена». The content is visible without JavaScript.",
         "After the first paint, JavaScript applies the same 400ms opacity 0 to 1 and translateY(1.25rem) to 0 enter animation to only the message, matching the Notes empty state; the animation does not change layout and does not depend on operating-system motion preferences.",
         "Footer preserves its shared geometry; the 404 desktop composition places it at the viewport bottom with a fixed 24px safe offset."
@@ -1238,9 +1514,17 @@
         "message_offset_css": "--not-found-message-offset-block",
         "message_width_reference_px": 690,
         "message_width_css": "--not-found-message-width",
+        "mobile_message_width_css": "--not-found-message-width",
+        "mobile_header_offset_css": "--sidebar-mobile-header-height + --not-found-message-offset-block",
+        "tablet_footer_minimum_gap_px": 120,
+        "tablet_footer_minimum_gap_css": "--not-found-footer-minimum-gap",
         "icon_reference_px": 96
       },
-      "sections": ["Sidebar", "404 message", "Footer"]
+      "sections": [
+        "Sidebar",
+        "404 message",
+        "Footer"
+      ]
     },
     "HomeDesktopPreview": {
       "figma": "Главная / 4641:3330",
@@ -1253,34 +1537,36 @@
         "The viewport-height first-screen Hero is an explicit height exception; NewsCard and Advantage inside it still preserve their own ratios and coherent internal scale.",
         "The 1900 px Figma frame is normalized to the 1920 px desktop target without changing the internal 1617 px editorial canvas relationship.",
         "At the 1920px reference, a 250 px Sidebar occupies the left rail and the editorial canvas starts at the normalized equivalent of the Figma 261 px offset; both follow S across desktop.",
-        "At the 1920px reference, the hero consists of two rounded panels separated by a 16 px gap; the gap follows S: the capella panel automatically plays the supplied muted, looping, inline vertical hero-preview.mp4 with object-fit: cover. The preview has a permanent centered 102% crop inside the clipping panel to conceal its edge shadow; the news panel remains green. Hovering anywhere in the capella panel scales only its preview video from 102% to 110% over 400ms with cubic-bezier(0.46, 0, 0, 1), without changing panel geometry.",
+        "At the 1920px reference, the hero consists of two rounded panels separated by a 16 px gap; the gap follows S: the capella panel automatically plays the supplied muted, looping, inline vertical H.264 hero-original.mp4 with object-fit: cover; progressive enhancement reasserts muted/inline playback at pageshow for mobile Safari. The preview has a permanent centered 102% crop inside the clipping panel to conceal its edge shadow; the news panel remains green. Hovering anywhere in the capella panel scales only its preview video from 102% to 110% over 400ms with cubic-bezier(0.46, 0, 0, 1), without changing panel geometry.",
         "The capella preview video is covered by linear-gradient(180deg, rgba(0, 0, 0, 0.00) 63.53%, rgba(0, 0, 0, 0.80) 100%). Its Play control and the three-line title «Хоровая / капелла / мальчиков» stay above the gradient.",
-        "The capella title uses the full available content width without clipping and has a 32 px bottom inset at the 1920px reference; the inset follows S. The news panel uses the supplied bg-news.png as its own full-size image layer with object-fit: cover, matching the Figma image layer and Fill behaviour.",
+        "The capella title uses the full available content width without clipping and has a 32 px bottom inset at the 1920px reference; the inset follows S. The news panel uses the supplied bg-news.png as its own full-size image layer with object-fit: cover, matching the Figma image layer and Fill behaviour. Its NewsCard grid has the dedicated --home-news-grid-inset: 24 px at 1920px and the shared desktop S projection at 1280–2560px.",
         "The Play link remains a no-JavaScript fallback to hero-original.mp4. With JavaScript, clicking the whole capella panel except its nested Play link opens a native dialog and starts the original video; the Play link continues to provide keyboard access and the no-JavaScript fallback.",
         "Home motion is limited to the approved entry sequence, capella hero preview hover feedback and teacher CTA hover feedback: capella and news panels use a center-out vertical mask over 1000ms while their content zooms from 110% to 100% with cubic-bezier(0.74, 0, 0, 1); the server-rendered three-line capella title uses only an independent 400ms linear fade-in. The green teacher CTA rolls its white arrow horizontally from left to right on pointer hover: the outgoing glyph leaves through the right edge while an identical glyph enters from the left, over 400ms with easing-link-roll; the circle geometry remains fixed and the default arrow returns when the pointer leaves. Approved motion works identically regardless of the operating system motion preference.",
         "The four Advantage cards use their 170 px height at the 1920px reference, preserve their approved ratio and follow S while remaining in one desktop row.",
         "Page compositions must not globally reset descendant transition or animation properties: approved production-component states remain active wherever the component is composed.",
         "The approved MediaCard hover feedback remains enabled on Home: only its image or video preview scales to 110% within its clipping container over 200ms with cubic-bezier(0, 0, 0.5, 1); the card geometry and content remain fixed.",
         "Media gallery, history, application CTA and achievements are page sections, not new universal components; each reuses an owned component where a contract exists.",
-        "The history section follows Figma 4641:3419: its 1920px-reference box is 1617 by 544 px including Heading/H2; all geometry, including the teacher frames and CTA, follows S except the 1px top stroke; its left Lead is paired with the tags «о капелле» and «педагоги», while its right column contains Body copy and two 100 px circular teacher frames followed by a 100 px green teacher CTA.",
-        "The application CTA follows Figma 4641:3437: Heading/Lead 64 «Хотите вырастить творческую личность — запишите мальчика в капеллу» is centered above the 1617 by 620 px atmospheric container at the 1920px reference; its geometry follows S. The existing ApplicationForm is centered in that container; do not add supporting marketing copy that is absent from the Figma node.",
+        "The history section follows Figma 4641:3419: its 1920px-reference box is 1617 by 520 px with a 1px top stroke and a 24 px content inset. At desktop and tablet the previous visible «История» row and «Подробнее» link are hidden; Heading 2 «О капелле» begins the left column, while the «Создана…» Lead begins the right column on the same top edge. The «Пройдя…» Body is 24 px below the heading. Tags are lower-left and the 100 px teacher frames plus the 100 px green teacher CTA are lower-right; both groups share the section lower edge. Mobile retains its existing composition. All desktop geometry follows S except the 1px top stroke.",
+        "On Home, the achievements section always follows History and precedes the application CTA. At desktop and tablet both transitions use the shared --layout-section-gap. At mobile, Achievements-to-CTA uses --footer-preceding-gap while CTA-to-Footer uses --layout-section-gap, preserving the intended larger terminal gap without changing the shared Footer component.",
+        "The application CTA follows Figma 4897:1415: a semantic H2 with visual Heading 1 contains «Хотите вырастить творческую личность?», then a decorative local `news-category-news.png` concert icon at the 64px reference size, then «Запишите мальчика в капеллу». The text wraps naturally; on mobile it retains visual Heading 2 and one inline flow, while the icon equals the computed Heading 2 size and follows Sₘ; «в капеллу» is a non-wrapping mobile fragment. It is centered above the 1617 by 620 px atmospheric container at the 1920px reference; its geometry follows S. The existing ApplicationForm is centered in that container; do not add supporting marketing copy that is absent from the Figma node.",
         "The application CTA is the only other approved page context for the atmospheric green-to-dark treatment; it uses authentic Figma imagery, the existing ApplicationForm and the approved privacy link.",
-        "The achievements preview uses the existing semantic DataTable with Year, Achievement, Choir and Competition columns.",
+        "The achievements preview uses the existing semantic DataTable with Year, composed Achievement / Choir, and Competition columns.",
         "Preview text, labels and CTA names are copied exactly from their approved Figma node or project content source; implementation must not invent or paraphrase copy.",
         "Stage 5.1 uses controlled preview fixtures for CMS-owned news, media and achievements. Those fixtures must be removed when stage 5.2 connects CMS queries."
       ],
       "responsive_rules": [
-        "At 1279px Home Hero video and News are two equal columns with a 16px gap and a fixed 650px reference height; down to 768px both dimensions use S_t. News shows one 270px reference NewsCard and a 16px-gapped pagination row inset 24px from the bottom. Tablet News navigation uses the NewsDetail gallery slide contract: horizontal transform over --duration-about-life-slide-transition with --easing-out; the active card changes by dots or horizontal pointer swipe. Facts reference height is 170px. Media Big reference height is 760px; each Small card keeps the owned desktop 390 / 540 aspect ratio and 5 / 9 image region; its tablet content surface is 200px at the 1279px reference and follows S_t down to 768px History reference height is 460px with tags and teachers aligned to its bottom. The application surface grows to retain an equal top and bottom inset around the form. Home achievements uses the desktop four-column table alignment: Competition starts at editorial column 3; Achievement and Choir are offset right by 20% of the Year column. The visible History heading follows Media by the same section rhythm as Media follows Facts; its own top hairline-to-heading inset is compensated in the preceding section margin.",
-        "At 1279px, the entire Home tablet shell — Sidebar/header, editorial canvas, all sections, Footer and composed-component internals — equals its approved reference values; from 1279px down to 768px every scalable dimension uses one S_t = viewportWidth / 1279 coefficient, with no independent type, gap, padding, radius, icon, section-height or form-internal curves. CSS applies that coefficient through one complete Home-scoped projection of the desktop 1920px length-token ledger, never through a hand-picked subset of properties. The first-block canvas fills the available content width with the existing 24px minimum outer gutter. Media preserves its owned desktop ratios and the Small 5/9 image region; the tablet placement does not apply on mobile.",
-        "At 320–767px Home becomes a one-column reading flow. News cards leave the hero panel absolute layer and enter normal document flow; media cards, facts, history, application form, and achievements use the available column width without clipping text or creating page overflow.",
-        "On mobile, Sidebar remains a shared top header with the existing two-line menu button; server-rendered navigation and admission CTA stay available without JavaScript, while JavaScript may collapse the same controls. Footer remains a shared natural-height single-column flow. Neither is a Home-specific variant.",
+        "At 1279px Home Hero video and News are two equal columns with a 16px gap and a fixed 650px reference height; down to 768px both dimensions use S_t. News shows one 270px reference NewsCard; its height follows Sₜ down to 768px while the carousel slide remains full width and a 16px-gapped pagination row inset 24px from the bottom. Tablet News navigation uses the NewsDetail gallery slide contract: horizontal transform over --duration-about-life-slide-transition with --easing-out; the active card changes by dots or horizontal pointer swipe. Facts reference height is 170px. Media Big reference height is 760px; each Small card keeps the owned desktop 390 / 540 aspect ratio and 5 / 9 image region; its tablet content surface is 200px at the 1279px reference and follows S_t down to 768px History reference height is 520px with Heading 2 «О капелле» and the «Создана…» Lead top-aligned, and tags and teachers aligned to its bottom. The application surface grows to retain an equal top and bottom inset around the form. Home achievements uses the shared achievements table alignment: three equal tracks fill the area before global editorial column 3, Year occupies the first, composed Achievement / Choir spans the next two, and Competition aligns with the start of global column 3. The gap from the final visible MediaCard to the History top hairline equals --layout-section-gap: 120 px at the 1279 px tablet reference and follows S_t down to 768 px.",
+        "At 1279px, the entire Home tablet shell — Sidebar/header, editorial canvas, all sections, Footer and composed-component internals — equals its approved reference values; from 1279px down to 768px every scalable dimension uses one S_t = viewportWidth / 1279 coefficient, with no independent type, gap, padding, radius, icon, section-height or form-internal curves. CSS applies that coefficient through one complete Home-scoped projection of the desktop 1920px length-token ledger, never through a hand-picked subset of properties. Negative letter-spacing tokens scale by projecting their positive magnitude through S_t and applying the negative sign afterward. The first-block canvas fills the available content width with the existing 24px minimum outer gutter. In History, the Lead column is 600px at 1279px and its column width follows S_t down to 768px; the details column takes the remaining grid width. Because Ginger glyph metrics are nonlinear at the resulting small font sizes, History is the documented local exception: its Lead (600px/36px/−1.5px) and Body (615px/20px/−0.75px) line layouts are calculated at the 1279px reference and the completed text blocks are transformed by S_t from the top-left origin. This preserves the exact reference word allocation on every line without horizontal overflow. Media preserves its owned desktop ratios and the Small 5/9 image region; the tablet placement does not apply on mobile.",
+        "At 320–767px Home becomes a one-column reading flow. At the 393px reference, the mobile header uses logo-mob.svg at 131×48px, aligned vertically with the 48px menu target in the same header row, with equal 12px top and bottom insets, and its lower edge is 12px above the video Hero; the Hero is 520px high with title and Play inset 12px from the left, Play 12px from the top, and its glyph is 16×16px. Linked Home section H2 headers for News, Media and Achievements show only a 24×24px arrow aligned to the header's right edge while retaining their original link label as the accessible name. Home History has no mobile section link or arrow. News leaves the absolute Hero layer and becomes a 520px-high panel in normal document flow: two 200px-high NewsCard rows are both visible without pagination and have 12px gap and 12px side/bottom insets; the News heading and arrow use a 16px top inset and 12px inline insets; their category Badge icon container is 36×36px while its glyph remains 16×16px. Facts follow after 16px as a 2×2 grid of 140px-high Advantage cards with 12px gaps; Media starts 96px after Facts. Subsequent major Home sections use 96px except the Achievements-to-CTA gap, which uses the existing mobile --footer-preceding-gap (72px at the 393px reference); the CTA-to-Footer gap uses --layout-section-gap (96px at that reference). In History the two thematic badges are hidden on mobile; the teacher photo block follows the Lead after 16px and the “Пройдя большой...” Body copy follows that block after 24px. The Body copy fills the available content container, and each teacher photo plus the green teacher link is 48×48px while the existing arrow glyph size is unchanged. Mobile MediaCards use 12px image insets; their named mobile-overlay-meta date Badge and 36px Play control form a filled, borderless 0px-gap row exactly 8px above the title. Every listed dimension is a Home mobile token projected by the same S_m coefficient through 320–767px, not a fixed-height exception; tablet and desktop do not change. Media cards, history and application form use the available column width without clipping text or creating page overflow. The Home achievements Competition entry uses --home-mobile-achievements-competition-width: 260px at the 393px reference, projected through S_m and capped by its available grid track. The application surface keeps its existing internal padding but is full-bleed to the viewport inline edges at the 393px reference, matching Footer; it has no outer 12px content gutter.",
+        "At desktop and tablet, the identical «Создана руководителями…» History and About intro retains the Lead type role. At 320–767px it uses the Heading 3 visual type properties only. In Home History only, the following «Пройдя большой путь…» Body copy fills the available mobile content container, aligned to the inline start. At the 393px reference this is 369px between the 12px outer gutters.",
+        "On mobile, Sidebar remains a shared top header using logo-mob.svg at 131×48px on the 393px reference and vertically aligned with a 48px two-line menu target with a 24px glyph and 2px strokes; server-rendered navigation and admission CTA stay available without JavaScript, while JavaScript may collapse the same controls into a full-viewport overlay. The CTA is anchored inside that fixed overlay 16px from its bottom at the 393px reference so it remains present while the page scrolls; its links use the mobile Menu role (24px, 500, line-height 1, 0px tracking at 393px), align with the CTA left edge, and use a 12px vertical gap at the 393px reference, scaled with S_m. Footer remains a shared natural-height single-column flow. Neither is a Home-specific variant.",
         "On mobile the Home Hero H1 uses the existing Heading 2 type scale so the unbreakable word мальчиков remains fully visible inside the 24px-gutter column.",
         "Small MediaCard preserves its desktop image region at 300/540 (5/9 of card height) in desktop, tablet and mobile; a page may not replace it with an independent height curve.",
-        "Within mobile, S_m = clamp(320/767, viewportWidth/767, 1): 767px is the reference and all proportional shell, typography, spacing, component and owned internal geometry follows S_m down to 320px.",
+        "Within mobile, S_m = clamp(320/393, viewportWidth/393, 767/393): the 393px iPhone 14 Pro layout is the reference, with 81.43% at 320px and 195.17% at 767px. All proportional shell, typography, spacing, component and owned internal geometry follows S_m; at the 393px reference Display tracking is −1px and Heading 1 tracking is −3px, Heading 2 is −1.5px, Menu is 0px, Heading 3 is −1px and Body is −0.5px; the documented 24px gutter and 48px interaction target remain exceptions. Every production page uses the same one-column shell; PageHero, filters, tables, cards and section grids must recompose into the available guttered width instead of retaining desktop tracks or overflowing horizontally.",
         "The approved 24px outer gutter, 48px minimum interaction target, semantic source order, hairlines, dimensionless line-height, colors, opacity and full-radius remain explicit exceptions. The composition reconfigures only at 1280px and 768px."
       ],
       "geometry": {
-        "history_reference_px": "1617 x 544",
+        "history_reference_px": "1617 x 520",
         "history_aspect_ratio_css": "--home-history-aspect-ratio",
         "application_surface_reference_px": "1617 x 620",
         "application_surface_aspect_ratio_css": "--home-application-aspect-ratio"
@@ -1314,6 +1600,7 @@
       "Use rem for type, spacing, component size and radius. Use vw only as the fluid term of reviewed clamp() tokens.",
       "On desktop use S = clamp(0.666667, viewportWidth / 1920, 1.333333) for the whole composition; shell, canvas, sections, components and internals must not use competing envelopes.",
       "A page owns placement and available width; owned components keep their approved aspect ratio and internal geometry.",
+      "Tablet reuse gate: before styling a new tablet page, select an accepted reference page with the same shell or component and reuse its documented token scope. At 1279px and 768px, matching compositions must have equal computed Sidebar, Footer and editorial-canvas rectangles plus equal shared DataTable/Card grid tracks and ratios; fix a mismatch in the shared scope or component, never with a page-level geometry override.",
       "Minimum 24px gutters and 48px interaction targets, 1px hairlines, dimensionless line-height, full-radius, colors and opacity are explicit non-scaling exceptions.",
       "Media queries use px and 1px is allowed for hairline borders.",
       "Components may recompose at 1280 and 768; mobile is not a uniformly shrunken desktop.",
@@ -1337,8 +1624,11 @@
       "type-heading-1",
       "type-heading-2",
       "type-lead",
+      "type-menu",
       "type-heading-3",
       "type-body",
+      "type-body-120",
+      "type-badge",
       "type-caption"
     ],
     "viewport_presets_px": [

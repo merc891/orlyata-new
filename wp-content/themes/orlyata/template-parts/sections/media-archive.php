@@ -48,7 +48,7 @@ $media_archive_aria_label = sprintf( __( 'Список материалов: %s'
 
 get_header();
 ?>
-<div class="orlyata-media-archive">
+<div class="orlyata-media-gallery orlyata-media-archive">
 	<?php get_template_part( 'template-parts/layout/sidebar' ); ?>
 	<main class="orlyata-media-archive__content" id="main">
 		<?php
@@ -83,6 +83,7 @@ get_header();
 									'href'    => $url,
 									'icon'    => $is_current && '' !== $slug ? 'close' : '',
 									'label'   => $label,
+									'size'    => 'archive-filter',
 									'variant' => $is_current ? 'primary' : 'secondary',
 								)
 							);

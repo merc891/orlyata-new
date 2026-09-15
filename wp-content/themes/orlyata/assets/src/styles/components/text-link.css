@@ -110,3 +110,11 @@
 .orlyata-text-link--with-chevron:is(:hover, :focus-visible) .orlyata-text-link__icon:nth-child(2) {
   transform: translateX(0);
 }
+
+@media (width <= 767px) {
+  .orlyata-text-link__icon-track,
+  .orlyata-text-link__icon {
+    inline-size: 1.5rem;
+    block-size: 1.5rem;
+  }
+}
